@@ -6,7 +6,7 @@ project "sandbox"
     cppdialect "C++17"
     staticruntime "off"
 
-    targetdir ("%{wks.location}/bin/" .. outputdir .. "s/%{prj.name}")
+    targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
     objdir ("%{wks.location}/obj/" .. outputdir .. "/%{prj.name}")
 
     files

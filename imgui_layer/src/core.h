@@ -10,9 +10,9 @@
         #endif  // _IMGUI_LAYER_BUILD_DLL
     #else
         #define IMGUI_LAYER_API
-    #endif
+    #endif  // _IMGUI_LAYER_DYNAMIC_LINK
 #else
     #error Layer only supports windows
-#endif  // _IMGUI_LAYER_PLATFORM_WINDOWSs
+#endif  // _IMGUI_LAYER_PLATFORM_WINDOWS
 
 #endif  // IMGUI_LAYER_SRC_CORE_H_
