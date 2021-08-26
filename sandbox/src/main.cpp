@@ -1,6 +1,5 @@
-#include "test.h"
 
 int main()
 {
-    tst::Print();
+    return 0;
 }
