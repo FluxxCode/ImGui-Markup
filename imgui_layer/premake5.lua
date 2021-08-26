@@ -20,7 +20,7 @@ project "imgui_layer"
 
     filter "system:windows"
         systemversion "latest"
-        defines "_IMGUI_LAYER_PLATFORM_WINDOWS"
+        defines "_PLATFORM_WINDOWS"
 
     filter "configurations:Debug"
         symbols "on"

@@ -1,7 +1,7 @@
 #ifndef IMGUI_LAYER_SRC_CORE_H_
 #define IMGUI_LAYER_SRC_CORE_H_
 
-#ifdef _IMGUI_LAYER_PLATFORM_WINDOWS
+#ifdef _PLATFORM_WINDOWS
     #ifdef _IMGUI_LAYER_DYNAMIC_LINK
         #ifdef _IMGUI_LAYER_BUILD_DLL
             #define IMGUI_LAYER_API  __declspec(dllexport)
@@ -13,6 +13,6 @@
     #endif  // _IMGUI_LAYER_DYNAMIC_LINK
 #else
     #error Layer only supports windows
-#endif  // _IMGUI_LAYER_PLATFORM_WINDOWS
+#endif  // _PLATFORM_WINDOWS
 
 #endif  // IMGUI_LAYER_SRC_CORE_H_
