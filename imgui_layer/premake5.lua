@@ -15,7 +15,8 @@ project "imgui_layer"
 
     includedirs
     {
-        "src"
+        "src",
+        "%{include_dir.imgui}",
     }
 
     links

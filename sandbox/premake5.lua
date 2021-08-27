@@ -17,13 +17,17 @@ project "sandbox"
 
     includedirs
     {
-        "%{wks.location}/imgui_layer/src"
+        "%{wks.location}/imgui_layer/src",
+        "%{include_dir.imgui}",
+        "%{include_dir.glfw}",
     }
 
     links
     {
         "imgui_layer",
-        "imgui"
+        "imgui",
+        "glfw",
+        "opengl32.lib"
     }
 
     filter "system:windows"
