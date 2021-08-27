@@ -22,7 +22,8 @@ project "sandbox"
 
     links
     {
-        "imgui_layer"
+        "imgui_layer",
+        "imgui"
     }
 
     filter "system:windows"

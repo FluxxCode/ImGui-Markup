@@ -10,5 +10,9 @@ workspace "imgui_layer"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+group "dependencies"
+    include "imgui_layer/dependencies/imgui"
+group ""
+
 include "imgui_layer"
 include "sandbox"

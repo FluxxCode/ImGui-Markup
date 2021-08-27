@@ -18,6 +18,11 @@ project "imgui_layer"
         "src"
     }
 
+    links
+    {
+        "imgui"
+    }
+
     filter "system:windows"
         systemversion "latest"
         defines "_PLATFORM_WINDOWS"
