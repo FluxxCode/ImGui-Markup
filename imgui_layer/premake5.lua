@@ -7,6 +7,9 @@ project "imgui_layer"
     targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
     objdir ("%{wks.location}/obj/" .. outputdir .. "/%{prj.name}")
 
+    pchheader "ilpch.h"
+    pchsource "src/ilpch.cpp"
+
     files
     {
         "src/**.h",

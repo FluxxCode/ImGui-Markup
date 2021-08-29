@@ -1,5 +1,5 @@
-#ifndef IMGUI_LAYER_SRC_CORE_H_
-#define IMGUI_LAYER_SRC_CORE_H_
+#ifndef IMGUI_LAYER_SRC_ILPCH_H_
+#define IMGUI_LAYER_SRC_ILPCH_H_
 
 #ifdef _PLATFORM_WINDOWS
     #ifdef _IMGUI_LAYER_DYNAMIC_LINK
@@ -15,4 +15,4 @@
     #error Layer only supports windows
 #endif  // _PLATFORM_WINDOWS
 
-#endif  // IMGUI_LAYER_SRC_CORE_H_
+#endif  // IMGUI_LAYER_SRC_ILPCH_H_
