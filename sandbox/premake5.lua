@@ -20,6 +20,7 @@ project "sandbox"
         "%{wks.location}/imgui_layer/src",
         "%{include_dir.imgui}",
         "%{include_dir.glfw}",
+        "%{include_dir.glad}"
     }
 
     links
@@ -27,6 +28,7 @@ project "sandbox"
         "imgui_layer",
         "imgui",
         "glfw",
+        "glad",
         "opengl32.lib"
     }
 

@@ -20,6 +20,7 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 group "dependencies"
     include "imgui_layer/dependencies/imgui"
     include "sandbox/dependencies/glfw"
+    include "sandbox/dependencies/glad"
 group ""
 
 include "imgui_layer"
