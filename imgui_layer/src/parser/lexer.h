@@ -1,10 +1,13 @@
 #ifndef IMGUI_LAYER_SRC_PARSER_LEXER_H_
 #define IMGUI_LAYER_SRC_PARSER_LEXER_H_
 
+#include <vector>
+#include <string>
+
 namespace gui
 {
 
-enum class TokenType
+enum class TokenType : unsigned char
 {
     kDot,     //  .
     kColon,   //  :
