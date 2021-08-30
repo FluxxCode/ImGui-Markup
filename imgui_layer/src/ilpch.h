@@ -15,4 +15,8 @@
     #error Layer only supports windows
 #endif  // _PLATFORM_WINDOWS
 
+#include <iostream>
+#include <string>
+#include <vector>
+
 #endif  // IMGUI_LAYER_SRC_ILPCH_H_
