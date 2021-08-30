@@ -46,11 +46,6 @@ std::vector<Token> Lexer::GetTokens()
             tokens.push_back(this->CreateData());
     }
 
-    for (unsigned int i = 0; i < tokens.size(); i++)
-        std::cout << this->TokenToString(tokens[i]) << ' ';
-
-    std::cout << std::endl;
-
     return tokens;
 }
 
