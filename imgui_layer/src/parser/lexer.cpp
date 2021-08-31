@@ -49,6 +49,68 @@ std::vector<Token> Lexer::GetTokens()
     return tokens;
 }
 
+std::string Lexer::TokenToString(Token token)
+{
+    std::string message = "[";
+
+    switch (token.type_)
+    {
+    case TokenType::kDot:
+        message += "DOT";
+        break;
+
+    case TokenType::kColon:
+        message += "COL";
+        break;
+
+    case TokenType::kEqual:
+        message += "EQU";
+        break;
+
+    case TokenType::kAt:
+        message += "AT";
+        break;
+
+    case TokenType::kOpen:
+        message += "OPEN";
+        break;
+
+    case TokenType::kClose:
+        message += "CLOSE";
+        break;
+
+    case TokenType::kString:
+        message += "STR=" + token.value_;
+        break;
+
+    case TokenType::kArray:
+        message += "ARR=" + token.value_;
+        break;
+
+    case TokenType::kVector:
+        message += "VEC=" + token.value_;
+        break;
+
+    case TokenType::kInt:
+        message += "INT=" + token.value_;
+        break;
+
+    case TokenType::kFloat:
+        message += "FLT=" + token.value_;
+        break;
+
+    case TokenType::kData:
+        message += "DAT=" + token.value_;
+        break;
+
+    default:
+        message += "UND=" + token.value_;
+        break;
+    }
+
+    return message + ']';
+}
+
 bool Lexer::GetCharAdvance(char& c)
 {
     if (this->pos_ >= this->text_.size())
@@ -125,8 +187,11 @@ Token Lexer::CreateString()
     char c;
     while (this->GetCharAdvance(c))
     {
-        if (c == '"')
+        if (c == '"' && this->GetLastChar() != '\\')
             break;
+
+        if (c == '\\' && this->GetNextChar() == '"')
+            continue;
 
         value += c;
     }
@@ -244,68 +309,6 @@ Token Lexer::CreateData()
     }
 
     return Token(TokenType::kData, value);
-}
-
-std::string Lexer::TokenToString(Token token)
-{
-    std::string message = "[";
-
-    switch (token.type_)
-    {
-    case TokenType::kDot:
-        message += "DOT";
-        break;
-
-    case TokenType::kColon:
-        message += "COL";
-        break;
-
-    case TokenType::kEqual:
-        message += "EQU";
-        break;
-
-    case TokenType::kAt:
-        message += "AT";
-        break;
-
-    case TokenType::kOpen:
-        message += "OPEN";
-        break;
-
-    case TokenType::kClose:
-        message += "CLOSE";
-        break;
-
-    case TokenType::kString:
-        message += "STR=" + token.value_;
-        break;
-
-    case TokenType::kArray:
-        message += "ARR=" + token.value_;
-        break;
-
-    case TokenType::kVector:
-        message += "VEC=" + token.value_;
-        break;
-
-    case TokenType::kInt:
-        message += "INT=" + token.value_;
-        break;
-
-    case TokenType::kFloat:
-        message += "FLT=" + token.value_;
-        break;
-
-    case TokenType::kData:
-        message += "DAT=" + token.value_;
-        break;
-
-    default:
-        message += "UND=" + token.value_;
-        break;
-    }
-
-    return message + ']';
 }
 
 }  // namespace gui

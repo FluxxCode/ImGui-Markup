@@ -42,6 +42,8 @@ public:
     // Functions
     std::vector<Token> GetTokens();
 
+    std::string TokenToString(Token token);
+
 private:
     // Variables
     const std::string text_;
@@ -61,9 +63,6 @@ private:
     Token CreateVector();
     Token CreateNumber();
     Token CreateData();
-
-
-    std::string TokenToString(Token token);
 };
 
 }  // namespace gui
