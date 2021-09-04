@@ -46,6 +46,8 @@ std::vector<Token> Lexer::GetTokens()
             tokens.push_back(this->CreateData());
     }
 
+    tokens.emplace_back(Token(TokenType::kEOF));
+
     return tokens;
 }
 
@@ -101,6 +103,10 @@ std::string Lexer::TokenToString(Token token)
 
     case TokenType::kData:
         message += "DAT=" + token.value_;
+        break;
+
+    case TokenType::kEOF:
+        message += "EOF";
         break;
 
     default:

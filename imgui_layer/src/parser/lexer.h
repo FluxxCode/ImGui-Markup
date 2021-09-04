@@ -9,18 +9,20 @@ namespace gui
 
 enum class TokenType : unsigned char
 {
-    kDot,     //  .
-    kColon,   //  :
-    kEqual,   //  =
-    kAt,      //  @
-    kOpen,    //  {
-    kClose,   //  }
-    kString,  // "<data>"
-    kArray,   // [<data>]
-    kVector,  // (<data>)
-    kInt,     // 1234
-    kFloat,   // 1234.1234
-    kData     // <data>
+    kUndefined,  // Undefined token, not used by lexer.
+    kDot,        //  .
+    kColon,      //  :
+    kEqual,      //  =
+    kAt,         //  @
+    kOpen,       //  {
+    kClose,      //  }
+    kString,     // "<data>"
+    kArray,      // [<data>]
+    kVector,     // (<data>)
+    kInt,        // 1234
+    kFloat,      // 1234.1234
+    kData,       // <data>
+    kEOF         // End of file
 };
 
 struct Token
@@ -29,8 +31,8 @@ struct Token
         : type_(type), value_(value)
     { }
 
-    const TokenType type_;
-    const std::string value_;
+    TokenType type_;
+    std::string value_;
 };
 
 class IMGUI_LAYER_API Lexer
