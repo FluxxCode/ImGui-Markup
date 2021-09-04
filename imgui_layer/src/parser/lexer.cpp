@@ -11,12 +11,13 @@ Lexer::Lexer(const std::string text)
 std::vector<Token> Lexer::GetTokens()
 {
     std::vector<Token> tokens;
+    Token last_token = Token(TokenType::kUndefined);
 
     char c;
     while (this->GetCharAdvance(c))
     {
         // Skip white space
-        if (std::isspace(c))
+        if (std::isspace(c) && c != '\n')
             continue;
 
         // Check for comments
@@ -40,10 +41,16 @@ std::vector<Token> Lexer::GetTokens()
             tokens.push_back(this->CreateArray());
         else if (c == '(')
             tokens.push_back(this->CreateVector());
+        else if (c == '\n' && last_token.type_ != TokenType::kNL)
+            tokens.push_back(Token(TokenType::kNL));
+        else if (c == '\n' && last_token.type_ == TokenType::kNL)
+            continue;
         else if (std::isdigit(c))
             tokens.push_back(this->CreateNumber());
         else
             tokens.push_back(this->CreateData());
+
+        last_token = tokens[tokens.size() - 1];
     }
 
     tokens.emplace_back(Token(TokenType::kEOF));
@@ -103,6 +110,10 @@ std::string Lexer::TokenToString(Token token)
 
     case TokenType::kData:
         message += "DAT=" + token.value_;
+        break;
+
+    case TokenType::kNL:
+        message += "NL";
         break;
 
     case TokenType::kEOF:
@@ -266,7 +277,10 @@ Token Lexer::CreateNumber()
     while (this->GetCharAdvance(c))
     {
         if (std::isspace(c))
+        {
+            this->pos_--;
             break;
+        }
 
         if (this->IsComment(c))
         {
@@ -303,7 +317,10 @@ Token Lexer::CreateData()
     while (this->GetCharAdvance(c))
     {
         if (std::isspace(c))
+        {
+            this->pos_--;
             break;
+        }
 
         if (this->IsComment(c))
         {

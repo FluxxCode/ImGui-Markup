@@ -21,7 +21,8 @@ enum class TokenType : unsigned char
     kVector,     // (<data>)
     kInt,        // 1234
     kFloat,      // 1234.1234
-    kData,       // <data>
+    kData,       // <data>,
+    kNL,         // new line - '\n'
     kEOF         // End of file
 };
 
@@ -49,7 +50,7 @@ public:
 private:
     // Variables
     const std::string text_;
-    size_t pos_ = 0;
+    int pos_ = 0;
 
     // Functions
     bool GetCharAdvance(char& c);
