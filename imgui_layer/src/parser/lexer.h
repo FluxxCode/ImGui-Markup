@@ -9,21 +9,22 @@ namespace gui
 
 enum class TokenType : unsigned char
 {
-    kUndefined,  // Undefined token, not used by lexer.
-    kDot,        //  .
-    kColon,      //  :
-    kEqual,      //  =
-    kAt,         //  @
-    kOpen,       //  {
-    kClose,      //  }
-    kString,     // "<data>"
-    kArray,      // [<data>]
-    kVector,     // (<data>)
-    kInt,        // 1234
-    kFloat,      // 1234.1234
-    kData,       // <data>,
-    kNL,         // new line - '\n'
-    kEOF         // End of file
+    kUndefined,      //  Undefined token, not created by lexer
+    kColon,          //  :
+    kComma,          //  ,
+    kEqual,          //  =
+    kAt,             //  @
+    kBracketOpen,    //  (
+    kBracketClose,   //  )
+    kSBracketOpen,   //  [
+    kSBracketClose,  //  ]
+    kCBracketOpen,   //  {
+    kCBracketClose,  //  }
+    kString,         //  "<data>"
+    kInt,            //  1234
+    kFloat,          //  1234.1234
+    kData,           //  <data>  - Without space
+    kEOF             //  End of file
 };
 
 struct Token
@@ -62,8 +63,6 @@ private:
     void SkipComment();
 
     Token CreateString();
-    Token CreateArray();
-    Token CreateVector();
     Token CreateNumber();
     Token CreateData();
 };
