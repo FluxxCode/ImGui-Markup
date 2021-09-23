@@ -4,7 +4,7 @@
 namespace gui
 {
 
-bool Float4::LoadValue(const char* value)
+bool Float4::LoadValue(std::string value)
 {
     std::vector<std::string> segments = utility::SplitString(value, ',');
 
@@ -40,6 +40,14 @@ bool Float4::LoadValue(const char* value)
     }
 
     return true;
+}
+
+std::string Float4::ToString()
+{
+    return std::to_string(this->x) + "," +
+        std::to_string(this->y) + "," +
+        std::to_string(this->z) + "," +
+        std::to_string(this->w);
 }
 
 }  // namespace gui

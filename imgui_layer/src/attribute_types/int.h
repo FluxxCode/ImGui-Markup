@@ -3,13 +3,16 @@
 
 #include "attribute_types/attribute_type.h"
 
+#include <string>
+
 namespace gui
 {
 
 class Int : public AttributeType
 {
 public:
-    bool LoadValue(const char* value);
+    bool LoadValue(std::string value);
+    std::string ToString();
     int value_ = 0;
 };
 

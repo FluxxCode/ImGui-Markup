@@ -4,9 +4,14 @@
 namespace gui
 {
 
-bool Int::LoadValue(const char* value)
+bool Int::LoadValue(std::string value)
 {
     return utility::StringToInt(value, &this->value_);
+}
+
+std::string Int::ToString()
+{
+    return std::to_string(this->value_);
 }
 
 }  // namespace gui

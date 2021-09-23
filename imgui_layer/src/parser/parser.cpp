@@ -24,8 +24,10 @@ ObjectNode::ObjectNode(const std::string obj_name, const std::string id)
 
 AttributeNode::AttributeNode(
     const std::string name,
-    const std::string value)
-    : Node(NodeType::kAttributeNode), name_(name), value_(value)
+    const std::string value,
+    const TokenType value_type)
+    : Node(NodeType::kAttributeNode),
+      name_(name), value_(value), value_type_(value_type)
 { }
 
 /*****************************************************************************/
@@ -68,7 +70,6 @@ void Parser::PrintTree(std::vector<std::shared_ptr<Node>> tree)
             std::cout << node->name_ << '=' << node->value_ << std::endl;
         }
     }
-
 }
 
 void Parser::PrintObject(std::shared_ptr<Node> object)
@@ -245,7 +246,8 @@ std::shared_ptr<Node> Parser::CreateAttribute()
 
     this->pos_++;
 
-    return std::make_shared<AttributeNode>(name, value);
+    return std::make_shared<AttributeNode>(
+        name, value, this->GetCurrentToken().type_);
 }
 
 void Parser::CreateAttribute(std::shared_ptr<Node> node)
@@ -268,7 +270,8 @@ void Parser::CreateAttribute(std::shared_ptr<Node> node)
 
     this->pos_++;
 
-    return node->child_nodes_.push_back(std::make_shared<AttributeNode>(name, value));
+    return node->child_nodes_.push_back(std::make_shared<AttributeNode>(
+        name, value, this->GetCurrentToken().type_));
 }
 
 std::string Parser::CreateArray()

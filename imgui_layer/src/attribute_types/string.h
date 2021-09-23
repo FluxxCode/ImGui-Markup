@@ -10,7 +10,8 @@ namespace gui
 
 struct String : public AttributeType
 {
-    bool LoadValue(const char* value);
+    bool LoadValue(std::string value);
+    std::string ToString();
     std::string value;
 };
 

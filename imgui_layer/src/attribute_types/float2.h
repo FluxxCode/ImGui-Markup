@@ -3,12 +3,15 @@
 
 #include "attribute_types/attribute_type.h"
 
+#include <string>
+
 namespace gui
 {
 
 struct Float2 : public AttributeType
 {
-    bool LoadValue(const char* value);
+    bool LoadValue(std::string value);
+    std::string ToString();
     float x = 0;
     float y = 0;
 };

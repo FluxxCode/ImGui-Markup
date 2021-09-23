@@ -4,10 +4,15 @@
 namespace gui
 {
 
-bool String::LoadValue(const char* value)
+bool String::LoadValue(std::string value)
 {
     this->value = value;
     return true;
+}
+
+std::string String::ToString()
+{
+    return this->value;
 }
 
 }  // namespace gui

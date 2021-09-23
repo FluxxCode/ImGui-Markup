@@ -3,29 +3,6 @@
 
 #include "parser/lexer.h"
 
-/******************************************************************************
-*                             Basic tree idea
-*
-*               |
-*               | - GlobalAttribute
-*               | - GlobalAttribute
-*               | - GlobalAttribute
-*               |
-*               |                  |- ObjectAttribute
-*               |                  |- ObjectAttribute
-*               |                  |- ObjectAttribute
-* global_space -| - ObjectDefNode -|
-*               |                  |                  | - ObjectAttribute
-*               |                  |- ObjectDefNode - | - Object Attribute
-*               |                                     |
-*               |                                     | - ObjectDefNode
-*               |
-*               | - ObjectDefNode - |- ObjectAttribute
-*               |                   |- ObjectAttribute
-*               |
-*
-******************************************************************************/
-
 namespace gui
 {
 
@@ -41,7 +18,7 @@ class Node
 {
 public:
     // Constructor/Destructor
-    Node(const NodeType type);
+    explicit Node(const NodeType type);
     virtual ~Node();
 
     // Variables
@@ -56,7 +33,7 @@ class ObjectNode : public Node
 {
 public:
     // Constructor
-    ObjectNode(const std::string obj_name, const std::string id = "");
+    explicit ObjectNode(const std::string obj_name, const std::string id = "");
 
     // Variables
     const std::string name_;
@@ -68,11 +45,13 @@ class AttributeNode : public Node
 public:
     // Constructor
     AttributeNode(const std::string name,
-                  const std::string value_node);
+                  const std::string value,
+                  const TokenType value_type);
 
     // Variables
     const std::string name_;
     const std::string value_;
+    const TokenType value_type_;
 };
 
 /*****************************************************************************/
@@ -81,7 +60,7 @@ class IMGUI_LAYER_API Parser
 {
 public:
     // Constructor
-    Parser(const std::vector<Token> tokens);
+    explicit Parser(const std::vector<Token> tokens);
 
     // Functions
     std::vector<std::shared_ptr<Node>> Parse();
