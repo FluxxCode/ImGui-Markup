@@ -17,6 +17,8 @@
 
 #include "utility/utility.h"
 
+#include "imgui.h"
+
 #include <iostream>
 #include <string>
 #include <vector>

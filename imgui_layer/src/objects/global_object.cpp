@@ -17,7 +17,9 @@ GlobalObject::GlobalObject()
 }
 
 void GlobalObject::Update()
-{ }
+{
+    this->UpdateChilds();
+}
 
 void GlobalObject::Reset()
 {

@@ -69,4 +69,10 @@ std::string Object::GetID() const
     return this->id_;
 }
 
+void Object::UpdateChilds()
+{
+    for (unsigned int i = 0; i < this->child_objects_.size(); i++)
+        this->child_objects_[i]->Update();
+}
+
 }  // namespace gui

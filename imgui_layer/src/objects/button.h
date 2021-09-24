@@ -19,12 +19,18 @@ public:
     // Functions
     void Update();
 
+    bool IsPressed();
+
     Float2 pos_;
     Float2 size_;
     Float4 color_;
     Float4 color_active_;
     Float4 color_hovered_;
     String text_;
+
+private:
+    // Variables
+    bool is_pressed_ = false;
 };
 
 }  // namespace gui

@@ -36,6 +36,9 @@ protected:
 
     std::map<std::string, AttributeType*> attribute_list_ = { };
     std::vector<std::shared_ptr<Object>> child_objects_ = { };
+
+    // Functions
+    void UpdateChilds();
 };
 
 }  // namespace gui

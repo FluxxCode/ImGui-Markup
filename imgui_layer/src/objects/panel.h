@@ -3,6 +3,7 @@
 
 #include "objects/object.h"
 
+#include "attribute_types/string.h"
 #include "attribute_types/float2.h"
 
 #include "imgui.h"
@@ -21,6 +22,14 @@ public:
 
     Float2 size_;
     Float2 pos_;
+    String title_;
+
+private:
+    // Variables
+    bool init_ = true;
+
+    // Functions
+    void Init();
 };
 
 }  // namespace gui
