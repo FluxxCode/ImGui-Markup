@@ -8,6 +8,7 @@ Button::Button(std::string id, Object* parent)
     : Object("Button", id, parent)
 {
     this->attribute_list_ = {
+        { "pos",           &this->pos_           },
         { "size",          &this->size_          },
         { "color",         &this->color_         },
         { "color_active",  &this->color_active_  },

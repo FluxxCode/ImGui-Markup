@@ -19,6 +19,7 @@ public:
     // Functions
     void Update();
 
+    Float2 pos_;
     Float2 size_;
     Float4 color_;
     Float4 color_active_;
