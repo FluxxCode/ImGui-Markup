@@ -10,10 +10,18 @@ namespace gui
 
 struct Float : public AttributeType
 {
+    Float();
+    Float(float f);
+
+    float value = 0;
+
     bool LoadValue(std::string value);
     std::string ToString();
-    float value = 0;
+
+    void operator=(const float& x);
 };
+
+std::ostream& operator<<(std::ostream& os, Float const& x);
 
 }
 

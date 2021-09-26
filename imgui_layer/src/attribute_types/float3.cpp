@@ -4,6 +4,13 @@
 namespace gui
 {
 
+Float3::Float3()
+{ }
+
+Float3::Float3(float x, float y, float z)
+    : x(x), y(y), z(z)
+{ }
+
 bool Float3::LoadValue(std::string value)
 {
     std::vector<std::string> segments = utility::SplitString(value, ',');

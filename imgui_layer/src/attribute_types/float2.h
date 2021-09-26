@@ -10,10 +10,17 @@ namespace gui
 
 struct Float2 : public AttributeType
 {
-    bool LoadValue(std::string value);
-    std::string ToString();
+    Float2();
+    Float2(float x, float y);
+    Float2(ImVec2 vec);
+
     float x = 0;
     float y = 0;
+
+    bool LoadValue(std::string value);
+    std::string ToString();
+
+    operator ImVec2();
 };
 
 }  // namespace gui

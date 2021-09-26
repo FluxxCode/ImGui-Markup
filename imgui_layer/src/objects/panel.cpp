@@ -19,7 +19,7 @@ void Panel::Update()
     if (this->init_)
         this->Init();
 
-    ImGui::Begin(this->title_.value.c_str());
+    ImGui::Begin(this->title_);
 
     this->UpdateChilds();
 
@@ -28,8 +28,8 @@ void Panel::Update()
 
 void Panel::Init()
 {
-    ImGui::SetNextWindowPos(ImVec2(this->pos_.x, this->pos_.y));
-    ImGui::SetNextWindowSize(ImVec2(this->size_.x, this->size_.y));
+    ImGui::SetNextWindowPos(this->pos_);
+    ImGui::SetNextWindowSize(this->size_);
 
     this->init_ = false;
 }

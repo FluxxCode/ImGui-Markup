@@ -8,13 +8,20 @@
 namespace gui
 {
 
-class Int : public AttributeType
+struct Int : public AttributeType
 {
-public:
+    Int();
+    Int(int i);
+
+    int value = 0;
+
     bool LoadValue(std::string value);
     std::string ToString();
-    int value_ = 0;
+
+    operator int();
 };
+
+std::ostream& operator<<(std::ostream& os, Int const& x);
 
 }  // namespace gui
 

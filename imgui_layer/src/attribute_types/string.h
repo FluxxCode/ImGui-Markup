@@ -10,10 +10,20 @@ namespace gui
 
 struct String : public AttributeType
 {
+    String();
+    String(std::string str);
+    String(const char* str);
+
+    std::string value;
+
     bool LoadValue(std::string value);
     std::string ToString();
-    std::string value;
+
+    operator std::string();
+    operator const char*();
 };
+
+std::ostream& operator<<(std::ostream& os, String const& str);
 
 }  // namespace gui
 

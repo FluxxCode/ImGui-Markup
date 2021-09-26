@@ -19,7 +19,7 @@ Button::Button(std::string id, Object* parent)
 
 void Button::Update()
 {
-    if (ImGui::Button(this->text_.value.c_str(), ImVec2(this->size_.x, this->size_.y)))
+    if (ImGui::Button(this->text_, this->size_))
         this->is_pressed_ = true;
     else
         this->is_pressed_ = false;

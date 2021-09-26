@@ -3,6 +3,16 @@
 
 namespace gui
 {
+Float2::Float2()
+{ }
+
+Float2::Float2(float x, float y)
+    : x(x), y(y)
+{ }
+
+Float2::Float2(ImVec2 vec)
+    : x(vec.x), y(vec.y)
+{ }
 
 bool Float2::LoadValue(std::string value)
 {
@@ -28,6 +38,11 @@ bool Float2::LoadValue(std::string value)
 std::string Float2::ToString()
 {
     return std::to_string(this->x) + ", " + std::to_string(this->y);
+}
+
+Float2::operator ImVec2()
+{
+    return ImVec2(this->x, this->y);
 }
 
 }  // namespace gui

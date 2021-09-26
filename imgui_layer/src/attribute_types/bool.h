@@ -8,10 +8,18 @@ namespace gui
 
 struct Bool : public AttributeType
 {
+    Bool();
+    Bool(const bool b);
+
+    bool value = true;
+
     bool LoadValue(std::string value);
     std::string ToString();
-    bool value;
+
+    void operator=(const bool& x);
 };
+
+std::ostream& operator<<(std::ostream& os, Bool& x);
 
 }  // namespace gui
 
