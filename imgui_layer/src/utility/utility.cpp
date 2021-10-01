@@ -1,7 +1,7 @@
 #include "ilpch.h"
 #include "utility/utility.h"
 
-namespace gui::utility
+namespace gui::utils
 {
 
 bool StringToInt(std::string str, int* dest)
@@ -82,4 +82,4 @@ std::vector<std::string> SplitString(std::string str, const char c)
     return segments;
 }
 
-}  // namespace gui::utility
+}  // namespace gui::utils

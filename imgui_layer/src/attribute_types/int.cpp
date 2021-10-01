@@ -13,7 +13,7 @@ Int::Int(int i)
 
 bool Int::LoadValue(std::string value)
 {
-    return utility::StringToInt(value, &this->value);
+    return utils::StringToInt(value, &this->value);
 }
 
 std::string Int::ToString()

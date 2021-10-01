@@ -67,7 +67,7 @@ bool Interpreter::GetAttribute(
     }
 
     std::vector<std::string> segments =
-        utility::SplitString(attribute_name, '.');
+        utils::SplitString(attribute_name, '.');
 
     if (segments[0] == "global")
         segments.erase(segments.begin(), segments.begin() + 1);

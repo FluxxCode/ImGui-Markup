@@ -13,24 +13,24 @@ Float3::Float3(float x, float y, float z)
 
 bool Float3::LoadValue(std::string value)
 {
-    std::vector<std::string> segments = utility::SplitString(value, ',');
+    std::vector<std::string> segments = utils::SplitString(value, ',');
 
     if (segments.size() != 3)
         return false;
 
     // X:
-    if (!utility::StringToFloat(segments[0].c_str(), &this->x))
+    if (!utils::StringToFloat(segments[0].c_str(), &this->x))
         return false;
 
     // Y:
-    if (!utility::StringToFloat(segments[1].c_str(), &this->y))
+    if (!utils::StringToFloat(segments[1].c_str(), &this->y))
     {
         this->x = 0.0f;
         return false;
     }
 
     // z:
-    if (!utility::StringToFloat(segments[2].c_str(), &this->z))
+    if (!utils::StringToFloat(segments[2].c_str(), &this->z))
     {
         this->x = 0.0f;
         this->y = 0.0f;

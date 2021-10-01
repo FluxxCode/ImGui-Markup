@@ -13,12 +13,12 @@ Bool::Bool(const bool b)
 
 bool Bool::LoadValue(std::string value)
 {
-    return utility::StringToBool(value, &this->value);
+    return utils::StringToBool(value, &this->value);
 }
 
 std::string Bool::ToString()
 {
-    return utility::BoolToString(this->value);
+    return utils::BoolToString(this->value);
 }
 
 void Bool::operator=(const bool& x)

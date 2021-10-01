@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-namespace gui::utility
+namespace gui::utils
 {
 
 bool StringToInt(std::string str, int* dest);
@@ -14,6 +14,6 @@ std::string BoolToString(const bool b);
 
 std::vector<std::string> SplitString(std::string, const char c);
 
-}  // namespace utility
+}  // namespace utils
 
 #endif  // IMGUI_LAYER_SRC_UTILITY_UTILITY_H_

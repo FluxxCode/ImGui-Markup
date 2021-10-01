@@ -13,7 +13,7 @@ Float::Float(float f)
 
 bool Float::LoadValue(std::string value)
 {
-    return utility::StringToFloat(value, &this->value);
+    return utils::StringToFloat(value, &this->value);
 }
 
 std::string Float::ToString()
