@@ -1,7 +1,7 @@
 #include "ilpch.h"
 #include "objects/global_object.h"
 
-#include "object_list.h"
+#include "objects/object_list.h"
 
 namespace gui
 {
