@@ -56,7 +56,7 @@ public:
 
 /*****************************************************************************/
 
-class IMGUI_LAYER_API Parser
+class Parser
 {
 public:
     // Constructor

@@ -8,7 +8,7 @@
 namespace gui
 {
 
-class IMGUI_LAYER_API GlobalObject : public Object
+class GlobalObject : public Object
 {
 public:
     // Constructors/Destructors

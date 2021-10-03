@@ -10,7 +10,7 @@
 namespace gui
 {
 
-class IMGUI_LAYER_API Button : public Object
+class Button : public Object
 {
 public:
     // Constructor/Destructor

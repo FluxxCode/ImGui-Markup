@@ -37,7 +37,7 @@ struct Token
     std::string value_;
 };
 
-class IMGUI_LAYER_API Lexer
+class Lexer
 {
 public:
     // Constructor

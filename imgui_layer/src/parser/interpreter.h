@@ -8,7 +8,7 @@
 namespace gui
 {
 
-class IMGUI_LAYER_API Interpreter
+class Interpreter
 {
 public:
     // Constructor

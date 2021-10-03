@@ -11,7 +11,7 @@
 namespace gui
 {
 
-class IMGUI_LAYER_API Panel : public Object
+class Panel : public Object
 {
 public:
     // Constructor/Destructor

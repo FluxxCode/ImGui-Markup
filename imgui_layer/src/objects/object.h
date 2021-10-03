@@ -6,7 +6,7 @@
 namespace gui
 {
 
-class IMGUI_LAYER_API Object
+class Object
 {
 public:
     // Constructors/Destructor
