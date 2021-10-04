@@ -25,7 +25,10 @@ std::vector<Token> Lexer::GetTokens()
 
         // Check for comments
         if (this->IsComment(c))
+        {
             this->SkipComment();
+            continue;
+        }
         else if (c == ':')
             tokens.push_back(Token(Type::kColon,         Pos(this->pos_ - 1)));
         else if (c == ',')
