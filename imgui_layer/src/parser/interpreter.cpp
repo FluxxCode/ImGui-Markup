@@ -69,29 +69,39 @@ bool Interpreter::GetAttribute(
     std::vector<std::string> segments =
         utils::SplitString(attribute_name, '.');
 
-    if (segments[0] == "global")
-        segments.erase(segments.begin(), segments.begin() + 1);
-
-    // Get the object with the desired attribute
     Object* obj = (Object*)&this->global_object_;
 
-    // We will skip the last segments, because it is the attribute name itself
+    if (segments[0] == "global")
+    {
+        if (!obj->HasAttribute(segments[1]))
+            // Global object does not have the attribute that is specified
+            return false;
+
+        destination = obj->GetAttribute(segments[1])->ToString();
+        return true;
+    }
+
+    // We will skip the last segment, because it has to be the attribute
     for (unsigned int i = 0; i < segments.size() - 1; i++)
     {
         obj = obj->GetChild(segments[i], true).get();
+
         if (!obj)
+            // Object does not have the specified child object
             return false;
+
+        // Check if the object has any attribute with the name of the
+        // next segment. i + 1 is save, because we wount get to the last
+        // segment in this loop.
+        if (obj->HasAttribute(segments[i + 1]))
+        {
+            destination = obj->GetAttribute(segments[i + 1])->ToString();
+            return true;
+        }
     }
 
-    if (!obj)
-        return false;
-
-    if (!obj->HasAttribute(segments[segments.size() - 1]))
-        return false;
-
-    destination = obj->GetAttribute(segments[segments.size() - 1])->ToString();
-
-    return true;
+    // Unable to find any object that has the specified attribute.
+    return false;
 }
 
 bool Interpreter::CreateChildObject(
