@@ -41,12 +41,29 @@ class Lexer
 {
 public:
     // Constructor
-    Lexer(const std::string text);
+    /**
+     * @param[in] data - The data that the lexer will process.
+     */
+    explicit Lexer(const std::string data);
 
     // Functions
+    /**
+     * Generate the tokens based on the data that was given to the lexer
+     * by the constructor.
+     *
+     * @return a vector of the generated tokens.
+    */
     std::vector<Token> GetTokens();
 
-    std::string TokenToString(Token token);
+    /**
+     * Convert a token to a string that can be printed.
+     * The format is: [<type>=<value>].
+     *
+     * @param[in] token - The token that will be converted to a string.
+     *
+     * @return the converted string.
+    */
+    static std::string TokenToString(Token token);
 
 private:
     // Variables

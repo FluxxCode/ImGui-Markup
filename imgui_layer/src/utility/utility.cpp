@@ -13,17 +13,14 @@ bool StringToInt(std::string str, int* dest)
     }
     catch (std::invalid_argument const& e)
     {
-        // TODO: Logging
         return false;
     }
     catch (std::out_of_range const& e)
     {
-        // TODO: Logging
         return false;
     }
     catch (std::exception const& e)
     {
-        // TODO: Logging
         return false;
     }
 }
@@ -37,17 +34,14 @@ bool StringToFloat(std::string str, float* dest)
     }
     catch (std::invalid_argument const& e)
     {
-        // TODO: Logging
         return false;
     }
     catch (std::out_of_range const& e)
     {
-        // TODO: Logging
         return false;
     }
     catch (std::exception const& e)
     {
-        // TODO: Logging
         return false;
     }
 }

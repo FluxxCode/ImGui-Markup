@@ -60,13 +60,29 @@ class Parser
 {
 public:
     // Constructor
+    /**
+     * @param[in] tokens - The tokens that the parser will process.
+    */
     explicit Parser(const std::vector<Token> tokens);
 
     // Functions
+    /**
+     * Generate a tree of nodes based on the tokens that where given to the
+     * parser by the constructor.
+     *
+     * @return a vector of the generated node-tree.
+    */
     std::vector<std::shared_ptr<Node>> Parse();
 
-    void PrintTree(std::vector<std::shared_ptr<Node>> tree);
-    void PrintObject(std::shared_ptr<Node> object);
+    /**
+     * Print a node-tree to the console.
+    */
+    static void PrintTree(std::vector<std::shared_ptr<Node>> tree);
+
+    /**
+     * Print a node with its child nodes to the console.
+    */
+    static void PrintNode(std::shared_ptr<Node> node);
 
 private:
     // Variables

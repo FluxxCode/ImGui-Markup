@@ -17,6 +17,9 @@ public:
     // Functions
     void Update();
 
+    /**
+     * Resets every attribute from this object.
+    */
     void Reset();
 
     // Variables

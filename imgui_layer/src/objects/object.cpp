@@ -19,7 +19,7 @@ bool Object::SetAttributeValue(const std::string name, const std::string value)
 AttributeType* Object::GetAttribute(const std::string name) const
 {
     if (!this->HasAttribute(name))
-        return false;
+        return nullptr;
 
     return this->attribute_list_.at(name);
 }

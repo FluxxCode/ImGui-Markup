@@ -63,7 +63,7 @@ void Parser::PrintTree(std::vector<std::shared_ptr<Node>> tree)
     for (unsigned int i = 0; i < tree.size(); i++)
     {
         if (tree[i]->type_ == NodeType::kObjectNode)
-            this->PrintObject(tree[i]);
+            Parser::PrintNode(tree[i]);
         else
         {
             AttributeNode* node = dynamic_cast<AttributeNode*>(tree[i].get());
@@ -72,7 +72,7 @@ void Parser::PrintTree(std::vector<std::shared_ptr<Node>> tree)
     }
 }
 
-void Parser::PrintObject(std::shared_ptr<Node> object)
+void Parser::PrintNode(std::shared_ptr<Node> object)
 {
     ObjectNode* node = dynamic_cast<ObjectNode*>(object.get());
 
@@ -88,7 +88,7 @@ void Parser::PrintObject(std::shared_ptr<Node> object)
         const std::shared_ptr<Node> child = node->child_nodes_[i];
 
         if (child->type_ == NodeType::kObjectNode)
-            this->PrintObject(child);
+            Parser::PrintNode(child);
         else
         {
             AttributeNode* node = dynamic_cast<AttributeNode*>(child.get());

@@ -7,12 +7,62 @@
 namespace gui::utils
 {
 
+/**
+ * Convert a string to an interger.
+ *
+ * @param[in] str   - The string that will be converted.
+ * @param[out] dest - A pointer to an integer that will recive the converted
+ *                    string.
+ *
+ * @return true if there was no error, false if the string could not be
+ *         converted to an interger.
+*/
 bool StringToInt(std::string str, int* dest);
+
+/**
+ * Convert a string to a float.
+ *
+ * @param[in] str   - The string that will be converted.
+ * @param[out] dest - A pointer to a float that will recive the converted
+ *                    string.
+ *
+ * @return true if there was no error, false if the string could not be
+ *         converted to a float.
+*/
 bool StringToFloat(std::string str, float* dest);
+
+/**
+ * Convert a string to a bool. The possible string values are:
+ * "True", "true", "False, "false", "1" or "0".
+ *
+ * @param[in] str   - The string that will be converted.
+ * @param[out] dest - A pointer to a bool that will recive the converted
+ *                    string.
+ *
+ * @return true if there was no error, false if the string could not be
+ *         converted to a bool.
+*/
 bool StringToBool(std::string str, bool* dest);
+
+/**
+ * Convert a bool to a string.
+ *
+ * @param[in] b - The bool that will be converted to the string.
+ *
+ * @return the converted bool as a string.
+*/
 std::string BoolToString(const bool b);
 
-std::vector<std::string> SplitString(std::string, const char c);
+/**
+ * Split a string by a single character and return the segment in a vector.
+ *
+ * @param[in] str - The string that will be converted
+ *                  and contains the character.
+ * @param[in] c   - The character where the sting will be split.
+ *
+ * @return A vector of every segment.
+*/
+std::vector<std::string> SplitString(std::string str, const char c);
 
 }  // namespace utils
 
