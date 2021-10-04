@@ -14,9 +14,19 @@ Float2::Float2(ImVec2 vec)
     : x(vec.x), y(vec.y)
 { }
 
-bool Float2::LoadValue(std::string value)
+std::string Float2::ToString()
 {
-     std::vector<std::string> segments = utils::SplitString(value, ',');
+    return std::to_string(this->x) + ", " + std::to_string(this->y);
+}
+
+Float2::operator ImVec2()
+{
+    return ImVec2(this->x, this->y);
+}
+
+bool Float2::IMPLLoadValue(std::string value)
+{
+    std::vector<std::string> segments = utils::SplitString(value, ',');
 
     if (segments.size() != 2)
         return false;
@@ -33,16 +43,6 @@ bool Float2::LoadValue(std::string value)
     }
 
     return true;
-}
-
-std::string Float2::ToString()
-{
-    return std::to_string(this->x) + ", " + std::to_string(this->y);
-}
-
-Float2::operator ImVec2()
-{
-    return ImVec2(this->x, this->y);
 }
 
 }  // namespace gui

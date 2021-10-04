@@ -6,12 +6,15 @@
 namespace gui
 {
 
-class AttributeType
+struct AttributeType
 {
-public:
     // Functions
-    virtual bool LoadValue(std::string value) = 0;
+    bool LoadValue(std::string value);
+    virtual bool IMPLLoadValue(std::string value) = 0;
+
     virtual std::string ToString() = 0;
+
+    bool value_changed_ = false;
 };
 
 }  // namespace gui

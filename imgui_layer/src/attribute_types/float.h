@@ -8,17 +8,22 @@
 namespace gui
 {
 
-struct Float : public AttributeType
+class Float : public AttributeType
 {
+public:
     Float();
     Float(float f);
 
     float value = 0;
 
-    bool LoadValue(std::string value);
     std::string ToString();
 
     void operator=(const float& x);
+
+private:
+    // Functions
+    bool IMPLLoadValue(std::string value);
+
 };
 
 std::ostream& operator<<(std::ostream& os, Float const& x);

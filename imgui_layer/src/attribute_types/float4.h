@@ -8,8 +8,9 @@
 namespace gui
 {
 
-struct Float4 : public AttributeType
+class Float4 : public AttributeType
 {
+public:
     Float4();
     Float4(float x, float y, float z, float w);
     Float4(ImVec4 vec);
@@ -19,10 +20,13 @@ struct Float4 : public AttributeType
     float z = 0;
     float w = 0;
 
-    bool LoadValue(std::string value);
     std::string ToString();
 
     operator ImVec4();
+
+private:
+    // Functions
+    bool IMPLLoadValue(std::string value);
 };
 
 }  // namespace gui

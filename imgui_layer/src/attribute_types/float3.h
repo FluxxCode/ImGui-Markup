@@ -8,8 +8,9 @@
 namespace gui
 {
 
-struct Float3 : public AttributeType
+class Float3 : public AttributeType
 {
+public:
     Float3();
     Float3(float x, float y, float z);
 
@@ -17,8 +18,11 @@ struct Float3 : public AttributeType
     float y = 0;
     float z = 0;
 
-    bool LoadValue(std::string value);
     std::string ToString();
+
+private:
+    // Functions
+    bool IMPLLoadValue(std::string value);
 };
 
 }  // namespace gui

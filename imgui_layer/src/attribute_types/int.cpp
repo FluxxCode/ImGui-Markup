@@ -11,11 +11,6 @@ Int::Int(int i)
     : value(i)
 { }
 
-bool Int::LoadValue(std::string value)
-{
-    return utils::StringToInt(value, &this->value);
-}
-
 std::string Int::ToString()
 {
     return std::to_string(this->value);
@@ -24,6 +19,11 @@ std::string Int::ToString()
 Int::operator int()
 {
     return this->value;
+}
+
+bool Int::IMPLLoadValue(std::string value)
+{
+    return utils::StringToInt(value, &this->value);
 }
 
 std::ostream& operator<<(std::ostream& os, Int const& x)

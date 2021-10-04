@@ -8,19 +8,23 @@
 namespace gui
 {
 
-struct String : public AttributeType
+class String : public AttributeType
 {
+public:
     String();
     String(std::string str);
     String(const char* str);
 
     std::string value;
 
-    bool LoadValue(std::string value);
     std::string ToString();
 
     operator std::string();
     operator const char*();
+
+private:
+    // Functions
+    bool IMPLLoadValue(std::string value);
 };
 
 std::ostream& operator<<(std::ostream& os, String const& str);

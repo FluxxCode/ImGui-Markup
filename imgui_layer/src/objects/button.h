@@ -31,6 +31,12 @@ public:
 private:
     // Variables
     bool is_pressed_ = false;
+
+    unsigned char style_count_ = 0;
+
+    // Functions
+    void PushStyle();
+    void PopStyle();
 };
 
 }  // namespace gui

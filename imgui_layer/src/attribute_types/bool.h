@@ -6,17 +6,21 @@
 namespace gui
 {
 
-struct Bool : public AttributeType
+class Bool : public AttributeType
 {
+public:
     Bool();
     Bool(const bool b);
 
     bool value = true;
 
-    bool LoadValue(std::string value);
     std::string ToString();
 
     void operator=(const bool& x);
+
+private:
+    // Functions
+    bool IMPLLoadValue(std::string value);
 };
 
 std::ostream& operator<<(std::ostream& os, Bool& x);

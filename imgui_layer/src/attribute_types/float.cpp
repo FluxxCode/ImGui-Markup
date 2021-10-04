@@ -11,11 +11,6 @@ Float::Float(float f)
     : value(f)
 { }
 
-bool Float::LoadValue(std::string value)
-{
-    return utils::StringToFloat(value, &this->value);
-}
-
 std::string Float::ToString()
 {
     return std::to_string(this->value);
@@ -24,6 +19,11 @@ std::string Float::ToString()
 void Float::operator=(const float& x)
 {
     this->value = x;
+}
+
+bool Float::IMPLLoadValue(std::string value)
+{
+    return utils::StringToFloat(value, &this->value);
 }
 
 std::ostream& operator<<(std::ostream& os, Float const& x)

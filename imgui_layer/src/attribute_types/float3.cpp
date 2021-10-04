@@ -11,7 +11,14 @@ Float3::Float3(float x, float y, float z)
     : x(x), y(y), z(z)
 { }
 
-bool Float3::LoadValue(std::string value)
+std::string Float3::ToString()
+{
+    return std::to_string(this->x) + "," +
+           std::to_string(this->y) + "," +
+           std::to_string(this->z);
+}
+
+bool Float3::IMPLLoadValue(std::string value)
 {
     std::vector<std::string> segments = utils::SplitString(value, ',');
 
@@ -38,13 +45,6 @@ bool Float3::LoadValue(std::string value)
     }
 
     return true;
-}
-
-std::string Float3::ToString()
-{
-    return std::to_string(this->x) + "," +
-           std::to_string(this->y) + "," +
-           std::to_string(this->z);
 }
 
 }  // namespace gui

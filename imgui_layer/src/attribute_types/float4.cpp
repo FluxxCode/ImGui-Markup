@@ -15,7 +15,20 @@ Float4::Float4(ImVec4 vec)
     : x(vec.x), y(vec.y), z(vec.z), w(vec.w)
 { }
 
-bool Float4::LoadValue(std::string value)
+std::string Float4::ToString()
+{
+    return std::to_string(this->x) + "," +
+        std::to_string(this->y) + "," +
+        std::to_string(this->z) + "," +
+        std::to_string(this->w);
+}
+
+Float4::operator ImVec4()
+{
+    return ImVec4(this->x, this->y, this->z, this->w);
+}
+
+bool Float4::IMPLLoadValue(std::string value)
 {
     std::vector<std::string> segments = utils::SplitString(value, ',');
 
@@ -51,19 +64,6 @@ bool Float4::LoadValue(std::string value)
     }
 
     return true;
-}
-
-std::string Float4::ToString()
-{
-    return std::to_string(this->x) + "," +
-        std::to_string(this->y) + "," +
-        std::to_string(this->z) + "," +
-        std::to_string(this->w);
-}
-
-Float4::operator ImVec4()
-{
-    return ImVec4(this->x, this->y, this->z, this->w);
 }
 
 }  // namespace gui

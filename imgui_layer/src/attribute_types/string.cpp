@@ -14,12 +14,6 @@ String::String(const char* str)
     : value(str)
 { }
 
-bool String::LoadValue(std::string value)
-{
-    this->value = value;
-    return true;
-}
-
 std::string String::ToString()
 {
     return this->value;
@@ -33,6 +27,12 @@ String::operator std::string()
 String::operator const char* ()
 {
     return this->value.c_str();
+}
+
+bool String::IMPLLoadValue(std::string value)
+{
+    this->value = value;
+    return true;
 }
 
 std::ostream& operator<<(std::ostream& os, String const& str)
