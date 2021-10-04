@@ -20,29 +20,32 @@ std::vector<Token> Lexer::GetTokens()
         if (std::isspace(c))
             continue;
 
+        typedef TokenType Type;
+        typedef Position  Pos;
+
         // Check for comments
         if (this->IsComment(c))
             this->SkipComment();
         else if (c == ':')
-            tokens.push_back(Token(TokenType::kColon));
+            tokens.push_back(Token(Type::kColon,         Pos(this->pos_ - 1)));
         else if (c == ',')
-            tokens.push_back(Token(TokenType::kComma));
+            tokens.push_back(Token(Type::kComma,         Pos(this->pos_ - 1)));
         else if (c == '=')
-            tokens.push_back(Token(TokenType::kEqual));
+            tokens.push_back(Token(Type::kEqual,         Pos(this->pos_ - 1)));
         else if (c == '@')
-            tokens.push_back(Token(TokenType::kAt));
+            tokens.push_back(Token(Type::kAt,            Pos(this->pos_ - 1)));
         else if (c == '(')
-            tokens.push_back(Token(TokenType::kBracketOpen));
+            tokens.push_back(Token(Type::kBracketOpen,   Pos(this->pos_ - 1)));
         else if (c == ')')
-            tokens.push_back(Token(TokenType::kBracketClose));
+            tokens.push_back(Token(Type::kBracketClose,  Pos(this->pos_ - 1)));
         else if (c == '[')
-            tokens.push_back(Token(TokenType::kSBracketOpen));
+            tokens.push_back(Token(Type::kSBracketOpen,  Pos(this->pos_ - 1)));
         else if (c == ']')
-            tokens.push_back(Token(TokenType::kSBracketClose));
+            tokens.push_back(Token(Type::kSBracketClose, Pos(this->pos_ - 1)));
         else if (c == '{')
-            tokens.push_back(Token(TokenType::kCBracketOpen));
+            tokens.push_back(Token(Type::kCBracketOpen,  Pos(this->pos_ - 1)));
         else if (c == '}')
-            tokens.push_back(Token(TokenType::kCBracketClose));
+            tokens.push_back(Token(Type::kCBracketClose, Pos(this->pos_ - 1)));
         else if (c == '"')
             tokens.push_back(this->CreateString());
         else if (std::isdigit(c))
@@ -205,6 +208,8 @@ Token Lexer::CreateString()
 {
     std::string value;
 
+    size_t start_pos = this->pos_ - 1;
+
     char c;
     while (this->GetCharAdvance(c))
     {
@@ -217,7 +222,8 @@ Token Lexer::CreateString()
         value += c;
     }
 
-    return Token(TokenType::kString, value);
+    return Token(TokenType::kString, value,
+        Position(start_pos, this->pos_ - 1));
 }
 
 Token Lexer::CreateNumber()
@@ -226,6 +232,7 @@ Token Lexer::CreateNumber()
     value += this->GetCurrentChar();
 
     size_t dot_count = 0;
+    size_t start_pos = this->pos_ - 1;
 
     char c;
     while (this->GetCharAdvance(c))
@@ -261,15 +268,20 @@ Token Lexer::CreateNumber()
         ;
 
     if (dot_count == 1)
-        return Token(TokenType::kFloat, value);
+    {
+        return Token(TokenType::kFloat, value,
+            Position(start_pos, this->pos_ - 1));
+    }
 
-    return Token(TokenType::kInt, value);
+    return Token(TokenType::kInt, value, Position(start_pos, this->pos_ - 1));
 }
 
 Token Lexer::CreateData()
 {
     std::string value;
     value += this->GetCurrentChar();
+
+    size_t start_pos = this->pos_ - 1;
 
     char c;
     while (this->GetCharAdvance(c))
@@ -293,7 +305,7 @@ Token Lexer::CreateData()
         value += c;
     }
 
-    return Token(TokenType::kData, value);
+    return Token(TokenType::kData, value, Position(start_pos, this->pos_ - 1));
 }
 
 }  // namespace gui

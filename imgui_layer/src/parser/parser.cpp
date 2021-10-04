@@ -6,8 +6,8 @@ namespace gui
 
 /*****************************************************************************/
 
-Node::Node(const NodeType type)
-    : type_(type)
+Node::Node(const NodeType type, const Position pos)
+    : type_(type), position_(pos)
 { }
 
 Node::~Node()
@@ -18,15 +18,23 @@ std::shared_ptr<Node> Node::operator[](unsigned int i) const
     return this->child_nodes_[i];
 }
 
-ObjectNode::ObjectNode(const std::string obj_name, const std::string id)
-    : Node(NodeType::kObjectNode), name_(obj_name), id_(id)
+ObjectNode::ObjectNode(
+    const std::string obj_name,
+    const std::string id,
+    const Position pos)
+    : Node(NodeType::kObjectNode, pos), name_(obj_name), id_(id)
+{ }
+
+ObjectNode::ObjectNode(const std::string obj_name, const Position pos)
+    : Node(NodeType::kObjectNode, pos), name_(obj_name), id_("")
 { }
 
 AttributeNode::AttributeNode(
     const std::string name,
     const std::string value,
-    const TokenType value_type)
-    : Node(NodeType::kAttributeNode),
+    const TokenType value_type,
+    const const Position pos)
+    : Node(NodeType::kAttributeNode, pos),
       name_(name), value_(value), value_type_(value_type)
 { }
 
@@ -170,14 +178,18 @@ std::shared_ptr<Node> Parser::CreateObject()
 {
     std::shared_ptr<Node> node;
     const std::string name = this->GetCurrentToken().value_;
+    const size_t start_pos = this->GetCurrentToken().position_.start_;
 
     if (this->GetNextToken().type_ == TokenType::kColon)
     {
-        node = std::make_shared<ObjectNode>(name, this->GetNextToken(1).value_);
+        node = std::make_shared<ObjectNode>(name, this->GetNextToken(1).value_,
+            Position(start_pos, this->GetNextToken(1).position_.end_));
+
         this->pos_ += 2;
     }
     else
-        node = std::make_shared<ObjectNode>(name);
+        node = std::make_shared<ObjectNode>(name,
+            Position(start_pos, this->GetNextToken(1).position_.end_));
 
     this->pos_++;
 
@@ -200,14 +212,20 @@ void Parser::CreateObject(std::shared_ptr<Node> node_in)
 {
     std::shared_ptr<Node> node;
     const std::string name = this->GetCurrentToken().value_;
+    Token next_token = this->GetNextToken(1);
+
+    const size_t start_pos = this->GetCurrentToken().position_.start_;
 
     if (this->GetNextToken().type_ == TokenType::kColon)
     {
-        node = std::make_shared<ObjectNode>(name, this->GetNextToken(1).value_);
+        node = std::make_shared<ObjectNode>(name, next_token.value_,
+            Position(start_pos, next_token.position_.end_));
+
         this->pos_ += 2;
     }
     else
-        node = std::make_shared<ObjectNode>(name);
+        node = std::make_shared<ObjectNode>(name,
+            Position(start_pos, next_token.position_.end_));
 
     this->pos_++;
 
@@ -235,6 +253,8 @@ std::shared_ptr<Node> Parser::CreateAttribute()
     const std::string name = this->GetCurrentToken().value_;
     std::string value;
 
+    const size_t start_pos = this->GetCurrentToken().position_.start_;
+
     this->pos_++;
 
     if (this->GetNextToken().type_ == TokenType::kBracketOpen)
@@ -247,7 +267,8 @@ std::shared_ptr<Node> Parser::CreateAttribute()
     this->pos_++;
 
     return std::make_shared<AttributeNode>(
-        name, value, this->GetCurrentToken().type_);
+        name, value, this->GetCurrentToken().type_,
+        Position(start_pos, this->GetCurrentToken().position_.end_));
 }
 
 void Parser::CreateAttribute(std::shared_ptr<Node> node)
@@ -258,6 +279,8 @@ void Parser::CreateAttribute(std::shared_ptr<Node> node)
 
     const std::string name = this->GetCurrentToken().value_;
     std::string value;
+
+    const size_t start_pos = this->GetCurrentToken().position_.start_;
 
     this->pos_++;
 
@@ -271,7 +294,8 @@ void Parser::CreateAttribute(std::shared_ptr<Node> node)
     this->pos_++;
 
     return node->child_nodes_.push_back(std::make_shared<AttributeNode>(
-        name, value, this->GetCurrentToken().type_));
+        name, value, this->GetCurrentToken().type_,
+        Position(start_pos, this->GetCurrentToken().position_.end_)));
 }
 
 std::string Parser::CreateArray()

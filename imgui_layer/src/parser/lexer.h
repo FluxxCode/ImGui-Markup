@@ -7,6 +7,24 @@
 namespace gui
 {
 
+struct Position
+{
+    Position()
+        : start_(0), end_(0)
+    { }
+
+    Position(const size_t start)
+        : start_(start), end_(start + 1)
+    { }
+
+    Position(const size_t start, const size_t end)
+        : start_(start), end_(end)
+    { }
+
+    size_t start_;
+    size_t end_;
+};
+
 enum class TokenType : unsigned char
 {
     kUndefined,      //  Undefined token, not created by lexer
@@ -29,10 +47,19 @@ enum class TokenType : unsigned char
 
 struct Token
 {
-    Token(const TokenType type, const std::string value = "")
-        : type_(type), value_(value)
+    Token(const TokenType type)
+        : type_(type), value_(""), position_(Position())
     { }
 
+    Token(const TokenType type, const Position pos)
+        : type_(type), value_(""), position_(pos)
+    { }
+
+    Token(const TokenType type, const std::string value, const Position pos)
+        : type_(type), value_(value), position_(pos)
+    { }
+
+    Position position_;
     TokenType type_;
     std::string value_;
 };
@@ -68,7 +95,7 @@ public:
 private:
     // Variables
     const std::string text_;
-    int pos_ = 0;
+    size_t pos_ = 0;
 
     // Functions
     bool GetCharAdvance(char& c);

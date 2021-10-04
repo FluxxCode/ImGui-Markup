@@ -18,11 +18,12 @@ class Node
 {
 public:
     // Constructor/Destructor
-    explicit Node(const NodeType type);
+    Node(const NodeType type, const Position pos);
     virtual ~Node();
 
     // Variables
     const NodeType type_;
+    const Position position_;
     std::vector<std::shared_ptr<Node>> child_nodes_;
 
     // Operators
@@ -33,7 +34,11 @@ class ObjectNode : public Node
 {
 public:
     // Constructor
-    explicit ObjectNode(const std::string obj_name, const std::string id = "");
+    ObjectNode(const std::string obj_name,
+               const std::string id,
+               const Position pos);
+
+    ObjectNode(const std::string obj_name, const Position pos);
 
     // Variables
     const std::string name_;
@@ -46,7 +51,8 @@ public:
     // Constructor
     AttributeNode(const std::string name,
                   const std::string value,
-                  const TokenType value_type);
+                  const TokenType value_type,
+                  const Position pos);
 
     // Variables
     const std::string name_;
