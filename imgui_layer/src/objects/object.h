@@ -3,6 +3,10 @@
 
 #include "attribute_types/attribute_type.h"
 
+#include <string>
+#include <map>
+#include <vector>
+
 namespace gui
 {
 

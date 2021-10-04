@@ -21,6 +21,8 @@ struct Float4 : public AttributeType
 
     bool LoadValue(std::string value);
     std::string ToString();
+
+    operator ImVec4();
 };
 
 }  // namespace gui

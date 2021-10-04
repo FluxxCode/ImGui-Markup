@@ -61,4 +61,9 @@ std::string Float4::ToString()
         std::to_string(this->w);
 }
 
+Float4::operator ImVec4()
+{
+    return ImVec4(this->x, this->y, this->z, this->w);
+}
+
 }  // namespace gui
