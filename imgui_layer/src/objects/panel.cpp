@@ -31,6 +31,9 @@ void Panel::Init()
     ImGui::SetNextWindowPos(this->pos_);
     ImGui::SetNextWindowSize(this->size_);
 
+    if (this->title_.value.empty())
+        this->title_ = this->id_.empty() ? "unknown" : this->id_;
+
     this->init_ = false;
 }
 
