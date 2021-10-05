@@ -172,9 +172,6 @@ void Parser::CreateObjectNode(std::shared_ptr<Node> parent_node)
     // Set position to bracket or colon
     this->pos_++;
 
-    Token next_token    = this->GetNextToken();
-    Token current_token = this->GetCurrentToken();
-
     // Check if the ID of the token is defined
     if (this->GetCurrentToken().type_ == TokenType::kColon)
     {
@@ -187,9 +184,6 @@ void Parser::CreateObjectNode(std::shared_ptr<Node> parent_node)
     if (this->GetCurrentToken().type_ != TokenType::kCBracketOpen)
         // TODO: Error handling
         ;
-
-    next_token = this->GetNextToken();
-    current_token = this->GetCurrentToken();
 
     std::shared_ptr<Node> node = std::make_shared<ObjectNode>(name, id,
         Position(start_position, this->GetCurrentToken().position_.end_));
