@@ -46,24 +46,12 @@ Parser::Parser(const std::vector<Token> tokens)
 
 std::vector<std::shared_ptr<Node>> Parser::Parse()
 {
-    std::vector<std::shared_ptr<Node>> nodes;
+    std::shared_ptr<Node> root_node = std::make_shared<Node>(
+        NodeType::kRootNode, Position(0, 0));
 
-    Token token(TokenType::kUndefined);
-    while (this->GetTokenAdvance(token))
-    {
-        if (token.type_ == TokenType::kCBracketOpen ||
-            token.type_ == TokenType::kCBracketClose)
-        {
-            continue;
-        }
+    this->ProcessTokens(root_node);
 
-        if (this->IsObject())
-            nodes.push_back(this->CreateObject());
-        else
-            nodes.push_back(this->CreateAttribute());
-    }
-
-    return nodes;
+    return root_node->child_nodes_;
 }
 
 void Parser::PrintTree(std::vector<std::shared_ptr<Node>> tree)
@@ -152,150 +140,108 @@ inline Token Parser::GetNextToken(int offset)
     return this->tokens_[index];
 }
 
-bool Parser::IsObject()
+void Parser::ProcessTokens(std::shared_ptr<Node> parent_node)
 {
-    const Token token = this->GetCurrentToken();
+    Token token(TokenType::kUndefined);
+    while (this->GetTokenAdvance(token))
+    {
+        // Check for the end of an object
+        if (token.type_ == TokenType::kCBracketClose)
+        {
+            if (parent_node->type_ == NodeType::kRootNode)
+                // TODO: Error - Unexpected symbol '}'
+                ;
 
-    if (token.type_ != TokenType::kData)
-        return false;
+            break;
+        }
 
-    if (this->GetLastToken().type_ == TokenType::kColon)
-        return false;
+        if (this->CurrentNodeIsObject())
+            this->CreateObjectNode(parent_node);
+        else
+            this->CreateAttributeNode(parent_node);
+    }
+}
 
-    if (this->GetNextToken().type_  == TokenType::kColon &&
-        this->GetNextToken(1).type_ == TokenType::kData)
+void Parser::CreateObjectNode(std::shared_ptr<Node> parent_node)
+{
+    const size_t start_position = this->GetCurrentToken().position_.start_;
+
+    const std::string name = this->GetCurrentToken().value_;
+    std::string id;
+
+    // Set position to bracket or colon
+    this->pos_++;
+
+    Token next_token    = this->GetNextToken();
+    Token current_token = this->GetCurrentToken();
+
+    // Check if the ID of the token is defined
+    if (this->GetCurrentToken().type_ == TokenType::kColon)
+    {
+        id = this->GetNextToken().value_;
+
+        // Skip the colon and id token
+        this->pos_ += 2;
+    }
+
+    if (this->GetCurrentToken().type_ != TokenType::kCBracketOpen)
+        // TODO: Error handling
+        ;
+
+    next_token = this->GetNextToken();
+    current_token = this->GetCurrentToken();
+
+    std::shared_ptr<Node> node = std::make_shared<ObjectNode>(name, id,
+        Position(start_position, this->GetCurrentToken().position_.end_));
+
+    this->ProcessTokens(node);
+
+    parent_node->child_nodes_.push_back(node);
+}
+
+void Parser::CreateAttributeNode(std::shared_ptr<Node> parent_node)
+{
+    const size_t start_position = this->GetCurrentToken().position_.start_;
+
+    const std::string name = this->GetCurrentToken().value_;
+    std::string value;
+
+    if (this->GetNextToken().type_ != TokenType::kEqual)
+        // TOOD: Error - No equal symbol
+        ;
+
+    // Skip equal symbol
+    this->pos_ += 2;
+
+    Token token = this->GetCurrentToken();
+
+    if (token.type_ == TokenType::kSBracketOpen)
+        value = this->CreateArray();
+    else if (token.type_ == TokenType::kBracketOpen)
+        value = this->CreateVector();
+    else
+        value = token.value_;
+
+    std::shared_ptr<AttributeNode> node = std::make_shared<AttributeNode>(
+        name, value, token.type_,
+        // We will use the function GetCurrenToken again, because the
+        // CreateVector and CreateArray function may have changed the
+        // current token.
+        Position(start_position, this->GetCurrentToken().position_.end_));
+
+    parent_node->child_nodes_.push_back(node);
+}
+
+bool Parser::CurrentNodeIsObject()
+{
+    if (this->GetCurrentToken().type_ == TokenType::kData &&
+        (this->GetNextToken().type_ == TokenType::kColon ||
+         this->GetNextToken().type_ == TokenType::kCBracketOpen))
     {
         return true;
     }
-
-    if (this->GetNextToken().type_ == TokenType::kCBracketOpen)
-        return true;
 
     return false;
-}
-
-std::shared_ptr<Node> Parser::CreateObject()
-{
-    std::shared_ptr<Node> node;
-    const std::string name = this->GetCurrentToken().value_;
-    const size_t start_pos = this->GetCurrentToken().position_.start_;
-
-    if (this->GetNextToken().type_ == TokenType::kColon)
-    {
-        node = std::make_shared<ObjectNode>(name, this->GetNextToken(1).value_,
-            Position(start_pos, this->GetNextToken(1).position_.end_));
-
-        this->pos_ += 2;
-    }
-    else
-        node = std::make_shared<ObjectNode>(name,
-            Position(start_pos, this->GetNextToken(1).position_.end_));
-
-    this->pos_++;
-
-    Token token(TokenType::kUndefined);
-    while (this->GetTokenAdvance(token))
-    {
-        if (token.type_ == TokenType::kCBracketClose)
-            break;
-
-        if (this->IsObject())
-            this->CreateObject(node);
-        else
-            this->CreateAttribute(node);
-    }
-
-    return node;
-}
-
-void Parser::CreateObject(std::shared_ptr<Node> node_in)
-{
-    std::shared_ptr<Node> node;
-    const std::string name = this->GetCurrentToken().value_;
-    Token next_token = this->GetNextToken(1);
-
-    const size_t start_pos = this->GetCurrentToken().position_.start_;
-
-    if (this->GetNextToken().type_ == TokenType::kColon)
-    {
-        node = std::make_shared<ObjectNode>(name, next_token.value_,
-            Position(start_pos, next_token.position_.end_));
-
-        this->pos_ += 2;
-    }
-    else
-        node = std::make_shared<ObjectNode>(name,
-            Position(start_pos, next_token.position_.end_));
-
-    this->pos_++;
-
-    Token token(TokenType::kUndefined);
-    while (this->GetTokenAdvance(token))
-    {
-        if (token.type_ == TokenType::kCBracketClose)
-            break;
-
-        if (this->IsObject())
-            this->CreateObject(node);
-        else
-            this->CreateAttribute(node);
-    }
-
-    node_in->child_nodes_.push_back(node);
-}
-
-std::shared_ptr<Node> Parser::CreateAttribute()
-{
-    if (this->GetNextToken().type_ != TokenType::kEqual)
-        // TODO: ERROR - Invalid Syntax
-        ;
-
-    const std::string name = this->GetCurrentToken().value_;
-    std::string value;
-
-    const size_t start_pos = this->GetCurrentToken().position_.start_;
-
-    this->pos_++;
-
-    if (this->GetNextToken().type_ == TokenType::kBracketOpen)
-        value = this->CreateVector();
-    else if (this->GetNextToken().type_ == TokenType::kSBracketOpen)
-        value = this->CreateArray();
-    else
-        value = this->GetNextToken().value_;
-
-    this->pos_++;
-
-    return std::make_shared<AttributeNode>(
-        name, value, this->GetCurrentToken().type_,
-        Position(start_pos, this->GetCurrentToken().position_.end_));
-}
-
-void Parser::CreateAttribute(std::shared_ptr<Node> node)
-{
-    if (this->GetNextToken().type_ != TokenType::kEqual)
-        // TODO: ERROR - Invalid Syntax
-        ;
-
-    const std::string name = this->GetCurrentToken().value_;
-    std::string value;
-
-    const size_t start_pos = this->GetCurrentToken().position_.start_;
-
-    this->pos_++;
-
-    if (this->GetNextToken().type_ == TokenType::kBracketOpen)
-        value = this->CreateVector();
-    else if (this->GetNextToken().type_ == TokenType::kSBracketOpen)
-        value = this->CreateArray();
-    else
-        value = this->GetNextToken().value_;
-
-    this->pos_++;
-
-    return node->child_nodes_.push_back(std::make_shared<AttributeNode>(
-        name, value, this->GetCurrentToken().type_,
-        Position(start_pos, this->GetCurrentToken().position_.end_)));
 }
 
 std::string Parser::CreateArray()
@@ -303,14 +249,11 @@ std::string Parser::CreateArray()
     std::string value;
     Token token(TokenType::kUndefined);
 
-    // Skip bracket
-    this->pos_++;
-
+    // The GetTokenAdvance function will skip the bracket
     while (this->GetTokenAdvance(token))
     {
         if (token.type_ == TokenType::kSBracketClose)
         {
-            this->pos_--;
             break;
         }
 
@@ -328,14 +271,11 @@ std::string Parser::CreateVector()
     std::string value;
     Token token(TokenType::kUndefined);
 
-    // Skip bracket
-    this->pos_++;
-
+    // The GetTokenAdvance function will skip the bracket
     while (this->GetTokenAdvance(token))
     {
         if (token.type_ == TokenType::kBracketClose)
         {
-            this->pos_--;
             break;
         }
 

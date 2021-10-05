@@ -3,6 +3,8 @@
 
 #include "parser/lexer.h"
 
+#include "parser/parser_error.h"
+
 namespace gui
 {
 
@@ -10,6 +12,7 @@ namespace gui
 
 enum class NodeType : unsigned char
 {
+    kRootNode,
     kObjectNode,
     kAttributeNode
 };
@@ -101,13 +104,11 @@ private:
     inline Token GetCurrentToken(int offset = 0);
     inline Token GetNextToken(int offset = 0);
 
-    bool IsObject();
+    void ProcessTokens(std::shared_ptr<Node> parent_node);
+    void CreateObjectNode(std::shared_ptr<Node> parent_node);
+    void CreateAttributeNode(std::shared_ptr<Node> parent_node);
 
-    std::shared_ptr<Node> CreateObject();
-    void CreateObject(std::shared_ptr<Node> node);
-
-    std::shared_ptr<Node> CreateAttribute();
-    void CreateAttribute(std::shared_ptr<Node> node);
+    bool CurrentNodeIsObject();
 
     std::string CreateArray();
     std::string CreateVector();
