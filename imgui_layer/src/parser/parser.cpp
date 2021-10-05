@@ -40,18 +40,20 @@ AttributeNode::AttributeNode(
 
 /*****************************************************************************/
 
-Parser::Parser(const std::vector<Token> tokens)
-    : tokens_(tokens)
+Parser::Parser(const std::vector<Token> tokens, const std::string& data)
+    : tokens_(tokens), data_(data)
 { }
 
-std::vector<std::shared_ptr<Node>> Parser::Parse()
+bool Parser::Parse(std::vector<std::shared_ptr<Node>>& nodes)
 {
     std::shared_ptr<Node> root_node = std::make_shared<Node>(
         NodeType::kRootNode, Position(0, 0));
 
-    this->ProcessTokens(root_node);
+    if (!this->ProcessTokens(root_node))
+        return false;
 
-    return root_node->child_nodes_;
+    nodes = root_node->child_nodes_;
+    return true;
 }
 
 void Parser::PrintTree(std::vector<std::shared_ptr<Node>> tree)
@@ -93,6 +95,11 @@ void Parser::PrintNode(std::shared_ptr<Node> object)
     }
 
     std::cout << '}' << std::endl;
+}
+
+ParserError Parser::GetLastError() const
+{
+    return this->last_error_;
 }
 
 bool Parser::GetTokenAdvance(Token& token)
@@ -140,7 +147,7 @@ inline Token Parser::GetNextToken(int offset)
     return this->tokens_[index];
 }
 
-void Parser::ProcessTokens(std::shared_ptr<Node> parent_node)
+bool Parser::ProcessTokens(std::shared_ptr<Node> parent_node)
 {
     Token token(TokenType::kUndefined);
     while (this->GetTokenAdvance(token))
@@ -149,20 +156,40 @@ void Parser::ProcessTokens(std::shared_ptr<Node> parent_node)
         if (token.type_ == TokenType::kCBracketClose)
         {
             if (parent_node->type_ == NodeType::kRootNode)
-                // TODO: Error - Unexpected symbol '}'
-                ;
+            {
+                this->last_error_ = ParserError(
+                    ParserErrorType::kUnexpectedSymbol, token.position_,
+                    "Unexpected symbol '}' in global scope.", this->data_);
+
+                return false;
+            }
 
             break;
         }
 
+        bool result = false;
+
         if (this->CurrentNodeIsObject())
-            this->CreateObjectNode(parent_node);
+            result = CreateObjectNode(parent_node);
+        else if (this->CurrentNodeIsAttribute())
+            result = this->CreateAttributeNode(parent_node);
         else
-            this->CreateAttributeNode(parent_node);
+        {
+            const Token next_token = this->GetNextToken();
+            this->last_error_ = ParserError(ParserErrorType::kUnexpectedSymbol,
+                next_token.position_, "Unexpected symbol \"" +
+                next_token.value_ + "\", expected '=', ':' or '{'.",
+                this->data_);
+
+            return false;
+        }
+
+        if (!result)
+            return false;
     }
 }
 
-void Parser::CreateObjectNode(std::shared_ptr<Node> parent_node)
+bool Parser::CreateObjectNode(std::shared_ptr<Node> parent_node)
 {
     const size_t start_position = this->GetCurrentToken().position_.start_;
 
@@ -182,8 +209,14 @@ void Parser::CreateObjectNode(std::shared_ptr<Node> parent_node)
     }
 
     if (this->GetCurrentToken().type_ != TokenType::kCBracketOpen)
-        // TODO: Error handling
-        ;
+    {
+        this->last_error_ = ParserError(ParserErrorType::kUnexpectedSymbol,
+            this->GetCurrentToken().position_,
+            "Unexpected symbol \"" + this->GetCurrentToken().value_ + "\", " +
+            "expected ':' or '{'.", this->data_);
+
+        return false;
+    }
 
     std::shared_ptr<Node> node = std::make_shared<ObjectNode>(name, id,
         Position(start_position, this->GetCurrentToken().position_.end_));
@@ -191,9 +224,11 @@ void Parser::CreateObjectNode(std::shared_ptr<Node> parent_node)
     this->ProcessTokens(node);
 
     parent_node->child_nodes_.push_back(node);
+
+    return true;
 }
 
-void Parser::CreateAttributeNode(std::shared_ptr<Node> parent_node)
+bool Parser::CreateAttributeNode(std::shared_ptr<Node> parent_node)
 {
     const size_t start_position = this->GetCurrentToken().position_.start_;
 
@@ -201,20 +236,33 @@ void Parser::CreateAttributeNode(std::shared_ptr<Node> parent_node)
     std::string value;
 
     if (this->GetNextToken().type_ != TokenType::kEqual)
-        // TOOD: Error - No equal symbol
-        ;
+    {
+        this->last_error_ = ParserError(ParserErrorType::kUnexpectedSymbol,
+            this->GetCurrentToken().position_,
+            "Unexpected symbol \"" + this->GetCurrentToken().value_ + "\", " +
+            "expected '='", this->data_);
+
+        return false;
+    }
 
     // Skip equal symbol
     this->pos_ += 2;
 
     Token token = this->GetCurrentToken();
+    bool result = false;
 
     if (token.type_ == TokenType::kSBracketOpen)
-        value = this->CreateArray();
+        result = this->CreateArray(value);
     else if (token.type_ == TokenType::kBracketOpen)
-        value = this->CreateVector();
+        result = this->CreateVector(value);
     else
+    {
         value = token.value_;
+        result = true;
+    }
+
+    if (!result)
+        return false;
 
     std::shared_ptr<AttributeNode> node = std::make_shared<AttributeNode>(
         name, value, token.type_,
@@ -224,6 +272,8 @@ void Parser::CreateAttributeNode(std::shared_ptr<Node> parent_node)
         Position(start_position, this->GetCurrentToken().position_.end_));
 
     parent_node->child_nodes_.push_back(node);
+
+    return true;
 }
 
 bool Parser::CurrentNodeIsObject()
@@ -238,7 +288,18 @@ bool Parser::CurrentNodeIsObject()
     return false;
 }
 
-std::string Parser::CreateArray()
+bool Parser::CurrentNodeIsAttribute()
+{
+    if (this->GetCurrentToken().type_ == TokenType::kData &&
+        this->GetNextToken().type_ == TokenType::kEqual)
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool Parser::CreateArray(std::string& buffer)
 {
     std::string value;
     Token token(TokenType::kUndefined);
@@ -247,9 +308,7 @@ std::string Parser::CreateArray()
     while (this->GetTokenAdvance(token))
     {
         if (token.type_ == TokenType::kSBracketClose)
-        {
             break;
-        }
 
         if (token.type_ == TokenType::kComma)
             value += ',';
@@ -257,10 +316,11 @@ std::string Parser::CreateArray()
             value += token.value_;
     }
 
-    return value;
+    buffer = value;
+    return true;
 }
 
-std::string Parser::CreateVector()
+bool Parser::CreateVector(std::string& buffer)
 {
     std::string value;
     Token token(TokenType::kUndefined);
@@ -269,9 +329,7 @@ std::string Parser::CreateVector()
     while (this->GetTokenAdvance(token))
     {
         if (token.type_ == TokenType::kBracketClose)
-        {
             break;
-        }
 
         if (token.type_ == TokenType::kComma)
             value += ',';
@@ -279,7 +337,8 @@ std::string Parser::CreateVector()
             value += token.value_;
     }
 
-    return value;
+    buffer = value;
+    return true;
 }
 
 }  // namespace gui

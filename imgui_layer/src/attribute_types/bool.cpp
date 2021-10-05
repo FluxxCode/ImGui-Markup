@@ -23,7 +23,15 @@ void Bool::operator=(const bool& x)
 
 bool Bool::IMPLLoadValue(std::string value)
 {
-    return utils::StringToBool(value, &this->value);
+    if (!utils::StringToBool(value, &this->value))
+    {
+        this->last_error_ = ParserError(ParserErrorType::kConversionError,
+            "Unable to convert \"" + value + "\" to a bool");
+
+        return false;
+    }
+
+    return true;
 }
 
 std::ostream& operator<<(std::ostream& os, Bool& x)

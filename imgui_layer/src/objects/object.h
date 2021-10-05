@@ -2,6 +2,7 @@
 #define IMGUI_LAYER_SRC_OBJECTS_OBJECT_H_
 
 #include "attribute_types/attribute_type.h"
+#include "parser/parser_error.h"
 
 #include <string>
 #include <map>
@@ -90,12 +91,19 @@ public:
     void AddChild(std::shared_ptr<Object> child);
 
     /**
+     * Get the name of the object.
+    */
+    std::string GetName() const;
+
+    /**
      * Get the ID of this object.
      *
      * @return the ID of this object. An empty string will be returned if
      *         this object has no ID.
     */
     std::string GetID() const;
+
+    ParserError GetLastError() const;
 
 protected:
     // Variables
@@ -105,6 +113,8 @@ protected:
 
     std::map<std::string, AttributeType*> attribute_list_ = { };
     std::vector<std::shared_ptr<Object>> child_objects_ = { };
+
+    mutable ParserError last_error_;
 
     // Functions
     /**

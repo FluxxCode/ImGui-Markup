@@ -18,6 +18,11 @@ bool FileManager::LoadFromData(const std::string data, GlobalObject& dest)
     return FileManager::Get().IMPLLoadFromData(data, dest);
 }
 
+ParserError FileManager::GetLastError()
+{
+    return FileManager::Get().IMPLGetLastError();
+}
+
 FileManager& FileManager::Get()
 {
     static FileManager instance;
@@ -29,8 +34,12 @@ bool FileManager::IMPLLoadFromFile(const std::string path, GlobalObject& dest)
     std::ifstream file(path);
 
     if (!file.is_open())
-        // TOOD: Error handling
+    {
+        this->last_error_ = ParserError(ParserErrorType::kUnableToOpenFile,
+            "Unable to open file \"" + path + "\"");
+
         return false;
+    }
 
     std::stringstream data;
     data << file.rdbuf();
@@ -43,14 +52,30 @@ bool FileManager::IMPLLoadFromFile(const std::string path, GlobalObject& dest)
 bool FileManager::IMPLLoadFromData(const std::string data, GlobalObject& dest)
 {
     gui::Lexer lexer(data);
-    gui::Parser parser(lexer.GetTokens());
-    gui::Interpreter interpreter(parser.Parse());
 
-    dest = interpreter.CreateGlobalObject();
+    gui::Parser parser(lexer.GetTokens(), data);
 
-    // TOOD: Error handling
+    std::vector<std::shared_ptr<Node>> nodes;
+    if (!parser.Parse(nodes))
+    {
+        this->last_error_ = parser.GetLastError();
+        return false;
+    }
+
+    gui::Interpreter interpreter(nodes, data);
+
+    if (!interpreter.CreateGlobalObject(dest))
+    {
+        this->last_error_ = interpreter.GetLastError();
+        return false;
+    }
 
     return true;
+}
+
+ParserError FileManager::IMPLGetLastError()
+{
+    return this->last_error_;
 }
 
 }  // namespace gui

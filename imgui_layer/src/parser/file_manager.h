@@ -3,6 +3,8 @@
 
 #include "objects/global_object.h"
 
+#include "parser/parser_error.h"
+
 namespace gui
 {
 
@@ -19,7 +21,12 @@ public:
     static bool LoadFromFile(const std::string path, GlobalObject& dest);
     static bool LoadFromData(const std::string data, GlobalObject& dest);
 
+    static ParserError GetLastError();
+
 private:
+    // Variables
+    ParserError last_error_;
+
     // Constructor
     FileManager() { };
 
@@ -28,6 +35,8 @@ private:
 
     bool IMPLLoadFromFile(const std::string path, GlobalObject& dest);
     bool IMPLLoadFromData(const std::string data, GlobalObject& dest);
+
+    ParserError IMPLGetLastError();
 };
 
 }  // namespace gui

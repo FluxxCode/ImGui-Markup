@@ -71,8 +71,10 @@ public:
     // Constructor
     /**
      * @param[in] tokens - The tokens that the parser will process.
+     * @param[in] data   - The raw data that is processed, used for the
+     *                     error messages.
     */
-    explicit Parser(const std::vector<Token> tokens);
+    Parser(const std::vector<Token> tokens, const std::string& data);
 
     // Functions
     /**
@@ -81,7 +83,7 @@ public:
      *
      * @return a vector of the generated node-tree.
     */
-    std::vector<std::shared_ptr<Node>> Parse();
+    bool Parse(std::vector<std::shared_ptr<Node>>& nodes);
 
     /**
      * Print a node-tree to the console.
@@ -93,10 +95,15 @@ public:
     */
     static void PrintNode(std::shared_ptr<Node> node);
 
+    ParserError GetLastError() const;
+
 private:
     // Variables
     const std::vector<Token> tokens_;
     int pos_ = 0;
+
+    ParserError last_error_;
+    const std::string& data_;
 
     // Functions
     bool GetTokenAdvance(Token& token);
@@ -104,14 +111,15 @@ private:
     inline Token GetCurrentToken(int offset = 0);
     inline Token GetNextToken(int offset = 0);
 
-    void ProcessTokens(std::shared_ptr<Node> parent_node);
-    void CreateObjectNode(std::shared_ptr<Node> parent_node);
-    void CreateAttributeNode(std::shared_ptr<Node> parent_node);
+    bool ProcessTokens(std::shared_ptr<Node> parent_node);
+    bool CreateObjectNode(std::shared_ptr<Node> parent_node);
+    bool CreateAttributeNode(std::shared_ptr<Node> parent_node);
 
     bool CurrentNodeIsObject();
+    bool CurrentNodeIsAttribute();
 
-    std::string CreateArray();
-    std::string CreateVector();
+    bool CreateArray(std::string& buffer);
+    bool CreateVector(std::string& buffer);
 };
 
 }  // namespace gui

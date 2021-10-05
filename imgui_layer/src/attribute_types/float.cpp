@@ -23,7 +23,15 @@ void Float::operator=(const float& x)
 
 bool Float::IMPLLoadValue(std::string value)
 {
-    return utils::StringToFloat(value, &this->value);
+    if (!utils::StringToFloat(value, &this->value))
+    {
+        this->last_error_ = ParserError(ParserErrorType::kConversionError,
+            "Unable to convert \"" + value + "\" to a float");
+
+        return false;
+    }
+
+    return true;
 }
 
 std::ostream& operator<<(std::ostream& os, Float const& x)

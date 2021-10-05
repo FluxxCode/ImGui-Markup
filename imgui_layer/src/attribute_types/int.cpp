@@ -23,7 +23,15 @@ Int::operator int()
 
 bool Int::IMPLLoadValue(std::string value)
 {
-    return utils::StringToInt(value, &this->value);
+    if (!utils::StringToInt(value, &this->value))
+    {
+        this->last_error_ = ParserError(ParserErrorType::kConversionError,
+            "Unable to convert \"" + value + "\" to an int");
+
+        return false;
+    }
+
+    return true;
 }
 
 std::ostream& operator<<(std::ostream& os, Int const& x)

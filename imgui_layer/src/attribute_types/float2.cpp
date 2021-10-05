@@ -29,20 +29,33 @@ bool Float2::IMPLLoadValue(std::string value)
     std::vector<std::string> segments = utils::SplitString(value, ',');
 
     if (segments.size() != 2)
-        return false;
-
-    // X:
-    if (!utils::StringToFloat(segments[0].c_str(), &this->x))
-        return false;
-
-    // Y:
-    if (!utils::StringToFloat(segments[1].c_str(), &this->y))
     {
-        this->x = 0.0f;
+        this->SetError(value);
         return false;
     }
 
+    // X:
+    if (!utils::StringToFloat(segments[0].c_str(), &this->x))
+    {
+        this->SetError(value);
+        return false;
+    }
+
+    // Y:
+    if (!utils::StringToFloat(segments[1].c_str(), &this->y))
+        this->SetError(value);
+
+
     return true;
+}
+
+void Float2::SetError(std::string value)
+{
+    this->x = 0;
+    this->y = 0;
+
+    this->last_error_ = ParserError(ParserErrorType::kConversionError,
+        "Unable to convert \"" + value + "\" to a float2");
 }
 
 }  // namespace gui

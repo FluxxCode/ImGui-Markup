@@ -14,8 +14,12 @@ public:
     // Constructor
     /**
      * @param[in] nodes - The nodes that the interpreter will process.
+     * @param[in] data   - The raw data that is processed, used for the
+     *                     error messages.
     */
-    explicit Interpreter(const std::vector<std::shared_ptr<Node>> nodes);
+    explicit Interpreter(
+        const std::vector<std::shared_ptr<Node>> nodes,
+        const std::string& data);
 
     // Functions
     /**
@@ -24,14 +28,21 @@ public:
      * global attribute and every child object with the loaded attributes based
      * on the nodes.
      *
-     * @return the generated global object.
+     * @param[out] global_object - the generated global object.
+     *
+     * @return true on success, false if there was an error.
     */
-    GlobalObject CreateGlobalObject();
+    bool CreateGlobalObject(GlobalObject& global_object);
+
+    ParserError GetLastError() const;
 
 private:
     // Variables
     const std::vector<std::shared_ptr<Node>> nodes_;
     GlobalObject global_object_ = GlobalObject();
+
+    mutable ParserError last_error_;
+    const std::string& data_;
 
     // Functions
     /**
@@ -75,11 +86,14 @@ private:
      *                             contain the attribute, the function will
      *                             check any other object that is already
      *                             loaded in the global_object_.
+     * @param[in] node           - The current node that is processed,
+     *                             used for error messages.
     */
     bool GetAttribute(
         std::string attribute_name,
         std::string& destination,
-        Object* object) const;
+        Object* object,
+        std::shared_ptr<Node> node) const;
 
     /**
      * Create a child object based on the current object node and load

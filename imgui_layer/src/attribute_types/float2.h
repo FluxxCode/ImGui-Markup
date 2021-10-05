@@ -26,6 +26,8 @@ private:
     // Functions
     bool IMPLLoadValue(std::string value);
 
+    void SetError(std::string value);
+
 };
 
 }  // namespace gui

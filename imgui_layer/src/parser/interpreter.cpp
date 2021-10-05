@@ -6,12 +6,14 @@
 namespace gui
 {
 
-Interpreter::Interpreter(const std::vector<std::shared_ptr<Node>> nodes)
-    : nodes_(nodes)
+Interpreter::Interpreter(
+    const std::vector<std::shared_ptr<Node>> nodes,
+    const std::string& data)
+    : nodes_(nodes), data_(data)
 { }
 
 
-GlobalObject Interpreter::CreateGlobalObject()
+bool Interpreter::CreateGlobalObject(GlobalObject& global_object)
 {
     this->global_object_.Reset();
 
@@ -19,14 +21,26 @@ GlobalObject Interpreter::CreateGlobalObject()
     // and load the attributes.
     for (unsigned int i = 0; i < this->nodes_.size(); i++)
     {
+        bool result = false;
+
         std::shared_ptr<Node> node = this->nodes_[i];
         if (node->type_ == NodeType::kAttributeNode)
-            this->SetAttribute(&this->global_object_, node);
+            result = this->SetAttribute(&this->global_object_, node);
         else
-            this->CreateChildObject(&this->global_object_, node);
+            result = this->CreateChildObject(&this->global_object_, node);
+
+        if (!result)
+            return false;
     }
 
-    return this->global_object_;
+    global_object = this->global_object_;
+
+    return true;
+}
+
+ParserError Interpreter::GetLastError() const
+{
+    return this->last_error_;
 }
 
 bool Interpreter::SetAttribute(
@@ -35,7 +49,12 @@ bool Interpreter::SetAttribute(
 {
     // Make sure that the node is an attribute node
     if (node_in->type_ != NodeType::kAttributeNode || !object)
+    {
+        this->last_error_ = ParserError(ParserErrorType::kUndefined,
+            "Internal error");
+
         return false;
+    }
 
     AttributeNode* node = dynamic_cast<AttributeNode*>(node_in.get());
 
@@ -46,30 +65,64 @@ bool Interpreter::SetAttribute(
     {
         // Get the value of a different attribute
         std::string value;
-        if (!this->GetAttribute(node->value_, value, object))
+        if (!this->GetAttribute(node->value_, value, object, node_in))
             return false;
 
-        return object->SetAttributeValue(node->name_, value);
+        if (!object->SetAttributeValue(node->name_, value))
+        {
+            this->last_error_ = object->GetLastError();
+            this->last_error_ = ParserError(this->last_error_.type_,
+                Position(node->position_), this->last_error_.message_,
+                this->data_);
+
+            return false;
+        }
+
+        return true;
     }
 
-    return object->SetAttributeValue(node->name_, node->value_);
+    if (!object->SetAttributeValue(node->name_, node->value_))
+    {
+        this->last_error_ = object->GetLastError();
+        this->last_error_ = ParserError(this->last_error_.type_,
+            Position(node->position_), this->last_error_.message_,
+            this->data_);
+
+        return false;
+    }
+
+    return true;
+
 }
 
 bool Interpreter::GetAttribute(
     std::string attribute_name,
     std::string& destination,
-    Object* object) const
+    Object* object,
+    std::shared_ptr<Node> node) const
 {
     if (!object)
-        return false;
+    {
+        this->last_error_ = ParserError(ParserErrorType::kUndefined,
+            "Internal error");
 
-    // If there is no dot in the name, we will assume that we want
+        return false;
+    }
+
+    // If there is not a dot in the name, we will assume that we want
     // the value of an attribute from the current object.
     if (attribute_name.find('.') == std::string::npos)
     {
         if (!object->HasAttribute(attribute_name))
-            return false;
+        {
+            this->last_error_ = ParserError(
+                ParserErrorType::kInvalidAttributeName,
+                Position(node->position_),
+                "The object \"" + object->GetName() + "\" has no attribute " +
+                "called \"" + attribute_name + "\"", this->data_);
 
+            return false;
+        }
         destination = object->GetAttribute(attribute_name)->ToString();
         return true;
     }
@@ -87,7 +140,15 @@ bool Interpreter::GetAttribute(
         // segments[1] is save, as we definitely have a dot in the name,
         // so we will have at least a second segment.
         if (!obj->HasAttribute(segments[1]))
+        {
+            this->last_error_ = ParserError(
+                ParserErrorType::kInvalidAttributeName,
+                Position(node->position_),
+                "The global object has no attribute called " +
+                attribute_name + "\"", this->data_);
+
             return false;
+        }
 
         destination = obj->GetAttribute(segments[1])->ToString();
         return true;
@@ -106,8 +167,27 @@ bool Interpreter::GetAttribute(
         obj = obj->GetChild(segments[i], true).get();
 
         if (!obj)
-            // Object does not have the specified child object
+        {
+            std::string message = "Unable to find an object with the ID \"" +
+                segments[i] + "\".";
+
+            if (i != 0)
+            {
+                message = "Object \"";
+
+                for (unsigned int x = 0; x < i - 1; x++)
+                    message += segments[i];
+
+                message += "\" has no child object with the ID \"" +
+                    segments[i] + "\".";
+            }
+
+            this->last_error_ = ParserError(
+                ParserErrorType::kInvalidObjectID,
+                Position(node->position_), message, this->data_);
+
             return false;
+        }
 
         // Check if the object has any attribute with the name of the
         // next segment. i + 1 is save, because we wount get to the last
@@ -119,7 +199,12 @@ bool Interpreter::GetAttribute(
         }
     }
 
-    // Unable to find any object that has the specified attribute.
+    this->last_error_ = ParserError(
+        ParserErrorType::kInvalidObjectID,
+        Position(node->position_),
+        "Unable to find an object with the ID \"" + attribute_name + "\".",
+        this->data_);
+
     return false;
 }
 
@@ -137,14 +222,30 @@ bool Interpreter::CreateChildObject(
 
     // Make sure that the name (type) is defined in the object list
     if (!ObjectList::IsDefined(name))
+    {
+        this->last_error_ = ParserError(
+            ParserErrorType::kInvalidObjectID,
+            Position(node->position_),
+            "Object type \"" + name + "\" is undefined.",
+            this->data_);
+
         return false;
+    }
 
     // Create a new object on the heap and add it as a child
     // to the parent object.
     std::shared_ptr<Object> child = ObjectList::CreateObject(name, id, parent);
 
     if (!child)
+    {
+        this->last_error_ = ParserError(
+            ParserErrorType::kInvalidObjectID,
+            Position(node->position_),
+            "Unable to create object of type \"" + name + "\".",
+            this->data_);
+
         return false;
+    }
 
     parent->AddChild(child);
 
@@ -152,14 +253,19 @@ bool Interpreter::CreateChildObject(
     // and load the attributes into the created object.
     for (unsigned int i = 0; i < object_node->child_nodes_.size(); i++)
     {
+        bool result = false;
+
         std::shared_ptr<Node> node = object_node->child_nodes_[i];
         if (node->type_ == NodeType::kAttributeNode)
-            this->SetAttribute(child.get(), node);
+            result = this->SetAttribute(child.get(), node);
         else
-            this->CreateChildObject(child.get(), node);
+            result = this->CreateChildObject(child.get(), node);
+
+        if (!result)
+            return false;
     }
 
-    return false;
+    return true;
 }
 
 }  // namespace gui

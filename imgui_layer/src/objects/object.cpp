@@ -1,5 +1,6 @@
 #include "ilpch.h"
 #include "objects/object.h"
+#include "object.h"
 
 namespace gui
 {
@@ -11,15 +12,35 @@ Object::Object(std::string name, std::string id, Object* parent)
 bool Object::SetAttributeValue(const std::string name, const std::string value)
 {
     if (!this->HasAttribute(name))
-        return false;
+    {
+        this->last_error_ = ParserError(ParserError(
+            ParserErrorType::kInvalidAttributeName,
+            "Object \"" + this->name_ + "\" has no attribute called \"" +
+            name + "\"."));
 
-    return this->attribute_list_.at(name)->LoadValue(value);
+        return false;
+    }
+
+    if (!this->attribute_list_.at(name)->LoadValue(value))
+    {
+        this->last_error_ = this->attribute_list_.at(name)->GetLastError();
+        return false;
+    }
+
+    return true;
 }
 
 AttributeType* Object::GetAttribute(const std::string name) const
 {
     if (!this->HasAttribute(name))
+    {
+        this->last_error_ = ParserError(ParserError(
+            ParserErrorType::kInvalidAttributeName,
+            "Object \"" + this->name_ + "\" has no attribute called + \"" +
+            name + "\"."));
+
         return nullptr;
+    }
 
     return this->attribute_list_.at(name);
 }
@@ -64,9 +85,19 @@ void Object::AddChild(std::shared_ptr<Object> child)
     this->child_objects_.push_back(child);
 }
 
+std::string Object::GetName() const
+{
+    return this->name_;
+}
+
 std::string Object::GetID() const
 {
     return this->id_;
+}
+
+ParserError Object::GetLastError() const
+{
+    return this->last_error_;
 }
 
 void Object::UpdateChilds()

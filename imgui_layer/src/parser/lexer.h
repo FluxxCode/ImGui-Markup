@@ -4,26 +4,10 @@
 #include <vector>
 #include <string>
 
+#include "parser/parser_error.h"
+
 namespace gui
 {
-
-struct Position
-{
-    Position()
-        : start_(0), end_(0)
-    { }
-
-    Position(const size_t start)
-        : start_(start), end_(start + 1)
-    { }
-
-    Position(const size_t start, const size_t end)
-        : start_(start), end_(end)
-    { }
-
-    size_t start_;
-    size_t end_;
-};
 
 enum class TokenType : unsigned char
 {
