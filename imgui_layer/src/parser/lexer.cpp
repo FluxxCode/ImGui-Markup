@@ -302,7 +302,7 @@ Token Lexer::CreateData()
         if (this->IsComment(c))
         {
             this->SkipComment();
-            continue;
+            break;
         }
 
         value += c;
