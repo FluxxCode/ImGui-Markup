@@ -240,11 +240,7 @@ Token Lexer::CreateNumber()
     char c;
     while (this->GetCharAdvance(c))
     {
-        if (std::isspace(c) ||
-            c == ',' ||
-            c == ')' ||
-            c == ']' ||
-            c == '}')
+        if (std::isspace(c) || !std::isdigit(c))
         {
             this->pos_--;
             break;
@@ -258,10 +254,6 @@ Token Lexer::CreateNumber()
 
         if (c == '.')
             dot_count++;
-
-        if (!std::isdigit(c))
-            // TODO: ERROR
-            ;
 
         value += c;
     }
@@ -289,11 +281,7 @@ Token Lexer::CreateData()
     char c;
     while (this->GetCharAdvance(c))
     {
-        if (std::isspace(c) ||
-            c == ',' ||
-            c == ')' ||
-            c == ']' ||
-            c == '}')
+        if (std::isspace(c) || !std::isalpha(c) && c != '_')
         {
             this->pos_--;
             break;
