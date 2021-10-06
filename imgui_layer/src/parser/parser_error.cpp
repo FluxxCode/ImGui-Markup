@@ -47,7 +47,7 @@ std::string ParserError::ToString() const
         this->line_ + "\n";
 
     const size_t error_size = this->position_.end_ - this->position_.start_;
-    for (unsigned int i = 0; i < this->pos_in_line_ + error_size + 1; i++)
+    for (unsigned int i = 0; i < this->pos_in_line_ + error_size; i++)
     {
         if (i < this->pos_in_line_)
             message += ' ';
