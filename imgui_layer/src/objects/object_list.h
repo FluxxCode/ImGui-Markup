@@ -5,6 +5,11 @@
 
 #include "objects/panel.h"
 #include "objects/button.h"
+#include "objects/text.h"
+
+#include <memory>
+#include <map>
+#include <functional>
 
 namespace gui
 {
@@ -58,8 +63,9 @@ private:
     */
     const std::map<std::string, std::function<std::shared_ptr<Object>(
         std::string, Object*)>> object_list_ = {
-            { "Panel",  CreateObjectInstance<Panel> },
-            { "Button", CreateObjectInstance<Button> }
+            { "Panel",  CreateObjectInstance<Panel>  },
+            { "Button", CreateObjectInstance<Button> },
+            { "Text",   CreateObjectInstance<Text>   }
     };
 
     // Functions
