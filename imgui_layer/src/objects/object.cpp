@@ -7,7 +7,12 @@ namespace gui
 
 Object::Object(std::string name, std::string id, Object* parent)
     : name_(name), id_(id), parent_(parent)
-{ }
+{
+    this->attribute_list_ = {
+        { "pos", &this->pos_   },
+        { "size", &this->size_ }
+    };
+}
 
 bool Object::SetAttributeValue(const std::string name, const std::string value)
 {
@@ -104,6 +109,30 @@ void Object::UpdateChilds()
 {
     for (unsigned int i = 0; i < this->child_objects_.size(); i++)
         this->child_objects_[i]->Update();
+}
+
+void Object::AddAttribute(const std::string name, AttributeType* attribute)
+{
+    if (this->attribute_list_.find(name) != this->attribute_list_.end())
+    {
+        utils::Log("WARNING: Object \"" + this->name_ + "\": Attribute \"" +
+                   name + "\" is already set in attribute list!");
+        return;
+    }
+
+    this->attribute_list_[name] = attribute;
+}
+
+void Object::RemoveAttribute(const std::string name)
+{
+    if (this->attribute_list_.find(name) == this->attribute_list_.end())
+    {
+        utils::Log("WARNING: Object \"" + this->name_ + "\": Attribute \"" +
+                   name + "\" does not exists in the attribute list!");
+        return;
+    }
+
+    this->attribute_list_.erase(name);
 }
 
 }  // namespace gui

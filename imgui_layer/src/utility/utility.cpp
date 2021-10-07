@@ -76,4 +76,13 @@ std::vector<std::string> SplitString(std::string str, const char c)
     return segments;
 }
 
+void Log(const std::string message)
+{
+#ifdef _DEBUG
+
+    std::cout << message << std::endl;
+
+#endif
+}
+
 }  // namespace gui::utils

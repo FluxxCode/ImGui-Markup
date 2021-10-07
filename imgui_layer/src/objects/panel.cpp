@@ -7,11 +7,7 @@ namespace gui
 Panel::Panel(std::string id, Object* parent)
     : Object("Panel", id, parent)
 {
-    this->attribute_list_ = {
-        { "size", &this->size_   },
-        { "pos", &this->pos_     },
-        { "title", &this->title_ }
-    };
+    this->AddAttribute("title", &this->title_);
 }
 
 void Panel::Update()

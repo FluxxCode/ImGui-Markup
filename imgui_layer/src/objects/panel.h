@@ -20,8 +20,6 @@ public:
     // Functions
     void Update();
 
-    Float2 size_;
-    Float2 pos_;
     String title_;
 
 private:

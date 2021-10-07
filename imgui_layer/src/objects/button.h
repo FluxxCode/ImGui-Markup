@@ -21,12 +21,10 @@ public:
 
     bool IsPressed();
 
-    Float2 pos_;
-    Float2 size_;
+    String text_;
     Float4 color_;
     Float4 color_active_;
     Float4 color_hovered_;
-    String text_;
 
 private:
     // Variables

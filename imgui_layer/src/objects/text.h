@@ -20,7 +20,6 @@ public:
     void Update();
 
     String text_;
-    Float2 pos_;
     Float4 color_;
 };
 

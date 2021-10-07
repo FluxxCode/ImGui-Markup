@@ -7,11 +7,10 @@ namespace gui
 Text::Text(std::string id, Object* parent)
     : Object("Text", id, parent)
 {
-    this->attribute_list_ = {
-        { "text",  &this->text_  },
-        { "pos",   &this->pos_   },
-        { "color", &this->color_ }
-    };
+    this->AddAttribute("text", &this->text_);
+    this->AddAttribute("color", &this->color_);
+
+    this->RemoveAttribute("size");
 }
 
 void Text::Update()

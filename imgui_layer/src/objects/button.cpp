@@ -7,14 +7,10 @@ namespace gui
 Button::Button(std::string id, Object* parent)
     : Object("Button", id, parent)
 {
-    this->attribute_list_ = {
-        { "pos",           &this->pos_           },
-        { "size",          &this->size_          },
-        { "color",         &this->color_         },
-        { "color_active",  &this->color_active_  },
-        { "color_hovered", &this->color_hovered_ },
-        { "text",          &this->text_          }
-    };
+    this->AddAttribute("text",          &this->text_);
+    this->AddAttribute("color",         &this->color_);
+    this->AddAttribute("color_active",  &this->color_active_);
+    this->AddAttribute("color_hovered", &this->color_hovered_);
 }
 
 void Button::Update()

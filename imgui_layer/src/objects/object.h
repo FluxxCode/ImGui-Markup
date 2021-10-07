@@ -2,6 +2,7 @@
 #define IMGUI_LAYER_SRC_OBJECTS_OBJECT_H_
 
 #include "attribute_types/attribute_type.h"
+#include "attribute_types/Float2.h"
 #include "parser/parser_error.h"
 
 #include <string>
@@ -14,6 +15,10 @@ namespace gui
 class Object
 {
 public:
+    // Variables
+    Float2 pos_;
+    Float2 size_;
+
     // Constructors/Destructor
     /**
      * @param[in] name   - Name/type of the object
@@ -111,7 +116,6 @@ protected:
     std::string id_;
     Object* parent_;
 
-    std::map<std::string, AttributeType*> attribute_list_ = { };
     std::vector<std::shared_ptr<Object>> child_objects_ = { };
 
     mutable ParserError last_error_;
@@ -121,6 +125,29 @@ protected:
      * Call the update function of every child object.
     */
     void UpdateChilds();
+
+    /**
+     * Add an attribute to the attribute list.
+     *
+     * @param[in] name      - The name of the attribute, that can be used to
+     *                        access the attribute from data that is parsed.
+     * @param[in] attribute - An pointer to the attribute.
+    */
+    void AddAttribute(const std::string name, AttributeType* attribute);
+
+    /**
+     * Remove an attribute from the attribute list.
+     * Used to remove the default attributes that are added
+     * by this class.
+     *
+     * @param[in] name - The name of the attribute that will be removed.
+    */
+    void RemoveAttribute(const std::string name);
+
+private:
+    // Variables
+    std::map<std::string, AttributeType*> attribute_list_ = { };
+
 };
 
 }  // namespace gui

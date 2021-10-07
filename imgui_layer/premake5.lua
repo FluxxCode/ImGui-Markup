@@ -33,6 +33,8 @@ project "imgui_layer"
 
     filter "configurations:Debug"
         symbols "on"
+        defines "_DEBUG"
 
     filter "configurations:Release"
         optimize "on"
+        defines "_RELEASE"
