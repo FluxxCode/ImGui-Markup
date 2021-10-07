@@ -281,7 +281,8 @@ Token Lexer::CreateData()
     char c;
     while (this->GetCharAdvance(c))
     {
-        if (std::isspace(c) || !std::isalpha(c) && c != '_')
+        if (std::isspace(c) || !std::isalpha(c) &&
+           !std::isdigit(c) && c != '_' && c != '.')
         {
             this->pos_--;
             break;
