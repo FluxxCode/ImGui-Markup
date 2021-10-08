@@ -2,6 +2,7 @@
 #define IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_FLOAT3_H_
 
 #include "attribute_types/attribute_type.h"
+#include "attribute_types/float.h"
 
 #include <string>
 
@@ -14,9 +15,9 @@ public:
     Float3();
     Float3(float x, float y, float z);
 
-    float x = 0;
-    float y = 0;
-    float z = 0;
+    Float x = 0;
+    Float y = 0;
+    Float z = 0;
 
     std::string ToString();
 

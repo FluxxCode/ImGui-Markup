@@ -2,6 +2,7 @@
 #define IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_FLOAT2_H_
 
 #include "attribute_types/attribute_type.h"
+#include "attribute_types/float.h"
 
 #include <string>
 
@@ -15,8 +16,8 @@ public:
     Float2(float x, float y);
     Float2(ImVec2 vec);
 
-    float x = 0;
-    float y = 0;
+    Float x = 0;
+    Float y = 0;
 
     std::string ToString();
 

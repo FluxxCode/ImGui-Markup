@@ -39,30 +39,30 @@ bool Float4::IMPLLoadValue(std::string value)
     }
 
     // X:
-    if (!utils::StringToFloat(segments[0].c_str(), &this->x))
+    if (!this->x.LoadValue(segments[0]))
     {
-        this->SetError(value);
+        this->SetError(this->x.GetLastError().message_);
         return false;
     }
 
     // Y:
-    if (!utils::StringToFloat(segments[1].c_str(), &this->y))
+    if (!this->y.LoadValue(segments[1]))
     {
-        this->SetError(value);
+        this->SetError(this->y.GetLastError().message_);
         return false;
     }
 
     // z:
-    if (!utils::StringToFloat(segments[2].c_str(), &this->z))
+    if (!this->z.LoadValue(segments[2]))
     {
-        this->SetError(value);
+        this->SetError(this->z.GetLastError().message_);
         return false;
     }
 
     // w:
-    if (!utils::StringToFloat(segments[3].c_str(), &this->w))
+    if (!this->w.LoadValue(segments[3]))
     {
-        this->SetError(value);
+        this->SetError(this->w.GetLastError().message_);
         return false;
     }
 

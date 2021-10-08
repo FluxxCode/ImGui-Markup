@@ -1,5 +1,6 @@
 #include "ilpch.h"
 #include "attribute_types/float.h"
+#include "float.h"
 
 namespace gui
 {
@@ -16,9 +17,9 @@ std::string Float::ToString()
     return std::to_string(this->value);
 }
 
-void Float::operator=(const float& x)
+Float::operator float()
 {
-    this->value = x;
+    return this->value;
 }
 
 bool Float::IMPLLoadValue(std::string value)

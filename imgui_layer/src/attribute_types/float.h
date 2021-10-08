@@ -18,7 +18,7 @@ public:
 
     std::string ToString();
 
-    void operator=(const float& x);
+    operator float();
 
 private:
     // Functions
