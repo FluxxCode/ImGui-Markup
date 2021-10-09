@@ -1,5 +1,6 @@
 #include "ilpch.h"
 #include "attribute_types/float4.h"
+#include "float4.h"
 
 namespace gui
 {
@@ -14,6 +15,28 @@ Float4::Float4(float x, float y, float z, float w)
 Float4::Float4(ImVec4 vec)
     : x(vec.x), y(vec.y), z(vec.z), w(vec.w)
 { }
+
+AttributeType* Float4::GetChild(std::string name)
+{
+    if (name == "x")
+        return &this->x;
+    if (name == "y")
+        return &this->y;
+    if (name == "z")
+        return &this->z;
+    if (name == "w")
+        return &this->w;
+
+    return nullptr;
+}
+
+bool Float4::HasChild(std::string name)
+{
+    if (name == "x" || name == "y" || name == "z" || name == "w")
+        return true;
+
+    return false;
+}
 
 std::string Float4::ToString()
 {
@@ -41,28 +64,28 @@ bool Float4::IMPLLoadValue(std::string value)
     // X:
     if (!this->x.LoadValue(segments[0]))
     {
-        this->SetError(this->x.GetLastError().message_);
+        this->SetError(value, this->x);
         return false;
     }
 
     // Y:
     if (!this->y.LoadValue(segments[1]))
     {
-        this->SetError(this->y.GetLastError().message_);
+        this->SetError(value, this->y);
         return false;
     }
 
     // z:
     if (!this->z.LoadValue(segments[2]))
     {
-        this->SetError(this->z.GetLastError().message_);
+        this->SetError(value, this->z);
         return false;
     }
 
     // w:
     if (!this->w.LoadValue(segments[3]))
     {
-        this->SetError(this->w.GetLastError().message_);
+        this->SetError(value, this->w);
         return false;
     }
 
@@ -71,13 +94,26 @@ bool Float4::IMPLLoadValue(std::string value)
 
 void Float4::SetError(std::string value)
 {
+    this->last_error_ = ParserError(ParserErrorType::kConversionError,
+        "Unable to convert \"" + value + "\" to a float4");
+
     this->x = 0;
     this->y = 0;
     this->z = 0;
     this->w = 0;
+}
 
-    this->last_error_ = ParserError(ParserErrorType::kConversionError,
-        "Unable to convert \"" + value + "\" to a float4");
+void Float4::SetError(std::string value, Float& child)
+{
+    this->last_error_ = child.GetLastError();
+    this->last_error_.message_ =
+        "Unable to convert \"" + value + "\" to a float4: " +
+        this->last_error_.message_;
+
+    this->x = 0;
+    this->y = 0;
+    this->z = 0;
+    this->w = 0;
 }
 
 }  // namespace gui

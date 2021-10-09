@@ -14,6 +14,16 @@ bool AttributeType::LoadValue(std::string value)
     return true;
 }
 
+AttributeType* AttributeType::GetChild(std::string id)
+{
+    return nullptr;
+}
+
+bool AttributeType::HasChild(std::string id)
+{
+    return false;
+}
+
 ParserError AttributeType::GetLastError() const
 {
     return this->last_error_;
