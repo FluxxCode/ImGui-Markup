@@ -51,6 +51,8 @@ bool FileManager::IMPLLoadFromFile(const std::string path, GlobalObject& dest)
 
 bool FileManager::IMPLLoadFromData(const std::string data, GlobalObject& dest)
 {
+    dest.Reset();
+
     gui::Lexer lexer(data);
 
     gui::Parser parser(lexer.GetTokens(), data);
