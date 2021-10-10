@@ -74,8 +74,8 @@ void Float2::SetError(std::string value)
     this->last_error_ = ParserError(ParserErrorType::kConversionError,
         "Unable to convert \"" + value + "\" to a float2");
 
-    this->x = 0;
-    this->y = 0;
+    this->ResetValues();
+
 }
 
 void Float2::SetError(std::string value, Float& child)
@@ -85,6 +85,11 @@ void Float2::SetError(std::string value, Float& child)
         "Unable to convert \"" + value + "\" to a float2: " +
         this->last_error_.message_;
 
+    this->ResetValues();
+}
+
+void Float2::ResetValues()
+{
     this->x = 0;
     this->y = 0;
 }

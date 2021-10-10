@@ -97,10 +97,7 @@ void Float4::SetError(std::string value)
     this->last_error_ = ParserError(ParserErrorType::kConversionError,
         "Unable to convert \"" + value + "\" to a float4");
 
-    this->x = 0;
-    this->y = 0;
-    this->z = 0;
-    this->w = 0;
+    this->ResetValues();
 }
 
 void Float4::SetError(std::string value, Float& child)
@@ -110,6 +107,11 @@ void Float4::SetError(std::string value, Float& child)
         "Unable to convert \"" + value + "\" to a float4: " +
         this->last_error_.message_;
 
+    this->ResetValues();
+}
+
+void Float4::ResetValues()
+{
     this->x = 0;
     this->y = 0;
     this->z = 0;

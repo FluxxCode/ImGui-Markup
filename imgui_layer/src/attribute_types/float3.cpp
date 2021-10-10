@@ -78,9 +78,7 @@ void Float3::SetError(std::string value)
     this->last_error_ = ParserError(ParserErrorType::kConversionError,
         "Unable to convert \"" + value + "\" to a float3");
 
-    this->x = 0;
-    this->y = 0;
-    this->z = 0;
+    this->ResetValues();
 }
 
 void Float3::SetError(std::string value, Float& child)
@@ -90,6 +88,11 @@ void Float3::SetError(std::string value, Float& child)
         "Unable to convert \"" + value + "\" to a float3: " +
         this->last_error_.message_;
 
+    this->ResetValues();
+}
+
+void Float3::ResetValues()
+{
     this->x = 0;
     this->y = 0;
     this->z = 0;

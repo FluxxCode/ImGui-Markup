@@ -57,6 +57,7 @@ private:
     void SetError(std::string value);
     void SetError(std::string value, Float& child);
 
+    void ResetValues();
 };
 
 }  // namespace gui
