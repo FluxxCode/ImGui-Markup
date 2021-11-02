@@ -1,5 +1,5 @@
 #include "ilpch.h"
-#include "objects/style.h"
+#include "objects/common/style.h"
 
 namespace gui
 {

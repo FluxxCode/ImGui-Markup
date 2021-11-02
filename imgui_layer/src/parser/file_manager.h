@@ -1,7 +1,7 @@
 #ifndef IMGUI_LAYER_SRC_PARSER_FILE_MANAGER_H_
 #define IMGUI_LAYER_SRC_PARSER_FILE_MANAGER_H_
 
-#include "objects/global_object.h"
+#include "objects/common/global_object.h"
 
 #include "parser/parser_error.h"
 
