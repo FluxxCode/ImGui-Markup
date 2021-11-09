@@ -1,7 +1,7 @@
 #ifndef IMGUI_LAYER_SRC_OBJECTS_PANEL_H_
 #define IMGUI_LAYER_SRC_OBJECTS_PANEL_H_
 
-#include "objects/object.h"
+#include "objects/common/object.h"
 
 #include "attribute_types/string.h"
 #include "attribute_types/float2.h"

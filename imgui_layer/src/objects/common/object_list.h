@@ -1,7 +1,7 @@
 #ifndef IMGUI_LAYER_SRC_OBJECTS_OBJECT_LIST_H_
 #define IMGUI_LAYER_SRC_OBJECTS_OBJECT_LIST_H_
 
-#include "objects/object.h"
+#include "objects/common/object.h"
 
 #include "objects/panel.h"
 #include "objects/button.h"

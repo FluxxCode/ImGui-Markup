@@ -1,7 +1,7 @@
 #ifndef IMGUI_LAYER_SRC_OBJECTS_BUTTON_H_
 #define IMGUI_LAYER_SRC_OBJECTS_BUTTON_H_
 
-#include "objects/object.h"
+#include "objects/common/object.h"
 
 #include "attribute_types/float2.h"
 #include "attribute_types/float4.h"
