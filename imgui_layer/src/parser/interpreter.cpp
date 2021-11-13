@@ -61,7 +61,8 @@ bool Interpreter::SetAttribute(
     // If the node type is kData, we expect to get the value from
     // another attribute in the current object or from the attribute in
     // a different object that is already loaded in the global_object_.
-    if (node->value_type_ == TokenType::kData)
+    if (node->value_type_ == TokenType::kData &&
+        !this->DataIsBool(node->value_))
     {
         // Get the value of a different attribute
         std::string value;
@@ -266,6 +267,17 @@ bool Interpreter::CreateChildObject(
     }
 
     return true;
+}
+
+bool Interpreter::DataIsBool(const std::string str) const
+{
+    if (str == "True" || str == "true" || str == "False" || str == "false" ||
+        str == "0" || str == "1")
+    {
+        return true;
+    }
+
+    return false;
 }
 
 }  // namespace gui

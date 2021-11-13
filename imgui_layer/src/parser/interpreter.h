@@ -115,6 +115,8 @@ private:
     bool CreateChildObject(
         Object* parent,
         std::shared_ptr<Node> object_node);
+
+    bool DataIsBool(const std::string str) const;
 };
 
 }  // namespace gui
