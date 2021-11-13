@@ -4,6 +4,7 @@
 #include "objects/common/object.h"
 
 #include "objects/panel.h"
+#include "objects/child_panel.h"
 #include "objects/button.h"
 #include "objects/text.h"
 
@@ -63,9 +64,10 @@ private:
     */
     const std::map<std::string, std::function<std::shared_ptr<Object>(
         std::string, Object*)>> object_list_ = {
-            { "Panel",  CreateObjectInstance<Panel>  },
-            { "Button", CreateObjectInstance<Button> },
-            { "Text",   CreateObjectInstance<Text>   }
+            { "Panel",      CreateObjectInstance<Panel>      },
+            { "ChildPanel", CreateObjectInstance<ChildPanel> },
+            { "Button",     CreateObjectInstance<Button>     },
+            { "Text",       CreateObjectInstance<Text>       }
     };
 
     // Functions
