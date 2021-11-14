@@ -1,0 +1,10 @@
+description = "Control window of the sandbox main_state"
+
+Panel
+{
+    size  = (150, 150)
+    pos   = (10, 10)
+    title = "Control Window"
+
+    Button : btn_reload { text = "Reload test files" }
+}
