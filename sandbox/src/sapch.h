@@ -1,8 +1,6 @@
 #ifndef SANDBOX_SRC_SAPCH_H_
 #define SANDBOX_SRC_SAPCH_H_
 
-#include <iostream>
-
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -10,5 +8,12 @@
 #include "imgui.h"
 #include "backends/imgui_impl_opengl3.h"
 #include "backends/imgui_impl_glfw.h"
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 #endif  // SANDBOX_SRC_SAPCH_H_
