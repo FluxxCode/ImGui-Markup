@@ -23,9 +23,11 @@ public:
     void Reset();
 
     // Variables
+    String id_;
     String version_;
     String description_;
     String author_;
+    String date_;
 };
 
 }  // namespace gui

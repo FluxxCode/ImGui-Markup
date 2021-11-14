@@ -9,9 +9,11 @@ namespace gui
 GlobalObject::GlobalObject()
     : Object("GlobalObject", "global", nullptr)
 {
+    this->AddAttribute("id",          &this->id_);
     this->AddAttribute("version",     &this->version_);
     this->AddAttribute("description", &this->description_);
     this->AddAttribute("author",      &this->author_);
+    this->AddAttribute("date",        &this->date_);
 
     this->RemoveAttribute("pos");
     this->RemoveAttribute("size");
