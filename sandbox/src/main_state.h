@@ -1,7 +1,7 @@
 #ifndef SANDBOX_SRC_MAIN_STATE_H_
 #define SANDBOX_SRC_MAIN_STATE_H_
 
-#include "objects/common/global_object.h"
+#include "objects/global_object.h"
 #include "objects/button.h"
 
 class MainState
