@@ -10,9 +10,9 @@ Test includes:
     - The title of the panel is set by the value of the title attribute
     - The object-ID will be used as the panel title, if the title attribute is not set
     - unknown will be used as the panel title, if the title attribute and the object-ID is not set
-- pos attribute:
-    The pos attribute will be tested while testing the title and size attribute
-    - The start position of the panel will be set by the value of the pos attribute
+- position attribute:
+    The position attribute will be tested while testing the title and size attribute
+    - The start position of the panel will be set by the value of the position attribute
 - size attribute:
     - The start size of the panel will be set by the value of the size attribute
     - If the size attribute is not set, the start size will be set dynamic by the size of the child objects"
@@ -23,23 +23,23 @@ Test includes:
 // title attribute
 Panel
 {
-    pos = (170, 10)
-    size = (150, 150)
-    title = "Test_0 - panel_title_test"
+    position = (170, 10)
+    size     = (150, 150)
+    title    = "Test_0 - panel_title_test"
 }
 
 // title attribute not set; object-ID should be used
 Panel : panel_without_title_but_id
 {
-    pos =(330, 10)
-    size = (150, 150)
+    position = (330, 10)
+    size     = (150, 150)
 }
 
 // title attribute and obejct-ID not set; "unknown" should be used
 Panel
 {
-    pos = (490, 10)
-    size = (150, 150)
+    position = (490, 10)
+    size     = (150, 150)
 }
 
 ############################################ SIZE ############################################
@@ -47,9 +47,9 @@ Panel
 // size attribute set; panel will have the specified size at the beginning
 Panel : panel_fixed_size
 {
-    title = "Test_0 - panel_fixed_size"
-    pos = (10, 170)
-    size = (150, 150)
+    title    = "Test_0 - panel_fixed_size"
+    position = (10, 170)
+    size     = (150, 150)
 
     Text : text
     {
@@ -61,8 +61,8 @@ Panel : panel_fixed_size
 // size attribute not set; panel size will be based on the size of the childs
 Panel
 {
-    title = "Test_0 - panel_dynamic_size"
-    pos = (170, 170)
+    title    = "Test_0 - panel_dynamic_size"
+    position = (170, 170)
 
     Text
     {

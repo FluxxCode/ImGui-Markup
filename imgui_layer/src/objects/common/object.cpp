@@ -9,8 +9,8 @@ Object::Object(std::string name, std::string id, Object* parent)
     : name_(name), id_(id), parent_(parent)
 {
     this->attribute_list_ = {
-        { "pos", &this->pos_   },
-        { "size", &this->size_ }
+        { "position", &this->position_ },
+        { "size",     &this->size_ }
     };
 }
 

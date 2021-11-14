@@ -16,10 +16,10 @@ void ChildPanel::Update()
     if (this->init_)
         this->Init();
 
-    if (this->pos_.value_changed_)
-        ImGui::SetCursorPos(this->pos_);
+    if (this->position_.value_changed_)
+        ImGui::SetCursorPos(this->position_);
 
-    if (this->pos_.value_changed_)
+    if (this->position_.value_changed_)
         ImGui::SetNextWindowSize(this->size_);
 
     ImGui::BeginChild(this->title_, this->size_, this->border_.value);

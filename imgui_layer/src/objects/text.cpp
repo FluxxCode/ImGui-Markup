@@ -15,8 +15,8 @@ Text::Text(std::string id, Object* parent)
 
 void Text::Update()
 {
-    if (this->pos_.value_changed_)
-        ImGui::SetCursorPos(this->pos_);
+    if (this->position_.value_changed_)
+        ImGui::SetCursorPos(this->position_);
 
     if (this->color_.value_changed_)
         ImGui::TextColored(this->color_, this->text_);

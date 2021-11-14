@@ -16,7 +16,7 @@ class Object
 {
 public:
     // Variables
-    Float2 pos_;
+    Float2 position_;
     Float2 size_;
 
     // Constructors/Destructor

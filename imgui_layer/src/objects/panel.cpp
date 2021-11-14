@@ -24,7 +24,7 @@ void Panel::Update()
 
 void Panel::Init()
 {
-    ImGui::SetNextWindowPos(this->pos_);
+    ImGui::SetNextWindowPos(this->position_);
     ImGui::SetNextWindowSize(this->size_);
 
     if (this->title_.value.empty())

@@ -15,7 +15,7 @@ GlobalObject::GlobalObject()
     this->AddAttribute("author",      &this->author_);
     this->AddAttribute("date",        &this->date_);
 
-    this->RemoveAttribute("pos");
+    this->RemoveAttribute("position");
     this->RemoveAttribute("size");
 }
 
