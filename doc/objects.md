@@ -2,6 +2,7 @@
 1. [GlobalObject](#GlobalObject)
 2. [Panel](#Panel)
 3. [Text](#Text)
+4. [Button](#Button)
 ---
 ## GlobalObject
 ### Description:
@@ -90,7 +91,7 @@ The text is equal to ```ImGui::Text()``` and used to display information.
 | ---------| ------ | ------------------------------------------------------------ | ----------------------- |
 | position | Vec2   | The start position of the text relative to the parent object | Current cursor position |
 | text     | String | The Text that will be displayed                              | ""                      |
-| color    | Vec2   | The display color of the text                                | The global text color will be used |
+| color    | Vec4   | The display color of the text                                | The global text color will be used |
 ### Example:
 ```
 # example.ill:
@@ -126,3 +127,36 @@ Panel
 }
 ```
 ![ExampleImage](img/objects_text.png)
+## Button
+### Description:
+The button is equal to ```ImGui::Button()``` and used to get input from the user.
+### Attributes:
+| Name          | Type   | Description                                                    | Default Value                          |
+| ------------- | ------ | -------------------------------------------------------------- | -------------------------------------- |
+| position      | Vec2   | The start position of the button relative to the parent object | Current cursor position                |
+| size          | Vec2   | The size of the button                                         | Based on the size of the child objects |
+| text          | String | The text that is displayed inside the button                   | ""                                     |
+| color         | Vec4   | The default color of the button                                | Global button color is used            |
+| color_hovered | Vec4   | The color of the button when it is hovered                     | Global button hovered color is used    |
+| color_active  | Vec4   | The color of the button when it is pressed                     | Global button active color is used     |
+### Example:
+```
+# example.ill:
+
+Panel
+{
+    title    = "Example panel"
+    position = (300, 300)
+    size     = (250, 200)
+
+    Button { text = "Press me" }
+    Button
+    {
+        text     = "Colored button"
+        color    = (0.3, 0.8, 0.7, 1)
+        size     = (150, 80)
+        position = (40, 80)
+    }
+}
+```
+![ExampleImage](img/objects_button.png)
