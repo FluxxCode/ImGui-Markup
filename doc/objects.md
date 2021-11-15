@@ -50,9 +50,9 @@ The panel is equal to ```ImGui::BeginWindow()``` and ```ImGui::EndWindow()```. I
 
 Panel
 {
-    title = "Example panel"
-    pos   = (300, 300)
-    size  = (550.5, 550.5)
+    title    = "Example panel"
+    position = (300, 300)
+    size     = (200, 200)
 
     Text { text = "This is a text inside the panel" }
 }
@@ -60,16 +60,23 @@ Panel
 // Title is "Title by attribute"
 Panel
 {
-    title = "Title by attribute"
+    title    = "Title by attribute"
+    position = (510, 300)
+    size     = (200, 200)
 }
 
 // Title is "title_by_object_id"
 Panel : title_by_object_id
 {
+    position = (720, 300)
+    size     = (200, 200)
 }
 
 // Title is "unknown"
 Panel
 {
+    position = (930, 300)
+    size     = (200, 200)
 }
 ```
+![ExampleImage](img/objects_panel.png)
