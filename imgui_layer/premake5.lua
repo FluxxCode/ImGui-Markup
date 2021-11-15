@@ -31,6 +31,10 @@ project "imgui_layer"
         systemversion "latest"
         defines "_PLATFORM_WINDOWS"
 
+    filter "system:linux"
+        systemversion "latest"
+        defines "_PLATFORM_LINUX"
+
     filter "configurations:Debug"
         symbols "on"
         defines "_DEBUG"

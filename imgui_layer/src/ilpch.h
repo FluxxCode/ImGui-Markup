@@ -1,9 +1,13 @@
 #ifndef IMGUI_LAYER_SRC_ILPCH_H_
 #define IMGUI_LAYER_SRC_ILPCH_H_
 
-#ifndef _PLATFORM_WINDOWS
-    #error Layer only supports windows
-#endif  // _PLATFORM_WINDOWS
+#if defined(_MSC_VER)
+    //  Microsoft 
+#elif defined(__GNUC__)
+    //  GCC
+#else
+    #error Layer only supports windows and linux
+#endif  // _PLATFORM_WINDOWS || _PLATFORM_LINUX
 
 #include "utility/utility.h"
 

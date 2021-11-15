@@ -5,6 +5,8 @@
 
 #include "parser/parser_error.h"
 
+#include <memory>
+
 namespace gui
 {
 

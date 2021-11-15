@@ -33,7 +33,7 @@ AttributeNode::AttributeNode(
     const std::string name,
     const std::string value,
     const TokenType value_type,
-    const const Position pos)
+    const Position pos)
     : Node(NodeType::kAttributeNode, pos),
       name_(name), value_(value), value_type_(value_type)
 { }

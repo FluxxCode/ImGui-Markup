@@ -2,12 +2,13 @@
 #define IMGUI_LAYER_SRC_OBJECTS_OBJECT_H_
 
 #include "attribute_types/attribute_type.h"
-#include "attribute_types/Float2.h"
+#include "attribute_types/float2.h"
 #include "parser/parser_error.h"
 
 #include <string>
 #include <map>
 #include <vector>
+#include <memory>
 
 namespace gui
 {

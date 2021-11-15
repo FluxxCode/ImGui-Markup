@@ -7,4 +7,6 @@
 **.vcxproj.filters
 **.vcxproj.user
 
-sandbox/imgui.ini
+imgui.ini
+
+Makefile
