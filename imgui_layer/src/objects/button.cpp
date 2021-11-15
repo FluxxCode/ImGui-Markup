@@ -17,6 +17,9 @@ void Button::Update()
 {
     this->PushStyle();
 
+    if (this->position_.value_changed_)
+        ImGui::SetCursorPos(this->position_);
+
     if (ImGui::Button(this->text_, this->size_))
         this->is_pressed_ = true;
     else
