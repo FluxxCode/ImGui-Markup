@@ -4,3 +4,5 @@
 [submodule "sandbox/dependencies/glfw"]
 	path = sandbox/dependencies/glfw
 	url = git@github.com:FluxxCode/glfw.git
+[submodule "sandbox/dependencies/glfw/"]
+	branch = master
