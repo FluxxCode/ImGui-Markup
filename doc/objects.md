@@ -1,6 +1,7 @@
 # Objects
 1. [GlobalObject](#GlobalObject)
 2. [Panel](#Panel)
+3. [Text](#Text)
 ---
 ## GlobalObject
 ### Description:
@@ -80,3 +81,48 @@ Panel
 }
 ```
 ![ExampleImage](img/objects_panel.png)
+---
+## Text
+### Description:
+The text is equal to ```ImGui::Text()``` and used to display information.
+### Attributes:
+| Name     | Type   | Description                                                  | Default Value           |
+| ---------| ------ | ------------------------------------------------------------ | ----------------------- |
+| position | Vec2   | The start position of the text relative to the parent object | Current cursor position |
+| text     | String | The Text that will be displayed                              | ""                      |
+| color    | Vec2   | The display color of the text                                | The global text color will be used |
+### Example:
+```
+# example.ill:
+
+Panel
+{
+    title    = "Example panel"
+    position = (300, 300)
+    size     = (250, 200)
+
+    Text { text = "Some information" }
+    Text
+    {
+        text = "Colored text"
+        color = (0.7, 0.2, 0.5, 1.0)
+    }
+    Text
+    {
+        text = "Colored text"
+        color = (0.2, 0.8, 0.2, 1.0)
+    }
+    Text
+    {
+        text = "Colored text"
+        color = (0.3, 0.5, 0.8, 1.0)
+    }
+    Text
+    {
+        position = (20, 150)
+        text = "Text with a changed position"
+        color = (0.3, 0.5, 0.8, 1.0)
+    }
+}
+```
+![ExampleImage](img/objects_text.png)
