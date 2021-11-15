@@ -3,6 +3,8 @@
 2. [Panel](#Panel)
 3. [Text](#Text)
 4. [Button](#Button)
+5. [ChildPanel](#ChildPanel)
+
 ---
 ## GlobalObject
 ### Description:
@@ -36,6 +38,7 @@ Panel
     Text { text = global.date        }
 }
 ```
+
 ---
 ## Panel
 ### Description:
@@ -82,6 +85,7 @@ Panel
 }
 ```
 ![ExampleImage](img/objects_panel.png)
+
 ---
 ## Text
 ### Description:
@@ -127,6 +131,8 @@ Panel
 }
 ```
 ![ExampleImage](img/objects_text.png)
+
+---
 ## Button
 ### Description:
 The button is equal to ```ImGui::Button()``` and used to get input from the user.
@@ -160,3 +166,38 @@ Panel
 }
 ```
 ![ExampleImage](img/objects_button.png)
+
+---
+## ChildPanel
+### Description:
+The ChildPanel is equal to ```ImGui::BeginChild()``` and ```ImGui::EndChild()```.
+### Attributes:
+| Name          | Type   | Description                                                         | Default Value                  |
+| ------------- | ------ | ------------------------------------------------------------------- | ------------------------------ |
+| position      | Vec2   | The start position of the child panel relative to the parent panel  | Current cursor position        |
+| size          | Vec2   | The size of the child panel                                         | Size of the parent panel       |
+| title         | String | The title of the child panel wich is also used as the ImGui-ID, therefore it has to be unique and should be set. It can lead to unexpected behaviour when multiple child panels have the same title. | If Object-ID is set, the Object-ID will be used as the title. If both title and Object-ID are not set, the title will be "unknown". |
+| border        | Bool   | Sets if a border should be drawn around the child panel             | False                          |
+### Example:
+```
+# example.ill:
+
+Panel
+{
+    title    = "Example panel"
+    position = (300, 300)
+    size     = (250, 200)
+
+    ChildPanel : child_panel
+    {
+        border = true
+        size   = (220, 60)
+
+        Text { text = "Text inside the child panel" color = (0.7, 0.2, 0.5, 1.0) }
+        Text { text = "Text inside the child panel" color = (0.2, 0.8, 0.2, 1.0) }
+        Text { text = "Text inside the child panel" color = (0.3, 0.5, 0.8, 1.0) }
+        Text { text = "Text inside the child panel" color = (0.5, 0.2, 0.8, 1.0) }
+    }
+}
+```
+![ExampleImage](img/objects_childpanel.png)
