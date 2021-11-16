@@ -2,7 +2,7 @@
 #define IMGUI_LAYER_SRC_ILPCH_H_
 
 #if defined(_MSC_VER)
-    //  Microsoft 
+    //  Microsoft
 #elif defined(__GNUC__)
     //  GCC
 #else
