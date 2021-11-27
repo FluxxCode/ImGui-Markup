@@ -8,5 +8,14 @@ Object oriented layer above [ImGui](https://github.com/ocornut/imgui) with a sim
 ...
 # Examples
 ...
-# TODOs/Ideas
-...
+# TODOs
+- Linux support
+- Parser system rework
+- Implement every missing ImGui feature
+- Global style
+- Global file to allow panels to be aligned 
+
+# Ideas
+- Custom language files
+- Ability to create variables, maybe with a container object
+- Lua support
