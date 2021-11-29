@@ -25,7 +25,7 @@ void MainState::Init()
     this->control_window_.Reset();
     this->tests_.clear();
 
-    if (!gui::FileManager::LoadFromFile("tests\\control_window.ills",
+    if (!gui::FileManager::LoadFromFile("tests/control_window.ills",
         this->control_window_))
     {
         std::cerr << "Unable to load control window: " << std::endl <<
