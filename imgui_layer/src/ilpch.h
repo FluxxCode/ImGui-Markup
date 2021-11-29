@@ -20,5 +20,6 @@
 #include <functional>
 #include <sstream>
 #include <fstream>
+#include <filesystem>
 
 #endif  // IMGUI_LAYER_SRC_ILPCH_H_

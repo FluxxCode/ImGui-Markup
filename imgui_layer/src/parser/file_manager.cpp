@@ -31,6 +31,14 @@ FileManager& FileManager::Get()
 
 bool FileManager::IMPLLoadFromFile(const std::string path, GlobalObject& dest)
 {
+    if (!std::filesystem::exists(path))
+    {
+        this->last_error_ = ParserError(ParserErrorType::kFileDoesNotExists,
+            "File \"" + path + "\" does not exists");
+
+        return false;
+    }
+
     std::ifstream file(path);
 
     if (!file.is_open())
