@@ -187,6 +187,8 @@ bool Parser::ProcessTokens(std::shared_ptr<Node> parent_node)
         if (!result)
             return false;
     }
+
+    return true;
 }
 
 bool Parser::CreateObjectNode(std::shared_ptr<Node> parent_node)
@@ -263,6 +265,7 @@ bool Parser::CreateAttributeNode(std::shared_ptr<Node> parent_node)
 
     if (!result)
         return false;
+
 
     std::shared_ptr<AttributeNode> node = std::make_shared<AttributeNode>(
         name, value, token.type_,
