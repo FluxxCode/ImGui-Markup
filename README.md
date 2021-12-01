@@ -37,7 +37,7 @@ gui::GlobalObject file;
 
 void Init()
 {
-  if (!gui::FileManager("panel.ill", file))
+  if (!gui::FileManager::LoadFromFile("panel.ill", file))
     std::cerr << "Unable to load file: " << gui::FileManager::GetLastError().ToString() << std::endl;
 }
 
