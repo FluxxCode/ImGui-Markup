@@ -15,6 +15,20 @@ Panel
   {
     text = "Example button"
   }
+  
+  Text { text = "Some text" }
+  
+  Text : text_0
+  {
+    text = "Colored text"
+    color = (0.3, 0.4, 0.6, 1.0)
+  }
+  
+  Text
+  {
+    text = "Colored text"
+    color = text_0.color
+  }
 }
 ```
 ```cpp
