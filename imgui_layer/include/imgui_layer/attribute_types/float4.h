@@ -1,8 +1,8 @@
 #ifndef IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_FLOAT4_H_
 #define IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_FLOAT4_H_
 
-#include "attribute_types/attribute_type.h"
-#include "attribute_types/float.h"
+#include "imgui_layer/attribute_types/attribute_type.h"
+#include "imgui_layer/attribute_types/float.h"
 
 #include <string>
 

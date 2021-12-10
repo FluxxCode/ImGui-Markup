@@ -1,5 +1,5 @@
 #include "ilpch.h"
-#include "objects/global_object.h"
+#include "imgui_layer/objects/global_object.h"
 
 #include "objects/common/object_list.h"
 

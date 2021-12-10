@@ -1,11 +1,11 @@
 #ifndef IMGUI_LAYER_SRC_OBJECTS_TEXT_H_
 #define IMGUI_LAYER_SRC_OBJECTS_TEXT_H_
 
-#include "objects/common/object.h"
+#include "imgui_layer/objects/common/object.h"
 
-#include "attribute_types/float4.h"
-#include "attribute_types/float2.h"
-#include "attribute_types/string.h"
+#include "imgui_layer/attribute_types/float4.h"
+#include "imgui_layer/attribute_types/float2.h"
+#include "imgui_layer/attribute_types/string.h"
 
 namespace gui
 {

@@ -13,13 +13,15 @@ project "imgui_layer"
     files
     {
         "src/**.h",
-        "src/**.cpp"
+        "src/**.cpp",
+        "include/**.h"
     }
 
     includedirs
     {
         "src",
-        "%{include_dir.imgui}",
+        "include",
+        "%{include_dir.imgui}"
     }
 
     links

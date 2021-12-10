@@ -3,7 +3,7 @@
 
 #include "parser/parser.h"
 
-#include "objects/global_object.h"
+#include "imgui_layer/objects/global_object.h"
 
 namespace gui
 {

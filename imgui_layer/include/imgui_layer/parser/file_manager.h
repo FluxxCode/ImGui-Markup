@@ -1,9 +1,9 @@
 #ifndef IMGUI_LAYER_SRC_PARSER_FILE_MANAGER_H_
 #define IMGUI_LAYER_SRC_PARSER_FILE_MANAGER_H_
 
-#include "objects/global_object.h"
+#include "imgui_layer/objects/global_object.h"
 
-#include "parser/parser_error.h"
+#include "imgui_layer/parser/parser_error.h"
 
 namespace gui
 {

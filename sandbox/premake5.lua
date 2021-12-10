@@ -25,8 +25,8 @@ project "sandbox"
 
     includedirs
     {
-        "%{wks.location}/imgui_layer/src",
         "%{wks.location}/sandbox/src",
+        "%{include_dir.imgui_layer}",
         "%{include_dir.imgui}",
         "%{include_dir.glfw}",
         "%{include_dir.glad}"

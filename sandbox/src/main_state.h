@@ -1,8 +1,7 @@
 #ifndef SANDBOX_SRC_MAIN_STATE_H_
 #define SANDBOX_SRC_MAIN_STATE_H_
 
-#include "objects/global_object.h"
-#include "objects/button.h"
+#include "imgui_layer.h"
 
 class MainState
 {

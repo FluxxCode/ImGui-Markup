@@ -1,7 +1,7 @@
 #ifndef IMGUI_LAYER_SRC_ATTRIBUTE_TYPES
 #define IMGUI_LAYER_SRC_ATTRIBUTE_TYPES
 
-#include "attribute_types/attribute_type.h"
+#include "imgui_layer/attribute_types/attribute_type.h"
 
 #include <string>
 

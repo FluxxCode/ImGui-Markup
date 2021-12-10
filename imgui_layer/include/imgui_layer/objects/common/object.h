@@ -1,9 +1,9 @@
 #ifndef IMGUI_LAYER_SRC_OBJECTS_OBJECT_H_
 #define IMGUI_LAYER_SRC_OBJECTS_OBJECT_H_
 
-#include "attribute_types/attribute_type.h"
-#include "attribute_types/float2.h"
-#include "parser/parser_error.h"
+#include "imgui_layer/attribute_types/attribute_type.h"
+#include "imgui_layer/attribute_types/float2.h"
+#include "imgui_layer/parser/parser_error.h"
 
 #include <string>
 #include <map>
