@@ -17,6 +17,7 @@ struct Position
 enum class ParserErrorType
 {
     kUndefined,
+    kSuccess,
     kUnableToOpenFile,
     kFileDoesNotExists,
     kUnexpectedSymbol,

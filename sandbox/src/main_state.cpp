@@ -22,14 +22,18 @@ void MainState::Render()
 
 void MainState::Init()
 {
+    // NOTE: This will be removed later and changed to a proper test system.
+
     this->control_window_.Reset();
     this->tests_.clear();
 
-    if (!gui::FileManager::LoadFromFile("tests/control_window.ills",
-        this->control_window_))
+    gui::ParserError result = gui::ParseFile(
+        "tests/control_window.ills", this->control_window_);
+
+    if (result.type_ != gui::ParserErrorType::kSuccess)
     {
         std::cerr << "Unable to load control window: " << std::endl <<
-            gui::FileManager::GetLastError().ToString() << std::endl;
+            result.ToString() << std::endl;
 
         this->ignore_control_window_ = true;
     }
@@ -41,10 +45,13 @@ void MainState::Init()
             continue;
 
         gui::GlobalObject obj;
+        result = gui::ParseFile(
+            "tests/control_window.ills", this->control_window_);
+
         if (!gui::FileManager::LoadFromFile(entry.path().string(), obj))
         {
             std::cerr << "Unable to load test " << entry.path() << ":\n" <<
-                gui::FileManager::GetLastError().ToString() << std::endl;
+                result.ToString() << std::endl;
 
             continue;
         }
@@ -55,6 +62,10 @@ void MainState::Init()
 
 void MainState::UpdateControlWindow()
 {
+    // NOTE: The entire access-system of objects will be reworked.
+    //       The plan is to have simple functions without having to
+    //       manually cast the objects. E.g.:
+    //       if (control_window.IsPressed("btn_reload"))
     gui::Button* btn = dynamic_cast<gui::Button*>(
         this->control_window_.GetChild("btn_reload").get());
 
