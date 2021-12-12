@@ -15,15 +15,15 @@ Panel
   {
     text = "Example button"
   }
-  
+
   Text { text = "Some text" }
-  
+
   Text : text_0
   {
     text = "Colored text"
     color = (0.3, 0.4, 0.6, 1.0)
   }
-  
+
   Text
   {
     text = "Colored text"
@@ -44,7 +44,7 @@ void Init()
 void Update()
 {
   file.Update();
-  
+
   if (file.IsPressed("button_0"))
     std::cout << "Button is pressed" << std::endl;
 }
@@ -54,10 +54,12 @@ void Update()
 - Linux support
 - Parser system rework
 - Implement every missing ImGui feature
-- Global style
-- Global file to allow panels to be aligned 
+- Global style to change the theme of imgui
+- Object to allow panels to be aligned inside the main window
+- Language files and language selection function
+- Ability to create variables, maybe with a container object
+- Template objects that can be used to e.g. create list items
 
 # Ideas
-- Custom language files
-- Ability to create variables, maybe with a container object
 - Lua support
+- Simple framework that can be used as a template for application using the imgui_layer
