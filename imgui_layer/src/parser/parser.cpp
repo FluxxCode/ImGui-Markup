@@ -33,7 +33,7 @@ AttributeNode::AttributeNode(
     const std::string name,
     const std::string value,
     const TokenType value_type,
-    const const Position pos)
+    const Position pos)
     : Node(NodeType::kAttributeNode, pos),
       name_(name), value_(value), value_type_(value_type)
 { }
@@ -187,6 +187,8 @@ bool Parser::ProcessTokens(std::shared_ptr<Node> parent_node)
         if (!result)
             return false;
     }
+
+    return true;
 }
 
 bool Parser::CreateObjectNode(std::shared_ptr<Node> parent_node)
@@ -263,6 +265,7 @@ bool Parser::CreateAttributeNode(std::shared_ptr<Node> parent_node)
 
     if (!result)
         return false;
+
 
     std::shared_ptr<AttributeNode> node = std::make_shared<AttributeNode>(
         name, value, token.type_,

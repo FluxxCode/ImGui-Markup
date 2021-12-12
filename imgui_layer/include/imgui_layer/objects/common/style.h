@@ -1,11 +1,11 @@
 #ifndef IMGUI_LAYER_SRC_OBJECTS_STYLE_H_
 #define IMGUI_LAYER_SRC_OBJECTS_STYLE_H_
 
-#include "attribute_types/bool.h"
-#include "attribute_types/float.h"
-#include "attribute_types/float2.h"
-#include "attribute_types/float4.h"
-#include "attribute_types/int.h"
+#include "imgui_layer/attribute_types/bool.h"
+#include "imgui_layer/attribute_types/float.h"
+#include "imgui_layer/attribute_types/float2.h"
+#include "imgui_layer/attribute_types/float4.h"
+#include "imgui_layer/attribute_types/int.h"
 
 namespace gui
 {

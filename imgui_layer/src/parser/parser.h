@@ -3,7 +3,9 @@
 
 #include "parser/lexer.h"
 
-#include "parser/parser_error.h"
+#include "imgui_layer/parser/parser_error.h"
+
+#include <memory>
 
 namespace gui
 {

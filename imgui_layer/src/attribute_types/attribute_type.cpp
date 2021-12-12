@@ -1,6 +1,5 @@
 #include "ilpch.h"
-#include "attribute_types/attribute_type.h"
-#include "attribute_type.h"
+#include "imgui_layer/attribute_types/attribute_type.h"
 
 namespace gui
 {

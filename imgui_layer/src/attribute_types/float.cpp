@@ -1,6 +1,5 @@
 #include "ilpch.h"
-#include "attribute_types/float.h"
-#include "float.h"
+#include "imgui_layer/attribute_types/float.h"
 
 namespace gui
 {

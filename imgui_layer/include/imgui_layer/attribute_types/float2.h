@@ -1,25 +1,25 @@
-#ifndef IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_FLOAT3_H_
-#define IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_FLOAT3_H_
+#ifndef IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_FLOAT2_H_
+#define IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_FLOAT2_H_
 
-#include "attribute_types/attribute_type.h"
-#include "attribute_types/float.h"
+#include "imgui_layer/attribute_types/attribute_type.h"
+#include "imgui_layer/attribute_types/float.h"
 
 #include <string>
 
 namespace gui
 {
 
-class Float3 : public AttributeType
+class Float2 : public AttributeType
 {
 public:
     // Variables
     Float x = 0;
     Float y = 0;
-    Float z = 0;
 
     // Constructors
-    Float3();
-    Float3(float x, float y, float z);
+    Float2();
+    Float2(float x, float y);
+    Float2(ImVec2 vec);
 
     // Functions
     /**
@@ -46,6 +46,10 @@ public:
 
     std::string ToString();
 
+
+    // Operators
+    operator ImVec2();
+
 private:
     // Functions
     bool IMPLLoadValue(std::string value);
@@ -58,4 +62,4 @@ private:
 
 }  // namespace gui
 
-#endif  // IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_FLOAT3_H_
+#endif  // IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_FLOAT2_H_

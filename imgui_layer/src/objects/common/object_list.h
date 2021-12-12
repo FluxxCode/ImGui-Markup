@@ -1,12 +1,12 @@
 #ifndef IMGUI_LAYER_SRC_OBJECTS_OBJECT_LIST_H_
 #define IMGUI_LAYER_SRC_OBJECTS_OBJECT_LIST_H_
 
-#include "objects/common/object.h"
+#include "imgui_layer/objects/common/object.h"
 
-#include "objects/panel.h"
-#include "objects/child_panel.h"
-#include "objects/button.h"
-#include "objects/text.h"
+#include "imgui_layer/objects/panel.h"
+#include "imgui_layer/objects/child_panel.h"
+#include "imgui_layer/objects/button.h"
+#include "imgui_layer/objects/text.h"
 
 #include <memory>
 #include <map>

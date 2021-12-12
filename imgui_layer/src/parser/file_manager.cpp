@@ -1,5 +1,5 @@
 #include "ilpch.h"
-#include "parser/file_manager.h"
+#include "imgui_layer/parser/file_manager.h"
 
 #include "parser/lexer.h"
 #include "parser/parser.h"
@@ -31,6 +31,14 @@ FileManager& FileManager::Get()
 
 bool FileManager::IMPLLoadFromFile(const std::string path, GlobalObject& dest)
 {
+    if (!std::filesystem::exists(path))
+    {
+        this->last_error_ = ParserError(ParserErrorType::kFileDoesNotExists,
+            "File \"" + path + "\" does not exists");
+
+        return false;
+    }
+
     std::ifstream file(path);
 
     if (!file.is_open())

@@ -1,5 +1,5 @@
 #include "ilpch.h"
-#include "objects/panel.h"
+#include "imgui_layer/objects/panel.h"
 
 namespace gui
 {

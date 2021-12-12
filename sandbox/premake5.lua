@@ -25,8 +25,8 @@ project "sandbox"
 
     includedirs
     {
-        "%{wks.location}/imgui_layer/src",
         "%{wks.location}/sandbox/src",
+        "%{include_dir.imgui_layer}",
         "%{include_dir.imgui}",
         "%{include_dir.glfw}",
         "%{include_dir.glad}"
@@ -37,8 +37,7 @@ project "sandbox"
         "imgui_layer",
         "imgui",
         "glfw",
-        "glad",
-        "opengl32.lib"
+        "glad"
     }
 
     filter "files:**/backends/**.cpp"
@@ -47,6 +46,22 @@ project "sandbox"
     filter "system:windows"
         systemversion "latest"
         defines "_PLATFORM_WINDOWS"
+        links
+        {
+            "opengl32.lib"
+        }
+
+    filter "system:linux"
+        systemversion "latest"
+        defines "_PLATFORM_LINUX"
+        links
+        {
+            "GL",
+            "GLU",
+            "glut",
+            "dl",
+            "pthread"
+        }
 
     filter "configurations:Debug"
         symbols "on"

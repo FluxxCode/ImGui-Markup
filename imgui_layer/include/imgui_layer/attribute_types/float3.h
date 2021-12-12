@@ -1,23 +1,27 @@
-#ifndef IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_ATTRIBUTE_TYPE_H_
-#define IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_ATTRIBUTE_TYPE_H_
+#ifndef IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_FLOAT3_H_
+#define IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_FLOAT3_H_
 
-#include "parser/parser_error.h"
+#include "imgui_layer/attribute_types/attribute_type.h"
+#include "imgui_layer/attribute_types/float.h"
 
 #include <string>
 
 namespace gui
 {
 
-class AttributeType
+class Float3 : public AttributeType
 {
 public:
     // Variables
-    bool value_changed_ = false;
+    Float x = 0;
+    Float y = 0;
+    Float z = 0;
+
+    // Constructors
+    Float3();
+    Float3(float x, float y, float z);
 
     // Functions
-    bool LoadValue(std::string value);
-    virtual bool IMPLLoadValue(std::string value) = 0;
-
     /**
      * Gets a child attributeby its ID.
      * Used for the attribute types like float2, float3, float4 that
@@ -28,7 +32,7 @@ public:
      * @return pointer to the child attribute, nullptr if the child attribute
      *         does not exists.
     */
-    virtual AttributeType* GetChild(std::string name);
+    AttributeType* GetChild(std::string name);
 
     /**
      * Checks if the attribute has a child attributes with the given name.
@@ -38,17 +42,20 @@ public:
      * @return true if the child attribute exists, false if the attribute
      *         has no child attributes with the given name.
     */
-    virtual bool HasChild(std::string name);
+    bool HasChild(std::string name);
 
-    virtual std::string ToString() = 0;
+    std::string ToString();
 
-    ParserError GetLastError() const;
+private:
+    // Functions
+    bool IMPLLoadValue(std::string value);
 
-protected:
-    // Variables
-    ParserError last_error_;
+    void SetError(std::string value);
+    void SetError(std::string value, Float& child);
+
+    void ResetValues();
 };
 
 }  // namespace gui
 
-#endif  // IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_ATTRIBUTE_TYPE_H_
+#endif  // IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_FLOAT3_H_

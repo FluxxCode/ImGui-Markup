@@ -13,13 +13,15 @@ project "imgui_layer"
     files
     {
         "src/**.h",
-        "src/**.cpp"
+        "src/**.cpp",
+        "include/**.h"
     }
 
     includedirs
     {
         "src",
-        "%{include_dir.imgui}",
+        "include",
+        "%{include_dir.imgui}"
     }
 
     links
@@ -30,6 +32,10 @@ project "imgui_layer"
     filter "system:windows"
         systemversion "latest"
         defines "_PLATFORM_WINDOWS"
+
+    filter "system:linux"
+        systemversion "latest"
+        defines "_PLATFORM_LINUX"
 
     filter "configurations:Debug"
         symbols "on"

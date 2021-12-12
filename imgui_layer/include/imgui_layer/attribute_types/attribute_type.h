@@ -1,27 +1,23 @@
-#ifndef IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_FLOAT2_H_
-#define IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_FLOAT2_H_
+#ifndef IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_ATTRIBUTE_TYPE_H_
+#define IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_ATTRIBUTE_TYPE_H_
 
-#include "attribute_types/attribute_type.h"
-#include "attribute_types/float.h"
+#include "imgui_layer/parser/parser_error.h"
 
 #include <string>
 
 namespace gui
 {
 
-class Float2 : public AttributeType
+class AttributeType
 {
 public:
     // Variables
-    Float x = 0;
-    Float y = 0;
-
-    // Constructors
-    Float2();
-    Float2(float x, float y);
-    Float2(ImVec2 vec);
+    bool value_changed_ = false;
 
     // Functions
+    bool LoadValue(std::string value);
+    virtual bool IMPLLoadValue(std::string value) = 0;
+
     /**
      * Gets a child attributeby its ID.
      * Used for the attribute types like float2, float3, float4 that
@@ -32,7 +28,7 @@ public:
      * @return pointer to the child attribute, nullptr if the child attribute
      *         does not exists.
     */
-    AttributeType* GetChild(std::string name);
+    virtual AttributeType* GetChild(std::string name);
 
     /**
      * Checks if the attribute has a child attributes with the given name.
@@ -42,24 +38,17 @@ public:
      * @return true if the child attribute exists, false if the attribute
      *         has no child attributes with the given name.
     */
-    bool HasChild(std::string name);
+    virtual bool HasChild(std::string name);
 
-    std::string ToString();
+    virtual std::string ToString() = 0;
 
+    ParserError GetLastError() const;
 
-    // Operators
-    operator ImVec2();
-
-private:
-    // Functions
-    bool IMPLLoadValue(std::string value);
-
-    void SetError(std::string value);
-    void SetError(std::string value, Float& child);
-
-    void ResetValues();
+protected:
+    // Variables
+    ParserError last_error_;
 };
 
 }  // namespace gui
 
-#endif  // IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_FLOAT2_H_
+#endif  // IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_ATTRIBUTE_TYPE_H_

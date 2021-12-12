@@ -1,5 +1,5 @@
 #include "ilpch.h"
-#include "attribute_types/int.h"
+#include "imgui_layer/attribute_types/int.h"
 
 namespace gui
 {

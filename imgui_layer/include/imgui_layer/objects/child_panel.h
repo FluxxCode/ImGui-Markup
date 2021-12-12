@@ -1,10 +1,10 @@
 #ifndef IMGUI_LAYER_SRC_OBJECTS_CHILD_PANEL_H_
 #define IMGUI_LAYER_SRC_OBJECTS_CHILD_PANEL_H
 
-#include "objects/common/object.h"
+#include "imgui_layer/objects/common/object.h"
 
-#include "attribute_types/bool.h"
-#include "attribute_types/string.h"
+#include "imgui_layer/attribute_types/bool.h"
+#include "imgui_layer/attribute_types/string.h"
 
 namespace gui
 {
