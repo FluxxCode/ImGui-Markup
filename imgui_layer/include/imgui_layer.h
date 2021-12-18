@@ -30,8 +30,6 @@
 #include "imgui_layer/objects/panel.h"
 #include "imgui_layer/objects/child_panel.h"
 
-#include "imgui_layer/parser/file_manager.h"
-
 #include "imgui_layer/common_functions.h"
 
 #endif  // IMGUI_LAYER_INCLUDE_IMGUI_LAYER_IMGUI_LAYER_H_

@@ -1,8 +1,7 @@
 #ifndef IMGUI_LAYER_INCLUDE_IMGUI_LAYER_COMMON_FUNCTIONS_H_
 #define IMGUI_LAYER_INCLUDE_IMGUI_LAYER_COMMON_FUNCTIONS_H_
 
-#include "imgui_layer/parser/parser_error.h"
-#include "imgui_layer/objects/global_object.h"
+#include "imgui_layer/parser/parser.h"
 
 namespace gui
 {
@@ -16,7 +15,7 @@ namespace gui
  *                   Absolute and relative paths are allowed.
  * @param[out] global_object - Reference to a buffer receiving the loaded data.
  *
- * @return Result of the operation as a ParserError, containing error type,
+ * @return Result of the operation as a ParserResult, containing error type,
  *         message and line positions. If there was no error,
  *         the ParesrErrorType will be set to ParserErrorType::kSuccess and
  *         the line positions are 0. Everything else is an error that
@@ -25,7 +24,7 @@ namespace gui
  *         and the global_object will be empty when an error occured while
  *         parsing the file.
  */
-ParserError ParseFile(const char* path, GlobalObject& global_object);
+ParserResult ParseFile(const char* path, GlobalObject& global_object);
 
 }  // namespace gui
 
