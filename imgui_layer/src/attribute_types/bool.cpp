@@ -25,8 +25,10 @@ bool Bool::IMPLLoadValue(std::string value)
 {
     if (!utils::StringToBool(value, &this->value))
     {
-        this->last_error_ = ParserError(ParserErrorType::kConversionError,
-            "Unable to convert \"" + value + "\" to a bool");
+        // TODO: Migrate to the new parser system
+
+        //this->last_error_ = ParserError(ParserErrorType::kConversionError,
+        //    "Unable to convert \"" + value + "\" to a bool");
 
         return false;
     }

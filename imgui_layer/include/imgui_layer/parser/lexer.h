@@ -28,7 +28,7 @@ enum class LexerTokenType
     kData,           // Words containing alphabetical, numeric characters
                      // and '_'
     kEOF             // End of file
-}
+};
 
 struct LexerToken
 {
@@ -37,7 +37,7 @@ struct LexerToken
 
     LexerTokenType type;
     std::string data;
-}
+};
 
 class Lexer
 {
@@ -98,8 +98,7 @@ private:
         size_t position = 0;
     };
     std::vector<File> file_stack_;
-
-}
+};
 
 }  // namespace gui
 

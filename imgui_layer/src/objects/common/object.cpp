@@ -17,10 +17,12 @@ bool Object::SetAttributeValue(const std::string name, const std::string value)
 {
     if (!this->HasAttribute(name))
     {
-        this->last_error_ = ParserError(ParserError(
-            ParserErrorType::kInvalidAttributeName,
-            "Object \"" + this->name_ + "\" has no attribute called \"" +
-            name + "\"."));
+        // TODO: Migrate to the new parser system
+
+        //this->last_error_ = ParserError(ParserError(
+        //    ParserErrorType::kInvalidAttributeName,
+        //    "Object \"" + this->name_ + "\" has no attribute called \"" +
+        //    name + "\"."));
 
         return false;
     }
@@ -38,10 +40,12 @@ AttributeType* Object::GetAttribute(const std::string name) const
 {
     if (!this->HasAttribute(name))
     {
-        this->last_error_ = ParserError(ParserError(
-            ParserErrorType::kInvalidAttributeName,
-            "Object \"" + this->name_ + "\" has no attribute called + \"" +
-            name + "\"."));
+        // TODO: Migrate to the new parser system
+
+        //this->last_error_ = ParserError(ParserError(
+        //    ParserErrorType::kInvalidAttributeName,
+        //    "Object \"" + this->name_ + "\" has no attribute called + \"" +
+        //    name + "\"."));
 
         return nullptr;
     }
@@ -99,7 +103,7 @@ std::string Object::GetID() const
     return this->id_;
 }
 
-ParserError Object::GetLastError() const
+ParserResult Object::GetLastError() const
 {
     return this->last_error_;
 }

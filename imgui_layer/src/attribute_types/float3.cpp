@@ -74,18 +74,22 @@ bool Float3::IMPLLoadValue(std::string value)
 
 void Float3::SetError(std::string value)
 {
-    this->last_error_ = ParserError(ParserErrorType::kConversionError,
-        "Unable to convert \"" + value + "\" to a float3");
+    // TODO: Migrate to the new parser system
+
+    //this->last_error_ = ParserError(ParserErrorType::kConversionError,
+    //    "Unable to convert \"" + value + "\" to a float3");
 
     this->ResetValues();
 }
 
 void Float3::SetError(std::string value, Float& child)
 {
-    this->last_error_ = child.GetLastError();
-    this->last_error_.message_ =
-        "Unable to convert \"" + value + "\" to a float3: " +
-        this->last_error_.message_;
+    // TODO: Migrate to the new parser system
+
+    //this->last_error_ = child.GetLastError();
+    //this->last_error_.message_ =
+    //    "Unable to convert \"" + value + "\" to a float3: " +
+    //    this->last_error_.message_;
 
     this->ResetValues();
 }

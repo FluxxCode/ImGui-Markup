@@ -93,18 +93,22 @@ bool Float4::IMPLLoadValue(std::string value)
 
 void Float4::SetError(std::string value)
 {
-    this->last_error_ = ParserError(ParserErrorType::kConversionError,
-        "Unable to convert \"" + value + "\" to a float4");
+    // TODO: Migrate to the new parser system
+
+    //this->last_error_ = ParserError(ParserErrorType::kConversionError,
+    //    "Unable to convert \"" + value + "\" to a float4");
 
     this->ResetValues();
 }
 
 void Float4::SetError(std::string value, Float& child)
 {
-    this->last_error_ = child.GetLastError();
-    this->last_error_.message_ =
-        "Unable to convert \"" + value + "\" to a float4: " +
-        this->last_error_.message_;
+    // TODO: Migrate to the new parser system
+
+    //this->last_error_ = child.GetLastError();
+    //this->last_error_.message_ =
+    //    "Unable to convert \"" + value + "\" to a float4: " +
+    //    this->last_error_.message_;
 
     this->ResetValues();
 }

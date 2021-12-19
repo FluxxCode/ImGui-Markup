@@ -1,7 +1,7 @@
 #ifndef IMGUI_LAYER_INCLUDE_ATTRIBUTE_TYPES_ATTRIBUTE_TYPE_H_
 #define IMGUI_LAYER_INCLUDE_ATTRIBUTE_TYPES_ATTRIBUTE_TYPE_H_
 
-#include "imgui_layer/parser/parser.h"
+#include "imgui_layer/parser/parser_result.h"
 
 #include <string>
 

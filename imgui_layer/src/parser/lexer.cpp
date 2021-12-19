@@ -25,11 +25,13 @@ ParserResult Lexer::InitFile(const std::string path)
 bool Lexer::GetNextToken(LexerToken& dest)
 {
     // TOOD: Implement
+    return false;
 }
 
-bool Lexer::LookAhead(const int offset = 0)
+LexerToken Lexer::LookAhead(const int offset)
 {
     // TODO: Implement
+    return LexerToken(LexerTokenType::kUndefined);
 }
 
 void Lexer::Reset()

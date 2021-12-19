@@ -25,8 +25,10 @@ bool Int::IMPLLoadValue(std::string value)
 {
     if (!utils::StringToInt(value, &this->value))
     {
-        this->last_error_ = ParserError(ParserErrorType::kConversionError,
-            "Unable to convert \"" + value + "\" to an int");
+        // TODO: Migrate to the new parser system
+
+        //this->last_error_ = ParserError(ParserErrorType::kConversionError,
+        //    "Unable to convert \"" + value + "\" to an int");
 
         return false;
     }

@@ -25,8 +25,10 @@ bool Float::IMPLLoadValue(std::string value)
 {
     if (!utils::StringToFloat(value, &this->value))
     {
-        this->last_error_ = ParserError(ParserErrorType::kConversionError,
-            "Unable to convert \"" + value + "\" to a float");
+        // TODO: Migrate to the new parser system
+
+        //this->last_error_ = ParserResult(ParserResultType::kConversionError,
+        //    "Unable to convert \"" + value + "\" to a float");
 
         return false;
     }

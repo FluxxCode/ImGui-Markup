@@ -3,27 +3,11 @@
 
 #include <string>
 
+#include "imgui_layer/parser/parser_result.h"
 #include "imgui_layer/objects/global_object.h"
 
 namespace gui
 {
-
-enum class ParserResultType
-{
-    kSuccess,
-    kFileNotFound,
-    kUnableToOpenFile
-};
-
-class ParserResult
-{
-public:
-    ParserResult(ParserResultType type);
-
-    ParserResultType type_;
-
-    bool operator==(const ParserResultType& right);
-};
 
 class Parser
 {
