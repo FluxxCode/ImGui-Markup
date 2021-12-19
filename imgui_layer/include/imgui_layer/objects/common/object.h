@@ -3,7 +3,7 @@
 
 #include "imgui_layer/attribute_types/attribute_type.h"
 #include "imgui_layer/attribute_types/float2.h"
-#include "imgui_layer/parser/parser_error.h"
+#include "imgui_layer/parser/parser.h"
 
 #include <string>
 #include <map>
@@ -109,7 +109,7 @@ public:
     */
     std::string GetID() const;
 
-    ParserError GetLastError() const;
+    ParserResult GetLastError() const;
 
 protected:
     // Variables
@@ -119,7 +119,7 @@ protected:
 
     std::vector<std::shared_ptr<Object>> child_objects_ = { };
 
-    mutable ParserError last_error_;
+    mutable ParserResult last_error_;
 
     // Functions
     /**

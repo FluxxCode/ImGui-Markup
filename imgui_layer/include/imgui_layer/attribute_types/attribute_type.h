@@ -1,7 +1,7 @@
-#ifndef IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_ATTRIBUTE_TYPE_H_
-#define IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_ATTRIBUTE_TYPE_H_
+#ifndef IMGUI_LAYER_INCLUDE_ATTRIBUTE_TYPES_ATTRIBUTE_TYPE_H_
+#define IMGUI_LAYER_INCLUDE_ATTRIBUTE_TYPES_ATTRIBUTE_TYPE_H_
 
-#include "imgui_layer/parser/parser_error.h"
+#include "imgui_layer/parser/parser.h"
 
 #include <string>
 
@@ -42,13 +42,13 @@ public:
 
     virtual std::string ToString() = 0;
 
-    ParserError GetLastError() const;
+    ParserResult GetLastError() const;
 
 protected:
     // Variables
-    ParserError last_error_;
+    ParserResult last_error_;
 };
 
 }  // namespace gui
 
-#endif  // IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_ATTRIBUTE_TYPE_H_
+#endif  // IMGUI_LAYER_INCLUDE_ATTRIBUTE_TYPES_ATTRIBUTE_TYPE_H_

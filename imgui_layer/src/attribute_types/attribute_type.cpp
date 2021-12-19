@@ -23,7 +23,7 @@ bool AttributeType::HasChild(std::string id)
     return false;
 }
 
-ParserError AttributeType::GetLastError() const
+ParserResult AttributeType::GetLastError() const
 {
     return this->last_error_;
 }

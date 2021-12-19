@@ -30,4 +30,4 @@ std::ostream& operator<<(std::ostream& os, Float const& x);
 
 }
 
-#endif IMGUI_LAYER_SRC_ATTRIBUTE_TYPES  // IMGUI_LAYER_SRC_ATTRIBUTE_TYPES
+#endif  // IMGUI_LAYER_SRC_ATTRIBUTE_TYPES

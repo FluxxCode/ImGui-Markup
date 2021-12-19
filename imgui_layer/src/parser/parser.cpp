@@ -9,16 +9,15 @@ ParserResult::ParserResult(ParserResultType type)
     : type_(type)
 { }
 
-bool ParserResult::operator==(const ParserResult& left,
-                              const ParserResultType& right)
+bool ParserResult::operator==(const ParserResultType& right)
 {
-    if (left.type_ == right)
+    if (this->type_ == right)
         return true;
     return false;
 }
 
 /* Parser */
-Parser::ParseFile(const std::string file, GlobalObject& dest)
+ParserResult Parser::ParseFile(const std::string file, GlobalObject& dest)
 {
 
 }

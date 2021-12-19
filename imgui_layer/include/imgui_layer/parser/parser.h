@@ -13,7 +13,7 @@ enum class ParserResultType
     kSuccess,
     kFileNotFound,
     kUnableToOpenFile
-}
+};
 
 class ParserResult
 {
@@ -22,9 +22,8 @@ public:
 
     ParserResultType type_;
 
-    inline bool operator==(const ParserResult& left,
-                           const ParserResultType& right);
-}
+    bool operator==(const ParserResultType& right);
+};
 
 class Parser
 {
@@ -67,7 +66,7 @@ public:
     // NOTE: This function will be implemented later.
     //       Currently the focus is to be able to parse the data from a file.
     // ParserResult ParseData(const std::string data, GlobalObject& dest);
-}
+};
 
 }  // namespace gui
 
