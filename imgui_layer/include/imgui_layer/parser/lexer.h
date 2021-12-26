@@ -3,19 +3,36 @@
 
 #include "imgui_layer/parser/parser.h"
 
+#include <fstream>
+#include <string>
+
 namespace gui
 {
+
+struct LexerPosition
+{
+    LexerPosition(std::vector<std::string> file_stack, std::string line,
+                  size_t line_number, size_t start, size_t end);
+
+    std::vector<std::string> file_stack;
+    std::string line;
+    size_t line_number;
+
+    /**
+     * Start and end are relative to the line.
+     */
+    size_t start;
+    size_t end;
+};
 
 enum class LexerTokenType
 {
     kUndefined,      // Undefined token that is returned when e.g. the
                      // LookAhead function gets called when there is no more
                      // token left.
-    kDot,            // .
     kColon,          // :
     kComma,          // ,
     kEqual,          // =
-    kAt,             // @
     kBracketOpen,    // (
     kBracketClose,   // )
     kSBracketOpen,   // [
@@ -23,8 +40,7 @@ enum class LexerTokenType
     kCBracketOpen,   // {
     kCBracketClose,  // }
     kString,         // "<text>"
-    kInt,            // 1234
-    kFloat,          // 1234.1234
+    kNumber,         // Int or float
     kData,           // Words containing alphabetical, numeric characters
                      // and '_'
     kEOF             // End of file
@@ -32,13 +48,95 @@ enum class LexerTokenType
 
 struct LexerToken
 {
-    LexerToken(const LexerTokenType type);
-    LexerToken(const LexerTokenType type, const std::string data);
+    LexerToken();
+    LexerToken(const LexerTokenType type, const LexerPosition position);
+    LexerToken(const LexerTokenType type, const LexerPosition position,
+               const std::string data);
 
     LexerTokenType type;
+    LexerPosition position;
     std::string data;
 };
 
+/* Exceptions */
+struct LexerException
+{
+    LexerException(std::string message, LexerToken token, ParserResultType type)
+        : message(message), token(token), type(type)
+    { }
+
+    const std::string message;
+    const LexerToken token;
+    const ParserResultType type;
+};
+
+struct InvalidSymbol : public LexerException
+{
+    InvalidSymbol(LexerToken token)
+        : LexerException("Invalid symbol", token,
+                         ParserResultType::kInvalidSymbol)
+    { }
+};
+
+struct UnknownLexerInstruction : public LexerException
+{
+    UnknownLexerInstruction(LexerToken token)
+        : LexerException("Unknown lexer instruction", token,
+                         ParserResultType::kUnknownLexerInstruction)
+    { }
+};
+
+struct WrongIncludeArgument : public LexerException
+{
+    WrongIncludeArgument(LexerToken token)
+        : LexerException("Expecting string after include instruction", token,
+                         ParserResultType::kIncludeFileDoesNotExists)
+    { }
+};
+
+struct IncludePathDoesNotExists : public LexerException
+{
+    IncludePathDoesNotExists(LexerToken token)
+        : LexerException("Include file does not exists", token,
+                         ParserResultType::kIncludeFileDoesNotExists)
+    { }
+};
+
+struct UnableToOpenIncludeFile : public LexerException
+{
+    UnableToOpenIncludeFile(LexerToken token)
+        : LexerException("Unable to open include file", token,
+                         ParserResultType::kUnableToOpenIncludeFile)
+    { }
+};
+
+struct FileIncludesItself : public LexerException
+{
+    FileIncludesItself(LexerToken token)
+        : LexerException("File includes itself", token,
+                         ParserResultType::kFileIncludesItself)
+    { }
+};
+
+struct UnexpectedEndOfString : public LexerException
+{
+    UnexpectedEndOfString(LexerToken token)
+        : LexerException("Unexpected end of string", token,
+                         ParserResultType::kUnexpectedEndOfString)
+    { }
+};
+
+struct InvalidNumber : public LexerException
+{
+    InvalidNumber(LexerToken token)
+        : LexerException("Invalid number", token,
+                         ParserResultType::kInvalidNumber)
+    { }
+};
+
+/**
+ * Class to convert the contents of a file to tokens.
+ */
 class Lexer
 {
 public:
@@ -50,8 +148,9 @@ public:
      *               Absolute and relative paths are allowed.
      * @return Result of the operation as a ParserResult. The ParesrErrorType
      *         will be set to one of the following types:
-     *              - kFileNotFound
-     *              - kUnableToOpenFile
+     *           - kSuccess
+     *           - kFileNotFound
+     *           - kUnableToOpenFile
      */
     ParserResult InitFile(const std::string path);
 
@@ -66,12 +165,15 @@ public:
      * @param dest - Buffer receiving the token
      * @return true  If there are still tokens to process
      * @return false If there is no more token to process.
+     * @throws The function can throw lexer and std exceptions.
+     *         The parser will only catch the lexer exceptions.
+     *         Every other exceptions is not catched by the parser!
      */
     bool GetNextToken(LexerToken& dest);
 
     /**
      * Gets the next token in the data without incrementing the current position
-     * in the data and also stores it in the look ahead buffer.
+     * and also stores it in the look ahead buffer.
      * The look ahead buffer is a cache which is used by the
      * GetNextToken function.
      *
@@ -83,6 +185,9 @@ public:
      * @return The token at the current position plus the given offset.
      *         The token type will be set to kUndefined if the offset is
      *         out of range.
+     * @throws The function can throw lexer and std exceptions.
+     *         The parser will only catch the lexer exceptions.
+     *         Every other exceptions is not catched by the parser!
      */
     LexerToken LookAhead(const int offset = 0);
 
@@ -91,13 +196,183 @@ public:
      */
     void Reset();
 
+    static std::string TokenToString(LexerToken token);
+
 private:
     struct File
     {
+        explicit File(std::string path);
+
+        /**
+         * Path to the file
+         */
+        std::string path;
+
+        /**
+         * Main file handle
+         */
         std::ifstream file;
-        size_t position = 0;
+
+        /**
+         * Current virutal cursor position in the current line that is
+         * being porcessed.
+         */
+        size_t position_in_line = 0;
+
+        /**
+         * Current line of the file that is processed.
+         */
+        std::string current_line;
+
+        /**
+         * Number of the current line.
+         */
+        size_t line_number = 0;
     };
     std::vector<File> file_stack_;
+
+    /**
+     * Opens a file and adds it to the file_stack.
+     *
+     * @param path - Path to the file that will be added
+     * @return Result of the operation as a ParserResult.
+     *         One of the following ParserErrorTypes will be returned:
+     *           - kSuccess
+     *           - kFileNotFound
+     *           - kUnableToOpenFile
+    */
+    ParserResult OpenFile(const std::string path);
+
+    /**
+     * Closes every file handle on the file stack.
+     */
+    void CloseFiles();
+
+    /**
+     * Removes and closes the file handle of current file
+     * that is on top of the file stack.
+     */
+    void RemoveCurrentFile();
+
+    /**
+     * Gets the next char at the current position and increments it.
+     *
+     * @param dest - Buffer that will recive the char.
+     *               The buffer wount be changed if there arent any chars left.
+     * @return true if there are still chars left to process
+     * @return false if there isno more char left to process and the
+     *         current char is at the end of the file. The buffer
+     *         wount be changed if there is no token left to process.
+     */
+    bool GetNextChar(char& dest);
+
+    /**
+     * Gets the current character that is being processed, without
+     * incrementing the current position.
+     *
+     * @param offset - Offset of the character in the line.
+     *                 An offset of 0 is the current char. If the offset is
+     *                 out of range of the current line, a char with the
+     *                 value 0 will be returned.
+     */
+    char GetCurrentChar(size_t offset = 0) const;
+
+    /**
+     * Generates the next token and increments the current buffer position.
+     * The function also opens new files (@include <file_path>) and also
+     * closes files that are finished processing.
+     */
+    LexerToken GenerateToken();
+
+    /**
+     * Checks if the char at the current position is the start of a comment.
+     */
+    bool IsComment() const;
+
+    /**
+     * Assumes that the current char is the start of a comment.
+     * The function will skip the chars until the comment end.
+     */
+    void SkipComment();
+
+    /**
+     * Assumes that the current char is the start of a string.
+     * Every string starts with " and ends with ".
+     * Comments and lexer instructions are ignored and
+     * include inside the string.
+     *
+     * @return Created token with the string data
+     */
+    LexerToken CreateString();
+
+    /**
+     * Assumes that the current char is the start of a number.
+     * Int and float is supported.
+     *
+     * @return Created token with the number as a string
+     */
+    LexerToken CreateNumber();
+
+    /**
+     * Assumes that the current char is the start of some data.
+     * Every data block can include:
+     *   - Alphabetical characters
+     *   - Numbers
+     *   - Dots (.)
+     *   - Underscores (_)
+     * The data block will end after any character that is not listed above.
+     *
+     * @return Created token with the data as a string
+     */
+    LexerToken CreateData();
+
+    /**
+     * Assumes that the current char is the start of a lexer instruction.
+     * Lexer instructions start with a '@'.
+     * The following lexer instructions are implemented:
+     *   - <@>include "<file>"
+     *
+     * @return LexerToken after the instruction is executed.
+     * @throws The function can throw lexer and std exceptions.
+     *         The parser will only catch the lexer exceptions.
+     *         Every other exceptions is not catched by the parser!
+     */
+    LexerToken ProcessLexerInstruction();
+
+    /**
+     * Assumes that the current char is the start of the first argument
+     * of the include instruction.
+     * The include instruction will open a new file and add it to the
+     * file stack. It takes one argument of type string, which is the path
+     * to the file that will be opened. The path has to be relative to the
+     * file from where the instruction is executed.
+     *
+     * @return The first token of the new file.
+     * @throws The function can throw lexer and std exceptions.
+     *         The parser will only catch the lexer exceptions.
+     *         Every other exceptions is not catched by the parser!
+     */
+    LexerToken ProcessIncludeInstruction();
+
+    LexerToken ConstructToken(LexerTokenType type) const;
+    LexerToken ConstructToken(LexerTokenType type, std::string data) const;
+    LexerToken ConstructToken(LexerTokenType type, std::string data,
+                              size_t start, size_t end) const;
+    std::vector<std::string> ConvertFileStack() const;
+
+    /**
+     * Returns the current line position.
+     * 0 will be returned if there is no file on the file stack.
+     */
+    size_t GetCurrentPosition() const;
+
+    /**
+     * Returns the path of the current directory from where the current file
+     * is processed.
+     * The function will return an empty string if there are
+     * currently no files on the file stack.
+     */
+    std::string GetCurrentDirectory() const;
 };
 
 }  // namespace gui

@@ -8,13 +8,9 @@ namespace gui
 
 ParserResult ParseFile(const char* path, GlobalObject& global_object)
 {
-    // NOTE: This will be changed during the rework of the
-    // entire parsing system.
+    Parser parser;
 
-    //if (!gui::FileManager::LoadFromFile(path, global_object))
-    //    return gui::FileManager::GetLastError();
-
-    return ParserResult(ParserResultType::kSuccess);
+    return parser.ParseFile(path, global_object);
 }
 
 }  // namespace gui

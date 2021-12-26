@@ -1,6 +1,8 @@
 #ifndef IMGUI_LAYER_INCLUDE_PARSER_PARSER_RESULT_H_
 #define IMGUI_LAYER_INCLUDE_PARSER_PARSER_RESULT_H_
 
+#include <string>
+
 namespace gui
 {
 
@@ -8,7 +10,15 @@ enum class ParserResultType
 {
     kSuccess,
     kFileNotFound,
-    kUnableToOpenFile
+    kUnableToOpenFile,
+    kInvalidSymbol,
+    kUnknownLexerInstruction,
+    kWrongIncludeArgument,
+    kIncludeFileDoesNotExists,
+    kUnableToOpenIncludeFile,
+    kFileIncludesItself,
+    kUnexpectedEndOfString,
+    kInvalidNumber
 };
 
 class ParserResult
@@ -19,9 +29,13 @@ public:
 
     ParserResultType type_;
 
-    bool operator==(const ParserResultType& right);
+    std::string ToString() const;
+
+    operator bool() const;
+private:
+    static std::string ResultTypeToString(const ParserResultType type);
 };
 
 }  // namespace gui
 
-#endif IMGUI_LAYER_INCLUDE_PARSER_PARSER_RESULT_H_
+#endif  // IMGUI_LAYER_INCLUDE_PARSER_PARSER_RESULT_H_
