@@ -1,29 +1,13 @@
 #ifndef IMGUI_LAYER_INCLUDE_IMGUI_LAYER_PARSER_LEXER_H_
 #define IMGUI_LAYER_INCLUDE_IMGUI_LAYER_PARSER_LEXER_H_
 
-#include "imgui_layer/parser/parser.h"
+#include "imgui_layer/parser/parser_result.h"
 
 #include <fstream>
 #include <string>
 
 namespace gui
 {
-
-struct LexerPosition
-{
-    LexerPosition(std::vector<std::string> file_stack, std::string line,
-                  size_t line_number, size_t start, size_t end);
-
-    std::vector<std::string> file_stack;
-    std::string line;
-    size_t line_number;
-
-    /**
-     * Start and end are relative to the line.
-     */
-    size_t start;
-    size_t end;
-};
 
 enum class LexerTokenType
 {
@@ -35,8 +19,6 @@ enum class LexerTokenType
     kEqual,          // =
     kBracketOpen,    // (
     kBracketClose,   // )
-    kSBracketOpen,   // [
-    kSBracketClose,  // ]
     kCBracketOpen,   // {
     kCBracketClose,  // }
     kString,         // "<text>"
@@ -49,12 +31,12 @@ enum class LexerTokenType
 struct LexerToken
 {
     LexerToken();
-    LexerToken(const LexerTokenType type, const LexerPosition position);
-    LexerToken(const LexerTokenType type, const LexerPosition position,
+    LexerToken(const LexerTokenType type, const ParserPosition position);
+    LexerToken(const LexerTokenType type, const ParserPosition position,
                const std::string data);
 
     LexerTokenType type;
-    LexerPosition position;
+    ParserPosition position;
     std::string data;
 };
 
@@ -149,6 +131,7 @@ struct InvalidNumber : public LexerException
                          ParserResultType::kInvalidNumber)
     { }
 };
+
 
 /**
  * Class to convert the contents of a file to tokens.

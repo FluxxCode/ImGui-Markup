@@ -6,25 +6,17 @@
 namespace gui
 {
 
-/* Lexer Position */
-LexerPosition::LexerPosition(
-    std::vector<std::string> file_stack, std::string line, size_t line_number,
-    size_t start, size_t end)
-    : file_stack(file_stack), line(line),
-      line_number(line_number), start(start), end(end)
-{ }
-
 /* Lexer Token */
 LexerToken::LexerToken()
-    : type(LexerTokenType::kUndefined), position(LexerPosition({}, "", 0, 0, 0))
+    : type(LexerTokenType::kUndefined), position(ParserPosition({}, "", 0, 0, 0))
 { }
 
-LexerToken::LexerToken(const LexerTokenType type, const LexerPosition position)
+LexerToken::LexerToken(const LexerTokenType type, const ParserPosition position)
     : type(type), position(position)
 { }
 
 LexerToken::LexerToken(
-    const LexerTokenType type, const LexerPosition position,
+    const LexerTokenType type, const ParserPosition position,
     const std::string data)
     : type(type), position(position), data(data)
 { }
@@ -123,14 +115,6 @@ std::string Lexer::TokenToString(LexerToken token)
 
     case LexerTokenType::kBracketClose:
         message += "BC";
-        break;
-
-    case LexerTokenType::kSBracketOpen:
-        message += "SBO";
-        break;
-
-    case LexerTokenType::kSBracketClose:
-        message += "SBC";
         break;
 
     case LexerTokenType::kCBracketOpen:
@@ -290,10 +274,6 @@ LexerToken Lexer::GenerateToken()
         return this->ConstructToken(LexerTokenType::kBracketOpen);
     else if(c == ')')
         return this->ConstructToken(LexerTokenType::kBracketClose);
-    else if(c == '[')
-        return this->ConstructToken(LexerTokenType::kSBracketOpen);
-    else if(c == ']')
-        return this->ConstructToken(LexerTokenType::kSBracketClose);
     else if(c == '{')
         return this->ConstructToken(LexerTokenType::kCBracketOpen);
     else if(c == '}')
@@ -379,6 +359,13 @@ LexerToken Lexer::CreateNumber()
 
     size_t start_pos = this->GetCurrentPosition();
     size_t dot_count = 0;
+
+    // Single digit numbers
+    if (!isdigit(this->GetCurrentChar(1)) && this->GetCurrentChar(1) != '.')
+    {
+        return this->ConstructToken(LexerTokenType::kNumber, value,
+                                start_pos, this->GetCurrentPosition());
+    }
 
     char c;
     while (this->GetNextChar(c))
@@ -490,11 +477,11 @@ LexerToken Lexer::ConstructToken(LexerTokenType type, std::string data,
                                  size_t start, size_t end) const
 {
     if (this->file_stack_.empty())
-        return LexerToken(type, LexerPosition({ }, "", 0, start, end), data);
+        return LexerToken(type, ParserPosition({ }, "", 0, start, end), data);
 
     const File& file = this->file_stack_.back();
 
-    return LexerToken(type, LexerPosition(this->ConvertFileStack(),
+    return LexerToken(type, ParserPosition(this->ConvertFileStack(),
                                file.current_line, file.line_number, start, end),
                       data);
 }
