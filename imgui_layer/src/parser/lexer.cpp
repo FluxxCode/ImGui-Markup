@@ -302,12 +302,13 @@ LexerToken Lexer::GenerateToken()
         return this->ProcessLexerInstruction();
     else if(c == '"')
         return this->CreateString();
-    else if (std::isdigit(c))
+    else if (std::isdigit(c) || c == '-')
         return this->CreateNumber();
     else if (std::isalpha(c) || std::isdigit(c) || c == '_' || c == '.')
         return this->CreateData();
     else
-        throw InvalidSymbol(this->ConstructToken(LexerTokenType::kUndefined));
+        throw InvalidSymbol(this->ConstructToken(LexerTokenType::kUndefined,
+                                std::string(1, c)));
 
     return this->ConstructToken(LexerTokenType::kUndefined);
 }
