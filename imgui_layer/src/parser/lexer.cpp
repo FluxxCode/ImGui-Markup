@@ -481,30 +481,20 @@ LexerToken Lexer::ConstructToken(LexerTokenType type) const
 
 LexerToken Lexer::ConstructToken(LexerTokenType type, std::string data) const
 {
-    if (this->file_stack_.empty())
-        return LexerToken(type, LexerPosition({}, "", 0, 0, 0));
-
-    const File& file = this->file_stack_.back();
-
-    return LexerToken(type,
-                      LexerPosition(this->ConvertFileStack(), file.current_line,
-                                    file.line_number,
-                                    file.position_in_line,
-                                    file.position_in_line + 1),
-                      data);
+    return this->ConstructToken(type, data,
+        this->GetCurrentPosition(), this->GetCurrentPosition() + 1);
 }
 
 LexerToken Lexer::ConstructToken(LexerTokenType type, std::string data,
                                  size_t start, size_t end) const
 {
     if (this->file_stack_.empty())
-        return LexerToken(type, LexerPosition({}, "", 0, 0, 0));
+        return LexerToken(type, LexerPosition({ }, "", 0, start, end), data);
 
     const File& file = this->file_stack_.back();
 
-    return LexerToken(type,
-                      LexerPosition(this->ConvertFileStack(), file.current_line,
-                                    file.line_number, start, end),
+    return LexerToken(type, LexerPosition(this->ConvertFileStack(),
+                               file.current_line, file.line_number, start, end),
                       data);
 }
 

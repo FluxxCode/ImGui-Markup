@@ -152,6 +152,7 @@ struct InvalidNumber : public LexerException
 
 /**
  * Class to convert the contents of a file to tokens.
+ * It is build to work togehter with the parser and not as a standalone class.
  */
 class Lexer
 {
