@@ -13,13 +13,11 @@ ParserResult Parser::ParseFile(const std::string file, GlobalObject& dest)
 {
     // NOTE: This is all just for debugging and will be removed later
 
-    Lexer lexer;
-    ParserResult result = lexer.InitFile(file);
-    if (!result)
-        return result;
-
     try
     {
+        Lexer lexer;
+        lexer.InitFile(file);
+
         LexerToken token;
         while (lexer.GetNextToken(token))
         {

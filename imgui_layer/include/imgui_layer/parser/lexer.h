@@ -70,6 +70,22 @@ struct LexerException
     const ParserResultType type;
 };
 
+struct FileNotFound : public LexerException
+{
+    FileNotFound(LexerToken token)
+        : LexerException("File does not exists", token,
+                         ParserResultType::kFileNotFound)
+    { }
+};
+
+struct UnableToOpenFile : public LexerException
+{
+    UnableToOpenFile(LexerToken token)
+        : LexerException("Unable to open file", token,
+                         ParserResultType::kUnableToOpenFile)
+    { }
+};
+
 struct InvalidSymbol : public LexerException
 {
     InvalidSymbol(LexerToken token)
@@ -146,13 +162,11 @@ public:
      *
      * @param path - Path to the file from where the tokens will be loaded.
      *               Absolute and relative paths are allowed.
-     * @return Result of the operation as a ParserResult. The ParesrErrorType
-     *         will be set to one of the following types:
-     *           - kSuccess
-     *           - kFileNotFound
-     *           - kUnableToOpenFile
+     * @throws The function can throw lexer and std exceptions.
+     *         The parser will only catch the lexer exceptions.
+     *         Every other exceptions is not catched by the parser!
      */
-    ParserResult InitFile(const std::string path);
+    void InitFile(const std::string path);
 
     /**
      * Gets the next token in the data and increments
@@ -235,13 +249,11 @@ private:
      * Opens a file and adds it to the file_stack.
      *
      * @param path - Path to the file that will be added
-     * @return Result of the operation as a ParserResult.
-     *         One of the following ParserErrorTypes will be returned:
-     *           - kSuccess
-     *           - kFileNotFound
-     *           - kUnableToOpenFile
+     * @throws The function can throw lexer and std exceptions.
+     *         The parser will only catch the lexer exceptions.
+     *         Every other exceptions is not catched by the parser!
     */
-    ParserResult OpenFile(const std::string path);
+    void OpenFile(const std::string path);
 
     /**
      * Closes every file handle on the file stack.
