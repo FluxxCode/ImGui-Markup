@@ -152,7 +152,7 @@ struct InvalidNumber : public LexerException
 
 /**
  * Class to convert the contents of a file to tokens.
- * It is build to work togehter with the parser and not as a standalone class.
+ * It is build to work together with the parser and not as a standalone class.
  */
 class Lexer
 {
@@ -227,7 +227,7 @@ private:
         std::ifstream file;
 
         /**
-         * Current virutal cursor position in the current line that is
+         * Current virtual cursor position in the current line that is
          * being porcessed.
          */
         size_t position_in_line = 0;
@@ -320,7 +320,7 @@ private:
      * Assumes that the current char is the start of a string.
      * Every string starts with " and ends with ".
      * Comments and lexer instructions are ignored and
-     * include inside the string.
+     * included inside the string.
      *
      * @return Created token with the string data
      */
@@ -328,7 +328,7 @@ private:
 
     /**
      * Assumes that the current char is the start of a number.
-     * Int and float is supported.
+     * Int and float numbers are supported.
      *
      * @return Created token with the number as a string
      */
@@ -342,6 +342,10 @@ private:
      *   - Dots (.)
      *   - Underscores (_)
      * The data block will end after any character that is not listed above.
+     * Data block examples:
+     *   - Button
+     *   - button_1.child_0.child_1.child_2
+     *   - button_id
      *
      * @return Created token with the data as a string
      */
@@ -375,6 +379,11 @@ private:
      */
     LexerToken ProcessIncludeInstruction();
 
+    /**
+     * Used to construct LexerTokens with a different amount of arguments.
+     * The functions will also set the file stack and the current line
+     * of the token.
+     */
     LexerToken ConstructToken(LexerTokenType type) const;
     LexerToken ConstructToken(LexerTokenType type, std::string data) const;
     LexerToken ConstructToken(LexerTokenType type, std::string data,
