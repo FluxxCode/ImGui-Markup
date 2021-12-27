@@ -442,6 +442,7 @@ LexerToken Lexer::CreateData()
 LexerToken Lexer::ProcessLexerInstruction()
 {
     std::string instruction;
+    const size_t start = this->GetCurrentPosition() - 1;
 
     char c;
     while (this->GetNextChar(c))
@@ -455,7 +456,8 @@ LexerToken Lexer::ProcessLexerInstruction()
     if (instruction == "include")
         return this->ProcessIncludeInstruction();
 
-    return this->ConstructToken(LexerTokenType::kUndefined);
+    throw UnknownLexerInstruction(this->ConstructToken(LexerTokenType::kString,
+                    instruction, start,  this->GetCurrentPosition()));
 }
 
 LexerToken Lexer::ProcessIncludeInstruction()
