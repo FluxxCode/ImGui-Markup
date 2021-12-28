@@ -54,7 +54,8 @@ enum class ParserResultType
     kUnableToCreateVectorNode,
     kUnableToCreateAttributeAccessNode,
     kValueNodeWrongType,
-    kUnexpectedEndOfVector
+    kUnexpectedEndOfVector,
+    kMissingVectorValue
 };
 
 class ParserResult

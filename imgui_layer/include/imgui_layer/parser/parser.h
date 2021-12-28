@@ -28,7 +28,7 @@ struct ParserNode
     ParserNode(ParserNodeType type, ParserPosition position);
 
     const ParserNodeType type;
-    const ParserPosition position;
+    ParserPosition position;
     std::vector<std::shared_ptr<ParserNode>> child_nodes;
 };
 
@@ -57,9 +57,9 @@ struct ParserNumberNode : public ParserNode
 
 struct ParserVectorNode : public ParserNode
 {
-    ParserVectorNode(std::string value, ParserPosition position);
+    ParserVectorNode(ParserPosition position);
 
-    const std::string value;
+    // NOTE: Values of the vector are stored in the child nodes.
 };
 
 struct ParserAttributeAssignNode : public ParserNode
@@ -203,6 +203,14 @@ struct UnexpectedEndOfVector : public ParserException
     UnexpectedEndOfVector(LexerToken token)
         : ParserException("Unexpected end of vector",
                          token, ParserResultType::kUnexpectedEndOfVector)
+    { }
+};
+
+struct MissingVectorValue : public ParserException
+{
+    MissingVectorValue(LexerToken token)
+        : ParserException("Missing value after ','",
+                         token, ParserResultType::kMissingVectorValue)
     { }
 };
 

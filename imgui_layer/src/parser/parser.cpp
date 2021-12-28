@@ -34,10 +34,8 @@ ParserNumberNode::ParserNumberNode(
 { }
 
 ParserVectorNode::ParserVectorNode(
-    std::string value,
     ParserPosition position)
-    : ParserNode(ParserNodeType::kVectorNode, position),
-      value(value)
+    : ParserNode(ParserNodeType::kVectorNode, position)
 { }
 
 ParserAttributeAssignNode::ParserAttributeAssignNode(
@@ -292,11 +290,8 @@ bool Parser::TokenIsVectorNode()
                 ? true : false;
 }
 
-// TODO: Check if the attribute types are correct/valid
 std::shared_ptr<ParserVectorNode> Parser::CreateVectorNode()
 {
-    std::string data = "(";
-
     LexerToken token = this->lexer_.LookAhead(0);
 
     if (token.type != LexerTokenType::kBracketOpen)
@@ -304,28 +299,45 @@ std::shared_ptr<ParserVectorNode> Parser::CreateVectorNode()
 
     const size_t start_position = token.position.start;
 
-    while (token.type != LexerTokenType::kBracketClose)
-    {
-        if (!this->lexer_.GetNextToken(token))
-            throw UnexpectedEndOfVector(token);
-        if (token.type == LexerTokenType::kComma)
-        {
-            data += ',';
-            continue;
-        }
-
-        data += token.data;
-    }
-    data += ')';
-
-    ParserPosition position = token.position;
-    position.start = start_position;
-
     std::shared_ptr<ParserVectorNode> node =
-        std::make_shared<ParserVectorNode>(data, position);
+        std::make_shared<ParserVectorNode>(token.position);
 
     if (!node)
         throw UnableToCreateVectorNode(token);
+
+    while (token.type != LexerTokenType::kBracketClose)
+    {
+        if (!this->lexer_.GetNextToken(token))
+            throw UnexpectedEndOfFile(token);
+        if (token.type == LexerTokenType::kComma)
+        {
+            if (this->lexer_.LookAhead(1).type == LexerTokenType::kComma ||
+                this->lexer_.LookAhead(1).type == LexerTokenType::kBracketClose)
+            {
+                throw MissingVectorValue(token);
+            }
+            continue;
+        }
+        if (token.type == LexerTokenType::kBracketClose)
+            break;
+
+        std::shared_ptr<ParserNode> value_node;
+
+        if (this->TokenIsStringNode())
+            value_node = this->CreateStringNode();
+        else if (this->TokenIsNumberNode())
+            value_node = this->CreateNumberNode();
+        else if(this->TokenIsAttributeAccessNode())
+            value_node = this->CreateAttributeAccessNode();
+        else
+            throw ValueNodeWrongType(token);
+
+        node->child_nodes.push_back(value_node);
+    }
+
+    ParserPosition position = token.position;
+    position.start = start_position;
+    node->position = position;
 
     return node;
 }
