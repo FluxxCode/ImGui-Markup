@@ -217,6 +217,9 @@ bool Lexer::GetNextChar(char& dest)
         if (!std::getline(file.file, file.current_line))
             return false;
 
+        if (file.current_line.empty())
+            return this->GetNextChar(dest);
+
         if (file.line_number != 1)
         {
             dest = '\n';
