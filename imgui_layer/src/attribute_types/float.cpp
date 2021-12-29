@@ -11,7 +11,7 @@ Float::Float(float f)
     : value(f)
 { }
 
-std::string Float::ToString()
+std::string Float::ToString() const
 {
     return std::to_string(this->value);
 }

@@ -11,7 +11,7 @@ Int::Int(int i)
     : value(i)
 { }
 
-std::string Int::ToString()
+std::string Int::ToString() const
 {
     return std::to_string(this->value);
 }

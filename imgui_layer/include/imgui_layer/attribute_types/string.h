@@ -17,7 +17,7 @@ public:
 
     std::string value;
 
-    std::string ToString();
+    std::string ToString() const;
 
     operator std::string();
     operator const char*();

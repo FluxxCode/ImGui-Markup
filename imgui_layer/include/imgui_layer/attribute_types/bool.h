@@ -14,7 +14,7 @@ public:
 
     bool value = true;
 
-    std::string ToString();
+    std::string ToString() const;
 
     void operator=(const bool& x);
 

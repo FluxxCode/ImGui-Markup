@@ -72,6 +72,8 @@ public:
     */
     bool HasParent();
 
+    Object* GetParent() const;
+
     /**
      * Get a shared_ptr to an child object from this object by its name.
      *

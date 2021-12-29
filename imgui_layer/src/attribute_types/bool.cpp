@@ -11,7 +11,7 @@ Bool::Bool(const bool b)
     : value(b)
 { }
 
-std::string Bool::ToString()
+std::string Bool::ToString() const
 {
     return utils::BoolToString(this->value);
 }

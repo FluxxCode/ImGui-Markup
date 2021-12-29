@@ -44,7 +44,7 @@ public:
     */
     bool HasChild(std::string name);
 
-    std::string ToString();
+    std::string ToString() const;
 
 private:
     // Functions

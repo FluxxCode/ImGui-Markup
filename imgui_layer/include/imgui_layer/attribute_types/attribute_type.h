@@ -40,7 +40,7 @@ public:
     */
     virtual bool HasChild(std::string name);
 
-    virtual std::string ToString() = 0;
+    virtual std::string ToString() const = 0;
 
     ParserResult GetLastError() const;
 

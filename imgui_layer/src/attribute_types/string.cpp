@@ -14,7 +14,7 @@ String::String(const char* str)
     : value(str)
 { }
 
-std::string String::ToString()
+std::string String::ToString() const
 {
     return this->value;
 }

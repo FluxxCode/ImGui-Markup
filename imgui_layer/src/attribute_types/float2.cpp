@@ -32,9 +32,9 @@ bool Float2::HasChild(std::string name)
     return false;
 }
 
-std::string Float2::ToString()
+std::string Float2::ToString() const
 {
-    return std::to_string(this->x) + ", " + std::to_string(this->y);
+    return std::to_string(this->y.value) + ", " + std::to_string(this->y.value);
 }
 
 Float2::operator ImVec2()

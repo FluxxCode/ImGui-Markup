@@ -46,7 +46,7 @@ public:
     */
     bool HasChild(std::string name);
 
-    std::string ToString();
+    std::string ToString() const;
 
     // Operator
     operator ImVec4();

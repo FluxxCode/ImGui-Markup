@@ -31,11 +31,11 @@ bool Float3::HasChild(std::string name)
     return false;
 }
 
-std::string Float3::ToString()
+std::string Float3::ToString() const
 {
-    return std::to_string(this->x) + "," +
-           std::to_string(this->y) + "," +
-           std::to_string(this->z);
+    return std::to_string(this->x.value) + "," +
+           std::to_string(this->y.value) + "," +
+           std::to_string(this->z.value);
 }
 
 bool Float3::IMPLLoadValue(std::string value)

@@ -37,12 +37,12 @@ bool Float4::HasChild(std::string name)
     return false;
 }
 
-std::string Float4::ToString()
+std::string Float4::ToString() const
 {
-    return std::to_string(this->x) + "," +
-        std::to_string(this->y) + "," +
-        std::to_string(this->z) + "," +
-        std::to_string(this->w);
+    return std::to_string(this->x.value) + "," +
+           std::to_string(this->y.value) + "," +
+           std::to_string(this->z.value) + "," +
+           std::to_string(this->w.value);
 }
 
 Float4::operator ImVec4()

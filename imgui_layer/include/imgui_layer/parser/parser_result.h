@@ -55,7 +55,20 @@ enum class ParserResultType
     kUnableToCreateAttributeAccessNode,
     kValueNodeWrongType,
     kUnexpectedEndOfVector,
-    kMissingVectorValue
+    kMissingVectorValue,
+
+    // Interpreter errors:
+    kWrongBaseNode,
+    kUndefinedObjectType,
+    kAttributeDoesNotExists,
+    kMissingAttributeValue,
+    kUnknownAttributeValueType,
+    kUnableToSetAttributeValue,
+    kObjectIDAlreadyDefined,
+    kObjectIDGlobalIsReserved,
+    kObjectIsNotDefined,
+    kNoAttributeSpecified,
+    kInternalWrongNodeType
 };
 
 class ParserResult

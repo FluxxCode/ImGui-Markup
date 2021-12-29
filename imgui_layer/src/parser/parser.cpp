@@ -12,11 +12,11 @@ ParserNode::ParserNode(ParserNodeType type, ParserPosition position)
 { }
 
 ParserObjectNode::ParserObjectNode(
-    std::string object_name,
+    std::string object_type,
     std::string object_id,
     ParserPosition position)
     : ParserNode(ParserNodeType::kObjectNode, position),
-      object_name(object_name), object_id(object_id)
+      object_type(object_type), object_id(object_id)
 { }
 
 ParserStringNode::ParserStringNode(
@@ -60,12 +60,16 @@ ParserResult Parser::ParseFile(const std::string file, GlobalObject& dest)
 
     try
     {
+        dest.Reset();
+
         this->lexer_.InitFile(file);
 
         std::shared_ptr<ParserNode> root_node = std::make_shared<ParserNode>(
             ParserNodeType::kRootNode, ParserPosition({file}, "", 0, 0, 0));
 
         this->ProcessTokens(root_node);
+
+        this->interpreter_.ConvertNodeTree(root_node, dest);
     }
     catch(const LexerException& e)
     {
@@ -75,6 +79,10 @@ ParserResult Parser::ParseFile(const std::string file, GlobalObject& dest)
     {
         return ParserResult(e.type, e.message, e.token.position);
     }
+    catch (const InterpreterException& e)
+    {
+        return ParserResult(e.type, e.message, e.node.position);
+    }
 
     return ParserResult(ParserResultType::kSuccess);
 }
@@ -82,6 +90,7 @@ ParserResult Parser::ParseFile(const std::string file, GlobalObject& dest)
 void Parser::Reset()
 {
     this->lexer_.Reset();
+    this->interpreter_.Reset();
 }
 
 void Parser::ProcessTokens(std::shared_ptr<ParserNode> parent_node)
@@ -138,7 +147,7 @@ bool Parser::TokenIsObjectNode()
 
 void Parser::CreateObjectNode(ParserNode& parent_node)
 {
-    const std::string name = this->lexer_.LookAhead(0).data;
+    const std::string type = this->lexer_.LookAhead(0).data;
     std::string id = "";
 
     const size_t start_position = this->lexer_.LookAhead(0).position.start;
@@ -172,7 +181,7 @@ void Parser::CreateObjectNode(ParserNode& parent_node)
     object_position.end   = end_position;
 
     std::shared_ptr<ParserNode> node =
-        std::make_shared<ParserObjectNode>(name, id, object_position);
+        std::make_shared<ParserObjectNode>(type, id, object_position);
 
     if (!node)
         throw UnableToCreateObjectNode(token);

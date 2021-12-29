@@ -16,7 +16,7 @@ public:
 
     int value = 0;
 
-    std::string ToString();
+    std::string ToString() const;
 
     operator int();
 

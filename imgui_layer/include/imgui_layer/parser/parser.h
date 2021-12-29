@@ -4,81 +4,14 @@
 #include "imgui_layer/parser/parser_result.h"
 #include "imgui_layer/objects/global_object.h"
 #include "imgui_layer/parser/lexer.h"
+#include "imgui_layer/parser/interpreter.h"
+#include "imgui_layer/parser/parser_nodes.h"
 
 #include <string>
 #include <vector>
 
 namespace gui
 {
-
-/* Nodes */
-enum class ParserNodeType
-{
-    kRootNode,
-    kObjectNode,
-    kAttributeAssignNode,
-    kStringNode,
-    kNumberNode,
-    kVectorNode,
-    kAttributeAccessNode
-};
-
-struct ParserNode
-{
-    ParserNode(ParserNodeType type, ParserPosition position);
-
-    const ParserNodeType type;
-    ParserPosition position;
-    std::vector<std::shared_ptr<ParserNode>> child_nodes;
-};
-
-struct ParserObjectNode : public ParserNode
-{
-    ParserObjectNode(std::string object_name, std::string object_id,
-                     ParserPosition position);
-
-    const std::string object_name;
-    const std::string object_id;
-};
-
-struct ParserStringNode : public ParserNode
-{
-    ParserStringNode(std::string value, ParserPosition position);
-
-    const std::string value;
-};
-
-struct ParserNumberNode : public ParserNode
-{
-    ParserNumberNode(std::string value, ParserPosition position);
-
-    const std::string value;
-};
-
-struct ParserVectorNode : public ParserNode
-{
-    ParserVectorNode(ParserPosition position);
-
-    // NOTE: Values of the vector are stored in the child nodes.
-};
-
-struct ParserAttributeAssignNode : public ParserNode
-{
-    ParserAttributeAssignNode(std::string attribute_name,
-                              std::shared_ptr<ParserNode> value_node,
-                              ParserPosition position);
-
-    const std::string attribute_name;
-    const std::shared_ptr<ParserNode> value_node;
-};
-
-struct ParserAttributeAccessNode : public ParserNode
-{
-    ParserAttributeAccessNode(std::string attribute_name,
-                              ParserPosition position);
-
-    const std::string attribute_name;
-};
 
 /* Exceptions */
 struct ParserException
@@ -261,6 +194,11 @@ private:
      * Main lexer that is used to generate the tokens.
      */
     Lexer lexer_;
+
+    /**
+     * Main interpreter to convet the node tree to the final object tree.
+     */
+    Interpreter interpreter_;
 
     /**
      * Resets the entire parser.

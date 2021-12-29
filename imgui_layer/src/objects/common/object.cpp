@@ -66,6 +66,11 @@ bool Object::HasParent()
     return this->parent_ ? true : false;
 }
 
+Object* Object::GetParent() const
+{
+    return this->parent_;
+}
+
 std::shared_ptr<Object> Object::GetChild(
     const std::string id,
     bool recursive) const
