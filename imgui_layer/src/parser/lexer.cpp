@@ -348,11 +348,13 @@ LexerToken Lexer::CreateString()
     char c;
     while (this->GetNextChar(c))
     {
-        if (this->GetCurrentChar() == '"' && this->GetCurrentChar(-1) != '\\')
+        if (c == '"' && this->GetCurrentChar(-1) != '\\')
         {
             return this->ConstructToken(LexerTokenType::kString, value,
                                         start_pos, this->GetCurrentPosition());
         }
+        if (c == '\\' && this->GetCurrentChar(1) == '"')
+            continue;
 
         value += c;
     }
