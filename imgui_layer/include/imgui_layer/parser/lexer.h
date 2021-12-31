@@ -239,13 +239,28 @@ private:
 
     /**
      * Opens a file and adds it to the file_stack.
+     * Directly calls the OpenIncludeFile function and
+     * generates the correct include_instruction token.
      *
      * @param path - Path to the file that will be added
      * @throws The function can throw lexer and std exceptions.
      *         The parser will only catch the lexer exceptions.
      *         Every other exceptions is not catched by the parser!
     */
-    void OpenFile(const std::string path);
+    void OpenFile(std::string path);
+
+    /**
+     * Opens a file and adds it to the file_stack.
+     *
+     * @param path - Path to the file that will be added.
+     *               only relative paths are allowed.
+     * @param include_token - Token of the include instruction,
+     *                        used for error handling.
+     * @throws The function can throw lexer and std exceptions.
+     *         The parser will only catch the lexer exceptions.
+     *         Every other exceptions is not catched by the parser!
+     */
+    void OpenIncludeFile(LexerToken include_token);
 
     /**
      * Closes every file handle on the file stack.

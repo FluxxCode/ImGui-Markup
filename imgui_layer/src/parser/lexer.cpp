@@ -157,8 +157,15 @@ Lexer::File::File(std::string path)
 }
 
 /* Lexer */
-void Lexer::OpenFile(const std::string path)
+void Lexer::OpenFile(std::string path)
 {
+    this->OpenIncludeFile(this->ConstructToken(LexerTokenType::kString, path));
+}
+
+void Lexer::OpenIncludeFile(LexerToken token)
+{
+    const std::string path = token.data;
+
     this->file_stack_.emplace_back(
         File(std::filesystem::absolute(path).string()));
 
@@ -166,14 +173,14 @@ void Lexer::OpenFile(const std::string path)
 
     if (!utils::PathExists(file.path))
     {
-        throw FileNotFound(
-            this->ConstructToken(LexerTokenType::kString, file.path));
+        this->file_stack_.pop_back();
+        throw FileNotFound(token);
     }
 
     if (!this->file_stack_.back().file.is_open())
     {
-        throw UnableToOpenFile(
-            this->ConstructToken(LexerTokenType::kString, path));
+        this->file_stack_.pop_back();
+        throw UnableToOpenFile(token);
     }
 
     // Make sure that the file does not include itself
@@ -181,8 +188,8 @@ void Lexer::OpenFile(const std::string path)
     {
         if (std::filesystem::equivalent(this->file_stack_[i].path, file.path))
         {
-            throw FileIncludesItself(
-                this->ConstructToken(LexerTokenType::kString, path));
+            this->file_stack_.pop_back();
+            throw FileIncludesItself(token);
         }
     }
 }
@@ -458,9 +465,9 @@ LexerToken Lexer::ProcessIncludeInstruction()
     if (arg.type != LexerTokenType::kString)
         throw WrongIncludeArgument(arg);
 
-    const std::string path = this->GetCurrentDirectory() + '/' + arg.data;
+    arg.data = this->GetCurrentDirectory() + '/' + arg.data;
 
-    this->OpenFile(path);
+    this->OpenIncludeFile(arg);
 
     return this->GenerateToken();
 }
