@@ -37,7 +37,7 @@ void MainState::Init()
        this->ignore_control_window_ = true;
     }
 
-    for (auto const& entry : fs::recursive_directory_iterator(
+    for (auto const& entry : fs::directory_iterator(
        this->test_folder_))
     {
        if (entry.path().extension() != ".ill")
