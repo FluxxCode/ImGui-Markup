@@ -5,10 +5,11 @@ namespace gui
 {
 
 Float::Float()
+    : Attribute(AttributeType::kFloat)
 { }
 
 Float::Float(float f)
-    : value(f)
+    : Attribute(AttributeType::kFloat), value(f)
 { }
 
 std::string Float::ToString() const
@@ -16,29 +17,9 @@ std::string Float::ToString() const
     return std::to_string(this->value);
 }
 
-Float::operator float()
+bool Float::IMPL_LoadValue(std::string value_in)
 {
-    return this->value;
-}
-
-bool Float::IMPLLoadValue(std::string value)
-{
-    if (!utils::StringToFloat(value, &this->value))
-    {
-        // TODO: Migrate to the new parser system
-
-        //this->last_error_ = ParserResult(ParserResultType::kConversionError,
-        //    "Unable to convert \"" + value + "\" to a float");
-
-        return false;
-    }
-
-    return true;
-}
-
-std::ostream& operator<<(std::ostream& os, Float const& x)
-{
-    return os << x.value;
+    return utils::StringToFloat(value_in, &this->value);
 }
 
 }  // namespace gui

@@ -8,45 +8,42 @@
 namespace gui
 {
 
-class AttributeType
+enum class AttributeType
 {
-public:
-    // Variables
+    kBool,
+    kFloat,
+    kFloat2,
+    kFloat3,
+    kFloat4,
+    kInt,
+    kString
+};
+
+struct Attribute
+{
+    Attribute(AttributeType type);
+
+    AttributeType type;
+
+    /**
+     * Will be set when the LoadValue function was sucessfully called.
+     */
     bool value_changed_ = false;
 
-    // Functions
+    /**
+     * Loads a string value into the attribute type.
+     *
+     * @param value that will be loaded into the attribute.
+     * @return true on sucess
+     * @return false if there was a conversion error
+     */
     bool LoadValue(std::string value);
-    virtual bool IMPLLoadValue(std::string value) = 0;
+    virtual bool IMPL_LoadValue(std::string value) = 0;
 
     /**
-     * Gets a child attributeby its ID.
-     * Used for the attribute types like float2, float3, float4 that
-     * have the child attributes x,y,z,w.
-     *
-     * @param[in] id - The name of the child attribute, e.g. x,y,z or w.
-     *
-     * @return pointer to the child attribute, nullptr if the child attribute
-     *         does not exists.
-    */
-    virtual AttributeType* GetChild(std::string name);
-
-    /**
-     * Checks if the attribute has a child attributes with the given name.
-     *
-     * @param[in] name - The name of the child attribute that will be checked.
-     *
-     * @return true if the child attribute exists, false if the attribute
-     *         has no child attributes with the given name.
-    */
-    virtual bool HasChild(std::string name);
-
+     * Converts the attribute value type to a std::string.
+     */
     virtual std::string ToString() const = 0;
-
-    ParserResult GetLastError() const;
-
-protected:
-    // Variables
-    ParserResult last_error_;
 };
 
 }  // namespace gui

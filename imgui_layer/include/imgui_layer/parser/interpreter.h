@@ -58,12 +58,13 @@ struct UnknownAttributeValueType : public InterpreterException
     { }
 };
 
-struct UnableToSetAttributeValue : public InterpreterException
+struct AttributeConversionError : public InterpreterException
 {
-    UnableToSetAttributeValue(std::string message, ParserNode node)
-        : InterpreterException("Unable to set attribute value: " + message,
-                              node,
-                              ParserResultType::kUnableToSetAttributeValue)
+    AttributeConversionError(std::string type_left, std::string value,
+                             ParserNode node)
+        : InterpreterException("Unable to convert \"" + value + "\" to a " +
+                               "value of type: \"" + type_left + "\"", node,
+                              ParserResultType::kAttributeConversionError)
     { }
 };
 
@@ -265,6 +266,15 @@ private:
     std::string ProcessNumberNode(const ParserNode& node) const;
 
     /**
+     * Converts a bool node to its value as a string.
+     *
+     * @throws The function can throw interpreter and std exceptions.
+     *         The parser will only catch the interpreter exceptions.
+     *         Every other exceptions is not catched by the parser!
+     */
+    std::string ProcessBoolNode(const ParserNode& node) const;
+
+    /**
      * Converts a vector node to its value as a string that can be used
      * on a vector attribute type.
      * The structure of the return value is:
@@ -385,6 +395,19 @@ private:
      */
     std::string GetObjectNameFromAttributeReferenceString(
         const std::string attribute, const ParserNode& node) const;
+
+    /**
+     * Converts the type of an attribtue to one of the following strings:
+     *  - "Bool"
+     *  - "Float"
+     *  - "Float2"
+     *  - "Float3"
+     *  - "Float4"
+     *  - "Int"
+     *  - "String"
+     */
+    std::string AttributeTypeToString(const Attribute& attribute) const;
+    std::string AttributeTypeToString(const AttributeType type) const;
 };
 
 }  // namespace gui

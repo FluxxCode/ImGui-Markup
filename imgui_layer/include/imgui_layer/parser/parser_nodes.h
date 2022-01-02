@@ -17,6 +17,7 @@ enum class ParserNodeType
     kAttributeAssignNode,
     kStringNode,
     kNumberNode,
+    kBoolNode,
     kVectorNode,
     kAttributeAccessNode
 };
@@ -49,6 +50,13 @@ struct ParserStringNode : public ParserNode
 struct ParserNumberNode : public ParserNode
 {
     ParserNumberNode(std::string value, ParserPosition position);
+
+    const std::string value;
+};
+
+struct ParserBoolNode : public ParserNode
+{
+    ParserBoolNode(std::string value, ParserPosition position);
 
     const std::string value;
 };

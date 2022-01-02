@@ -4,28 +4,19 @@
 namespace gui
 {
 
-bool AttributeType::LoadValue(std::string value)
-{
-    if (!this->IMPLLoadValue(value))
-        return false;
+Attribute::Attribute(AttributeType type)
+    : type(type)
+{ }
 
-    this->value_changed_ = true;
-    return true;
-}
-
-AttributeType* AttributeType::GetChild(std::string id)
+bool Attribute::LoadValue(std::string value)
 {
-    return nullptr;
-}
+    if (this->IMPL_LoadValue(value))
+    {
+        this->value_changed_ = true;
+        return true;
+    }
 
-bool AttributeType::HasChild(std::string id)
-{
     return false;
-}
-
-ParserResult AttributeType::GetLastError() const
-{
-    return this->last_error_;
 }
 
 }  // namespace gui

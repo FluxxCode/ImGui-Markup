@@ -5,10 +5,11 @@ namespace gui
 {
 
 Bool::Bool()
+    : Attribute(AttributeType::kBool)
 { }
 
 Bool::Bool(const bool b)
-    : value(b)
+    : Attribute(AttributeType::kBool), value(b)
 { }
 
 std::string Bool::ToString() const
@@ -16,29 +17,9 @@ std::string Bool::ToString() const
     return utils::BoolToString(this->value);
 }
 
-void Bool::operator=(const bool& x)
+bool Bool::IMPL_LoadValue(std::string value_in)
 {
-    this->value = x;
-}
-
-bool Bool::IMPLLoadValue(std::string value)
-{
-    if (!utils::StringToBool(value, &this->value))
-    {
-        // TODO: Migrate to the new parser system
-
-        //this->last_error_ = ParserError(ParserErrorType::kConversionError,
-        //    "Unable to convert \"" + value + "\" to a bool");
-
-        return false;
-    }
-
-    return true;
-}
-
-std::ostream& operator<<(std::ostream& os, Bool& x)
-{
-    return os << x.value;
+    return utils::StringToBool(value_in, &this->value);
 }
 
 }  // namespace gui

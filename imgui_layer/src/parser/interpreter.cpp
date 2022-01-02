@@ -116,8 +116,12 @@ void Interpreter::ProcessAttributeAssignNode(
 
     if (!parent_object.SetAttributeValue(node.attribute_name, value))
     {
-        throw UnableToSetAttributeValue(
-            parent_object.GetLastError().message_, *node.value_node.get());
+        Attribute* att = parent_object.GetAttribute(node.attribute_name);
+        if (!att)
+            throw AttributeConversionError("Undefined", value, node);
+
+        throw AttributeConversionError(
+            this->AttributeTypeToString(*att), value, node);
     }
 }
 
@@ -137,6 +141,16 @@ std::string Interpreter::ProcessNumberNode(const ParserNode& node_in) const
             throw InternalWrongNodeType(node_in);
 
     ParserNumberNode& node = (ParserNumberNode&)node_in;
+
+    return node.value;
+}
+
+std::string Interpreter::ProcessBoolNode(const ParserNode& node_in) const
+{
+    if (node_in.type != ParserNodeType::kBoolNode)
+            throw InternalWrongNodeType(node_in);
+
+    ParserBoolNode& node = (ParserBoolNode&)node_in;
 
     return node.value;
 }
@@ -189,6 +203,8 @@ std::string Interpreter::ProcessValueNode(
         return this->ProcessStringNode(node);
     case ParserNodeType::kNumberNode:
         return this->ProcessNumberNode(node);
+    case ParserNodeType::kBoolNode:
+        return this->ProcessBoolNode(node);
     case ParserNodeType::kVectorNode:
         return this->ProcessVectorNode(node, parent_object);
     case ParserNodeType::kAttributeAccessNode:
@@ -210,7 +226,7 @@ std::string Interpreter::GetAttributeFromObject(
     if (!object.HasAttribute(attribute))
         throw AttributeDoesNotExists(type, id, attribute, node);
 
-    const AttributeType* att = object.GetAttribute(attribute);
+    const Attribute* att = object.GetAttribute(attribute);
     if (!att)
         throw AttributeDoesNotExists(type, id, attribute, node);
 
@@ -240,7 +256,7 @@ std::string Interpreter::GetAttribtueFromObjectReference(
     const std::string id   = object.GetID().empty() ?
                                 "null" : object.GetID();
 
-    const AttributeType* att = object.GetAttribute(attribute);
+    const Attribute* att = object.GetAttribute(attribute);
     if (!att)
         throw AttributeDoesNotExists(type, id, attribute, node);
 
@@ -280,6 +296,26 @@ std::string Interpreter::GetObjectNameFromAttributeReferenceString(
     }
 
     return object_id;
+}
+
+std::string Interpreter::AttributeTypeToString(const Attribute& attribute) const
+{
+    return this->AttributeTypeToString(attribute.type);
+}
+
+std::string Interpreter::AttributeTypeToString(const AttributeType type) const
+{
+    switch (type)
+    {
+    case AttributeType::kBool:   return "Bool";
+    case AttributeType::kFloat:  return "Float";
+    case AttributeType::kFloat2: return "Float2";
+    case AttributeType::kFloat3: return "Float3";
+    case AttributeType::kFloat4: return "Float4";
+    case AttributeType::kInt:    return "Int";
+    case AttributeType::kString: return "String";
+    default: return "Undefined";
+    }
 }
 
 }  // namespace gui

@@ -107,6 +107,14 @@ struct UnableToCreateNumberNode : public ParserException
     { }
 };
 
+struct UnableToCreateBoolNode : public ParserException
+{
+    UnableToCreateBoolNode(LexerToken token)
+        : ParserException("Unable to create bool node", token,
+                         ParserResultType::kUnableToCreateBoolNode)
+    { }
+};
+
 struct UnableToCreateVectorNode : public ParserException
 {
     UnableToCreateVectorNode(LexerToken token)
@@ -236,7 +244,8 @@ private:
 
     /**
      * Checks if the current token is the start of an attribute assign node.
-     * The start of an object is defined by one of the following token sequence:
+     * The start of an assign node is defined by one of the following
+     * token sequence:
      *   - Data, Equals
      */
     bool TokenIsAttributeAssignNode();
@@ -244,7 +253,8 @@ private:
 
     /**
      * Checks if the current token is the start of a string node.
-     * The start of an object is defined by one of the following token sequence:
+     * The start of a string node is defined by one of the following
+     * token sequence:
      *   - String
      */
     bool TokenIsStringNode();
@@ -252,23 +262,35 @@ private:
 
     /**
      * Checks if the current token is the start of a number node.
-     * The start of an object is defined by one of the following token sequence:
+     * The start of a number node is defined by one of the following
+     * token sequence:
      *   - String
      */
     bool TokenIsNumberNode();
     std::shared_ptr<ParserNumberNode> CreateNumberNode();
 
     /**
+     * Checks if the current token is the start of a bool node.
+     * The start of a boo node is defined by one of the following
+     * token sequence:
+     *   - Bool
+     */
+    bool TokenIsBoolNode();
+    std::shared_ptr<ParserBoolNode> CreateBoolNode();
+
+    /**
      * Checks if the current token is the start of a vector node.
-     * The start of an object is defined by one of the following token sequence:
-     *   - String
+     * The start of a vector node is defined by one of the following
+     * token sequence:
+     *   - BracketOpen
      */
     bool TokenIsVectorNode();
     std::shared_ptr<ParserVectorNode> CreateVectorNode();
 
     /**
      * Checks if the current token is the start of an attribute access node.
-     * The start of an object is defined by one of the following token sequence:
+     * The start of a attribute access node is defined by one of the following
+     * token sequence:
      *   - Data
      */
     bool TokenIsAttributeAccessNode();

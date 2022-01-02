@@ -8,7 +8,7 @@
 namespace gui
 {
 
-class Float : public AttributeType
+class Float : public Attribute
 {
 public:
     Float();
@@ -18,15 +18,11 @@ public:
 
     std::string ToString() const;
 
-    operator float();
+    inline operator float() const { return value; }
 
 private:
-    // Functions
-    bool IMPLLoadValue(std::string value);
-
+    bool IMPL_LoadValue(std::string value);
 };
-
-std::ostream& operator<<(std::ostream& os, Float const& x);
 
 }
 

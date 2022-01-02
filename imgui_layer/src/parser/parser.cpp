@@ -6,53 +6,6 @@
 namespace gui
 {
 
-/* Nodes */
-ParserNode::ParserNode(ParserNodeType type, ParserPosition position)
-    : type(type), position(position)
-{ }
-
-ParserObjectNode::ParserObjectNode(
-    std::string object_type,
-    std::string object_id,
-    ParserPosition position)
-    : ParserNode(ParserNodeType::kObjectNode, position),
-      object_type(object_type), object_id(object_id)
-{ }
-
-ParserStringNode::ParserStringNode(
-    std::string value,
-    ParserPosition position)
-    : ParserNode(ParserNodeType::kStringNode, position),
-      value(value)
-{ }
-
-ParserNumberNode::ParserNumberNode(
-    std::string value,
-    ParserPosition position)
-    : ParserNode(ParserNodeType::kNumberNode, position),
-      value(value)
-{ }
-
-ParserVectorNode::ParserVectorNode(
-    ParserPosition position)
-    : ParserNode(ParserNodeType::kVectorNode, position)
-{ }
-
-ParserAttributeAssignNode::ParserAttributeAssignNode(
-    std::string attribute_name,
-    std::shared_ptr<ParserNode> value_node,
-    ParserPosition position)
-    : ParserNode(ParserNodeType::kAttributeAssignNode, position),
-      attribute_name(attribute_name), value_node(value_node)
-{ }
-
-ParserAttributeAccessNode::ParserAttributeAccessNode(
-    std::string attribute_name,
-    ParserPosition position)
-    : ParserNode(ParserNodeType::kAttributeAccessNode, position),
-      attribute_name(attribute_name)
-{ }
-
 /* Parser */
 ParserResult Parser::ParseFile(const std::string file, GlobalObject& dest)
 {
@@ -229,6 +182,8 @@ void Parser::CreateAttributeAssignNode(ParserNode& parent_node)
         value_node = this->CreateStringNode();
     else if (this->TokenIsNumberNode())
         value_node = this->CreateNumberNode();
+    else if (this->TokenIsBoolNode())
+        value_node = this->CreateBoolNode();
     else if (this->TokenIsVectorNode())
         value_node = this->CreateVectorNode();
     else if(this->TokenIsAttributeAccessNode())
@@ -288,6 +243,27 @@ std::shared_ptr<ParserNumberNode> Parser::CreateNumberNode()
 
     if (!node)
         throw UnableToCreateNumberNode(token);
+
+    return node;
+}
+
+bool Parser::TokenIsBoolNode()
+{
+    return this->lexer_.LookAhead(0).type == LexerTokenType::kBool
+                ? true : false;
+}
+
+std::shared_ptr<ParserBoolNode> Parser::CreateBoolNode()
+{
+    const LexerToken token = this->lexer_.LookAhead(0);
+    if (token.type != LexerTokenType::kBool)
+        throw ValueNodeWrongType(token);
+
+    std::shared_ptr<ParserBoolNode> node =
+        std::make_shared<ParserBoolNode>(token.data, token.position);
+
+    if (!node)
+        throw UnableToCreateBoolNode(token);
 
     return node;
 }

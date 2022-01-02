@@ -9,55 +9,33 @@
 namespace gui
 {
 
-class Float2 : public AttributeType
+class Float2 : public Attribute
 {
 public:
-    // Variables
-    Float x = 0;
-    Float y = 0;
-
-    // Constructors
     Float2();
     Float2(float x, float y);
     Float2(ImVec2 vec);
 
-    // Functions
-    /**
-     * Gets a child attributeby its ID.
-     * Used for the attribute types like float2, float3, float4 that
-     * have the child attributes x,y,z,w.
-     *
-     * @param[in] id - The name of the child attribute, e.g. x,y,z or w.
-     *
-     * @return pointer to the child attribute, nullptr if the child attribute
-     *         does not exists.
-    */
-    AttributeType* GetChild(std::string name);
-
-    /**
-     * Checks if the attribute has a child attributes with the given name.
-     *
-     * @param[in] name - The name of the child attribute that will be checked.
-     *
-     * @return true if the child attribute exists, false if the attribute
-     *         has no child attributes with the given name.
-    */
-    bool HasChild(std::string name);
+    Float x = 0;
+    Float y = 0;
 
     std::string ToString() const;
 
-
-    // Operators
-    operator ImVec2();
+    inline operator ImVec2() const { return ImVec2(x, y); }
+    inline bool operator==(const Float2& right) const
+    {
+        if (right.x == x && right.y == y)
+            return true;
+        return false;
+    }
+    inline bool operator!=(const Float2& right) const
+    {
+        return !(*this == right);
+    }
 
 private:
-    // Functions
-    bool IMPLLoadValue(std::string value);
-
-    void SetError(std::string value);
-    void SetError(std::string value, Float& child);
-
-    void ResetValues();
+    bool IMPL_LoadValue(std::string value);
+    void Reset();
 };
 
 }  // namespace gui

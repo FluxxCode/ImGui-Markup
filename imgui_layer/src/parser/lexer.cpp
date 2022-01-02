@@ -267,6 +267,8 @@ LexerToken Lexer::GenerateToken()
         return this->GenerateToken();
     }
 
+    std::string temp_buffer;
+
     if (std::isspace(c))
         return this->GenerateToken();
     else if (this->IsComment())
@@ -294,6 +296,8 @@ LexerToken Lexer::GenerateToken()
         return this->CreateString();
     else if (std::isdigit(c) || c == '-')
         return this->CreateNumber();
+    else if (this->IsBool(temp_buffer))
+        return this->CreateBool(temp_buffer);
     else if (std::isalpha(c) || std::isdigit(c) || c == '_' || c == '.')
         return this->CreateData();
     else
@@ -407,6 +411,38 @@ LexerToken Lexer::CreateNumber()
 
     return this->ConstructToken(LexerTokenType::kNumber, value,
                             start_pos, this->GetCurrentPosition());
+}
+
+bool Lexer::IsBool(std::string& value_out) const
+{
+    std::string value;
+    for (unsigned int i = 0; i < 4; i++)
+        value += this->GetCurrentChar(i);
+
+    value_out = value;
+
+    if (value == "true")
+        return true;
+
+    value += this->GetCurrentChar(4);
+    value_out = value;
+
+    if (value == "false")
+        return true;
+    return false;
+}
+
+LexerToken Lexer::CreateBool(std::string value)
+{
+    LexerToken token = this->ConstructToken(LexerTokenType::kBool, value);
+
+    token.position.end = token.position.start + value.size();
+
+    File& file = this->file_stack_.back();
+
+    file.position_in_line += value.size();
+
+    return token;
 }
 
 LexerToken Lexer::CreateData()
