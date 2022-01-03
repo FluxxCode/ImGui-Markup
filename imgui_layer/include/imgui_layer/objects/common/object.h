@@ -30,7 +30,7 @@ public:
     Object(std::string name, std::string id, Object* parent);
 
     // Functions
-    virtual void Update() = 0;
+    virtual void Update() { };
 
     /**
      * Load the value of an attribute from this object by its name.

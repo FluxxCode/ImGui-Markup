@@ -7,6 +7,13 @@
 #include "imgui_layer/objects/child_panel.h"
 #include "imgui_layer/objects/button.h"
 #include "imgui_layer/objects/text.h"
+#include "imgui_layer/objects/attribute_types/object_bool.h"
+#include "imgui_layer/objects/attribute_types/object_float.h"
+#include "imgui_layer/objects/attribute_types/object_float2.h"
+#include "imgui_layer/objects/attribute_types/object_float3.h"
+#include "imgui_layer/objects/attribute_types/object_float4.h"
+#include "imgui_layer/objects/attribute_types/object_int.h"
+#include "imgui_layer/objects/attribute_types/object_string.h"
 
 #include <memory>
 #include <map>
@@ -64,10 +71,19 @@ private:
     */
     const std::map<std::string, std::function<std::shared_ptr<Object>(
         std::string, Object*)>> object_list_ = {
-            { "Panel",      CreateObjectInstance<Panel>      },
-            { "ChildPanel", CreateObjectInstance<ChildPanel> },
-            { "Button",     CreateObjectInstance<Button>     },
-            { "Text",       CreateObjectInstance<Text>       }
+            { "Panel",      CreateObjectInstance<Panel>        },
+            { "ChildPanel", CreateObjectInstance<ChildPanel>   },
+            { "Button",     CreateObjectInstance<Button>       },
+            { "Text",       CreateObjectInstance<Text>         },
+            { "Bool",       CreateObjectInstance<ObjectBool>   },
+
+            // Atribute types
+            { "Float",      CreateObjectInstance<ObjectFloat>  },
+            { "Float2",     CreateObjectInstance<ObjectFloat2> },
+            { "Float3",     CreateObjectInstance<ObjectFloat3> },
+            { "Float4",     CreateObjectInstance<ObjectFloat4> },
+            { "Int",        CreateObjectInstance<ObjectInt>    },
+            { "String",     CreateObjectInstance<ObjectString> }
     };
 
     // Functions
