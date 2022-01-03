@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 namespace gui::utils
 {
@@ -65,7 +66,13 @@ std::string BoolToString(const bool b);
 std::vector<std::string> SplitString(std::string str, const char c);
 
 /**
- * Logs a message to the console, if _DEBUG is defined.
+ * std::filesystem::exists wrapper to handle exceptions.
+ */
+bool PathExists(const std::string path);
+
+/**
+ *
+ * Logs a message to the console if _DEBUG is defined.
  *
  * @param[in] message - The message that will be logged.
  */

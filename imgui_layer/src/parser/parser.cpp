@@ -1,347 +1,385 @@
 #include "ilpch.h"
-#include "parser/parser.h"
+#include "imgui_layer/parser/parser.h"
+
+#include <iostream>
 
 namespace gui
 {
 
-/*****************************************************************************/
-
-Node::Node(const NodeType type, const Position pos)
-    : type_(type), position_(pos)
-{ }
-
-Node::~Node()
-{ }
-
-std::shared_ptr<Node> Node::operator[](unsigned int i) const
+/* Parser */
+ParserResult Parser::ParseFile(const std::string file, GlobalObject& dest)
 {
-    return this->child_nodes_[i];
-}
+    this->Reset();
 
-ObjectNode::ObjectNode(
-    const std::string obj_name,
-    const std::string id,
-    const Position pos)
-    : Node(NodeType::kObjectNode, pos), name_(obj_name), id_(id)
-{ }
-
-ObjectNode::ObjectNode(const std::string obj_name, const Position pos)
-    : Node(NodeType::kObjectNode, pos), name_(obj_name), id_("")
-{ }
-
-AttributeNode::AttributeNode(
-    const std::string name,
-    const std::string value,
-    const TokenType value_type,
-    const Position pos)
-    : Node(NodeType::kAttributeNode, pos),
-      name_(name), value_(value), value_type_(value_type)
-{ }
-
-/*****************************************************************************/
-
-Parser::Parser(const std::vector<Token> tokens, const std::string& data)
-    : tokens_(tokens), data_(data)
-{ }
-
-bool Parser::Parse(std::vector<std::shared_ptr<Node>>& nodes)
-{
-    std::shared_ptr<Node> root_node = std::make_shared<Node>(
-        NodeType::kRootNode, Position(0, 0));
-
-    if (!this->ProcessTokens(root_node))
-        return false;
-
-    nodes = root_node->child_nodes_;
-    return true;
-}
-
-void Parser::PrintTree(std::vector<std::shared_ptr<Node>> tree)
-{
-    for (unsigned int i = 0; i < tree.size(); i++)
+    try
     {
-        if (tree[i]->type_ == NodeType::kObjectNode)
-            Parser::PrintNode(tree[i]);
+        dest.Reset();
+
+        this->lexer_.InitFile(file);
+
+        std::shared_ptr<ParserNode> root_node = std::make_shared<ParserNode>(
+            ParserNodeType::kRootNode, ParserPosition({file}, "", 0, 0, 0));
+
+        this->ProcessTokens(root_node);
+
+        this->interpreter_.ConvertNodeTree(root_node, dest);
+    }
+    catch(const LexerException& e)
+    {
+        return ParserResult(e.type, e.message, e.token.position);
+    }
+    catch (const ParserException& e)
+    {
+        return ParserResult(e.type, e.message, e.token.position);
+    }
+    catch (const InterpreterException& e)
+    {
+        return ParserResult(e.type, e.message, e.node.position);
+    }
+
+    return ParserResult(ParserResultType::kSuccess);
+}
+
+void Parser::Reset()
+{
+    this->lexer_.Reset();
+    this->interpreter_.Reset();
+}
+
+void Parser::ProcessTokens(std::shared_ptr<ParserNode> parent_node)
+{
+    if (!parent_node)
+        return;
+
+    LexerToken token;
+    while (this->lexer_.GetNextToken(token))
+    {
+        if (TokenIsBlockEnd(*parent_node))
+            return;
+
+        if (TokenIsObjectNode())
+            this->CreateObjectNode(*parent_node);
+        else if (TokenIsAttributeAssignNode())
+            this->CreateAttributeAssignNode(*parent_node);
         else
-        {
-            AttributeNode* node = dynamic_cast<AttributeNode*>(tree[i].get());
-            std::cout << node->name_ << '=' << node->value_ << std::endl;
-        }
+            throw UndefinedTokenSequence(token);
     }
 }
 
-void Parser::PrintNode(std::shared_ptr<Node> object)
+bool Parser::TokenIsBlockEnd(const ParserNode& current_node)
 {
-    ObjectNode* node = dynamic_cast<ObjectNode*>(object.get());
-
-    if (node->id_.empty())
-        std::cout << node->name_ << std::endl;
-    else
-        std::cout << node->name_ << ':' << node->id_ << std::endl;
-
-    std::cout << '{' << std::endl;
-
-    for (unsigned int i = 0; i < node->child_nodes_.size(); i++)
+    LexerToken token = this->lexer_.LookAhead(0);
+    if (token.type == LexerTokenType::kCBracketClose)
     {
-        const std::shared_ptr<Node> child = node->child_nodes_[i];
+        if (current_node.type == ParserNodeType::kRootNode)
+            throw UnexpectedBlockEnd(token);
 
-        if (child->type_ == NodeType::kObjectNode)
-            Parser::PrintNode(child);
-        else
-        {
-            AttributeNode* node = dynamic_cast<AttributeNode*>(child.get());
-            std::cout << node->name_ << '=' << node->value_ << std::endl;
-        }
+        return true;
     }
 
-    std::cout << '}' << std::endl;
+    return false;
 }
 
-ParserError Parser::GetLastError() const
+/* Object node */
+bool Parser::TokenIsObjectNode()
 {
-    return this->last_error_;
-}
+    const LexerToken current_token = this->lexer_.LookAhead(0);
+    const LexerToken next_token    = this->lexer_.LookAhead(1);
 
-bool Parser::GetTokenAdvance(Token& token)
-{
-    if (this->pos_ >= this->tokens_.size())
+    if (current_token.type != LexerTokenType::kData)
         return false;
 
-    token = this->tokens_[this->pos_];
-
-    this->pos_++;
-
-    if (token.type_ == TokenType::kEOF)
-        return false;
-
-    return true;
-}
-
-inline Token Parser::GetLastToken(int offset)
-{
-    const int index = this->pos_ + offset - 2;
-
-    if (index <= 0)
-        return Token(TokenType::kUndefined);
-
-    return this->tokens_[index];
-}
-
-inline Token Parser::GetCurrentToken(int offset)
-{
-    const int index = this->pos_ + offset - 1;
-
-    if (index >= this->tokens_.size())
-        return Token(TokenType::kUndefined);
-
-    return this->tokens_[index];
-}
-
-inline Token Parser::GetNextToken(int offset)
-{
-    const int index = this->pos_ + offset;
-
-    if (index >= this->tokens_.size())
-        return Token(TokenType::kUndefined);
-
-    return this->tokens_[index];
-}
-
-bool Parser::ProcessTokens(std::shared_ptr<Node> parent_node)
-{
-    Token token(TokenType::kUndefined);
-    while (this->GetTokenAdvance(token))
+    if (next_token.type == LexerTokenType::kCBracketOpen ||
+        next_token.type == LexerTokenType::kColon)
     {
-        // Check for the end of an object
-        if (token.type_ == TokenType::kCBracketClose)
-        {
-            if (parent_node->type_ == NodeType::kRootNode)
-            {
-                this->last_error_ = ParserError(
-                    ParserErrorType::kUnexpectedSymbol, token.position_,
-                    "Unexpected symbol '}' in global scope.", this->data_);
-
-                return false;
-            }
-
-            break;
-        }
-
-        bool result = false;
-
-        if (this->CurrentNodeIsObject())
-            result = CreateObjectNode(parent_node);
-        else if (this->CurrentNodeIsAttribute())
-            result = this->CreateAttributeNode(parent_node);
-        else
-        {
-            const Token next_token = this->GetNextToken();
-            this->last_error_ = ParserError(ParserErrorType::kUnexpectedSymbol,
-                next_token.position_, "Unexpected symbol \"" +
-                next_token.value_ + "\", expected '=', ':' or '{'.",
-                this->data_);
-
-            return false;
-        }
-
-        if (!result)
-            return false;
+        return true;
     }
 
-    return true;
+    return false;
 }
 
-bool Parser::CreateObjectNode(std::shared_ptr<Node> parent_node)
+void Parser::CreateObjectNode(ParserNode& parent_node)
 {
-    const size_t start_position = this->GetCurrentToken().position_.start_;
+    LexerToken token = this->lexer_.LookAhead(0);
+    ParserPosition object_position = token.position;
 
-    const std::string name = this->GetCurrentToken().value_;
-    std::string id;
+    const std::string type = token.data;
+    std::string id = "";
 
-    // Set position to bracket or colon
-    this->pos_++;
+    size_t end_position = this->lexer_.LookAhead(0).position.end;
 
-    // Check if the ID of the token is defined
-    if (this->GetCurrentToken().type_ == TokenType::kColon)
+    if (!this->lexer_.GetNextToken(token))
+        throw UnexpectedEndOfFile(this->lexer_.LookAhead(0));
+
+
+    // Check if the ID is set
+    if (token.type == LexerTokenType::kColon)
     {
-        id = this->GetNextToken().value_;
+        if (!this->lexer_.GetNextToken(token))
+            throw UnexpectedEndOfFile(this->lexer_.LookAhead(0));
+        if (token.type != LexerTokenType::kData)
+            throw ObjectIDWrongValueType(token);
 
-        // Skip the colon and id token
-        this->pos_ += 2;
+        id = token.data;
+        end_position = token.position.end;
+
+        end_position = this->lexer_.LookAhead(0).position.end;
+
+        // Move one token, where we expect the start of the object block
+        if (!this->lexer_.GetNextToken(token))
+            throw UnexpectedEndOfFile(this->lexer_.LookAhead(0));
     }
 
-    if (this->GetCurrentToken().type_ != TokenType::kCBracketOpen)
-    {
-        this->last_error_ = ParserError(ParserErrorType::kUnexpectedSymbol,
-            this->GetCurrentToken().position_,
-            "Unexpected symbol \"" + this->GetCurrentToken().value_ + "\", " +
-            "expected ':' or '{'.", this->data_);
+    if (token.type != LexerTokenType::kCBracketOpen)
+        throw ExpectedStartOfBlock(token);
 
-        return false;
-    }
+    object_position.end = end_position;
 
-    std::shared_ptr<Node> node = std::make_shared<ObjectNode>(name, id,
-        Position(start_position, this->GetCurrentToken().position_.end_));
+    std::shared_ptr<ParserNode> node =
+        std::make_shared<ParserObjectNode>(type, id, object_position);
+
+    if (!node)
+        throw UnableToCreateObjectNode(token);
 
     this->ProcessTokens(node);
 
-    parent_node->child_nodes_.push_back(node);
-
-    return true;
+    parent_node.child_nodes.push_back(node);
 }
 
-bool Parser::CreateAttributeNode(std::shared_ptr<Node> parent_node)
+/* Attribute assign node */
+bool Parser::TokenIsAttributeAssignNode()
 {
-    const size_t start_position = this->GetCurrentToken().position_.start_;
+    const LexerToken current_token = this->lexer_.LookAhead(0);
+    const LexerToken next_token    = this->lexer_.LookAhead(1);
 
-    const std::string name = this->GetCurrentToken().value_;
-    std::string value;
-
-    if (this->GetNextToken().type_ != TokenType::kEqual)
+    if (current_token.type == LexerTokenType::kData &&
+        next_token.type    == LexerTokenType::kEqual)
     {
-        this->last_error_ = ParserError(ParserErrorType::kUnexpectedSymbol,
-            this->GetCurrentToken().position_,
-            "Unexpected symbol \"" + this->GetCurrentToken().value_ + "\", " +
-            "expected '='", this->data_);
-
-        return false;
+        return true;
     }
+
+    return false;
+}
+
+void Parser::CreateAttributeAssignNode(ParserNode& parent_node)
+{
+    const std::string name = this->lexer_.LookAhead(0).data;
+
+    const size_t start_position = this->lexer_.LookAhead(0).position.start;
+
+    LexerToken token;
+    if (!this->lexer_.GetNextToken(token))
+        throw UnexpectedEndOfFile(this->lexer_.LookAhead(0));
+
+    if (token.type != LexerTokenType::kEqual)
+        throw ExpectedEqualSymbol(token);
 
     // Skip equal symbol
-    this->pos_ += 2;
+    if (!this->lexer_.GetNextToken(token))
+        throw UnexpectedEndOfFile(this->lexer_.LookAhead(0));
 
-    Token token = this->GetCurrentToken();
-    bool result = false;
+    std::shared_ptr<ParserNode> value_node;
 
-    if (token.type_ == TokenType::kSBracketOpen)
-        result = this->CreateArray(value);
-    else if (token.type_ == TokenType::kBracketOpen)
-        result = this->CreateVector(value);
+    if (this->TokenIsStringNode())
+        value_node = this->CreateStringNode();
+    else if (this->TokenIsIntNode())
+        value_node = this->CreateIntNode();
+    else if (this->TokenIsFloatNode())
+        value_node = this->CreateFloatNode();
+    else if (this->TokenIsBoolNode())
+        value_node = this->CreateBoolNode();
+    else if (this->TokenIsVectorNode())
+        value_node = this->CreateVectorNode();
+    else if(this->TokenIsAttributeAccessNode())
+        value_node = this->CreateAttributeAccessNode();
     else
-    {
-        value = token.value_;
-        result = true;
-    }
+        throw ValueNodeWrongType(token);
 
-    if (!result)
-        return false;
+    ParserPosition position = value_node->position;
+    position.start = start_position;
 
+    std::shared_ptr<ParserNode> node =
+        std::make_shared<ParserAttributeAssignNode>(name, value_node, position);
 
-    std::shared_ptr<AttributeNode> node = std::make_shared<AttributeNode>(
-        name, value, token.type_,
-        // We will use the function GetCurrenToken again, because the
-        // CreateVector and CreateArray function may have changed the
-        // current token.
-        Position(start_position, this->GetCurrentToken().position_.end_));
+    if (!node)
+        throw UnableToCreateAttributeAssignNode(token);
 
-    parent_node->child_nodes_.push_back(node);
-
-    return true;
+    parent_node.child_nodes.push_back(node);
 }
 
-bool Parser::CurrentNodeIsObject()
+/* String node */
+bool Parser::TokenIsStringNode()
 {
-    if (this->GetCurrentToken().type_ == TokenType::kData &&
-        (this->GetNextToken().type_ == TokenType::kColon ||
-         this->GetNextToken().type_ == TokenType::kCBracketOpen))
+    return this->lexer_.LookAhead(0).type == LexerTokenType::kString
+                ? true : false;
+}
+
+std::shared_ptr<ParserStringNode> Parser::CreateStringNode()
+{
+    const LexerToken token = this->lexer_.LookAhead(0);
+    if (token.type != LexerTokenType::kString)
+        throw ValueNodeWrongType(token);
+
+    std::shared_ptr<ParserStringNode> node =
+        std::make_shared<ParserStringNode>(token.data, token.position);
+
+    if (!node)
+        throw UnableToCreateStringNode(token);
+
+    return node;
+}
+
+/* Number node */
+bool Parser::TokenIsIntNode()
+{
+    return this->lexer_.LookAhead(0).type == LexerTokenType::kInt
+                ? true : false;
+}
+
+std::shared_ptr<ParserIntNode> Parser::CreateIntNode()
+{
+    const LexerToken token = this->lexer_.LookAhead(0);
+    if (token.type != LexerTokenType::kInt)
+        throw ValueNodeWrongType(token);
+
+    std::shared_ptr<ParserIntNode> node =
+        std::make_shared<ParserIntNode>(token.data, token.position);
+
+    if (!node)
+        throw UnableToCreateNumberNode(token);
+
+    return node;
+}
+
+/* Float node */
+bool Parser::TokenIsFloatNode()
+{
+    return this->lexer_.LookAhead(0).type == LexerTokenType::kFloat
+                ? true : false;
+}
+
+std::shared_ptr<ParserFloatNode> Parser::CreateFloatNode()
+{
+    const LexerToken token = this->lexer_.LookAhead(0);
+    if (token.type != LexerTokenType::kFloat)
+        throw ValueNodeWrongType(token);
+
+    std::shared_ptr<ParserFloatNode> node =
+        std::make_shared<ParserFloatNode>(token.data, token.position);
+
+    if (!node)
+        throw UnableToCreateNumberNode(token);
+
+    return node;
+}
+
+/* Bool node */
+bool Parser::TokenIsBoolNode()
+{
+    return this->lexer_.LookAhead(0).type == LexerTokenType::kBool
+                ? true : false;
+}
+
+std::shared_ptr<ParserBoolNode> Parser::CreateBoolNode()
+{
+    const LexerToken token = this->lexer_.LookAhead(0);
+    if (token.type != LexerTokenType::kBool)
+        throw ValueNodeWrongType(token);
+
+    std::shared_ptr<ParserBoolNode> node =
+        std::make_shared<ParserBoolNode>(token.data, token.position);
+
+    if (!node)
+        throw UnableToCreateBoolNode(token);
+
+    return node;
+}
+
+/* Vector node */
+bool Parser::TokenIsVectorNode()
+{
+    return this->lexer_.LookAhead(0).type == LexerTokenType::kBracketOpen
+                ? true : false;
+}
+
+std::shared_ptr<ParserVectorNode> Parser::CreateVectorNode()
+{
+    LexerToken token = this->lexer_.LookAhead(0);
+
+    if (token.type != LexerTokenType::kBracketOpen)
+        throw ValueNodeWrongType(token);
+
+    const size_t start_position = token.position.start;
+
+    std::shared_ptr<ParserVectorNode> node =
+        std::make_shared<ParserVectorNode>(token.position);
+
+    if (!node)
+        throw UnableToCreateVectorNode(token);
+
+    while (token.type != LexerTokenType::kBracketClose)
     {
-        return true;
+        if (!this->lexer_.GetNextToken(token))
+            throw UnexpectedEndOfFile(token);
+        if (token.type == LexerTokenType::kComma)
+        {
+            if (this->lexer_.LookAhead(1).type == LexerTokenType::kComma ||
+                this->lexer_.LookAhead(1).type == LexerTokenType::kBracketClose)
+            {
+                throw MissingVectorValue(token);
+            }
+            continue;
+        }
+        if (token.type == LexerTokenType::kBracketClose)
+            break;
+
+        std::shared_ptr<ParserNode> value_node;
+
+        if (this->TokenIsStringNode())
+            value_node = this->CreateStringNode();
+        else if (this->TokenIsIntNode())
+            value_node = this->CreateIntNode();
+        else if (this->TokenIsFloatNode())
+            value_node = this->CreateFloatNode();
+        else if(this->TokenIsAttributeAccessNode())
+            value_node = this->CreateAttributeAccessNode();
+        else
+            throw ValueNodeWrongType(token);
+
+        node->child_nodes.push_back(value_node);
     }
+
+    ParserPosition position = token.position;
+    position.start = start_position;
+    node->position = position;
+
+    return node;
+}
+
+/* Attribute access node */
+bool Parser::TokenIsAttributeAccessNode()
+{
+    const LexerToken current_token = this->lexer_.LookAhead(0);
+
+    if (current_token.type == LexerTokenType::kData)
+        return true;
 
     return false;
 }
 
-bool Parser::CurrentNodeIsAttribute()
+std::shared_ptr<ParserAttributeAccessNode> Parser::CreateAttributeAccessNode()
 {
-    if (this->GetCurrentToken().type_ == TokenType::kData &&
-        this->GetNextToken().type_ == TokenType::kEqual)
-    {
-        return true;
-    }
+    const LexerToken token = this->lexer_.LookAhead(0);
+    if (token.type != LexerTokenType::kData)
+        throw ValueNodeWrongType(token);
 
-    return false;
-}
+    std::shared_ptr<ParserAttributeAccessNode> node =
+        std::make_shared<ParserAttributeAccessNode>(token.data, token.position);
 
-bool Parser::CreateArray(std::string& buffer)
-{
-    std::string value;
-    Token token(TokenType::kUndefined);
+    if (!node)
+        throw UnableToCreateAttributeAccessNode(token);
 
-    // The GetTokenAdvance function will skip the bracket
-    while (this->GetTokenAdvance(token))
-    {
-        if (token.type_ == TokenType::kSBracketClose)
-            break;
-
-        if (token.type_ == TokenType::kComma)
-            value += ',';
-        else
-            value += token.value_;
-    }
-
-    buffer = value;
-    return true;
-}
-
-bool Parser::CreateVector(std::string& buffer)
-{
-    std::string value;
-    Token token(TokenType::kUndefined);
-
-    // The GetTokenAdvance function will skip the bracket
-    while (this->GetTokenAdvance(token))
-    {
-        if (token.type_ == TokenType::kBracketClose)
-            break;
-
-        if (token.type_ == TokenType::kComma)
-            value += ',';
-        else
-            value += token.value_;
-    }
-
-    buffer = value;
-    return true;
+    return node;
 }
 
 }  // namespace gui

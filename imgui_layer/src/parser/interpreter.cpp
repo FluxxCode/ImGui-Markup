@@ -1,283 +1,390 @@
 #include "ilpch.h"
-#include "parser/interpreter.h"
+#include "imgui_layer/parser/interpreter.h"
 
 #include "objects/common/object_list.h"
 
 namespace gui
 {
 
-Interpreter::Interpreter(
-    const std::vector<std::shared_ptr<Node>> nodes,
-    const std::string& data)
-    : nodes_(nodes), data_(data)
-{ }
-
-
-bool Interpreter::CreateGlobalObject(GlobalObject& global_object)
+/* Interpreter */
+void Interpreter::ConvertNodeTree(
+    const std::shared_ptr<ParserNode>& root_node, GlobalObject& dest)
 {
-    this->global_object_.Reset();
+    this->Reset();
 
-    // Iterate the root nodes, create child objects
-    // and load the attributes.
-    for (unsigned int i = 0; i < this->nodes_.size(); i++)
-    {
-        bool result = false;
-
-        std::shared_ptr<Node> node = this->nodes_[i];
-        if (node->type_ == NodeType::kAttributeNode)
-            result = this->SetAttribute(&this->global_object_, node);
-        else
-            result = this->CreateChildObject(&this->global_object_, node);
-
-        if (!result)
-            return false;
-    }
-
-    global_object = this->global_object_;
-
-    return true;
+    this->InitObjectReference(dest, *root_node.get());
+    this->ProcessNodes(*root_node.get(), dest);
 }
 
-ParserError Interpreter::GetLastError() const
+void Interpreter::Reset()
 {
-    return this->last_error_;
+    this->object_references_.clear();
 }
 
-bool Interpreter::SetAttribute(
-    Object* object,
-    std::shared_ptr<Node> node_in)
+void Interpreter::InitObjectReference(
+    Object& object, const ParserNode& node)
 {
-    // Make sure that the node is an attribute node
-    if (node_in->type_ != NodeType::kAttributeNode || !object)
-    {
-        this->last_error_ = ParserError(ParserErrorType::kUndefined,
-            "Internal error");
+    if (object.GetID().empty())
+        return;
 
-        return false;
+    std::string full_id = object.GetID();
+
+    Object* parent = &object;
+    while (parent->HasParent())
+    {
+        parent = parent->GetParent();
+
+        if (!parent)
+            break;
+        if (parent->GetID().empty())
+            continue;
+        if (parent->GetID() == "global")
+            continue;
+
+        full_id.insert(0, parent->GetID() + '.');
     }
 
-    AttributeNode* node = dynamic_cast<AttributeNode*>(node_in.get());
-
-    // If the node type is kData, we expect to get the value from
-    // another attribute in the current object or from the attribute in
-    // a different object that is already loaded in the global_object_.
-    if (node->value_type_ == TokenType::kData &&
-        !this->DataIsBool(node->value_))
+    if (this->object_references_.find(full_id) !=
+        this->object_references_.end())
     {
-        // Get the value of a different attribute
-        std::string value;
-        if (!this->GetAttribute(node->value_, value, object, node_in))
-            return false;
+        throw ObjectIDAlreadyDefined(full_id, node);
+    }
 
-        if (!object->SetAttributeValue(node->name_, value))
+    this->object_references_.insert(
+        std::pair<std::string, Object&>(full_id, object));
+}
+
+void Interpreter::ProcessNodes(
+    const ParserNode& node, Object& parent_object)
+{
+    for (const auto& child : node.child_nodes)
+    {
+        switch (child->type)
         {
-            this->last_error_ = object->GetLastError();
-            this->last_error_ = ParserError(this->last_error_.type_,
-                Position(node->position_), this->last_error_.message_,
-                this->data_);
-
-            return false;
+        case ParserNodeType::kObjectNode:
+            this->ProcessObjectNode(*child.get(), parent_object);
+            break;
+        case ParserNodeType::kAttributeAssignNode:
+            this->ProcessAttributeAssignNode(*child.get(), parent_object);
+            break;
+        default:
+            throw WrongBaseNode(*child.get());
         }
-
-        return true;
     }
-
-    if (!object->SetAttributeValue(node->name_, node->value_))
-    {
-        this->last_error_ = object->GetLastError();
-        this->last_error_ = ParserError(this->last_error_.type_,
-            Position(node->position_), this->last_error_.message_,
-            this->data_);
-
-        return false;
-    }
-
-    return true;
-
 }
 
-bool Interpreter::GetAttribute(
-    std::string attribute_name,
-    std::string& destination,
-    Object* object,
-    std::shared_ptr<Node> node) const
+void Interpreter::ProcessObjectNode(
+    const ParserNode& node_in, Object& parent_object)
 {
+    if (node_in.type != ParserNodeType::kObjectNode)
+        throw InternalWrongNodeType(node_in);
+
+    ParserObjectNode& node = (ParserObjectNode&)node_in;
+
+    std::shared_ptr<Object> object = ObjectList::CreateObject(
+        node.object_type, node.object_id, &parent_object);
+
     if (!object)
-    {
-        this->last_error_ = ParserError(ParserErrorType::kUndefined,
-            "Internal error");
+        throw UndefinedObjectType(node);
 
-        return false;
-    }
+    parent_object.AddChild(object);
 
-    // If there is not a dot in the name, we will assume that we want
-    // the value of an attribute from the current object.
-    if (attribute_name.find('.') == std::string::npos)
-    {
-        if (!object->HasAttribute(attribute_name))
-        {
-            this->last_error_ = ParserError(
-                ParserErrorType::kInvalidAttributeName,
-                Position(node->position_),
-                "The object \"" + object->GetName() + "\" has no attribute " +
-                "called \"" + attribute_name + "\"", this->data_);
+    this->InitObjectReference(*object.get(), node);
 
-            return false;
-        }
-        destination = object->GetAttribute(attribute_name)->ToString();
-        return true;
-    }
-
-    std::vector<std::string> segments =
-        utils::SplitString(attribute_name, '.');
-
-    Object* obj = (Object*)&this->global_object_;
-
-    // If the first segment is "global", we will get the value from a
-    // attribute that is stored inside the global object.
-    if (segments[0] == "global")
-    {
-        // Make sure that the global object has the attribute.
-        // segments[1] is save, as we definitely have a dot in the name,
-        // so we will have at least a second segment.
-        if (!obj->HasAttribute(segments[1]))
-        {
-            this->last_error_ = ParserError(
-                ParserErrorType::kInvalidAttributeName,
-                Position(node->position_),
-                "The global object has no attribute called " +
-                attribute_name + "\"", this->data_);
-
-            return false;
-        }
-
-        destination = obj->GetAttribute(segments[1])->ToString();
-        return true;
-    }
-
-    // Iterate every segment and go from object to object and check
-    // for an object with the ID of the segment. If we found an object
-    // that has the ID specified in the segment, we will go to the next
-    // segment and check the child objects for an object with the ID of the
-    // segment. We will do this until we have found
-    // an attribute that has the name of the next segment.
-    // We will skip the last segment, because it has to be the name of
-    // the attribute from where we want to get the value.
-    for (unsigned int i = 0; i < segments.size() - 1; i++)
-    {
-        obj = obj->GetChild(segments[i], true).get();
-
-        if (!obj)
-        {
-            std::string message = "Unable to find an object with the ID \"" +
-                segments[i] + "\".";
-
-            if (i != 0)
-            {
-                message = "Object \"";
-
-                for (unsigned int x = 0; x < i - 1; x++)
-                    message += segments[i];
-
-                message += "\" has no child object with the ID \"" +
-                    segments[i] + "\".";
-            }
-
-            this->last_error_ = ParserError(
-                ParserErrorType::kInvalidObjectID,
-                Position(node->position_), message, this->data_);
-
-            return false;
-        }
-
-        // Check if the object has any attribute with the name of the
-        // next segment. i + 1 is save, because we wount get to the last
-        // segment in this loop.
-        if (obj->HasAttribute(segments[i + 1]))
-        {
-            destination = obj->GetAttribute(segments[i + 1])->ToString();
-            return true;
-        }
-    }
-
-    this->last_error_ = ParserError(
-        ParserErrorType::kInvalidObjectID,
-        Position(node->position_),
-        "Unable to find an object with the ID \"" + attribute_name + "\".",
-        this->data_);
-
-    return false;
+    this->ProcessNodes(node_in, *object.get());
 }
 
-bool Interpreter::CreateChildObject(
-    Object* parent,
-    std::shared_ptr<Node> object_node)
+void Interpreter::ProcessAttributeAssignNode(
+    const ParserNode& node_in, Object& parent_object)
 {
-    if (!parent || object_node->type_ != NodeType::kObjectNode)
-        return false;
+    if (node_in.type != ParserNodeType::kAttributeAssignNode)
+        throw InternalWrongNodeType(node_in);
 
-    ObjectNode* node = dynamic_cast<ObjectNode*>(object_node.get());
+    ParserAttributeAssignNode& node = (ParserAttributeAssignNode&)node_in;
 
-    std::string name = node->name_;
-    std::string id   = node->id_;
+    const std::string type = parent_object.GetName();
+    const std::string id   = parent_object.GetID().empty() ?
+                                "null" : parent_object.GetID();
 
-    // Make sure that the name (type) is defined in the object list
-    if (!ObjectList::IsDefined(name))
+    if (!parent_object.HasAttribute(node.attribute_name))
+        throw AttributeDoesNotExists(type, id, node.attribute_name, node);
+    if (!node.value_node)
+        throw MissingAttributeValue(node);
+
+    std::shared_ptr<Attribute> value =
+        this->ProcessValueNode(*node.value_node.get(), parent_object);
+
+    if (!value)
+        throw AttributeConversionError("Undefined", "Undefined", node);
+
+    if (!parent_object.SetAttributeValue(node.attribute_name, *value))
     {
-        this->last_error_ = ParserError(
-            ParserErrorType::kInvalidObjectID,
-            Position(node->position_),
-            "Object type \"" + name + "\" is undefined.",
-            this->data_);
+        Attribute* att = parent_object.GetAttribute(node.attribute_name);
+        if (!att)
+        {
+            throw AttributeConversionError("Undefined",
+                this->AttributeTypeToString(*value), value->ToString(), node);
+        }
 
-        return false;
+        throw AttributeConversionError(this->AttributeTypeToString(*att),
+            this->AttributeTypeToString(*value), value->ToString(), node);
     }
-
-    // Create a new object on the heap and add it as a child
-    // to the parent object.
-    std::shared_ptr<Object> child = ObjectList::CreateObject(name, id, parent);
-
-    if (!child)
-    {
-        this->last_error_ = ParserError(
-            ParserErrorType::kInvalidObjectID,
-            Position(node->position_),
-            "Unable to create object of type \"" + name + "\".",
-            this->data_);
-
-        return false;
-    }
-
-    parent->AddChild(child);
-
-    // Iterate the child nodes, create the child objects
-    // and load the attributes into the created object.
-    for (unsigned int i = 0; i < object_node->child_nodes_.size(); i++)
-    {
-        bool result = false;
-
-        std::shared_ptr<Node> node = object_node->child_nodes_[i];
-        if (node->type_ == NodeType::kAttributeNode)
-            result = this->SetAttribute(child.get(), node);
-        else
-            result = this->CreateChildObject(child.get(), node);
-
-        if (!result)
-            return false;
-    }
-
-    return true;
 }
 
-bool Interpreter::DataIsBool(const std::string str) const
+String Interpreter::ProcessStringNode(
+    const ParserNode& node_in) const
 {
-    if (str == "True" || str == "true" || str == "False" || str == "false" ||
-        str == "0" || str == "1")
+    if (node_in.type != ParserNodeType::kStringNode)
+            throw InternalWrongNodeType(node_in);
+
+    ParserStringNode& node = (ParserStringNode&)node_in;
+
+    return String(node.value);
+}
+
+Int Interpreter::ProcessIntNode(
+    const ParserNode& node_in) const
+{
+    if (node_in.type != ParserNodeType::kIntNode)
+            throw InternalWrongNodeType(node_in);
+
+    ParserIntNode& node = (ParserIntNode&)node_in;
+
+    Int value;
+    if (!value.LoadValue(String(node.value)))
+        throw AttributeConversionError("Int", node.value, node_in);
+
+    return value;
+}
+
+Float Interpreter::ProcessFloatNode(
+    const ParserNode& node_in) const
+{
+    if (node_in.type != ParserNodeType::kFloatNode)
+            throw InternalWrongNodeType(node_in);
+
+    ParserFloatNode& node = (ParserFloatNode&)node_in;
+
+    Float value;
+    if (!value.LoadValue(String(node.value)))
+        throw AttributeConversionError("Float", node.value, node_in);
+
+    return value;
+}
+
+Bool Interpreter::ProcessBoolNode(
+    const ParserNode& node_in) const
+{
+    if (node_in.type != ParserNodeType::kBoolNode)
+            throw InternalWrongNodeType(node_in);
+
+    ParserBoolNode& node = (ParserBoolNode&)node_in;
+
+    Bool value;
+    if (!value.LoadValue(String(node.value)))
+        throw AttributeConversionError("Bool", node.value, node_in);
+
+    return value;
+}
+
+std::shared_ptr<Attribute> Interpreter::ProcessVectorNode(
+    const ParserNode& node_in, Object& parent_object) const
+{
+    if (node_in.type != ParserNodeType::kVectorNode)
+            throw InternalWrongNodeType(node_in);
+
+    ParserVectorNode& node = (ParserVectorNode&)node_in;
+
+    std::string value;
+    size_t value_count = 0;
+
+    for (const auto& child : node.child_nodes)
     {
-        return true;
+        if (!value.empty())
+            value += ',';
+
+        value +=
+            this->ProcessValueNode(*child.get(), parent_object)->ToString();
+
+        value_count++;
     }
 
-    return false;
+    if (value_count == 2)
+    {
+        Float2 final_value;
+        if (!final_value.LoadValue(String(value)))
+            throw AttributeConversionError("Float2", value, node_in);
+        return std::make_shared<Float2>(final_value);
+    }
+    else if (value_count == 3)
+    {
+        Float3 final_value;
+        if (!final_value.LoadValue(String(value)))
+            throw AttributeConversionError("Float3", value, node_in);
+        return std::make_shared<Float3>(final_value);
+    }
+    else if (value_count == 4)
+    {
+        Float4 final_value;
+        if (!final_value.LoadValue(String(value)))
+            throw AttributeConversionError("Float4", value, node_in);
+        return std::make_shared<Float4>(final_value);
+    }
+
+    throw AttributeConversionError("Vector", value, node_in);
+}
+
+std::shared_ptr<Attribute> Interpreter::ProcessValueNode(
+    const ParserNode& node, Object& parent_object) const
+{
+    switch (node.type)
+    {
+    case ParserNodeType::kStringNode:
+        return std::make_shared<String>(this->ProcessStringNode(node));
+    case ParserNodeType::kIntNode:
+        return std::make_shared<Int>(this->ProcessIntNode(node));
+    case ParserNodeType::kFloatNode:
+        return std::make_shared<Float>(this->ProcessFloatNode(node));
+    case ParserNodeType::kBoolNode:
+        return std::make_shared<Bool>(this->ProcessBoolNode(node));
+    case ParserNodeType::kVectorNode:
+        return this->ProcessVectorNode(node, parent_object);
+    case ParserNodeType::kAttributeAccessNode:
+        return std::shared_ptr<Attribute>(
+            &this->ProcessAttributeAccessNode(node, parent_object),
+                [](Attribute*){});  // Used that the pointer does not delete
+                                    // the attribute. This will be changed
+                                    // when references are implemented.
+    default:
+        throw UnknownAttributeValueType(node);
+    }
+}
+
+Attribute& Interpreter::ProcessAttributeAccessNode(
+    const ParserNode& node_in, Object& parent_object) const
+{
+    if (node_in.type != ParserNodeType::kAttributeAccessNode)
+            throw InternalWrongNodeType(node_in);
+
+    ParserAttributeAccessNode& node = (ParserAttributeAccessNode&)node_in;
+
+    std::string attribute = node.attribute_name;
+
+    // We will assume a reference to a attribute of the current object
+    // if the attribute name does not contain '.'
+    if (attribute.find('.') == std::string::npos)
+        return this->GetAttributeFromObject(attribute, parent_object, node);
+
+    return this->GetAttribtueFromObjectReference(attribute, node);
+}
+
+
+Attribute& Interpreter::GetAttributeFromObject(
+    const std::string attribute,
+    Object& object,
+    const ParserNode& node) const
+{
+    const std::string type = object.GetName();
+    const std::string id   = object.GetID().empty() ?
+                             "null" : object.GetID();
+
+    if (!object.HasAttribute(attribute))
+        throw AttributeDoesNotExists(type, id, attribute, node);
+
+    Attribute* att = object.GetAttribute(attribute);
+    if (!att)
+        throw AttributeDoesNotExists(type, id, attribute, node);
+
+    return *att;
+}
+
+Attribute& Interpreter::GetAttribtueFromObjectReference(
+    std::string attribute, const ParserNode& node) const
+{
+    std::string object_id =
+        this->GetObjectNameFromAttributeReferenceString(attribute, node);
+
+    if (object_id.size() >= attribute.size())
+        throw NoAttributeSpecified(node);
+
+    attribute = attribute.substr(object_id.size() + 1);
+
+    if (this->object_references_.find(object_id) ==
+        this->object_references_.end())
+    {
+        throw ObjectIsNotDefined(object_id, node);
+    }
+
+    Object& object = this->object_references_.at(object_id);
+
+    const std::string type = object.GetName();
+    const std::string id   = object.GetID().empty() ?
+                                "null" : object.GetID();
+
+    Attribute* att = object.GetAttribute(attribute);
+    if (!att)
+        throw AttributeDoesNotExists(type, id, attribute, node);
+
+    return *att;
+}
+
+std::string Interpreter::GetObjectNameFromAttributeReferenceString(
+    const std::string attribute, const ParserNode& node) const
+{
+    if (attribute.size() <= 3)
+            throw InvalidObjectID(attribute, node);
+
+    const std::vector<std::string> segments =
+        utils::SplitString(attribute, '.');
+
+    if (segments.empty())
+        throw InvalidObjectID(attribute, node);
+
+    std::string object_id;
+    for (const auto& segment : segments)
+    {
+        std::string id = object_id;
+        if (!id.empty())
+            id += '.';
+
+        id += segment;
+        if (this->object_references_.find(id) == this->object_references_.end())
+        {
+            if (object_id.empty())
+                object_id = id;
+            break;
+        }
+
+        object_id = id;
+    }
+
+    if (this->object_references_.find(object_id) ==
+        this->object_references_.end())
+    {
+        throw ObjectIsNotDefined(object_id, node);
+    }
+
+    return object_id;
+}
+
+std::string Interpreter::AttributeTypeToString(const Attribute& attribute) const
+{
+    return this->AttributeTypeToString(attribute.type);
+}
+
+std::string Interpreter::AttributeTypeToString(const AttributeType type) const
+{
+    switch (type)
+    {
+    case AttributeType::kBool:   return "Bool";
+    case AttributeType::kFloat:  return "Float";
+    case AttributeType::kFloat2: return "Float2";
+    case AttributeType::kFloat3: return "Float3";
+    case AttributeType::kFloat4: return "Float4";
+    case AttributeType::kInt:    return "Int";
+    case AttributeType::kString: return "String";
+    default: return "Undefined";
+    }
 }
 
 }  // namespace gui

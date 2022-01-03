@@ -2,11 +2,14 @@
 #define IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_BOOL_H_
 
 #include "imgui_layer/attribute_types/attribute_type.h"
+#include "imgui_layer/attribute_types/string.h"
+
+#include <string>
 
 namespace gui
 {
 
-class Bool : public AttributeType
+class Bool : public Attribute
 {
 public:
     Bool();
@@ -14,16 +17,14 @@ public:
 
     bool value = true;
 
-    std::string ToString();
+    std::string ToString() const;
 
-    void operator=(const bool& x);
+    inline operator bool() const { return value; }
 
 private:
-    // Functions
-    bool IMPLLoadValue(std::string value);
+    bool IMPL_LoadValue(const Bool& value);
+    bool IMPL_LoadValue(const String& value);
 };
-
-std::ostream& operator<<(std::ostream& os, Bool& x);
 
 }  // namespace gui
 

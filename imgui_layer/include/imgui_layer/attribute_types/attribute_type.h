@@ -1,54 +1,86 @@
-#ifndef IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_ATTRIBUTE_TYPE_H_
-#define IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_ATTRIBUTE_TYPE_H_
+#ifndef IMGUI_LAYER_INCLUDE_ATTRIBUTE_TYPES_ATTRIBUTE_TYPE_H_
+#define IMGUI_LAYER_INCLUDE_ATTRIBUTE_TYPES_ATTRIBUTE_TYPE_H_
 
-#include "imgui_layer/parser/parser_error.h"
+#include "imgui_layer/parser/parser_result.h"
 
 #include <string>
 
 namespace gui
 {
 
-class AttributeType
+enum class AttributeType
+{
+    kBool,
+    kFloat,
+    kFloat2,
+    kFloat3,
+    kFloat4,
+    kInt,
+    kString
+};
+
+class Bool;
+class Float;
+class Float2;
+class Float3;
+class Float4;
+class Int;
+class String;
+
+class Attribute
 {
 public:
-    // Variables
+    Attribute(AttributeType type);
+
+    AttributeType type;
+
+    /**
+     * Will be set when the LoadValue function was sucessfully called.
+     */
     bool value_changed_ = false;
 
-    // Functions
-    bool LoadValue(std::string value);
-    virtual bool IMPLLoadValue(std::string value) = 0;
+    /**
+     * Loads a string value into the attribute.
+     *
+     * @param value that will be loaded into the attribute.
+     * @return true on sucess
+     * @return false if there was a conversion error
+     */
+    bool LoadValue(const Attribute& value);
+    bool LoadValue(const Bool& value);
+    bool LoadValue(const Float& value);
+    bool LoadValue(const Float2& value);
+    bool LoadValue(const Float3& value);
+    bool LoadValue(const Float4& value);
+    bool LoadValue(const Int& value);
+    bool LoadValue(const String& value);
 
     /**
-     * Gets a child attributeby its ID.
-     * Used for the attribute types like float2, float3, float4 that
-     * have the child attributes x,y,z,w.
-     *
-     * @param[in] id - The name of the child attribute, e.g. x,y,z or w.
-     *
-     * @return pointer to the child attribute, nullptr if the child attribute
-     *         does not exists.
-    */
-    virtual AttributeType* GetChild(std::string name);
+     * Converts the attribute value type to a std::string.
+     */
+    virtual std::string ToString() const = 0;
 
-    /**
-     * Checks if the attribute has a child attributes with the given name.
-     *
-     * @param[in] name - The name of the child attribute that will be checked.
-     *
-     * @return true if the child attribute exists, false if the attribute
-     *         has no child attributes with the given name.
-    */
-    virtual bool HasChild(std::string name);
+private:
+    // NOTE: typename T has to be an imgui_layer attribute!
+    template<typename T>
+    bool LoadValue(const T& value)
+    {
+        if (!this->IMPL_LoadValue(value))
+            return false;
 
-    virtual std::string ToString() = 0;
+        this->value_changed_ = true;
+        return true;
+    }
 
-    ParserError GetLastError() const;
-
-protected:
-    // Variables
-    ParserError last_error_;
+    virtual bool IMPL_LoadValue(const Bool& value)   { return false; }
+    virtual bool IMPL_LoadValue(const Float& value)  { return false; }
+    virtual bool IMPL_LoadValue(const Float2& value) { return false; }
+    virtual bool IMPL_LoadValue(const Float3& value) { return false; }
+    virtual bool IMPL_LoadValue(const Float4& value) { return false; }
+    virtual bool IMPL_LoadValue(const Int& value)    { return false; }
+    virtual bool IMPL_LoadValue(const String& value) = 0;
 };
 
 }  // namespace gui
 
-#endif  // IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_ATTRIBUTE_TYPE_H_
+#endif  // IMGUI_LAYER_INCLUDE_ATTRIBUTE_TYPES_ATTRIBUTE_TYPE_H_

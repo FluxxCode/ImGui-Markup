@@ -5,116 +5,58 @@ namespace gui
 {
 
 Float4::Float4()
+    : Attribute(AttributeType::kFloat4)
 { }
 
 Float4::Float4(float x, float y, float z, float w)
-    : x(x), y(y), z(z), w(w)
+    : Attribute(AttributeType::kFloat4), x(x), y(y), z(z), w(w)
 { }
 
 Float4::Float4(ImVec4 vec)
-    : x(vec.x), y(vec.y), z(vec.z), w(vec.w)
+    : Attribute(AttributeType::kFloat4), x(vec.x), y(vec.y), z(vec.z), w(vec.w)
 { }
 
-AttributeType* Float4::GetChild(std::string name)
-{
-    if (name == "x")
-        return &this->x;
-    if (name == "y")
-        return &this->y;
-    if (name == "z")
-        return &this->z;
-    if (name == "w")
-        return &this->w;
-
-    return nullptr;
-}
-
-bool Float4::HasChild(std::string name)
-{
-    if (name == "x" || name == "y" || name == "z" || name == "w")
-        return true;
-
-    return false;
-}
-
-std::string Float4::ToString()
+std::string Float4::ToString() const
 {
     return std::to_string(this->x) + "," +
-        std::to_string(this->y) + "," +
-        std::to_string(this->z) + "," +
-        std::to_string(this->w);
+           std::to_string(this->y) + "," +
+           std::to_string(this->z) + "," +
+           std::to_string(this->w);
 }
 
-Float4::operator ImVec4()
+bool Float4::IMPL_LoadValue(const Float4& value_in)
 {
-    return ImVec4(this->x, this->y, this->z, this->w);
-}
-
-bool Float4::IMPLLoadValue(std::string value)
-{
-    std::vector<std::string> segments = utils::SplitString(value, ',');
-
-    if (segments.size() != 4)
-    {
-        this->SetError(value);
-        return false;
-    }
-
-    // X:
-    if (!this->x.LoadValue(segments[0]))
-    {
-        this->SetError(value, this->x);
-        return false;
-    }
-
-    // Y:
-    if (!this->y.LoadValue(segments[1]))
-    {
-        this->SetError(value, this->y);
-        return false;
-    }
-
-    // z:
-    if (!this->z.LoadValue(segments[2]))
-    {
-        this->SetError(value, this->z);
-        return false;
-    }
-
-    // w:
-    if (!this->w.LoadValue(segments[3]))
-    {
-        this->SetError(value, this->w);
-        return false;
-    }
-
+    this->x = value_in.x;
+    this->y = value_in.y;
+    this->z = value_in.z;
+    this->w = value_in.w;
     return true;
 }
 
-void Float4::SetError(std::string value)
+bool Float4::IMPL_LoadValue(const String& value_in)
 {
-    this->last_error_ = ParserError(ParserErrorType::kConversionError,
-        "Unable to convert \"" + value + "\" to a float4");
+    std::vector<std::string> segments = utils::SplitString(value_in, ',');
 
-    this->ResetValues();
-}
+    if (segments.size() != 4)
+        return false;
 
-void Float4::SetError(std::string value, Float& child)
-{
-    this->last_error_ = child.GetLastError();
-    this->last_error_.message_ =
-        "Unable to convert \"" + value + "\" to a float4: " +
-        this->last_error_.message_;
+    // X:
+    if (!this->x.LoadValue(String(segments[0])))
+        return false;
 
-    this->ResetValues();
-}
+    // Y:
+    if (!this->y.LoadValue(String(segments[1])))
+        return false;
 
-void Float4::ResetValues()
-{
-    this->x = 0;
-    this->y = 0;
-    this->z = 0;
-    this->w = 0;
+    // z:
+    if (!this->z.LoadValue(String(segments[2])))
+        return false;
+
+    // w:
+    if (!this->w.LoadValue(String(segments[3])))
+        return false;
+
+    return true;
 }
 
 }  // namespace gui

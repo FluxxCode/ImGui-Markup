@@ -5,38 +5,27 @@ namespace gui
 {
 
 Int::Int()
+    : Attribute(AttributeType::kInt)
 { }
 
 Int::Int(int i)
-    : value(i)
+    : Attribute(AttributeType::kInt), value(i)
 { }
 
-std::string Int::ToString()
+std::string Int::ToString() const
 {
     return std::to_string(this->value);
 }
 
-Int::operator int()
+bool Int::IMPL_LoadValue(const Int& value_in)
 {
-    return this->value;
-}
-
-bool Int::IMPLLoadValue(std::string value)
-{
-    if (!utils::StringToInt(value, &this->value))
-    {
-        this->last_error_ = ParserError(ParserErrorType::kConversionError,
-            "Unable to convert \"" + value + "\" to an int");
-
-        return false;
-    }
-
+    this->value = value_in;
     return true;
 }
 
-std::ostream& operator<<(std::ostream& os, Int const& x)
+bool Int::IMPL_LoadValue(const String& value_in)
 {
-    return os << x.value;
+    return utils::StringToInt(value_in, &this->value);
 }
 
 }  // namespace gui

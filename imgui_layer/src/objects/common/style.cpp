@@ -5,7 +5,7 @@ namespace gui
 {
 
 void Style::AddStyleAttirbutes(
-    std::map<std::string, AttributeType*>& attribute_list)
+    std::map<std::string, Attribute*>& attribute_list)
 {
     attribute_list["alpha"]
         = &this->alpha_;
@@ -90,14 +90,14 @@ void Style::AddStyleAttirbutes(
 }
 
 void Style::OverwriteName(
-    std::map<std::string, AttributeType*>& attribute_list,
+    std::map<std::string, Attribute*>& attribute_list,
     const std::string old_name,
     const std::string new_name)
 {
     if (attribute_list.find(old_name) == attribute_list.end())
         return;
 
-    AttributeType* value = attribute_list[old_name];
+    Attribute* value = attribute_list[old_name];
     attribute_list.erase(old_name);
     attribute_list[new_name] = value;
 }

@@ -2,13 +2,14 @@
 #define IMGUI_LAYER_SRC_ATTRIBUTE_TYPES
 
 #include "imgui_layer/attribute_types/attribute_type.h"
+#include "imgui_layer/attribute_types/string.h"
 
 #include <string>
 
 namespace gui
 {
 
-class Float : public AttributeType
+class Float : public Attribute
 {
 public:
     Float();
@@ -16,18 +17,15 @@ public:
 
     float value = 0;
 
-    std::string ToString();
+    std::string ToString() const;
 
-    operator float();
+    inline operator float() const { return value; }
 
 private:
-    // Functions
-    bool IMPLLoadValue(std::string value);
-
+    bool IMPL_LoadValue(const Float& value);
+    bool IMPL_LoadValue(const String& value);
 };
-
-std::ostream& operator<<(std::ostream& os, Float const& x);
 
 }
 
-#endif IMGUI_LAYER_SRC_ATTRIBUTE_TYPES  // IMGUI_LAYER_SRC_ATTRIBUTE_TYPES
+#endif  // IMGUI_LAYER_SRC_ATTRIBUTE_TYPES

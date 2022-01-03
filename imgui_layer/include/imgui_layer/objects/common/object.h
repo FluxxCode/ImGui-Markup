@@ -3,7 +3,7 @@
 
 #include "imgui_layer/attribute_types/attribute_type.h"
 #include "imgui_layer/attribute_types/float2.h"
-#include "imgui_layer/parser/parser_error.h"
+#include "imgui_layer/parser/parser_result.h"
 
 #include <string>
 #include <map>
@@ -42,7 +42,7 @@ public:
      *         False, if the attribtue with the name does not exists or there
      *         was an error when loading the value into the attribute.
     */
-    bool SetAttributeValue(const std::string name, const std::string value);
+    bool SetAttributeValue(const std::string name, const Attribute& value);
 
     /**
      * Get a pointer to an attribute from this object by its name.
@@ -52,7 +52,7 @@ public:
      * @return a pointer to the attribute. nullptr, if the attribute with the
      *         given name does not exists.
     */
-    AttributeType* GetAttribute(const std::string name) const;
+    Attribute* GetAttribute(const std::string name) const;
 
     /**
      * Check if this object has an attribute with the given name.
@@ -71,6 +71,8 @@ public:
      *         false if this object has no parent object.
     */
     bool HasParent();
+
+    Object* GetParent() const;
 
     /**
      * Get a shared_ptr to an child object from this object by its name.
@@ -109,8 +111,6 @@ public:
     */
     std::string GetID() const;
 
-    ParserError GetLastError() const;
-
 protected:
     // Variables
     std::string name_;
@@ -118,8 +118,6 @@ protected:
     Object* parent_;
 
     std::vector<std::shared_ptr<Object>> child_objects_ = { };
-
-    mutable ParserError last_error_;
 
     // Functions
     /**
@@ -134,7 +132,7 @@ protected:
      *                        access the attribute from data that is parsed.
      * @param[in] attribute - An pointer to the attribute.
     */
-    void AddAttribute(const std::string name, AttributeType* attribute);
+    void AddAttribute(const std::string name, Attribute* attribute);
 
     /**
      * Remove an attribute from the attribute list.
@@ -147,7 +145,7 @@ protected:
 
 private:
     // Variables
-    std::map<std::string, AttributeType*> attribute_list_ = { };
+    std::map<std::string, Attribute*> attribute_list_ = { };
 
 };
 

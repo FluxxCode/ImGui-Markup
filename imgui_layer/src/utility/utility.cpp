@@ -76,6 +76,20 @@ std::vector<std::string> SplitString(std::string str, const char c)
     return segments;
 }
 
+bool PathExists(const std::string path)
+{
+    try
+    {
+        return std::filesystem::exists(path);
+    }
+    catch(const std::exception& e)
+    {
+        return false;
+    }
+
+    return false;
+}
+
 void Log(const std::string message)
 {
 #ifdef _DEBUG

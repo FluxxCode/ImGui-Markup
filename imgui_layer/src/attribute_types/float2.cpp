@@ -3,95 +3,46 @@
 
 namespace gui
 {
+
 Float2::Float2()
+    : Attribute(AttributeType::kFloat2)
 { }
 
 Float2::Float2(float x, float y)
-    : x(x), y(y)
+    : Attribute(AttributeType::kFloat2), x(x), y(y)
 { }
 
 Float2::Float2(ImVec2 vec)
-    : x(vec.x), y(vec.y)
+    : Attribute(AttributeType::kFloat2), x(vec.x), y(vec.y)
 { }
 
-AttributeType* Float2::GetChild(std::string name)
-{
-    if (name == "x")
-        return &this->x;
-    if (name == "y")
-        return &this->y;
-
-    return nullptr;
-}
-
-bool Float2::HasChild(std::string name)
-{
-    if (name == "x" || name == "y")
-        return true;
-
-    return false;
-}
-
-std::string Float2::ToString()
+std::string Float2::ToString() const
 {
     return std::to_string(this->x) + ", " + std::to_string(this->y);
 }
 
-Float2::operator ImVec2()
+bool Float2::IMPL_LoadValue(const Float2& value_in)
 {
-    return ImVec2(this->x, this->y);
-}
-
-bool Float2::IMPLLoadValue(std::string value)
-{
-    std::vector<std::string> segments = utils::SplitString(value, ',');
-
-    if (segments.size() != 2)
-    {
-        this->SetError(value);
-        return false;
-    }
-
-    if (!this->x.LoadValue(segments[0]))
-    {
-        this->SetError(value, this->x);
-        return false;
-    }
-
-    // Y:
-    if (!this->y.LoadValue(segments[1]))
-    {
-        this->SetError(value, this->y);
-        return false;
-    }
-
-
+    this->x = value_in.x;
+    this->y = value_in.y;
     return true;
 }
 
-void Float2::SetError(std::string value)
+bool Float2::IMPL_LoadValue(const String& value_in)
 {
-    this->last_error_ = ParserError(ParserErrorType::kConversionError,
-        "Unable to convert \"" + value + "\" to a float2");
+    std::vector<std::string> segments = utils::SplitString(value_in, ',');
 
-    this->ResetValues();
+    if (segments.size() != 2)
+        return false;
 
-}
+    if (!this->x.LoadValue(String(segments[0])))
+        return false;
 
-void Float2::SetError(std::string value, Float& child)
-{
-    this->last_error_ = child.GetLastError();
-    this->last_error_.message_ =
-        "Unable to convert \"" + value + "\" to a float2: " +
-        this->last_error_.message_;
+    // Y:
+    if (!this->y.LoadValue(String(segments[1])))
+        return false;
 
-    this->ResetValues();
-}
-
-void Float2::ResetValues()
-{
-    this->x = 0;
-    this->y = 0;
+    return true;
 }
 
 }  // namespace gui

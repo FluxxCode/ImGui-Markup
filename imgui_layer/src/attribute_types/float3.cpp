@@ -5,96 +5,48 @@ namespace gui
 {
 
 Float3::Float3()
+    : Attribute(AttributeType::kFloat3)
 { }
 
 Float3::Float3(float x, float y, float z)
-    : x(x), y(y), z(z)
+    : Attribute(AttributeType::kFloat3), x(x), y(y), z(z)
 { }
 
-AttributeType* Float3::GetChild(std::string name)
-{
-    if (name == "x")
-        return &this->x;
-    if (name == "y")
-        return &this->y;
-    if (name == "z")
-        return &this->z;
-
-    return nullptr;
-}
-
-bool Float3::HasChild(std::string name)
-{
-    if (name == "x" || name == "y" || name == "z")
-        return true;
-
-    return false;
-}
-
-std::string Float3::ToString()
+std::string Float3::ToString() const
 {
     return std::to_string(this->x) + "," +
            std::to_string(this->y) + "," +
            std::to_string(this->z);
 }
 
-bool Float3::IMPLLoadValue(std::string value)
+bool Float3::IMPL_LoadValue(const Float3& value_in)
 {
-    std::vector<std::string> segments = utils::SplitString(value, ',');
-
-    if (segments.size() != 3)
-    {
-        this->SetError(value);
-        return false;
-    }
-
-    // X:
-    if (!this->x.LoadValue(segments[0]))
-    {
-        this->SetError(value, this->x);
-        return false;
-    }
-
-    // Y:
-    if (!this->y.LoadValue(segments[1]))
-    {
-        this->SetError(value, this->y);
-        return false;
-    }
-
-    // z:
-    if (!this->z.LoadValue(segments[2]))
-    {
-        this->SetError(value, this->z);
-        return false;
-    }
-
+    this->x = value_in.x;
+    this->y = value_in.y;
+    this->z = value_in.z;
     return true;
 }
 
-void Float3::SetError(std::string value)
+bool Float3::IMPL_LoadValue(const String& value_in)
 {
-    this->last_error_ = ParserError(ParserErrorType::kConversionError,
-        "Unable to convert \"" + value + "\" to a float3");
+    std::vector<std::string> segments = utils::SplitString(value_in, ',');
 
-    this->ResetValues();
-}
+    if (segments.size() != 3)
+        return false;
 
-void Float3::SetError(std::string value, Float& child)
-{
-    this->last_error_ = child.GetLastError();
-    this->last_error_.message_ =
-        "Unable to convert \"" + value + "\" to a float3: " +
-        this->last_error_.message_;
+    // X:
+    if (!this->x.LoadValue(String(segments[0])))
+        return false;
 
-    this->ResetValues();
-}
+    // Y:
+    if (!this->y.LoadValue(String(segments[1])))
+        return false;
 
-void Float3::ResetValues()
-{
-    this->x = 0;
-    this->y = 0;
-    this->z = 0;
+    // z:
+    if (!this->z.LoadValue(String(segments[2])))
+        return false;
+
+    return true;
 }
 
 }  // namespace gui

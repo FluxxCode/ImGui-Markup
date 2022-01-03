@@ -13,38 +13,18 @@ Object::Object(std::string name, std::string id, Object* parent)
     };
 }
 
-bool Object::SetAttributeValue(const std::string name, const std::string value)
+bool Object::SetAttributeValue(const std::string name, const Attribute& value)
 {
     if (!this->HasAttribute(name))
-    {
-        this->last_error_ = ParserError(ParserError(
-            ParserErrorType::kInvalidAttributeName,
-            "Object \"" + this->name_ + "\" has no attribute called \"" +
-            name + "\"."));
-
         return false;
-    }
 
-    if (!this->attribute_list_.at(name)->LoadValue(value))
-    {
-        this->last_error_ = this->attribute_list_.at(name)->GetLastError();
-        return false;
-    }
-
-    return true;
+    return this->attribute_list_.at(name)->LoadValue(value);
 }
 
-AttributeType* Object::GetAttribute(const std::string name) const
+Attribute* Object::GetAttribute(const std::string name) const
 {
     if (!this->HasAttribute(name))
-    {
-        this->last_error_ = ParserError(ParserError(
-            ParserErrorType::kInvalidAttributeName,
-            "Object \"" + this->name_ + "\" has no attribute called + \"" +
-            name + "\"."));
-
         return nullptr;
-    }
 
     return this->attribute_list_.at(name);
 }
@@ -60,6 +40,11 @@ bool Object::HasAttribute(const std::string name) const
 bool Object::HasParent()
 {
     return this->parent_ ? true : false;
+}
+
+Object* Object::GetParent() const
+{
+    return this->parent_;
 }
 
 std::shared_ptr<Object> Object::GetChild(
@@ -99,18 +84,13 @@ std::string Object::GetID() const
     return this->id_;
 }
 
-ParserError Object::GetLastError() const
-{
-    return this->last_error_;
-}
-
 void Object::UpdateChilds()
 {
     for (unsigned int i = 0; i < this->child_objects_.size(); i++)
         this->child_objects_[i]->Update();
 }
 
-void Object::AddAttribute(const std::string name, AttributeType* attribute)
+void Object::AddAttribute(const std::string name, Attribute* attribute)
 {
     if (this->attribute_list_.find(name) != this->attribute_list_.end())
     {

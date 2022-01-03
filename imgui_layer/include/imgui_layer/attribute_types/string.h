@@ -8,7 +8,7 @@
 namespace gui
 {
 
-class String : public AttributeType
+class String : public Attribute
 {
 public:
     String();
@@ -17,17 +17,14 @@ public:
 
     std::string value;
 
-    std::string ToString();
+    std::string ToString() const;
 
-    operator std::string();
-    operator const char*();
+    inline operator std::string() const { return value; }
+    inline operator const char*() const { return value.c_str(); }
 
 private:
-    // Functions
-    bool IMPLLoadValue(std::string value);
+    bool IMPL_LoadValue(const String& value);
 };
-
-std::ostream& operator<<(std::ostream& os, String const& str);
 
 }  // namespace gui
 

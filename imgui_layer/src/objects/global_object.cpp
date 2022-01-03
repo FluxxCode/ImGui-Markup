@@ -29,6 +29,8 @@ void GlobalObject::Reset()
     this->version_.value.clear();
     this->description_.value.clear();
     this->author_.value.clear();
+
+    this->child_objects_.clear();
 }
 
 }  // namespace gui

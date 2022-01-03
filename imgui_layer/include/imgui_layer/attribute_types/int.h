@@ -2,13 +2,14 @@
 #define IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_INT_H_
 
 #include "imgui_layer/attribute_types/attribute_type.h"
+#include "imgui_layer/attribute_types/string.h"
 
 #include <string>
 
 namespace gui
 {
 
-class Int : public AttributeType
+class Int : public Attribute
 {
 public:
     Int();
@@ -16,17 +17,15 @@ public:
 
     int value = 0;
 
-    std::string ToString();
+    std::string ToString() const;
 
-    operator int();
+    inline operator int() const { return value; }
 
 private:
-    // Functions
-    bool IMPLLoadValue(std::string value);
+    bool IMPL_LoadValue(const Int& value);
+    bool IMPL_LoadValue(const String& value);
 };
-
-std::ostream& operator<<(std::ostream& os, Int const& x);
 
 }  // namespace gui
 
-#endif IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_INT_H_
+#endif  // IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_INT_H_
