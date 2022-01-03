@@ -19,9 +19,9 @@ void Text::Update()
         ImGui::SetCursorPos(this->position_);
 
     if (this->color_.value_changed_)
-        ImGui::TextColored(this->color_, this->text_);
+        ImGui::TextColored(this->color_, "%s", this->text_.value.c_str());
     else
-        ImGui::Text(this->text_);
+        ImGui::Text("%s", this->text_.value.c_str());
 }
 
 }  // namespace gui

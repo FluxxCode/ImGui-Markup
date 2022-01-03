@@ -26,4 +26,4 @@ private:
 
 }  // namespace gui
 
-#endif IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_INT_H_
+#endif  // IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_INT_H_

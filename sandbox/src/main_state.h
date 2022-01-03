@@ -28,4 +28,4 @@ private:
     void UpdateControlWindow();
 };
 
-#endif SANDBOX_SRC_MAIN_STATE_H_
+#endif  // SANDBOX_SRC_MAIN_STATE_H_
