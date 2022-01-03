@@ -284,7 +284,11 @@ std::string Interpreter::GetObjectNameFromAttributeReferenceString(
 
         id += segment;
         if (this->object_references_.find(id) == this->object_references_.end())
+        {
+            if (object_id.empty())
+                object_id = id;
             break;
+        }
 
         object_id = id;
     }

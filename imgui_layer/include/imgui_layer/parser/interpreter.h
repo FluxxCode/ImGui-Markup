@@ -110,7 +110,8 @@ struct ObjectIsNotDefined : public InterpreterException
 {
     ObjectIsNotDefined(std::string object_id, ParserNode node)
         : InterpreterException("Object with ID \"" + object_id + "\" "
-                               "is not defined", node,
+                               "is not defined. Make sure to sepcify the "
+                               "full ID", node,
                               ParserResultType::kObjectIsNotDefined)
     { }
 };
