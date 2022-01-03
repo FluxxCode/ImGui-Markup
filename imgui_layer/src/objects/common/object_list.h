@@ -7,6 +7,7 @@
 #include "imgui_layer/objects/child_panel.h"
 #include "imgui_layer/objects/button.h"
 #include "imgui_layer/objects/text.h"
+#include "imgui_layer/objects/container.h"
 #include "imgui_layer/objects/attribute_types/object_bool.h"
 #include "imgui_layer/objects/attribute_types/object_float.h"
 #include "imgui_layer/objects/attribute_types/object_float2.h"
@@ -75,9 +76,10 @@ private:
             { "ChildPanel", CreateObjectInstance<ChildPanel>   },
             { "Button",     CreateObjectInstance<Button>       },
             { "Text",       CreateObjectInstance<Text>         },
-            { "Bool",       CreateObjectInstance<ObjectBool>   },
+            { "Container",  CreateObjectInstance<Container>    },
 
             // Atribute types
+            { "Bool",       CreateObjectInstance<ObjectBool>   },
             { "Float",      CreateObjectInstance<ObjectFloat>  },
             { "Float2",     CreateObjectInstance<ObjectFloat2> },
             { "Float3",     CreateObjectInstance<ObjectFloat3> },
