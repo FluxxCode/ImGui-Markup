@@ -23,7 +23,7 @@ public:
     inline operator const char*() const { return value.c_str(); }
 
 private:
-    bool IMPL_LoadValue(std::string value);
+    bool IMPL_LoadValue(const String& value);
 };
 
 }  // namespace gui

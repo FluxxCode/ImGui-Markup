@@ -24,7 +24,15 @@ std::string Float4::ToString() const
            std::to_string(this->w);
 }
 
-bool Float4::IMPL_LoadValue(std::string value_in)
+bool Float4::IMPL_LoadValue(const Float4& value_in)
+{
+    this->x = value_in.x;
+    this->y = value_in.y;
+    this->z = value_in.z;
+    this->w = value_in.w;
+}
+
+bool Float4::IMPL_LoadValue(const String& value_in)
 {
     std::vector<std::string> segments = utils::SplitString(value_in, ',');
 
@@ -32,19 +40,19 @@ bool Float4::IMPL_LoadValue(std::string value_in)
         return false;
 
     // X:
-    if (!this->x.LoadValue(segments[0]))
+    if (!this->x.LoadValue(String(segments[0])))
         return false;
 
     // Y:
-    if (!this->y.LoadValue(segments[1]))
+    if (!this->y.LoadValue(String(segments[1])))
         return false;
 
     // z:
-    if (!this->z.LoadValue(segments[2]))
+    if (!this->z.LoadValue(String(segments[2])))
         return false;
 
     // w:
-    if (!this->w.LoadValue(segments[3]))
+    if (!this->w.LoadValue(String(segments[3])))
         return false;
 
     return true;

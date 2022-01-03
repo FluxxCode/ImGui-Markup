@@ -13,15 +13,12 @@ Object::Object(std::string name, std::string id, Object* parent)
     };
 }
 
-bool Object::SetAttributeValue(const std::string name, const std::string value)
+bool Object::SetAttributeValue(const std::string name, const Attribute& value)
 {
     if (!this->HasAttribute(name))
         return false;
 
-    if (!this->attribute_list_.at(name)->LoadValue(value))
-        return false;
-
-    return true;
+    return this->attribute_list_.at(name)->LoadValue(value);
 }
 
 Attribute* Object::GetAttribute(const std::string name) const

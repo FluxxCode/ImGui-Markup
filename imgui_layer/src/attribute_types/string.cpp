@@ -21,9 +21,9 @@ std::string String::ToString() const
     return this->value;
 }
 
-bool String::IMPL_LoadValue(std::string value_in)
+bool String::IMPL_LoadValue(const String& value_in)
 {
-    this->value = value_in;
+    this->value = value_in.value;
     return true;
 }
 

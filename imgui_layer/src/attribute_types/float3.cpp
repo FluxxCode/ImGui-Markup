@@ -19,7 +19,15 @@ std::string Float3::ToString() const
            std::to_string(this->z);
 }
 
-bool Float3::IMPL_LoadValue(std::string value_in)
+bool Float3::IMPL_LoadValue(const Float3& value_in)
+{
+    this->x = value_in.x;
+    this->y = value_in.y;
+    this->z = value_in.z;
+    return true;
+}
+
+bool Float3::IMPL_LoadValue(const String& value_in)
 {
     std::vector<std::string> segments = utils::SplitString(value_in, ',');
 
@@ -27,15 +35,15 @@ bool Float3::IMPL_LoadValue(std::string value_in)
         return false;
 
     // X:
-    if (!this->x.LoadValue(segments[0]))
+    if (!this->x.LoadValue(String(segments[0])))
         return false;
 
     // Y:
-    if (!this->y.LoadValue(segments[1]))
+    if (!this->y.LoadValue(String(segments[1])))
         return false;
 
     // z:
-    if (!this->z.LoadValue(segments[2]))
+    if (!this->z.LoadValue(String(segments[2])))
         return false;
 
     return true;

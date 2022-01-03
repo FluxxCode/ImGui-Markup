@@ -114,7 +114,7 @@ void Interpreter::ProcessAttributeAssignNode(
     std::string value =
         this->ProcessValueNode(*node.value_node.get(), parent_object);
 
-    if (!parent_object.SetAttributeValue(node.attribute_name, value))
+    if (!parent_object.SetAttributeValue(node.attribute_name, String(value)))
     {
         Attribute* att = parent_object.GetAttribute(node.attribute_name);
         if (!att)

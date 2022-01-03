@@ -19,8 +19,17 @@ enum class AttributeType
     kString
 };
 
-struct Attribute
+class Bool;
+class Float;
+class Float2;
+class Float3;
+class Float4;
+class Int;
+class String;
+
+class Attribute
 {
+public:
     Attribute(AttributeType type);
 
     AttributeType type;
@@ -31,19 +40,45 @@ struct Attribute
     bool value_changed_ = false;
 
     /**
-     * Loads a string value into the attribute type.
+     * Loads a string value into the attribute.
      *
      * @param value that will be loaded into the attribute.
      * @return true on sucess
      * @return false if there was a conversion error
      */
-    bool LoadValue(std::string value);
-    virtual bool IMPL_LoadValue(std::string value) = 0;
+    bool LoadValue(const Attribute& value);
+    bool LoadValue(const Bool& value);
+    bool LoadValue(const Float& value);
+    bool LoadValue(const Float2& value);
+    bool LoadValue(const Float3& value);
+    bool LoadValue(const Float4& value);
+    bool LoadValue(const Int& value);
+    bool LoadValue(const String& value);
 
     /**
      * Converts the attribute value type to a std::string.
      */
     virtual std::string ToString() const = 0;
+
+private:
+    // NOTE: typename T has to be an imgui_layer attribute!
+    template<typename T>
+    bool LoadValue(const T& value)
+    {
+        if (!this->IMPL_LoadValue(value))
+            return false;
+
+        this->value_changed_ = true;
+        return true;
+    }
+
+    virtual bool IMPL_LoadValue(const Bool& value)   { return false; }
+    virtual bool IMPL_LoadValue(const Float& value)  { return false; }
+    virtual bool IMPL_LoadValue(const Float2& value) { return false; }
+    virtual bool IMPL_LoadValue(const Float3& value) { return false; }
+    virtual bool IMPL_LoadValue(const Float4& value) { return false; }
+    virtual bool IMPL_LoadValue(const Int& value)    { return false; }
+    virtual bool IMPL_LoadValue(const String& value) = 0;
 };
 
 }  // namespace gui

@@ -17,7 +17,13 @@ std::string Int::ToString() const
     return std::to_string(this->value);
 }
 
-bool Int::IMPL_LoadValue(std::string value_in)
+bool Int::IMPL_LoadValue(const Int& value_in)
+{
+    this->value = value_in;
+    return true;
+}
+
+bool Int::IMPL_LoadValue(const String& value_in)
 {
     return utils::StringToInt(value_in, &this->value);
 }

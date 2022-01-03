@@ -17,7 +17,13 @@ std::string Float::ToString() const
     return std::to_string(this->value);
 }
 
-bool Float::IMPL_LoadValue(std::string value_in)
+bool Float::IMPL_LoadValue(const Float& value_in)
+{
+    this->value = value_in;
+    return true;
+}
+
+bool Float::IMPL_LoadValue(const String& value_in)
 {
     return utils::StringToFloat(value_in, &this->value);
 }

@@ -3,6 +3,7 @@
 
 #include "imgui_layer/attribute_types/attribute_type.h"
 #include "imgui_layer/attribute_types/float.h"
+#include "imgui_layer/attribute_types/string.h"
 
 #include <string>
 
@@ -37,7 +38,8 @@ public:
     }
 
 private:
-    bool IMPL_LoadValue(std::string value);
+    bool IMPL_LoadValue(const Float4& value);
+    bool IMPL_LoadValue(const String& value);
 };
 
 }  // namespace gui

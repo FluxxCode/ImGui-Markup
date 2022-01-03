@@ -17,7 +17,13 @@ std::string Bool::ToString() const
     return utils::BoolToString(this->value);
 }
 
-bool Bool::IMPL_LoadValue(std::string value_in)
+bool Bool::IMPL_LoadValue(const Bool& value_in)
+{
+    this->value = value_in;
+    return true;
+}
+
+bool Bool::IMPL_LoadValue(const String& value_in)
 {
     return utils::StringToBool(value_in, &this->value);
 }

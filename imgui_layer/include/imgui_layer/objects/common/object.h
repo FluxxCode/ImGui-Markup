@@ -42,7 +42,7 @@ public:
      *         False, if the attribtue with the name does not exists or there
      *         was an error when loading the value into the attribute.
     */
-    bool SetAttributeValue(const std::string name, const std::string value);
+    bool SetAttributeValue(const std::string name, const Attribute& value);
 
     /**
      * Get a pointer to an attribute from this object by its name.
