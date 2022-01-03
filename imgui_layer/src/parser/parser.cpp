@@ -100,15 +100,17 @@ bool Parser::TokenIsObjectNode()
 
 void Parser::CreateObjectNode(ParserNode& parent_node)
 {
-    const std::string type = this->lexer_.LookAhead(0).data;
+    LexerToken token = this->lexer_.LookAhead(0);
+    ParserPosition object_position = token.position;
+
+    const std::string type = token.data;
     std::string id = "";
 
-    const size_t start_position = this->lexer_.LookAhead(0).position.start;
-    size_t end_position         = this->lexer_.LookAhead(0).position.end;
+    size_t end_position = this->lexer_.LookAhead(0).position.end;
 
-    LexerToken token;
     if (!this->lexer_.GetNextToken(token))
         throw UnexpectedEndOfFile(this->lexer_.LookAhead(0));
+
 
     // Check if the ID is set
     if (token.type == LexerTokenType::kColon)
@@ -121,6 +123,8 @@ void Parser::CreateObjectNode(ParserNode& parent_node)
         id = token.data;
         end_position = token.position.end;
 
+        end_position = this->lexer_.LookAhead(0).position.end;
+
         // Move one token, where we expect the start of the object block
         if (!this->lexer_.GetNextToken(token))
             throw UnexpectedEndOfFile(this->lexer_.LookAhead(0));
@@ -129,9 +133,7 @@ void Parser::CreateObjectNode(ParserNode& parent_node)
     if (token.type != LexerTokenType::kCBracketOpen)
         throw ExpectedStartOfBlock(token);
 
-    ParserPosition object_position = token.position;
-    object_position.start = start_position;
-    object_position.end   = end_position;
+    object_position.end = end_position;
 
     std::shared_ptr<ParserNode> node =
         std::make_shared<ParserObjectNode>(type, id, object_position);
