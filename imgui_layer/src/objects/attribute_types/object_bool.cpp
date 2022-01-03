@@ -8,6 +8,9 @@ ObjectBool::ObjectBool(std::string id, Object* parent)
     : Object("Bool", id, parent)
 {
     this->AddAttribute("value", &this->value);
+
+    this->RemoveAttribute("position");
+    this->RemoveAttribute("size");
 }
 
 }  // namespace gui

@@ -8,6 +8,9 @@ ObjectFloat::ObjectFloat(std::string id, Object* parent)
     : Object("Float", id, parent)
 {
     this->AddAttribute("value", &this->value);
+
+    this->RemoveAttribute("position");
+    this->RemoveAttribute("size");
 }
 
 }  // namespace gui
