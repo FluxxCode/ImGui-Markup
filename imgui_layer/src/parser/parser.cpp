@@ -180,8 +180,10 @@ void Parser::CreateAttributeAssignNode(ParserNode& parent_node)
 
     if (this->TokenIsStringNode())
         value_node = this->CreateStringNode();
-    else if (this->TokenIsNumberNode())
-        value_node = this->CreateNumberNode();
+    else if (this->TokenIsIntNode())
+        value_node = this->CreateIntNode();
+    else if (this->TokenIsFloatNode())
+        value_node = this->CreateFloatNode();
     else if (this->TokenIsBoolNode())
         value_node = this->CreateBoolNode();
     else if (this->TokenIsVectorNode())
@@ -226,20 +228,20 @@ std::shared_ptr<ParserStringNode> Parser::CreateStringNode()
 }
 
 /* Number node */
-bool Parser::TokenIsNumberNode()
+bool Parser::TokenIsIntNode()
 {
-    return this->lexer_.LookAhead(0).type == LexerTokenType::kNumber
+    return this->lexer_.LookAhead(0).type == LexerTokenType::kInt
                 ? true : false;
 }
 
-std::shared_ptr<ParserNumberNode> Parser::CreateNumberNode()
+std::shared_ptr<ParserIntNode> Parser::CreateIntNode()
 {
     const LexerToken token = this->lexer_.LookAhead(0);
-    if (token.type != LexerTokenType::kNumber)
+    if (token.type != LexerTokenType::kInt)
         throw ValueNodeWrongType(token);
 
-    std::shared_ptr<ParserNumberNode> node =
-        std::make_shared<ParserNumberNode>(token.data, token.position);
+    std::shared_ptr<ParserIntNode> node =
+        std::make_shared<ParserIntNode>(token.data, token.position);
 
     if (!node)
         throw UnableToCreateNumberNode(token);
@@ -247,6 +249,29 @@ std::shared_ptr<ParserNumberNode> Parser::CreateNumberNode()
     return node;
 }
 
+/* Float node */
+bool Parser::TokenIsFloatNode()
+{
+    return this->lexer_.LookAhead(0).type == LexerTokenType::kFloat
+                ? true : false;
+}
+
+std::shared_ptr<ParserFloatNode> Parser::CreateFloatNode()
+{
+    const LexerToken token = this->lexer_.LookAhead(0);
+    if (token.type != LexerTokenType::kFloat)
+        throw ValueNodeWrongType(token);
+
+    std::shared_ptr<ParserFloatNode> node =
+        std::make_shared<ParserFloatNode>(token.data, token.position);
+
+    if (!node)
+        throw UnableToCreateNumberNode(token);
+
+    return node;
+}
+
+/* Bool node */
 bool Parser::TokenIsBoolNode()
 {
     return this->lexer_.LookAhead(0).type == LexerTokenType::kBool
@@ -310,8 +335,10 @@ std::shared_ptr<ParserVectorNode> Parser::CreateVectorNode()
 
         if (this->TokenIsStringNode())
             value_node = this->CreateStringNode();
-        else if (this->TokenIsNumberNode())
-            value_node = this->CreateNumberNode();
+        else if (this->TokenIsIntNode())
+            value_node = this->CreateIntNode();
+        else if (this->TokenIsFloatNode())
+            value_node = this->CreateFloatNode();
         else if(this->TokenIsAttributeAccessNode())
             value_node = this->CreateAttributeAccessNode();
         else

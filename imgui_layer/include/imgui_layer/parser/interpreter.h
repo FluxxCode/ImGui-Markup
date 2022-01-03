@@ -5,6 +5,13 @@
 #include "imgui_layer/parser/lexer.h"
 #include "imgui_layer/parser/parser_nodes.h"
 #include "imgui_layer/objects/global_object.h"
+#include "imgui_layer/attribute_types/bool.h"
+#include "imgui_layer/attribute_types/float.h"
+#include "imgui_layer/attribute_types/float2.h"
+#include "imgui_layer/attribute_types/float3.h"
+#include "imgui_layer/attribute_types/float4.h"
+#include "imgui_layer/attribute_types/int.h"
+#include "imgui_layer/attribute_types/string.h"
 
 #include <string>
 #include <vector>
@@ -60,8 +67,15 @@ struct UnknownAttributeValueType : public InterpreterException
 
 struct AttributeConversionError : public InterpreterException
 {
-    AttributeConversionError(std::string type_left, std::string value,
-                             ParserNode node)
+    AttributeConversionError(std::string type_left, std::string type_right,
+                             std::string value, ParserNode node)
+        : InterpreterException("Unable to convert \"" + value +
+                               "\" of type \"" + type_right + "\" to a " +
+                               "value of type: \"" + type_left + "\"", node,
+                              ParserResultType::kAttributeConversionError)
+    { }
+    AttributeConversionError(std::string type_left,
+                             std::string value, ParserNode node)
         : InterpreterException("Unable to convert \"" + value + "\" to a " +
                                "value of type: \"" + type_left + "\"", node,
                               ParserResultType::kAttributeConversionError)
@@ -255,16 +269,25 @@ private:
      *         The parser will only catch the interpreter exceptions.
      *         Every other exceptions is not catched by the parser!
      */
-    std::string ProcessStringNode(const ParserNode& node) const;
+    String ProcessStringNode(const ParserNode& node) const;
 
     /**
-     * Converts a number node to its value as a string.
+     * Converts a int node to its value as a string.
      *
      * @throws The function can throw interpreter and std exceptions.
      *         The parser will only catch the interpreter exceptions.
      *         Every other exceptions is not catched by the parser!
      */
-    std::string ProcessNumberNode(const ParserNode& node) const;
+    Int ProcessIntNode(const ParserNode& node) const;
+
+    /**
+     * Converts a int node to its value as a string.
+     *
+     * @throws The function can throw interpreter and std exceptions.
+     *         The parser will only catch the interpreter exceptions.
+     *         Every other exceptions is not catched by the parser!
+     */
+    Float ProcessFloatNode(const ParserNode& node) const;
 
     /**
      * Converts a bool node to its value as a string.
@@ -273,7 +296,7 @@ private:
      *         The parser will only catch the interpreter exceptions.
      *         Every other exceptions is not catched by the parser!
      */
-    std::string ProcessBoolNode(const ParserNode& node) const;
+    Bool ProcessBoolNode(const ParserNode& node) const;
 
     /**
      * Converts a vector node to its value as a string that can be used
@@ -290,7 +313,24 @@ private:
      *         The parser will only catch the interpreter exceptions.
      *         Every other exceptions is not catched by the parser!
      */
-    std::string ProcessVectorNode(
+    std::shared_ptr<Attribute> ProcessVectorNode(
+        const ParserNode& node, Object& parent_object) const;
+
+    /**
+     * Helper function that takes a node of one of the following types:
+     * - StringNode
+     * - NumberNode
+     * - VectorNode
+     * - AttributeAccessNode
+     *
+     * The function will call the corresponding process function of the node
+     * type.
+     *
+     * @throws The function can throw interpreter and std exceptions.
+     *         The parser will only catch the interpreter exceptions.
+     *         Every other exceptions is not catched by the parser!
+     */
+    std::shared_ptr<Attribute> ProcessValueNode(
         const ParserNode& node, Object& parent_object) const;
 
     /**
@@ -332,24 +372,7 @@ private:
      *         The parser will only catch the interpreter exceptions.
      *         Every other exceptions is not catched by the parser!
      */
-    std::string ProcessAttributeAccessNode(
-        const ParserNode& node, Object& parent_object) const;
-
-    /**
-     * Helper function that takes a node of one of the following types:
-     * - StringNode
-     * - NumberNode
-     * - VectorNode
-     * - AttributeAccessNode
-     *
-     * The function will call the corresponding process function of the node
-     * type.
-     *
-     * @throws The function can throw interpreter and std exceptions.
-     *         The parser will only catch the interpreter exceptions.
-     *         Every other exceptions is not catched by the parser!
-     */
-    std::string ProcessValueNode(
+    Attribute& ProcessAttributeAccessNode(
         const ParserNode& node, Object& parent_object) const;
 
     /**
@@ -360,7 +383,7 @@ private:
      *         The parser will only catch the interpreter exceptions.
      *         Every other exceptions is not catched by the parser!
      */
-    std::string GetAttributeFromObject(
+    Attribute& GetAttributeFromObject(
         const std::string attribute,
         Object& parent_object,
         const ParserNode& node) const;
@@ -375,7 +398,7 @@ private:
      *         The parser will only catch the interpreter exceptions.
      *         Every other exceptions is not catched by the parser!
      */
-    std::string GetAttribtueFromObjectReference(
+    Attribute& GetAttribtueFromObjectReference(
         const std::string attribute, const ParserNode& node) const;
 
     /**

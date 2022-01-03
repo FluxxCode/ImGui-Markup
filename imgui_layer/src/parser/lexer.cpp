@@ -129,8 +129,12 @@ std::string Lexer::TokenToString(LexerToken token)
         message += "STR=" + token.data;
         break;
 
-    case LexerTokenType::kNumber:
-        message += "NUM=" + token.data;
+    case LexerTokenType::kInt:
+        message += "INT=" + token.data;
+        break;
+
+    case LexerTokenType::kFloat:
+        message += "FLOAT=" + token.data;
         break;
 
     case LexerTokenType::kData:
@@ -379,7 +383,7 @@ LexerToken Lexer::CreateNumber()
     // Single digit numbers
     if (!isdigit(this->GetCurrentChar(1)) && this->GetCurrentChar(1) != '.')
     {
-        return this->ConstructToken(LexerTokenType::kNumber, value,
+        return this->ConstructToken(LexerTokenType::kInt, value,
                                 start_pos, this->GetCurrentPosition());
     }
 
@@ -402,14 +406,13 @@ LexerToken Lexer::CreateNumber()
             break;
     }
 
-    if (dot_count > 1)
+    if (dot_count >= 1)
     {
-        throw InvalidNumber(
-            this->ConstructToken(LexerTokenType::kNumber, value,
-                                start_pos, this->GetCurrentPosition()));
+        return this->ConstructToken(LexerTokenType::kFloat, value,
+                                start_pos, this->GetCurrentPosition());
     }
 
-    return this->ConstructToken(LexerTokenType::kNumber, value,
+    return this->ConstructToken(LexerTokenType::kInt, value,
                             start_pos, this->GetCurrentPosition());
 }
 

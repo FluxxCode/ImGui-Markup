@@ -2,6 +2,10 @@
 #define IMGUI_LAYER_INCLUDE_IMGUI_LAYER_PARSER_PARSER_NODES_H_
 
 #include "imgui_layer/parser/parser_result.h"
+#include "imgui_layer/attribute_types/bool.h"
+#include "imgui_layer/attribute_types/float.h"
+#include "imgui_layer/attribute_types/int.h"
+#include "imgui_layer/attribute_types/string.h"
 
 #include <string>
 #include <vector>
@@ -16,7 +20,8 @@ enum class ParserNodeType
     kObjectNode,
     kAttributeAssignNode,
     kStringNode,
-    kNumberNode,
+    kIntNode,
+    kFloatNode,
     kBoolNode,
     kVectorNode,
     kAttributeAccessNode
@@ -44,12 +49,19 @@ struct ParserStringNode : public ParserNode
 {
     ParserStringNode(std::string value, ParserPosition position);
 
+    const String value;
+};
+
+struct ParserIntNode : public ParserNode
+{
+    ParserIntNode(std::string value, ParserPosition position);
+
     const std::string value;
 };
 
-struct ParserNumberNode : public ParserNode
+struct ParserFloatNode : public ParserNode
 {
-    ParserNumberNode(std::string value, ParserPosition position);
+    ParserFloatNode(std::string value, ParserPosition position);
 
     const std::string value;
 };

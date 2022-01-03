@@ -30,6 +30,7 @@ bool Float4::IMPL_LoadValue(const Float4& value_in)
     this->y = value_in.y;
     this->z = value_in.z;
     this->w = value_in.w;
+    return true;
 }
 
 bool Float4::IMPL_LoadValue(const String& value_in)

@@ -22,8 +22,9 @@ enum class LexerTokenType
     kCBracketOpen,   // {
     kCBracketClose,  // }
     kString,         // "<text>"
-    kNumber,         // Int or float
-    kBool,
+    kInt,            // Int
+    kFloat,          // Float
+    kBool,           // Bool
     kData,           // Words containing alphabetical, numeric characters
                      // and '_'
     kEOF             // End of file

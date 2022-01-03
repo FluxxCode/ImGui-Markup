@@ -111,51 +111,83 @@ void Interpreter::ProcessAttributeAssignNode(
     if (!node.value_node)
         throw MissingAttributeValue(node);
 
-    std::string value =
+    std::shared_ptr<Attribute> value =
         this->ProcessValueNode(*node.value_node.get(), parent_object);
 
-    if (!parent_object.SetAttributeValue(node.attribute_name, String(value)))
+    if (!value)
+        throw AttributeConversionError("Undefined", "Undefined", node);
+
+    if (!parent_object.SetAttributeValue(node.attribute_name, *value))
     {
         Attribute* att = parent_object.GetAttribute(node.attribute_name);
         if (!att)
-            throw AttributeConversionError("Undefined", value, node);
+        {
+            throw AttributeConversionError("Undefined",
+                this->AttributeTypeToString(*value), value->ToString(), node);
+        }
 
-        throw AttributeConversionError(
-            this->AttributeTypeToString(*att), value, node);
+        throw AttributeConversionError(this->AttributeTypeToString(*att),
+            this->AttributeTypeToString(*value), value->ToString(), node);
     }
 }
 
-std::string Interpreter::ProcessStringNode(const ParserNode& node_in) const
+String Interpreter::ProcessStringNode(
+    const ParserNode& node_in) const
 {
     if (node_in.type != ParserNodeType::kStringNode)
             throw InternalWrongNodeType(node_in);
 
     ParserStringNode& node = (ParserStringNode&)node_in;
 
-    return node.value;
+    return String(node.value);
 }
 
-std::string Interpreter::ProcessNumberNode(const ParserNode& node_in) const
+Int Interpreter::ProcessIntNode(
+    const ParserNode& node_in) const
 {
-    if (node_in.type != ParserNodeType::kNumberNode)
+    if (node_in.type != ParserNodeType::kIntNode)
             throw InternalWrongNodeType(node_in);
 
-    ParserNumberNode& node = (ParserNumberNode&)node_in;
+    ParserIntNode& node = (ParserIntNode&)node_in;
 
-    return node.value;
+    Int value;
+    if (!value.LoadValue(String(node.value)))
+        throw AttributeConversionError("Int", node.value, node_in);
+
+    return value;
 }
 
-std::string Interpreter::ProcessBoolNode(const ParserNode& node_in) const
+Float Interpreter::ProcessFloatNode(
+    const ParserNode& node_in) const
+{
+    if (node_in.type != ParserNodeType::kFloatNode)
+            throw InternalWrongNodeType(node_in);
+
+    ParserFloatNode& node = (ParserFloatNode&)node_in;
+
+    Float value;
+    if (!value.LoadValue(String(node.value)))
+        throw AttributeConversionError("Float", node.value, node_in);
+
+    return value;
+}
+
+Bool Interpreter::ProcessBoolNode(
+    const ParserNode& node_in) const
 {
     if (node_in.type != ParserNodeType::kBoolNode)
             throw InternalWrongNodeType(node_in);
 
     ParserBoolNode& node = (ParserBoolNode&)node_in;
 
-    return node.value;
+    Bool value;
+    if (!value.LoadValue(String(node.value)))
+        throw AttributeConversionError("Bool", node.value, node_in);
+
+    return value;
 }
 
-std::string Interpreter::ProcessVectorNode(
+std::shared_ptr<Attribute> Interpreter::ProcessVectorNode(
     const ParserNode& node_in, Object& parent_object) const
 {
     if (node_in.type != ParserNodeType::kVectorNode)
@@ -164,19 +196,71 @@ std::string Interpreter::ProcessVectorNode(
     ParserVectorNode& node = (ParserVectorNode&)node_in;
 
     std::string value;
+    size_t value_count = 0;
 
     for (const auto& child : node.child_nodes)
     {
         if (!value.empty())
             value += ',';
 
-        value += this->ProcessValueNode(*child.get(), parent_object);
+        value +=
+            this->ProcessValueNode(*child.get(), parent_object)->ToString();
+
+        value_count++;
     }
 
-    return value;
+    if (value_count == 2)
+    {
+        Float2 final_value;
+        if (!final_value.LoadValue(String(value)))
+            throw AttributeConversionError("Float2", value, node_in);
+        return std::make_shared<Float2>(final_value);
+    }
+    else if (value_count == 3)
+    {
+        Float3 final_value;
+        if (!final_value.LoadValue(String(value)))
+            throw AttributeConversionError("Float3", value, node_in);
+        return std::make_shared<Float3>(final_value);
+    }
+    else if (value_count == 4)
+    {
+        Float4 final_value;
+        if (!final_value.LoadValue(String(value)))
+            throw AttributeConversionError("Float4", value, node_in);
+        return std::make_shared<Float4>(final_value);
+    }
+
+    throw AttributeConversionError("Vector", value, node_in);
 }
 
-std::string Interpreter::ProcessAttributeAccessNode(
+std::shared_ptr<Attribute> Interpreter::ProcessValueNode(
+    const ParserNode& node, Object& parent_object) const
+{
+    switch (node.type)
+    {
+    case ParserNodeType::kStringNode:
+        return std::make_shared<String>(this->ProcessStringNode(node));
+    case ParserNodeType::kIntNode:
+        return std::make_shared<Int>(this->ProcessIntNode(node));
+    case ParserNodeType::kFloatNode:
+        return std::make_shared<Float>(this->ProcessFloatNode(node));
+    case ParserNodeType::kBoolNode:
+        return std::make_shared<Bool>(this->ProcessBoolNode(node));
+    case ParserNodeType::kVectorNode:
+        return this->ProcessVectorNode(node, parent_object);
+    case ParserNodeType::kAttributeAccessNode:
+        return std::shared_ptr<Attribute>(
+            &this->ProcessAttributeAccessNode(node, parent_object),
+                [](Attribute*){});  // Used that the pointer does not delete
+                                    // the attribute. This will be changed
+                                    // when references are implemented.
+    default:
+        throw UnknownAttributeValueType(node);
+    }
+}
+
+Attribute& Interpreter::ProcessAttributeAccessNode(
     const ParserNode& node_in, Object& parent_object) const
 {
     if (node_in.type != ParserNodeType::kAttributeAccessNode)
@@ -194,27 +278,8 @@ std::string Interpreter::ProcessAttributeAccessNode(
     return this->GetAttribtueFromObjectReference(attribute, node);
 }
 
-std::string Interpreter::ProcessValueNode(
-    const ParserNode& node, Object& parent_object) const
-{
-    switch (node.type)
-    {
-    case ParserNodeType::kStringNode:
-        return this->ProcessStringNode(node);
-    case ParserNodeType::kNumberNode:
-        return this->ProcessNumberNode(node);
-    case ParserNodeType::kBoolNode:
-        return this->ProcessBoolNode(node);
-    case ParserNodeType::kVectorNode:
-        return this->ProcessVectorNode(node, parent_object);
-    case ParserNodeType::kAttributeAccessNode:
-        return this->ProcessAttributeAccessNode(node, parent_object);
-    default:
-        throw UnknownAttributeValueType(node);
-    }
-}
 
-std::string Interpreter::GetAttributeFromObject(
+Attribute& Interpreter::GetAttributeFromObject(
     const std::string attribute,
     Object& object,
     const ParserNode& node) const
@@ -226,14 +291,14 @@ std::string Interpreter::GetAttributeFromObject(
     if (!object.HasAttribute(attribute))
         throw AttributeDoesNotExists(type, id, attribute, node);
 
-    const Attribute* att = object.GetAttribute(attribute);
+    Attribute* att = object.GetAttribute(attribute);
     if (!att)
         throw AttributeDoesNotExists(type, id, attribute, node);
 
-    return att->ToString();
+    return *att;
 }
 
-std::string Interpreter::GetAttribtueFromObjectReference(
+Attribute& Interpreter::GetAttribtueFromObjectReference(
     std::string attribute, const ParserNode& node) const
 {
     std::string object_id =
@@ -256,11 +321,11 @@ std::string Interpreter::GetAttribtueFromObjectReference(
     const std::string id   = object.GetID().empty() ?
                                 "null" : object.GetID();
 
-    const Attribute* att = object.GetAttribute(attribute);
+    Attribute* att = object.GetAttribute(attribute);
     if (!att)
         throw AttributeDoesNotExists(type, id, attribute, node);
 
-    return att->ToString();
+    return *att;
 }
 
 std::string Interpreter::GetObjectNameFromAttributeReferenceString(

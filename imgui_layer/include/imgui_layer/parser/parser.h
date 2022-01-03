@@ -261,13 +261,22 @@ private:
     std::shared_ptr<ParserStringNode> CreateStringNode();
 
     /**
-     * Checks if the current token is the start of a number node.
-     * The start of a number node is defined by one of the following
+     * Checks if the current token is the start of a int node.
+     * The start of a int node is defined by one of the following
      * token sequence:
-     *   - String
+     *   - Int
      */
-    bool TokenIsNumberNode();
-    std::shared_ptr<ParserNumberNode> CreateNumberNode();
+    bool TokenIsIntNode();
+    std::shared_ptr<ParserIntNode> CreateIntNode();
+
+    /**
+     * Checks if the current token is the start of a float node.
+     * The start of a float node is defined by one of the following
+     * token sequence:
+     *   - Float
+     */
+    bool TokenIsFloatNode();
+    std::shared_ptr<ParserFloatNode> CreateFloatNode();
 
     /**
      * Checks if the current token is the start of a bool node.

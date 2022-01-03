@@ -23,10 +23,17 @@ ParserStringNode::ParserStringNode(
       value(value)
 { }
 
-ParserNumberNode::ParserNumberNode(
+ParserIntNode::ParserIntNode(
     std::string value,
     ParserPosition position)
-    : ParserNode(ParserNodeType::kNumberNode, position),
+    : ParserNode(ParserNodeType::kIntNode, position),
+      value(value)
+{ }
+
+ParserFloatNode::ParserFloatNode(
+    std::string value,
+    ParserPosition position)
+    : ParserNode(ParserNodeType::kFloatNode, position),
       value(value)
 { }
 
