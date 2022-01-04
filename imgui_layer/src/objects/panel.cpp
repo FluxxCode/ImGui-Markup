@@ -49,7 +49,7 @@ bool Panel::Validate(std::string& error_message) const
     if (this->parent_->GetType() == "GlobalObject")
         return true;
 
-    error_message = "Panel can only be placed in the global file scope";
+    error_message = "Object of type \"Panel\" can only be created inside the global file scope";
 
     return false;
 }

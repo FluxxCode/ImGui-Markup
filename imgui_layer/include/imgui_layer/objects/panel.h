@@ -6,8 +6,6 @@
 #include "imgui_layer/attribute_types/string.h"
 #include "imgui_layer/attribute_types/float2.h"
 
-#include "imgui.h"
-
 namespace gui
 {
 

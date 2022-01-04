@@ -88,7 +88,7 @@ void Interpreter::ProcessObjectNode(
         throw UndefinedObjectType(node);
 
     std::string error_message;
-    if (!object->Verify(error_message))
+    if (!object->Validate(error_message))
         throw ObjectIsNotValid(error_message, node);
 
     parent_object.AddChild(object);

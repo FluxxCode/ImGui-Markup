@@ -97,7 +97,7 @@ private:
      *                 The error message will be set to the reason why the
      *                 object is not valid.
      */
-    virtual bool Verify(std::string& error_message) const { return true; }
+    virtual bool Validate(std::string& error_message) const { return true; }
 
     /**
      * Function that is called by the interpreter before the interpreter
