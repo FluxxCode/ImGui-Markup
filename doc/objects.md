@@ -1,9 +1,10 @@
 # Objects
 1. [GlobalObject](#GlobalObject)
-2. [Panel](#Panel)
-3. [Text](#Text)
-4. [Button](#Button)
-5. [ChildPanel](#ChildPanel)
+1. [Panel](#Panel)
+1. [Text](#Text)
+1. [Button](#Button)
+1. [ChildPanel](#ChildPanel)
+1. [Container](#Container)
 
 ---
 ## GlobalObject
@@ -201,3 +202,31 @@ Panel
 }
 ```
 ![ExampleImage](img/objects_childpanel.png)
+
+---
+## Container
+### Description:
+The container is used to store custom data or to divide other objects and object IDs.
+### Attributes:
+*The container currently does not have any attributes*
+### Example:
+```
+# example.ill:
+
+Container : colors
+{
+    Float4 : red   { value = (1.0, 0.0, 0.0, 1.0) }
+    Float4 : green { value = (0.0, 1.0, 0.0, 1.0) }
+    Float4 : blue  { value = (0.0, 0.0, 1.0, 1.0) }
+}
+
+Panel
+{
+    title = "Container example"
+
+    Text { text = "Red text"   color = colors.red.value   }
+    Text { text = "Green text" color = colors.green.value }
+    Text { text = "Blue text"  color = colors.blue.value  }
+}
+```
+![ExampleImage](img/objects_container.png)
