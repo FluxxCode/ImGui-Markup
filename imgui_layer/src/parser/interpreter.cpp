@@ -87,11 +87,21 @@ void Interpreter::ProcessObjectNode(
     if (!object)
         throw UndefinedObjectType(node);
 
+    std::string error_message;
+    if (!object->Verify(error_message))
+        throw ObjectIsNotValid(error_message, node);
+
     parent_object.AddChild(object);
 
     this->InitObjectReference(*object.get(), node);
 
+    if (!object->OnProcessStart(error_message))
+        throw ObjectIsNotValid(error_message, node);
+
     this->ProcessNodes(node_in, *object.get());
+
+    if (!object->OnProcessEnd(error_message))
+        throw ObjectIsNotValid(error_message, node);
 }
 
 void Interpreter::ProcessAttributeAssignNode(

@@ -87,6 +87,43 @@ private:
      * Adds an child object to the child_objects_ variable.
      */
     void AddChild(std::shared_ptr<Object> child);
+
+    /**
+     * Verifys that the object is valid.
+     * The function should be called by the interpreter and is used to
+     * e.g. make sure that the object has the correct parent.
+     * Some objects are only allowed to have a parent object of a specific
+     * type.
+     *
+     * @param[in] error_message - String that will be set to the error
+     *                            if there is one.
+     * @return true - If the object is valid.
+     * @return false - If the object is currently not valid.
+     *                 The error message will be set to the reason why the
+     *                 object is not valid.
+     */
+    virtual bool Verify(std::string& error_message) const { return true; }
+
+    /**
+     * Function that is called by the interpreter before the interpreter
+     * starts the process of the objects child nodes.
+     * This can be used to e.g. add attributes to its parent object.
+     *
+     * @param[in] error_message - String that will be set to the error message
+     *                            if there is one.
+     */
+    virtual bool OnProcessStart(std::string& error_message) { return true; }
+
+    /**
+     * Function that is called by the interpreter after the interpreter
+     * processed the objects child nodes.
+     * This can be used to e.g. add attributes to its child objects or
+     * to make sure that specific attributes are set.
+     *
+     * @param[in] error_message - String that will be set to the error message
+     *                            if there is one.
+     */
+    virtual bool OnProcessEnd(std::string& error_message) { return true; }
 };
 
 }  // namespace gui

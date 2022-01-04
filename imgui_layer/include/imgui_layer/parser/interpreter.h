@@ -138,6 +138,14 @@ struct NoAttributeSpecified : public InterpreterException
     { }
 };
 
+struct ObjectIsNotValid : public InterpreterException
+{
+    ObjectIsNotValid(std::string error_message, ParserNode node)
+        : InterpreterException("Unable to create object: " + error_message,
+                              node, ParserResultType::kObjectIsNotValid)
+    { }
+};
+
 struct InternalWrongNodeType : public InterpreterException
 {
     InternalWrongNodeType(ParserNode node)

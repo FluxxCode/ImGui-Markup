@@ -69,6 +69,7 @@ enum class ParserResultType
     kObjectIDGlobalIsReserved,
     kObjectIsNotDefined,
     kNoAttributeSpecified,
+    kObjectIsNotValid,
     kInternalWrongNodeType
 };
 
