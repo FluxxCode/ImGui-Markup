@@ -9,6 +9,8 @@ namespace gui
 struct Container : public Object
 {
     Container(std::string id, Object* parent);
+
+    void Update();
 };
 
 }  // namespace gui

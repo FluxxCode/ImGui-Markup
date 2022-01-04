@@ -11,4 +11,9 @@ Container::Container(std::string id, Object* parent)
     this->RemoveAttribute("size");
 }
 
+void Container::Update()
+{
+    this->UpdateChilds();
+}
+
 }  // namespace gui
