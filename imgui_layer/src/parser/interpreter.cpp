@@ -30,7 +30,7 @@ void Interpreter::InitObjectReference(
     std::string full_id = object.GetID();
 
     Object* parent = &object;
-    while (parent->HasParent())
+    while (true)
     {
         parent = parent->GetParent();
 
@@ -102,12 +102,10 @@ void Interpreter::ProcessAttributeAssignNode(
 
     ParserAttributeAssignNode& node = (ParserAttributeAssignNode&)node_in;
 
-    const std::string type = parent_object.GetName();
+    const std::string type = parent_object.GetType();
     const std::string id   = parent_object.GetID().empty() ?
                                 "null" : parent_object.GetID();
 
-    if (!parent_object.HasAttribute(node.attribute_name))
-        throw AttributeDoesNotExists(type, id, node.attribute_name, node);
     if (!node.value_node)
         throw MissingAttributeValue(node);
 
@@ -117,16 +115,16 @@ void Interpreter::ProcessAttributeAssignNode(
     if (!value)
         throw AttributeConversionError("Undefined", "Undefined", node);
 
-    if (!parent_object.SetAttributeValue(node.attribute_name, *value))
+    Attribute* attribute = parent_object.GetAttribute(node.attribute_name);
+    if (!attribute)
     {
-        Attribute* att = parent_object.GetAttribute(node.attribute_name);
-        if (!att)
-        {
-            throw AttributeConversionError("Undefined",
-                this->AttributeTypeToString(*value), value->ToString(), node);
-        }
+        throw AttributeConversionError("Undefined",
+            this->AttributeTypeToString(*value), value->ToString(), node);
+    }
 
-        throw AttributeConversionError(this->AttributeTypeToString(*att),
+    if (!attribute->LoadValue(*value))
+    {
+        throw AttributeConversionError(this->AttributeTypeToString(*attribute),
             this->AttributeTypeToString(*value), value->ToString(), node);
     }
 }
@@ -280,22 +278,19 @@ Attribute& Interpreter::ProcessAttributeAccessNode(
 
 
 Attribute& Interpreter::GetAttributeFromObject(
-    const std::string attribute,
+    const std::string attribute_name,
     Object& object,
     const ParserNode& node) const
 {
-    const std::string type = object.GetName();
+    const std::string type = object.GetType();
     const std::string id   = object.GetID().empty() ?
                              "null" : object.GetID();
 
-    if (!object.HasAttribute(attribute))
-        throw AttributeDoesNotExists(type, id, attribute, node);
+    Attribute* attribute = object.GetAttribute(attribute_name);
+    if (!attribute)
+        throw AttributeDoesNotExists(type, id, attribute_name, node);
 
-    Attribute* att = object.GetAttribute(attribute);
-    if (!att)
-        throw AttributeDoesNotExists(type, id, attribute, node);
-
-    return *att;
+    return *attribute;
 }
 
 Attribute& Interpreter::GetAttribtueFromObjectReference(
@@ -317,7 +312,7 @@ Attribute& Interpreter::GetAttribtueFromObjectReference(
 
     Object& object = this->object_references_.at(object_id);
 
-    const std::string type = object.GetName();
+    const std::string type = object.GetType();
     const std::string id   = object.GetID().empty() ?
                                 "null" : object.GetID();
 

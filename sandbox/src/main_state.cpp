@@ -65,11 +65,11 @@ void MainState::UpdateControlWindow()
     //       manually cast the objects. E.g.:
     //       if (control_window.IsPressed("btn_reload"))
 
-    gui::Button* btn = dynamic_cast<gui::Button*>(
-       this->control_window_.GetChild("btn_reload").get());
+    // gui::Button* btn = dynamic_cast<gui::Button*>(
+    //    this->control_window_.GetChild("btn_reload").get());
 
-    if (btn->IsPressed())
-       this->Init();
+    // if (btn->IsPressed())
+    //    this->Init();
 
     this->control_window_.Update();
 }
