@@ -6,13 +6,6 @@
 1. [ChildPanel](#ChildPanel)
 1. [Container](#Container)
 1. [Attribute type objects](#AttributeTypesObjects)
-   1. [Bool](#Bool)
-   1. [Float](#Float)
-   1. [Float2](#Float2)
-   1. [Float3](#Float3)
-   1. [Float4](#Float4)
-   1. [Int](#Int)
-   1. [String](#String)
 
 ---
 ## GlobalObject
