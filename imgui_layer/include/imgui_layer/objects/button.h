@@ -35,6 +35,9 @@ private:
     // Functions
     void PushStyle();
     void PopStyle();
+
+    // See object.h for documentation
+    bool OnProcessEnd(std::string& error_message);
 };
 
 }  // namespace gui

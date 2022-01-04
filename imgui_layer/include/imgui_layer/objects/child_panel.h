@@ -22,11 +22,8 @@ public:
     Bool border_;
 
 private:
-    // Variables
-    bool init_ = true;
-
-    // Functions
-    void Init();
+    // See object.h for documentation
+   bool OnProcessEnd(std::string& error_message);
 };
 
 }  // namespace gui

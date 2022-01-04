@@ -13,27 +13,37 @@ ChildPanel::ChildPanel(std::string id, Object* parent)
 
 void ChildPanel::Update()
 {
-    if (this->init_)
-        this->Init();
+    if (this->position_.value_changed_)
+        ImGui::SetCursorPos(this->position_);
+    if (this->size_.value_changed_)
+        ImGui::SetNextWindowSize(this->size_);
 
-    // NOTE: Will be added back during the object rework
-    // ImGui::SetCursorPos(this->position_);
-
-    ImGui::SetNextWindowSize(this->size_);
+    this->position_ = ImGui::GetCursorPos();
 
     ImGui::BeginChild(this->title_, this->size_, this->border_.value);
 
-    this->UpdateChilds();
+    for (auto& child : this->child_objects_)
+    {
+        if (!child)
+            continue;
+
+        child->Update();
+    }
+
+    this->size_  = ImGui::GetWindowSize();
 
     ImGui::EndChild();
+
+
+    ImGui::GetWindowSize();
 }
 
-void ChildPanel::Init()
+bool ChildPanel::OnProcessEnd(std::string& error_message)
 {
     if (this->title_.value.empty())
         this->title_ = this->id_.empty() ? "unknown" : this->id_;
 
-    this->init_ = false;
+    return true;
 }
 
 }  // namespace gui

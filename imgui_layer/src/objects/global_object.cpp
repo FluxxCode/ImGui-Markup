@@ -21,7 +21,13 @@ GlobalObject::GlobalObject()
 
 void GlobalObject::Update()
 {
-    this->UpdateChilds();
+    for (auto& child : this->child_objects_)
+    {
+        if (!child)
+            continue;
+
+        child->Update();
+    }
 }
 
 void GlobalObject::Reset()

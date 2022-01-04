@@ -20,10 +20,14 @@ void Button::Update()
     if (this->position_.value_changed_)
         ImGui::SetCursorPos(this->position_);
 
+    this->position_ = ImGui::GetCursorPos();
+
     if (ImGui::Button(this->text_, this->size_))
         this->is_pressed_ = true;
     else
         this->is_pressed_ = false;
+
+    this->size_ = ImGui::GetItemRectSize();
 
     this->PopStyle();
 }
@@ -58,6 +62,14 @@ void Button::PopStyle()
 {
     ImGui::PopStyleColor(this->style_count_);
     this->style_count_ = 0;
+}
+
+bool Button::OnProcessEnd(std::string& error_message)
+{
+    if (this->text_.value.empty())
+        this->text_ = "##empty_button";
+
+    return true;
 }
 
 }  // namespace gui

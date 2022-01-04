@@ -21,12 +21,6 @@ Attribute* Object::GetAttribute(const std::string name) const
     return this->attribute_list_.at(name);
 }
 
-void Object::UpdateChilds()
-{
-    for (unsigned int i = 0; i < this->child_objects_.size(); i++)
-        this->child_objects_[i]->Update();
-}
-
 void Object::AddAttribute(const std::string name, Attribute* attribute)
 {
     if (this->attribute_list_.find(name) != this->attribute_list_.end())

@@ -18,10 +18,14 @@ void Text::Update()
     if (this->position_.value_changed_)
         ImGui::SetCursorPos(this->position_);
 
+    this->position_ = ImGui::GetCursorPos();
+
     if (this->color_.value_changed_)
         ImGui::TextColored(this->color_, "%s", this->text_.value.c_str());
     else
         ImGui::Text("%s", this->text_.value.c_str());
+
+    this->size_ = ImGui::GetItemRectSize();
 }
 
 }  // namespace gui

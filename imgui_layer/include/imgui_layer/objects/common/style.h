@@ -11,7 +11,7 @@ namespace gui
 {
 
 /**
-  * Wrapper above the imgui style.
+ * Wrapper above the imgui style.
 */
 class Style
 {

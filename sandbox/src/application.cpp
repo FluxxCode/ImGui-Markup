@@ -61,6 +61,8 @@ void Application::InitImGUI()
 
     ImGui_ImplGlfw_InitForOpenGL(this->window_, true);
     ImGui_ImplOpenGL3_Init(this->kGLSLVersion_);
+
+    ImGui::GetIO().IniFilename = nullptr;
 }
 
 void Application::Update()

@@ -56,11 +56,6 @@ protected:
 
     // Functions
     /**
-     * Call the update function of every child object.
-    */
-    void UpdateChilds();
-
-    /**
      * Add an attribute to the attribute list.
      *
      * @param[in] name      - The name of the attribute, that can be used to

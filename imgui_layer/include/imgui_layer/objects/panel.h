@@ -23,11 +23,13 @@ public:
     String title_;
 
 private:
-    // Variables
-    bool init_ = true;
+    bool init_panel_attributes_ = true;
 
-    // Functions
-    void Init();
+    void InitPanelAttributes();
+
+    // See object.h for documentation
+    bool Validate(std::string& error_message) const;
+    bool OnProcessEnd(std::string& error_message);
 };
 
 }  // namespace gui
