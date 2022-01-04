@@ -5,6 +5,14 @@
 1. [Button](#Button)
 1. [ChildPanel](#ChildPanel)
 1. [Container](#Container)
+1. [Attribute type objects](#AttributeTypesObjects)
+   1. [Bool](#Bool)
+   1. [Float](#Float)
+   1. [Float2](#Float2)
+   1. [Float3](#Float3)
+   1. [Float4](#Float4)
+   1. [Int](#Int)
+   1. [String](#String)
 
 ---
 ## GlobalObject
@@ -230,3 +238,38 @@ Panel
 }
 ```
 ![ExampleImage](img/objects_container.png)
+
+---
+## Attribute type objects <a name="AttributeTypesObjects"></a>
+### Description:
+The attribute type objects are used to dynamically create values from the markup language. They represent every attribute type that exists in the markup language.
+### Attributes:
+| Name   | Description |
+| ------ | ----------- |
+| value  | Attribute that stores the custom value |
+### Example:
+```
+# example.ill
+
+Panel
+{
+    title = "Example"
+
+    Bool   : bool    { value = true         }
+    Float  : float   { value = 1.234        }
+    Float2 : float_2 { value = (1, 2)       }
+    Float3 : float_3 { value = (1, 2, 3)    }
+    Float4 : float_4 { value = (1, 2, 3, 4) }
+    Int    : int     { value = 1234         }
+    String : string  { value = "String"     }
+
+    Text { text = bool.value    }
+    Text { text = float.value   }
+    Text { text = float_2.value }
+    Text { text = float_3.value }
+    Text { text = float_4.value }
+    Text { text = int.value     }
+    Text { text = string.value  }
+}
+```
+![ExampleImage](img/objects_attribute_types.png)
