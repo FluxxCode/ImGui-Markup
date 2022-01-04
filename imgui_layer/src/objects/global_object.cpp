@@ -39,4 +39,15 @@ void GlobalObject::Reset()
     this->child_objects_.clear();
 }
 
+Object* GlobalObject::GetObjectReference(std::string object_id)
+{
+    if (this->object_references_.find(object_id) ==
+        this->object_references_.end())
+    {
+        return nullptr;
+    }
+
+    return &this->object_references_.at(object_id);
+}
+
 }  // namespace gui

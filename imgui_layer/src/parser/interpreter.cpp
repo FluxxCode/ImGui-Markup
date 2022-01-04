@@ -14,6 +14,8 @@ void Interpreter::ConvertNodeTree(
 
     this->InitObjectReference(dest, *root_node.get());
     this->ProcessNodes(*root_node.get(), dest);
+
+    dest.object_references_ = this->object_references_;
 }
 
 void Interpreter::Reset()
