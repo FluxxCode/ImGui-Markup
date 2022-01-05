@@ -16,6 +16,8 @@ public:
     // Constructor/Destructor
     Button(std::string id, Object* parent);
 
+    Button& operator=(const Button& other);
+
     // Functions
     void Update();
 

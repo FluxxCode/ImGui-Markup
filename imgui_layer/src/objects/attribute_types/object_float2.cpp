@@ -8,9 +8,14 @@ ObjectFloat2::ObjectFloat2(std::string id, Object* parent)
     : Object("Float2", id, parent)
 {
     this->AddAttribute("value", &this->value);
+}
 
-    this->RemoveAttribute("position");
-    this->RemoveAttribute("size");
+ObjectFloat2& ObjectFloat2::operator=(const ObjectFloat2& other)
+{
+    for (auto& child : this->child_objects_)
+        child->SetParent(other.parent_);
+
+    return *this;
 }
 
 }  // namespace gui

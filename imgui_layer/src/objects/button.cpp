@@ -7,20 +7,26 @@ namespace gui
 Button::Button(std::string id, Object* parent)
     : Object("Button", id, parent)
 {
+    this->AddAttribute("size",          &this->size_);
     this->AddAttribute("text",          &this->text_);
     this->AddAttribute("color",         &this->color_);
     this->AddAttribute("color_active",  &this->color_active_);
     this->AddAttribute("color_hovered", &this->color_hovered_);
 }
 
+Button& Button::operator=(const Button& other)
+{
+    for (auto& child : this->child_objects_)
+        child->SetParent(other.parent_);
+
+    return *this;
+}
+
 void Button::Update()
 {
     this->PushStyle();
 
-    if (this->position_.value_changed_)
-        ImGui::SetCursorPos(this->position_);
-
-    this->position_ = ImGui::GetCursorPos();
+    ImGui::SetCursorPos(this->draw_position_);
 
     if (ImGui::Button(this->text_, this->size_))
         this->is_pressed_ = true;

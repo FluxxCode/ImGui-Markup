@@ -15,6 +15,8 @@ public:
     // Constructor/Destructor
     ChildPanel(std::string id, Object* parent);
 
+    ChildPanel& operator=(const ChildPanel& other);
+
     // Functions
     void Update();
 

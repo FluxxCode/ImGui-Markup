@@ -8,6 +8,16 @@ Panel::Panel(std::string id, Object* parent)
     : Object("Panel", id, parent)
 {
     this->AddAttribute("title", &this->title_);
+    this->AddAttribute("position", &this->global_position_);
+    this->AddAttribute("size", &this->size_);
+}
+
+Panel& Panel::operator=(const Panel& other)
+{
+    for (auto& child : this->child_objects_)
+        child->SetParent(other.parent_);
+
+    return *this;
 }
 
 void Panel::Update()
@@ -17,14 +27,15 @@ void Panel::Update()
 
     ImGui::Begin(this->title_);
 
-    this->size_     = ImGui::GetWindowSize();
-    this->position_ = ImGui::GetWindowPos();
+    this->size_ = ImGui::GetWindowSize();
+    this->global_position_ = ImGui::GetWindowPos();
 
     for (auto& child : this->child_objects_)
     {
         if (!child)
             continue;
 
+        child->SetPosition(ImGui::GetCursorPos(), this->global_position_);
         child->Update();
     }
 
@@ -33,8 +44,8 @@ void Panel::Update()
 
 void Panel::InitPanelAttributes()
 {
-    if (this->position_.value_changed_)
-        ImGui::SetNextWindowPos(this->position_);
+    if (this->global_position_.value_changed_)
+        ImGui::SetNextWindowPos(this->global_position_);
     if (this->size_.value_changed_)
         ImGui::SetNextWindowSize(this->size_);
 

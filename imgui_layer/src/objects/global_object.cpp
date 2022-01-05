@@ -15,8 +15,15 @@ GlobalObject::GlobalObject()
     this->AddAttribute("author",      &this->author_);
     this->AddAttribute("date",        &this->date_);
 
-    this->RemoveAttribute("position");
-    this->RemoveAttribute("size");
+    this->size_ = Float2(999999, 999999);
+}
+
+GlobalObject& GlobalObject::operator=(const GlobalObject& other)
+{
+    for (auto& child : this->child_objects_)
+        child->SetParent(other.parent_);
+
+    return *this;
 }
 
 void GlobalObject::Update()
@@ -39,7 +46,47 @@ void GlobalObject::Reset()
     this->child_objects_.clear();
 }
 
-Object* GlobalObject::GetObjectReference(std::string object_id)
+bool GlobalObject::IsHovered() const noexcept
+{
+    for (const auto& child : this->child_objects_)
+    {
+        if (this->IsHovered(*child.get()))
+            return true;
+    }
+
+    return false;
+}
+
+bool GlobalObject::IsHovered(std::string object_id) const noexcept
+{
+    Object* object = this->GetObjectReference(object_id);
+    if (!object)
+        return false;
+
+    return this->IsHovered(*object);
+}
+
+bool GlobalObject::IsPressed(ImGuiMouseButton button) const noexcept
+{
+    for (const auto& child : this->child_objects_)
+    {
+        if (this->IsHovered(*child.get()) && ImGui::IsMouseClicked(button))
+            return true;
+    }
+
+    return false;
+}
+
+bool GlobalObject::IsPressed(std::string object_id, ImGuiMouseButton button) const noexcept
+{
+    Object* object = this->GetObjectReference(object_id);
+    if (!object)
+        return false;
+
+    return this->IsHovered(*object) && ImGui::IsMouseClicked(button);
+}
+
+Object* GlobalObject::GetObjectReference(std::string object_id) const noexcept
 {
     if (this->object_references_.find(object_id) ==
         this->object_references_.end())
@@ -48,6 +95,22 @@ Object* GlobalObject::GetObjectReference(std::string object_id)
     }
 
     return &this->object_references_.at(object_id);
+}
+
+bool GlobalObject::IsHovered(const Object& object) const noexcept
+{
+    const Float2 point = ImGui::GetMousePos();
+    const Rect rect = object.GetVisibleRect();
+
+    if (point.x >= rect.position.x &&
+        point.x <= rect.position.x + rect.size.x &&
+        point.y >= rect.position.y &&
+        point.y <= rect.position.y + rect.size.y)
+    {
+        return true;
+    }
+
+    return false;
 }
 
 }  // namespace gui

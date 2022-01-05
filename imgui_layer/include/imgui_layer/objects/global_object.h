@@ -13,10 +13,16 @@ class Interpreter;
 class GlobalObject : public Object
 {
 public:
-    // Constructors/Destructors
+    String id_;
+    String version_;
+    String description_;
+    String author_;
+    String date_;
+
     GlobalObject();
 
-    // Functions
+    GlobalObject& operator=(const GlobalObject& other);
+
     void Update();
 
     /**
@@ -24,12 +30,37 @@ public:
     */
     void Reset();
 
-    // Variables
-    String id_;
-    String version_;
-    String description_;
-    String author_;
-    String date_;
+    /**
+     * Checks if one or more of the child objects are hovered.
+     */
+    bool IsHovered() const noexcept;
+
+    /**
+     * Checks if the object with the given ID is hovered.
+     * The function always returns false if the object with the given
+     * ID does not exists.
+     */
+    bool IsHovered(std::string object_id) const noexcept;
+
+    /**
+     * Checks if one or more of the child objects are pressed.
+     *
+     * @param button = Specifies the button that will be
+     *                 checked if it is presed.
+     */
+    bool IsPressed(
+        ImGuiMouseButton button = ImGuiMouseButton_Left) const noexcept;
+
+    /**
+     * Checks if the object with the given ID is pressed.
+     * The function always returns false if the object with the given
+     * ID does not exists.
+     *
+     * @param button = Specifies the button that will be
+     *                 checked if it is presed.
+     */
+    bool IsPressed(std::string object_id,
+        ImGuiMouseButton button = ImGuiMouseButton_Left) const noexcept;
 
 private:
     friend class Interpreter;
@@ -69,7 +100,12 @@ private:
      * @param object_id - ID of the object that will be returned
      * @return pointer to object, nullptr if the object does not exists.
      */
-    Object* GetObjectReference(std::string object_id);
+    Object* GetObjectReference(std::string object_id) const noexcept;
+
+    /**
+     * Checks if the given object is hovered.
+     */
+    bool IsHovered(const Object& object) const noexcept;
 };
 
 }  // namespace gui

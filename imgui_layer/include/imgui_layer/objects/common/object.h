@@ -13,14 +13,17 @@
 namespace gui
 {
 
+struct Rect
+{
+    Float2 position;
+    Float2 size;
+};
+
 class Interpreter;  // Used as a friend class
 
 class Object
 {
 public:
-    Float2 position_;
-    Float2 size_;
-
     /**
      * @param[in] type   - Type of the object
      * @param[in] id     - ID of the object
@@ -28,6 +31,8 @@ public:
      *                     if the object has no parent object.
     */
     Object(std::string type, std::string id, Object* parent);
+
+    Object& operator=(const Object& other);
 
     /**
      * Main update function that should be called every frame.
@@ -44,15 +49,61 @@ public:
     */
     Attribute* GetAttribute(const std::string name) const;
 
-    inline std::string GetID()     const { return this->id_; }
-    inline std::string GetType()   const { return this->type_; }
-    inline Object*     GetParent() const { return this->parent_; }
+    /**
+     * Sets the position attributes of the object.
+     * NOTE: This function should only be used by other objects!
+     *
+     * @param draw_position - Main position that ImGui uses.
+     * @param global_offset - Offset that is used to calculate the global
+     *                        position.
+     */
+    void SetPosition(Float2 draw_position, Float2 global_offset);
+
+    inline std::string GetID()           const   { return this->id_; }
+    inline std::string GetType()         const   { return this->type_; }
+    inline Object*     GetParent()       const   { return this->parent_; }
+    inline void        SetParent(Object* parent) { this->parent_ = parent; }
+    inline Float2      GetSize()         const   { return this->size_; }
+    inline Float2      GetDrawPosition() const
+        { return this->draw_position_; }
+    inline Float2      GetRelativePosition() const
+        { return this->relative_position_; }
+
+    /**
+     * Calculates the visible rect of the object. Used to check if the user
+     * is hovering above the object.
+     * The position of the rect is relative to the window. So a position
+     * of (0, 0) equals to the top left corner of the main window.
+     */
+    Rect GetVisibleRect() const;
 
 protected:
     std::string type_;
     std::string id_;
     Object* parent_;
     std::vector<std::shared_ptr<Object>> child_objects_ = { };
+
+    /**
+     * Main position that is relative to the parent object.
+     */
+    Float2 relative_position_;
+
+    /**
+     * Position relative to the main application window.
+     */
+    Float2 global_position_;
+
+    /**
+     * The actual ImGui position where the object is drawn.
+     * This does not equal to the position and global postion.
+     * It depents on the panels and child panels where the object is drawn.
+     */
+    Float2 draw_position_;
+
+    /**
+     * Size of the object which is normally set by the object itself.
+     */
+    Float2 size_;
 
     // Functions
     /**
@@ -76,6 +127,10 @@ protected:
 private:
     friend class Interpreter;
 
+    /**
+     * List of the object attributes that can be set through
+     * the markup language.
+     */
     std::map<std::string, Attribute*> attribute_list_ = { };
 
     /**

@@ -8,9 +8,14 @@ ObjectInt::ObjectInt(std::string id, Object* parent)
     : Object("Int", id, parent)
 {
     this->AddAttribute("value", &this->value);
+}
 
-    this->RemoveAttribute("position");
-    this->RemoveAttribute("size");
+ObjectInt& ObjectInt::operator=(const ObjectInt& other)
+{
+    for (auto& child : this->child_objects_)
+        child->SetParent(other.parent_);
+
+    return *this;
 }
 
 }  // namespace gui

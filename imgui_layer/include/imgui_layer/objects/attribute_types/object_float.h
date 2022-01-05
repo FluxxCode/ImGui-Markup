@@ -11,6 +11,8 @@ struct ObjectFloat : public Object
 {
     ObjectFloat(std::string id, Object* parent);
 
+    ObjectFloat& operator=(const ObjectFloat& other);
+
     Float value;
 };
 

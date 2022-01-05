@@ -16,6 +16,8 @@ public:
     // Constructor/Destructor
     Text(std::string id, Object* parent);
 
+    Text& operator=(const Text& other);
+
     // Functions
     void Update();
 

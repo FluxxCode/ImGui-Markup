@@ -10,6 +10,8 @@ struct Container : public Object
 {
     Container(std::string id, Object* parent);
 
+    Container& operator=(const Container& other);
+
     void Update();
 };
 

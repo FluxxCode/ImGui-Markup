@@ -9,16 +9,19 @@ Text::Text(std::string id, Object* parent)
 {
     this->AddAttribute("text", &this->text_);
     this->AddAttribute("color", &this->color_);
+}
 
-    this->RemoveAttribute("size");
+Text& Text::operator=(const Text& other)
+{
+    for (auto& child : this->child_objects_)
+        child->SetParent(other.parent_);
+
+    return *this;
 }
 
 void Text::Update()
 {
-    if (this->position_.value_changed_)
-        ImGui::SetCursorPos(this->position_);
-
-    this->position_ = ImGui::GetCursorPos();
+    ImGui::SetCursorPos(this->draw_position_);
 
     if (this->color_.value_changed_)
         ImGui::TextColored(this->color_, "%s", this->text_.value.c_str());

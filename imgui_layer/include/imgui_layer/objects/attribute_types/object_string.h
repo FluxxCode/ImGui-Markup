@@ -11,6 +11,8 @@ struct ObjectString : public Object
 {
     ObjectString(std::string id, Object* parent);
 
+    ObjectString& operator=(const ObjectString& other);
+
     String value;
 };
 

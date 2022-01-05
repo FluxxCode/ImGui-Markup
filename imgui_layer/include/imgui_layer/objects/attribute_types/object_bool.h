@@ -11,6 +11,8 @@ struct ObjectBool : public Object
 {
     ObjectBool(std::string id, Object* parent);
 
+    ObjectBool& operator=(const ObjectBool& other);
+
     Bool value;
 };
 
