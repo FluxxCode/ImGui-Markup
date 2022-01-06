@@ -114,10 +114,6 @@ void Interpreter::ProcessAttributeAssignNode(
 
     ParserAttributeAssignNode& node = (ParserAttributeAssignNode&)node_in;
 
-    const std::string type = parent_object.GetType();
-    const std::string id   = parent_object.GetID().empty() ?
-                                "null" : parent_object.GetID();
-
     if (!node.value_node)
         throw MissingAttributeValue(node);
 
@@ -130,8 +126,8 @@ void Interpreter::ProcessAttributeAssignNode(
     Attribute* attribute = parent_object.GetAttribute(node.attribute_name);
     if (!attribute)
     {
-        throw AttributeConversionError("Undefined",
-            this->AttributeTypeToString(*value), value->ToString(), node);
+        throw AttributeDoesNotExists(
+            parent_object.GetType(), node.attribute_name, node);
     }
 
     if (!attribute->LoadValue(*value))
@@ -294,13 +290,9 @@ Attribute& Interpreter::GetAttributeFromObject(
     Object& object,
     const ParserNode& node) const
 {
-    const std::string type = object.GetType();
-    const std::string id   = object.GetID().empty() ?
-                             "null" : object.GetID();
-
     Attribute* attribute = object.GetAttribute(attribute_name);
     if (!attribute)
-        throw AttributeDoesNotExists(type, id, attribute_name, node);
+        throw AttributeDoesNotExists(object.GetType(), attribute_name, node);
 
     return *attribute;
 }
@@ -330,7 +322,7 @@ Attribute& Interpreter::GetAttribtueFromObjectReference(
 
     Attribute* att = object.GetAttribute(attribute);
     if (!att)
-        throw AttributeDoesNotExists(type, id, attribute, node);
+        throw AttributeDoesNotExists(object.GetType(), attribute, node);
 
     return *att;
 }

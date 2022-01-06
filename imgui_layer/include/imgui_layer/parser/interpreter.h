@@ -84,11 +84,11 @@ struct AttributeConversionError : public InterpreterException
 
 struct AttributeDoesNotExists : public InterpreterException
 {
-    AttributeDoesNotExists(std::string object_type, std::string object_id,
+    AttributeDoesNotExists(std::string object_type,
                            std::string attribute_name, ParserNode node)
         : InterpreterException("Object of type \"" + object_type +
-                               "\" with ID \"" + object_id + "\" has no "
-                               "attribute called \"" + attribute_name + "\"",
+                               "\" has no attribute called \"" +
+                               attribute_name + "\"",
                               node, ParserResultType::kAttributeDoesNotExists)
     { }
 };
