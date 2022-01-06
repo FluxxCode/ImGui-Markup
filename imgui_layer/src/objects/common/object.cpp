@@ -8,13 +8,13 @@ Object::Object(std::string name, std::string id, Object* parent)
     : type_(name), id_(id), parent_(parent)
 { }
 
-Object& Object::operator=(const Object& other)
-{
-    for (auto& child : this->child_objects_)
-        child->SetParent(other.parent_);
+// Object& Object::operator=(const Object& other)
+// {
+//     for (auto& child : this->child_objects_)
+//         child->SetParent(other.parent_);
 
-    return *this;
-}
+//     return *this;
+// }
 
 Attribute* Object::GetAttribute(const std::string name) const
 {

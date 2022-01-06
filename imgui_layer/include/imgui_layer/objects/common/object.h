@@ -35,7 +35,7 @@ public:
     */
     Object(std::string type, std::string id, Object* parent);
 
-    Object& operator=(const Object& other);
+    Object& operator=(const Object& other) = delete;
 
     /**
      * Main update function that should be called every frame.
