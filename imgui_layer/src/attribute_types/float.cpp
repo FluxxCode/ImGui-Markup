@@ -25,7 +25,7 @@ bool Float::IMPL_LoadValue(const Float& value_in)
 
 bool Float::IMPL_LoadValue(const String& value_in)
 {
-    return utils::StringToFloat(value_in, &this->value);
+    return internal::utils::StringToFloat(value_in, &this->value);
 }
 
 }  // namespace gui

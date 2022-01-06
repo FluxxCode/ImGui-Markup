@@ -3,7 +3,7 @@
 
 #include "utility/utility.h"
 
-namespace gui
+namespace gui::internal::parser
 {
 
 /* Lexer Token */
@@ -565,4 +565,4 @@ std::string Lexer::GetCurrentDirectory() const
         this->file_stack_.back().path).parent_path().string();
 }
 
-}  // namespace gui
+}  // namespace gui::internal::parser

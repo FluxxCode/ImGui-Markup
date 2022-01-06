@@ -30,7 +30,8 @@ bool Float2::IMPL_LoadValue(const Float2& value_in)
 
 bool Float2::IMPL_LoadValue(const String& value_in)
 {
-    std::vector<std::string> segments = utils::SplitString(value_in, ',');
+    std::vector<std::string> segments =
+        internal::utils::SplitString(value_in, ',');
 
     if (segments.size() != 2)
         return false;

@@ -29,7 +29,8 @@ bool Float3::IMPL_LoadValue(const Float3& value_in)
 
 bool Float3::IMPL_LoadValue(const String& value_in)
 {
-    std::vector<std::string> segments = utils::SplitString(value_in, ',');
+    std::vector<std::string> segments =
+        internal::utils::SplitString(value_in, ',');
 
     if (segments.size() != 3)
         return false;

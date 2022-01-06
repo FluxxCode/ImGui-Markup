@@ -35,7 +35,8 @@ bool Float4::IMPL_LoadValue(const Float4& value_in)
 
 bool Float4::IMPL_LoadValue(const String& value_in)
 {
-    std::vector<std::string> segments = utils::SplitString(value_in, ',');
+    std::vector<std::string> segments =
+        internal::utils::SplitString(value_in, ',');
 
     if (segments.size() != 4)
         return false;

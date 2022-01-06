@@ -6,7 +6,7 @@
 #include <fstream>
 #include <string>
 
-namespace gui
+namespace gui::internal::parser
 {
 
 enum class LexerTokenType
@@ -425,6 +425,6 @@ private:
     std::string GetCurrentDirectory() const;
 };
 
-}  // namespace gui
+}  // namespace gui::internal::parser
 
 #endif  // IMGUI_LAYER_INCLUDE_IMGUI_LAYER_PARSER_LEXER_H_

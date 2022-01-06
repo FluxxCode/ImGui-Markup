@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-namespace gui
+namespace gui::internal::parser
 {
 
 /* Parser */
@@ -382,4 +382,4 @@ std::shared_ptr<ParserAttributeAccessNode> Parser::CreateAttributeAccessNode()
     return node;
 }
 
-}  // namespace gui
+}  // namespace gui::internal::parser

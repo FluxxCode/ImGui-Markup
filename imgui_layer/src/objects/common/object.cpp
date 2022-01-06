@@ -71,8 +71,9 @@ void Object::AddAttribute(const std::string name, Attribute* attribute)
 {
     if (this->attribute_list_.find(name) != this->attribute_list_.end())
     {
-        utils::Log("WARNING: Object \"" + this->type_ + "\": Attribute \"" +
-                   name + "\" is already set in attribute list!");
+        internal::utils::Log("WARNING: Object \"" + this->type_ +
+            "\": Attribute \"" + name + "\" is already set in attribute list!");
+
         return;
     }
 
@@ -83,8 +84,10 @@ void Object::RemoveAttribute(const std::string name)
 {
     if (this->attribute_list_.find(name) == this->attribute_list_.end())
     {
-        utils::Log("WARNING: Object \"" + this->type_ + "\": Attribute \"" +
-                   name + "\" does not exists in the attribute list!");
+        internal::utils::Log("WARNING: Object \"" + this->type_ +
+            "\": Attribute \"" + name +
+            "\" does not exists in the attribute list!");
+
         return;
     }
 

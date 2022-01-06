@@ -17,7 +17,7 @@
 #include <vector>
 #include <memory>
 
-namespace gui
+namespace gui::internal::parser
 {
 
 struct InterpreterException
@@ -442,6 +442,6 @@ private:
     std::string AttributeTypeToString(const AttributeType type) const;
 };
 
-}  // namespace gui
+}  // namespace gui::internal::parser
 
 #endif  // IMGUI_LAYER_INCLUDE_IMGUI_LAYER_PARSER_INTERPRETER_H_

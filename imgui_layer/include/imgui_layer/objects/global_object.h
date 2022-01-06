@@ -8,7 +8,10 @@
 namespace gui
 {
 
-class Interpreter;
+namespace internal::parser
+{
+class Interpreter;  // Used as a friend class
+}
 
 class GlobalObject : public Object
 {
@@ -63,7 +66,7 @@ public:
         ImGuiMouseButton button = ImGuiMouseButton_Left) const noexcept;
 
 private:
-    friend class Interpreter;
+    friend class internal::parser::Interpreter;
 
     /**
      * Stores a reference to every child object with an ID.

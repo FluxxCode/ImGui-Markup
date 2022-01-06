@@ -19,7 +19,10 @@ struct Rect
     Float2 size;
 };
 
+namespace internal::parser
+{
 class Interpreter;  // Used as a friend class
+}
 
 class Object
 {
@@ -125,7 +128,7 @@ protected:
     void RemoveAttribute(const std::string name);
 
 private:
-    friend class Interpreter;
+    friend class internal::parser::Interpreter;
 
     /**
      * List of the object attributes that can be set through

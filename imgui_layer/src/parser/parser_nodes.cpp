@@ -1,7 +1,7 @@
 #include "ilpch.h"
 #include "imgui_layer/parser/parser_nodes.h"
 
-namespace gui
+namespace gui::internal::parser
 {
 
 ParserNode::ParserNode(ParserNodeType type, ParserPosition position)
@@ -64,4 +64,4 @@ ParserAttributeAccessNode::ParserAttributeAccessNode(
       attribute_name(attribute_name)
 { }
 
-}  // namespace gui
+}  // namespace gui::internal::parser

@@ -11,7 +11,7 @@
 #include <vector>
 #include <memory>
 
-namespace gui
+namespace gui::internal::parser
 {
 
 enum class ParserNodeType
@@ -98,6 +98,6 @@ struct ParserAttributeAccessNode : public ParserNode
     const std::string attribute_name;
 };
 
-}  // namespace gui
+}  // namespace gui::internal::parser
 
 #endif  // IMGUI_LAYER_INCLUDE_IMGUI_LAYER_PARSER_PARSER_NODES_H_

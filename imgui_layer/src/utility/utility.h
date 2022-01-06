@@ -5,7 +5,7 @@
 #include <vector>
 #include <iostream>
 
-namespace gui::utils
+namespace gui::internal::utils
 {
 
 /**
@@ -78,6 +78,6 @@ bool PathExists(const std::string path);
  */
 void Log(const std::string message);
 
-}  // namespace utils
+}  // namespace gui::internal::utils
 
 #endif  // IMGUI_LAYER_SRC_UTILITY_UTILITY_H_

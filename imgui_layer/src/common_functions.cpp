@@ -8,7 +8,7 @@ namespace gui
 
 ParserResult ParseFile(const char* path, GlobalObject& global_object)
 {
-    Parser parser;
+    internal::parser::Parser parser;
 
     return parser.ParseFile(path, global_object);
 }

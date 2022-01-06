@@ -1,7 +1,7 @@
 #include "ilpch.h"
 #include "utility/utility.h"
 
-namespace gui::utils
+namespace gui::internal::utils
 {
 
 bool StringToInt(std::string str, int* dest)
@@ -99,4 +99,4 @@ void Log(const std::string message)
 #endif
 }
 
-}  // namespace gui::utils
+}  // namespace gui::internal::utils

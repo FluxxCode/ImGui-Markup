@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 
-namespace gui
+namespace gui::internal::parser
 {
 
 /* Exceptions */
@@ -306,6 +306,6 @@ private:
     std::shared_ptr<ParserAttributeAccessNode> CreateAttributeAccessNode();
 };
 
-}  // namespace gui
+}  // namespace gui::internal::parser
 
 #endif  // IMGUI_LAYER_INCLUDE_IMGUI_LAYER_PARSER_PARSER_H_

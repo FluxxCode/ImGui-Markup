@@ -14,7 +14,7 @@ Bool::Bool(const bool b)
 
 std::string Bool::ToString() const
 {
-    return utils::BoolToString(this->value);
+    return internal::utils::BoolToString(this->value);
 }
 
 bool Bool::IMPL_LoadValue(const Bool& value_in)
@@ -25,7 +25,7 @@ bool Bool::IMPL_LoadValue(const Bool& value_in)
 
 bool Bool::IMPL_LoadValue(const String& value_in)
 {
-    return utils::StringToBool(value_in, &this->value);
+    return internal::utils::StringToBool(value_in, &this->value);
 }
 
 }  // namespace gui

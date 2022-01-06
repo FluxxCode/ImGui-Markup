@@ -3,7 +3,7 @@
 
 #include "objects/common/object_list.h"
 
-namespace gui
+namespace gui::internal::parser
 {
 
 /* Interpreter */
@@ -394,4 +394,4 @@ std::string Interpreter::AttributeTypeToString(const AttributeType type) const
     }
 }
 
-}  // namespace gui
+}  // namespace gui::internal::parser
