@@ -95,7 +95,6 @@ The text is equal to ```ImGui::Text()``` and used to display information.
 ### Attributes:
 | Name     | Type   | Description                                                  | Default Value           |
 | ---------| ------ | ------------------------------------------------------------ | ----------------------- |
-| position | Vec2   | The start position of the text relative to the parent object | Current cursor position |
 | text     | String | The Text that will be displayed                              | ""                      |
 | color    | Vec4   | The display color of the text                                | The global text color will be used |
 ### Example:
@@ -124,12 +123,6 @@ Panel
         text = "Colored text"
         color = (0.3, 0.5, 0.8, 1.0)
     }
-    Text
-    {
-        position = (20, 150)
-        text = "Text with a changed position"
-        color = (0.3, 0.5, 0.8, 1.0)
-    }
 }
 ```
 ![ExampleImage](img/objects_text.png)
@@ -141,8 +134,6 @@ The button is equal to ```ImGui::Button()``` and used to get input from the user
 ### Attributes:
 | Name          | Type   | Description                                                    | Default Value                          |
 | ------------- | ------ | -------------------------------------------------------------- | -------------------------------------- |
-| position      | Vec2   | The start position of the button relative to the parent object | Current cursor position                |
-| size          | Vec2   | The size of the button                                         | Based on the size of the child objects |
 | text          | String | The text that is displayed inside the button                   | ""                                     |
 | color         | Vec4   | The default color of the button                                | Global button color is used            |
 | color_hovered | Vec4   | The color of the button when it is hovered                     | Global button hovered color is used    |
@@ -162,8 +153,6 @@ Panel
     {
         text     = "Colored button"
         color    = (0.3, 0.8, 0.7, 1)
-        size     = (150, 80)
-        position = (40, 80)
     }
 }
 ```
@@ -176,7 +165,6 @@ The ChildPanel is equal to ```ImGui::BeginChild()``` and ```ImGui::EndChild()```
 ### Attributes:
 | Name          | Type   | Description                                                         | Default Value                  |
 | ------------- | ------ | ------------------------------------------------------------------- | ------------------------------ |
-| position      | Vec2   | The start position of the child panel relative to the parent panel  | Current cursor position        |
 | size          | Vec2   | The size of the child panel                                         | Size of the parent panel       |
 | title         | String | The title of the child panel wich is also used as the ImGui-ID, therefore it has to be unique and should be set. It can lead to unexpected behaviour when multiple child panels have the same title. | If Object-ID is set, the Object-ID will be used as the title. If both title and Object-ID are not set, the title will be "unknown". |
 | border        | Bool   | Sets if a border should be drawn around the child panel             | False                          |
