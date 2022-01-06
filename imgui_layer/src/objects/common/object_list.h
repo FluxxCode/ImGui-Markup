@@ -6,6 +6,7 @@
 #include "imgui_layer/objects/panel.h"
 #include "imgui_layer/objects/child_panel.h"
 #include "imgui_layer/objects/button.h"
+#include "imgui_layer/objects/button_style.h"
 #include "imgui_layer/objects/text.h"
 #include "imgui_layer/objects/container.h"
 #include "imgui_layer/objects/attribute_types/object_bool.h"
@@ -72,20 +73,21 @@ private:
     */
     const std::map<std::string, std::function<std::shared_ptr<Object>(
         std::string, Object*)>> object_list_ = {
-            { "Panel",      CreateObjectInstance<Panel>        },
-            { "ChildPanel", CreateObjectInstance<ChildPanel>   },
-            { "Button",     CreateObjectInstance<Button>       },
-            { "Text",       CreateObjectInstance<Text>         },
-            { "Container",  CreateObjectInstance<Container>    },
+            { "Panel",       CreateObjectInstance<Panel>        },
+            { "ChildPanel",  CreateObjectInstance<ChildPanel>   },
+            { "Button",      CreateObjectInstance<Button>       },
+            { "ButtonStyle", CreateObjectInstance<ButtonStyle>  },
+            { "Text",        CreateObjectInstance<Text>         },
+            { "Container",   CreateObjectInstance<Container>    },
 
             // Atribute types
-            { "Bool",       CreateObjectInstance<ObjectBool>   },
-            { "Float",      CreateObjectInstance<ObjectFloat>  },
-            { "Float2",     CreateObjectInstance<ObjectFloat2> },
-            { "Float3",     CreateObjectInstance<ObjectFloat3> },
-            { "Float4",     CreateObjectInstance<ObjectFloat4> },
-            { "Int",        CreateObjectInstance<ObjectInt>    },
-            { "String",     CreateObjectInstance<ObjectString> }
+            { "Bool",        CreateObjectInstance<ObjectBool>   },
+            { "Float",       CreateObjectInstance<ObjectFloat>  },
+            { "Float2",      CreateObjectInstance<ObjectFloat2> },
+            { "Float3",      CreateObjectInstance<ObjectFloat3> },
+            { "Float4",      CreateObjectInstance<ObjectFloat4> },
+            { "Int",         CreateObjectInstance<ObjectInt>    },
+            { "String",      CreateObjectInstance<ObjectString> }
     };
 
     // Functions
