@@ -67,14 +67,14 @@ void Application::InitImGUI()
 
 void Application::Update()
 {
+    glfwPollEvents();
+
     // Render ImGui
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
     this->main_state_.Update();
-
-    glfwPollEvents();
 }
 
 void Application::Render()
