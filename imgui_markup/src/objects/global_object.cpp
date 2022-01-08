@@ -14,8 +14,6 @@ GlobalObject::GlobalObject()
     this->AddAttribute("description", &this->description_);
     this->AddAttribute("author",      &this->author_);
     this->AddAttribute("date",        &this->date_);
-
-    this->size_ = Float2(999999, 999999);
 }
 
 GlobalObject& GlobalObject::operator=(const GlobalObject& other)
