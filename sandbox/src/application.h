@@ -22,7 +22,7 @@ private:
     const unsigned int kWindowSizeX_ = 1280, kWindowSizeY_ = 720;
 
     const char* kWindowTitle_ = "Sandbox";
-    const char* kGLSLVersion_ = "#version 410";
+    const char* kGLSLVersion_ = "#version 130";
 
     MainState main_state_;
 
