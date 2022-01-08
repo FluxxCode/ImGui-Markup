@@ -1,8 +1,8 @@
 [submodule "imgui_layer/dependencies/imgui"]
 	path = imgui_layer/dependencies/imgui
-	url = git@github.com:FluxxCode/imgui.git
+	url = ../imgui.git
+	branch = master
 [submodule "sandbox/dependencies/glfw"]
 	path = sandbox/dependencies/glfw
-	url = git@github.com:FluxxCode/glfw.git
-[submodule "sandbox/dependencies/glfw/"]
+	url = ../glfw.git
 	branch = master
