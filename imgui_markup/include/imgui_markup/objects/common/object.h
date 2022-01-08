@@ -13,12 +13,6 @@
 namespace imgui_markup
 {
 
-struct Rect
-{
-    Float2 position;
-    Float2 size;
-};
-
 namespace internal::parser
 {
 class Interpreter;  // Used as a friend class
@@ -71,14 +65,7 @@ public:
         { return this->draw_position_; }
     inline Float2      GetRelativePosition() const
         { return this->relative_position_; }
-
-    /**
-     * Calculates the visible rect of the object. Used to check if the user
-     * is hovering above the object.
-     * The position of the rect is relative to the window. So a position
-     * of (0, 0) equals to the top left corner of the main window.
-     */
-    Rect GetVisibleRect() const;
+    inline bool        IsHovered() const { return this->is_hovered_; }
 
 protected:
     std::string type_;
@@ -107,6 +94,12 @@ protected:
      * Size of the object which is normally set by the object itself.
      */
     Float2 size_;
+
+    /**
+     * If the mouse is hovering above the object.
+     * Overlapping is disabled.
+     */
+    bool is_hovered_ = false;
 
     // Functions
     /**

@@ -39,34 +39,6 @@ void Object::SetPosition(Float2 draw_position, Float2 global_offset)
                                       draw_position.y - parent_position.y);
 }
 
-Rect Object::GetVisibleRect() const
-{
-    Rect rect;
-    rect.position = this->global_position_;
-    rect.size     = this->size_;
-
-    if (!this->parent_)
-        return rect;
-
-    const Rect parent_rect = this->parent_->GetVisibleRect();
-    if (parent_rect.position.x > rect.position.x)
-        rect.position.x = parent_rect.position.x;
-    if (parent_rect.position.y > rect.position.y)
-        rect.position.y = parent_rect.position.y;
-    if (parent_rect.position.x + parent_rect.size.x <
-        rect.position.x + rect.size.x)
-    {
-        rect.size.x = parent_rect.size.x;
-    }
-    if (parent_rect.position.y + parent_rect.size.y <
-        rect.position.y + rect.size.y)
-    {
-        rect.size.y = parent_rect.size.y;
-    }
-
-    return rect;
-}
-
 void Object::AddAttribute(const std::string name, Attribute* attribute)
 {
     if (this->attribute_list_.find(name) != this->attribute_list_.end())

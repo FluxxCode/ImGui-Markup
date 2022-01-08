@@ -28,6 +28,7 @@ void Text::Update()
     else
         ImGui::Text("%s", this->text_.value.c_str());
 
+    this->is_hovered_ = ImGui::IsItemHovered();
     this->size_ = ImGui::GetItemRectSize();
 }
 

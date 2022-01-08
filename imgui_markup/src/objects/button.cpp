@@ -33,6 +33,7 @@ void Button::Update()
     else
         this->is_pressed_ = false;
 
+    this->is_hovered_ = ImGui::IsItemHovered();
     this->size_ = ImGui::GetItemRectSize();
 
     if (this->style_)

@@ -39,6 +39,7 @@ void ChildPanel::Update()
         child->Update();
     }
 
+    this->is_hovered_ = ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows);
     this->size_  = ImGui::GetWindowSize();
 
     ImGui::EndChild();

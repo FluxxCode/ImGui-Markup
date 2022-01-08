@@ -25,8 +25,16 @@ void Panel::Update()
     if (this->init_panel_attributes_)
         this->InitPanelAttributes();
 
-    ImGui::Begin(this->title_);
+    if (!ImGui::Begin(this->title_))
+    {
+        ImGui::End();
+        this->is_hovered_ = false;
+        this->size_ = Float2();
+        return;
+    }
 
+    this->is_hovered_ =
+        ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows);
     this->size_ = ImGui::GetWindowSize();
     this->global_position_ = ImGui::GetWindowPos();
 

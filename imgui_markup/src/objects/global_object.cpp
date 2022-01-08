@@ -77,7 +77,8 @@ bool GlobalObject::IsPressed(ImGuiMouseButton button) const noexcept
     return false;
 }
 
-bool GlobalObject::IsPressed(std::string object_id, ImGuiMouseButton button) const noexcept
+bool GlobalObject::IsPressed(
+    std::string object_id, ImGuiMouseButton button) const noexcept
 {
     Object* object = this->GetObjectReference(object_id);
     if (!object)
@@ -99,18 +100,7 @@ Object* GlobalObject::GetObjectReference(std::string object_id) const noexcept
 
 bool GlobalObject::IsHovered(const Object& object) const noexcept
 {
-    const Float2 point = ImGui::GetMousePos();
-    const Rect rect = object.GetVisibleRect();
-
-    if (point.x >= rect.position.x &&
-        point.x <= rect.position.x + rect.size.x &&
-        point.y >= rect.position.y &&
-        point.y <= rect.position.y + rect.size.y)
-    {
-        return true;
-    }
-
-    return false;
+    return object.IsHovered();
 }
 
 }  // namespace imgui_markup
