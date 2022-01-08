@@ -1,6 +1,6 @@
 include "dependencies.lua"
 
-workspace "imgui_layer"
+workspace "imgui_markup"
     architecture "x86_64"
     startproject "sandbox"
 
@@ -18,11 +18,11 @@ workspace "imgui_layer"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 group "dependencies"
-    include "imgui_layer/dependencies/imgui"
+    include "imgui_markup/dependencies/imgui"
     include "sandbox/dependencies/glfw"
     include "sandbox/dependencies/glad"
 group ""
 
-include "imgui_layer"
+include "imgui_markup"
 include "sandbox"
 

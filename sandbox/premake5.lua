@@ -26,7 +26,7 @@ project "sandbox"
     includedirs
     {
         "%{wks.location}/sandbox/src",
-        "%{include_dir.imgui_layer}",
+        "%{include_dir.imgui_markup}",
         "%{include_dir.imgui}",
         "%{include_dir.glfw}",
         "%{include_dir.glad}"
@@ -34,7 +34,7 @@ project "sandbox"
 
     links
     {
-        "imgui_layer",
+        "imgui_markup",
         "imgui",
         "glfw",
         "glad"

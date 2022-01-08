@@ -1,7 +1,9 @@
 #ifndef SANDBOX_SRC_MAIN_STATE_H_
 #define SANDBOX_SRC_MAIN_STATE_H_
 
-#include "imgui_layer.h"
+#include "imgui_markup.h"
+
+namespace gui = imgui_markup;
 
 class MainState
 {

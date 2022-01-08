@@ -66,6 +66,8 @@ Panel
 ```
 ```cpp
 // main.cpp
+namespace gui = imgui_markup;
+
 gui::GlobalObject example_file;
 
 void Init()

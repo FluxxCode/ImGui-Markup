@@ -1,5 +1,5 @@
-[submodule "imgui_layer/dependencies/imgui"]
-	path = imgui_layer/dependencies/imgui
+[submodule "imgui_markup/dependencies/imgui"]
+	path = imgui_markup/dependencies/imgui
 	url = ../imgui.git
 	branch = master
 [submodule "sandbox/dependencies/glfw"]
