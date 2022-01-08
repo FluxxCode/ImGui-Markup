@@ -1,5 +1,5 @@
-#ifndef IMGUI_LAYER_INCLUDE_IMGUI_LAYER_PARSER_PARSER_H_
-#define IMGUI_LAYER_INCLUDE_IMGUI_LAYER_PARSER_PARSER_H_
+#ifndef IMGUI_MARKUP_INCLUDE_IMGUI_MARKUP_PARSER_PARSER_H_
+#define IMGUI_MARKUP_INCLUDE_IMGUI_MARKUP_PARSER_PARSER_H_
 
 #include "imgui_markup/parser/parser_result.h"
 #include "imgui_markup/objects/global_object.h"
@@ -308,4 +308,4 @@ private:
 
 }  // namespace imgui_markup::internal::parser
 
-#endif  // IMGUI_LAYER_INCLUDE_IMGUI_LAYER_PARSER_PARSER_H_
+#endif  // IMGUI_MARKUP_INCLUDE_IMGUI_MARKUP_PARSER_PARSER_H_

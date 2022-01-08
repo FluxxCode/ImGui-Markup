@@ -1,5 +1,5 @@
-#ifndef IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_STRING_H_
-#define IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_STRING_H_
+#ifndef IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_STRING_H_
+#define IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_STRING_H_
 
 // Also includes forward declarions for other attribute types
 #include "imgui_markup/attribute_types/attribute_type.h"
@@ -35,4 +35,4 @@ private:
 
 }  // namespace imgui_markup
 
-#endif  // IMGUI_LAYER_SRC_ATTRIBUTE_TYPES_STRING_H_
+#endif  // IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_STRING_H_

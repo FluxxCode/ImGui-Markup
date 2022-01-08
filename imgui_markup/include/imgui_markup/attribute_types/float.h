@@ -1,5 +1,5 @@
-#ifndef IMGUI_LAYER_SRC_ATTRIBUTE_TYPES
-#define IMGUI_LAYER_SRC_ATTRIBUTE_TYPES
+#ifndef IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES
+#define IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES
 
 #include "imgui_markup/attribute_types/attribute_type.h"
 #include "imgui_markup/attribute_types/string.h"
@@ -28,4 +28,4 @@ private:
 
 }
 
-#endif  // IMGUI_LAYER_SRC_ATTRIBUTE_TYPES
+#endif  // IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES

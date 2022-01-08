@@ -1,5 +1,5 @@
-#ifndef IMGUI_LAYER_INCLUDE_IMGUI_LAYER_COMMON_FUNCTIONS_H_
-#define IMGUI_LAYER_INCLUDE_IMGUI_LAYER_COMMON_FUNCTIONS_H_
+#ifndef IMGUI_MARKUP_INCLUDE_IMGUI_MARKUP_COMMON_FUNCTIONS_H_
+#define IMGUI_MARKUP_INCLUDE_IMGUI_MARKUP_COMMON_FUNCTIONS_H_
 
 #include "imgui_markup/parser/parser.h"
 
@@ -28,4 +28,4 @@ ParserResult ParseFile(const char* path, GlobalObject& global_object);
 
 }  // namespace imgui_markup
 
-#endif  // IMGUI_LAYER_INCLUDE_IMGUI_LAYER_COMMON_FUNCTIONS_H_
+#endif  // IMGUI_MARKUP_INCLUDE_IMGUI_MARKUP_COMMON_FUNCTIONS_H_

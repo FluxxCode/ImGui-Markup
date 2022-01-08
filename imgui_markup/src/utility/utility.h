@@ -1,5 +1,5 @@
-#ifndef IMGUI_LAYER_SRC_UTILITY_UTILITY_H_
-#define IMGUI_LAYER_SRC_UTILITY_UTILITY_H_
+#ifndef IMGUI_MARKUP_SRC_UTILITY_UTILITY_H_
+#define IMGUI_MARKUP_SRC_UTILITY_UTILITY_H_
 
 #include <string>
 #include <vector>
@@ -80,4 +80,4 @@ void Log(const std::string message);
 
 }  // namespace imgui_markup::internal::utils
 
-#endif  // IMGUI_LAYER_SRC_UTILITY_UTILITY_H_
+#endif  // IMGUI_MARKUP_SRC_UTILITY_UTILITY_H_

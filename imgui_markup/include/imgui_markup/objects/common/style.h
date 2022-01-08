@@ -1,5 +1,5 @@
-#ifndef IMGUI_LAYER_SRC_OBJECTS_STYLE_H_
-#define IMGUI_LAYER_SRC_OBJECTS_STYLE_H_
+#ifndef IMGUI_MARKUP_SRC_OBJECTS_STYLE_H_
+#define IMGUI_MARKUP_SRC_OBJECTS_STYLE_H_
 
 #include "imgui_markup/attribute_types/bool.h"
 #include "imgui_markup/attribute_types/float.h"
@@ -69,4 +69,4 @@ protected:
 
 }  // namespace imgui_markup
 
-#endif  // IMGUI_LAYER_SRC_OBJECTS_STYLE_H_
+#endif  // IMGUI_MARKUP_SRC_OBJECTS_STYLE_H_

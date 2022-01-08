@@ -1,5 +1,5 @@
-#ifndef IMGUI_LAYER_SRC_OBJECTS_PANEL_H_
-#define IMGUI_LAYER_SRC_OBJECTS_PANEL_H_
+#ifndef IMGUI_MARKUP_SRC_OBJECTS_PANEL_H_
+#define IMGUI_MARKUP_SRC_OBJECTS_PANEL_H_
 
 #include "imgui_markup/objects/common/object.h"
 
@@ -34,4 +34,4 @@ private:
 
 }  // namespace imgui_markup
 
-#endif  // IMGUI_LAYER_SRC_OBJECTS_PANEL_H_
+#endif  // IMGUI_MARKUP_SRC_OBJECTS_PANEL_H_

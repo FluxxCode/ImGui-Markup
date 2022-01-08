@@ -1,5 +1,5 @@
-#ifndef IMGUI_LAYER_SRC_ILPCH_H_
-#define IMGUI_LAYER_SRC_ILPCH_H_
+#ifndef IMGUI_MARKUP_SRC_ILPCH_H_
+#define IMGUI_MARKUP_SRC_ILPCH_H_
 
 #if defined(_MSC_VER)
     //  Microsoft
@@ -22,4 +22,4 @@
 #include <fstream>
 #include <filesystem>
 
-#endif  // IMGUI_LAYER_SRC_ILPCH_H_
+#endif  // IMGUI_MARKUP_SRC_ILPCH_H_

@@ -1,5 +1,5 @@
-#ifndef IMGUI_LAYER_SRC_OBJECTS_BUTTON_STYLE_H_
-#define IMGUI_LAYER_SRC_OBJECTS_BUTTON_STYLE_H_
+#ifndef IMGUI_MARKUP_SRC_OBJECTS_BUTTON_STYLE_H_
+#define IMGUI_MARKUP_SRC_OBJECTS_BUTTON_STYLE_H_
 
 #include "imgui_markup/objects/common/object.h"
 #include "imgui_markup/objects/button.h"
@@ -33,4 +33,4 @@ private:
 
 }  // namespace imgui_markup
 
-#endif  // IMGUI_LAYER_SRC_OBJECTS_BUTTON_STYLE_H_
+#endif  // IMGUI_MARKUP_SRC_OBJECTS_BUTTON_STYLE_H_
