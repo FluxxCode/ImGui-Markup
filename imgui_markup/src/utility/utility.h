@@ -9,14 +9,13 @@ namespace imgui_markup::internal::utils
 {
 
 /**
- * Convert a string to an interger.
+ * Convert a string to an integer.
  *
  * @param[in] str   - The string that will be converted.
  * @param[out] dest - A pointer to an integer that will recive the converted
  *                    string.
  *
- * @return true if there was no error, false if the string could not be
- *         converted to an interger.
+ * @return true if there was no error, false if there was a conversion error.
 */
 bool StringToInt(std::string str, int* dest);
 
@@ -27,8 +26,7 @@ bool StringToInt(std::string str, int* dest);
  * @param[out] dest - A pointer to a float that will recive the converted
  *                    string.
  *
- * @return true if there was no error, false if the string could not be
- *         converted to a float.
+ * @return true if there was no error, false if there was a conversion error.
 */
 bool StringToFloat(std::string str, float* dest);
 
@@ -40,8 +38,7 @@ bool StringToFloat(std::string str, float* dest);
  * @param[out] dest - A pointer to a bool that will recive the converted
  *                    string.
  *
- * @return true if there was no error, false if the string could not be
- *         converted to a bool.
+ * @return true if there was no error, false if there was a conversion error.
 */
 bool StringToBool(std::string str, bool* dest);
 
