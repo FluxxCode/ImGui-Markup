@@ -28,4 +28,10 @@ bool Float::IMPL_LoadValue(const String& value_in)
     return internal::utils::StringToFloat(value_in, &this->value);
 }
 
+bool Float::IMPL_LoadValue(const Int& value_in)
+{
+    this->value = value_in.value;
+    return true;
+}
+
 }  // namespace imgui_markup

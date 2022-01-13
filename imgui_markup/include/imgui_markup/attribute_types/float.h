@@ -3,6 +3,7 @@
 
 #include "imgui_markup/attribute_types/attribute_type.h"
 #include "imgui_markup/attribute_types/string.h"
+#include "imgui_markup/attribute_types/int.h"
 
 #include <string>
 
@@ -24,6 +25,7 @@ public:
 private:
     bool IMPL_LoadValue(const Float& value);
     bool IMPL_LoadValue(const String& value);
+    bool IMPL_LoadValue(const Int& value);
 };
 
 }
