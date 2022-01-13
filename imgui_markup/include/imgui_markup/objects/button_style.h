@@ -4,6 +4,8 @@
 #include "imgui_markup/objects/common/object.h"
 #include "imgui_markup/objects/button.h"
 
+#include "imgui_markup/attribute_types/bool.h"
+#include "imgui_markup/attribute_types/float.h"
 #include "imgui_markup/attribute_types/float2.h"
 #include "imgui_markup/attribute_types/float4.h"
 
@@ -17,15 +19,20 @@ public:
 
     ButtonStyle& operator=(const ButtonStyle& other) = delete;
 
-    Float4 color_;
-    Float4 color_active_;
-    Float4 color_hovered_;
+    Float4 color_;            // ImGuiCol_Button
+    Float4 color_active_;     // ImGuiCol_ButtonHovered
+    Float4 color_hovered_;    // ImGuiCol_ButtonActive
+    Float rounding_;          // ImGuiStyle::FrameRounding
+    Float border_size_;       // ImGuiStyle::FrameBorderSize
+    Float4 border_color_;     // ImGuiStyle::FrameBorderSize
+    Float4 border_shadow_;    // ImGuiCol_BorderShadow
 
     void PushStyle();
     void PopStyle();
 
 private:
-    size_t style_count_ = 0;
+    size_t style_color_count_ = 0;
+    size_t style_var_count_ = 0;
 
     // See object.h for documentation
     bool OnProcessStart(std::string& error_message);
