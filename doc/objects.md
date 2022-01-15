@@ -166,11 +166,15 @@ Panel
 ### Description:
 The button style is used to change the apperance of a button. Keep in mind that the ButtonStyle can only be created inside a button. The last defined ButtonStyle is used if several are defined within a single button.
 ### Attributes:
-| Name          | Type   | Description                                                    | Default Value                          |
-| ------------- | ------ | -------------------------------------------------------------- | -------------------------------------- |
-| color         | Vec4   | The default color of the button                                | Global button color is used            |
-| color_hovered | Vec4   | The color of the button when it is hovered                     | Global button hovered color is used    |
-| color_active  | Vec4   | The color of the button when it is pressed                     | Global button active color is used     |
+| Name | Type | Description | Default Value|
+| --- | --- | --- | --- |
+| color | Float4 | Default color of the button | Global button color is used |
+| color_hovered | Float4 | Color of the button when it is hovered | Global button hovered color is used |
+| color_active | Float4 | Color of the button when it is pressed | Global button active color is used |
+| rounding | Float | Rounding of the button edges. Value between 0 and 12. | Global frame rounding is used |
+| border_size | Float | Button border size. Value of 0 means no border. | Global frame border size is used |
+| border_color | Float4 | Button border color | Global border color is used |
+| border_shadow | Float4 | Border shadow color. Use an alpha value of 0 for no shadow. | Global border shadow color is used |
 ### Example:
 ```
 # example.ill:
@@ -182,18 +186,6 @@ Panel
 
     Button
     {
-        text = "Red button"
-
-        ButtonStyle
-        {
-            color         = (1.0, 0.0, 0.0, 1.0)
-            color_hovered = (0.0, 1.0, 0.0, 1.0)
-            color_active  = (0.0, 0.0, 1.0, 1.0)
-        }
-    }
-
-    Button
-    {
         text = "Green button"
 
         ButtonStyle
@@ -201,6 +193,10 @@ Panel
             color         = (0.0, 1.0, 0.0, 1.0)
             color_hovered = (1.0, 0.0, 0.0, 1.0)
             color_active  = (0.0, 0.0, 1.0, 1.0)
+            rounding      = 10
+            border_size   = 1
+            border_color  = (0.8, 0.3, 0.4, 1.0)
+            border_shadow = (0.2, 0.2, 0.9, 0.5)
         }
     }
 }
