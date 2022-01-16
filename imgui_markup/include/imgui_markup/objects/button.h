@@ -31,6 +31,7 @@ private:
     ButtonStyle* style_ = nullptr;
 
     // See object.h for documentation
+    bool OnProcessStart(std::string& error_message);
     bool OnProcessEnd(std::string& error_message);
 };
 

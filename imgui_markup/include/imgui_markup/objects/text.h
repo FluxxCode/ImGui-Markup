@@ -23,6 +23,10 @@ public:
 
     String text_;
     Float4 color_;
+
+private:
+    // See object.h for documentation
+    bool OnProcessStart(std::string& error_message);
 };
 
 }  // namespace imgui_markup

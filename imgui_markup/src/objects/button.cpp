@@ -45,6 +45,22 @@ bool Button::IsPressed()
     return this->is_pressed_;
 }
 
+bool Button::OnProcessStart(std::string& error_message)
+{
+    Object* parent = this->parent_;
+    while (parent)
+    {
+        if (parent->GetType() == "Panel")
+            return true;
+
+        parent = parent->GetParent();
+    }
+
+    error_message = "One of the buttons parent objects must be an object "
+                    "of type \"Panel\".";
+    return false;
+}
+
 bool Button::OnProcessEnd(std::string& error_message)
 {
     if (this->text_.value.empty())

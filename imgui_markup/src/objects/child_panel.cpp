@@ -45,6 +45,22 @@ void ChildPanel::Update()
     ImGui::EndChild();
 }
 
+bool ChildPanel::OnProcessStart(std::string& error_message)
+{
+    Object* parent = this->parent_;
+    while (parent)
+    {
+        if (parent->GetType() == "Panel")
+            return true;
+
+        parent = parent->GetParent();
+    }
+
+    error_message = "One of the child panels parent objects must be an object "
+                    "of type \"Panel\".";
+    return false;
+}
+
 bool ChildPanel::OnProcessEnd(std::string& error_message)
 {
     if (this->title_.value.empty())

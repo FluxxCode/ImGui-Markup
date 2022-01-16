@@ -32,4 +32,20 @@ void Text::Update()
     this->size_ = ImGui::GetItemRectSize();
 }
 
+bool Text::OnProcessStart(std::string& error_message)
+{
+    Object* parent = this->parent_;
+    while (parent)
+    {
+        if (parent->GetType() == "Panel")
+            return true;
+
+        parent = parent->GetParent();
+    }
+
+    error_message = "One of the texts parent objects must be an object "
+                    "of type \"Panel\".";
+    return false;
+}
+
 }  // namespace imgui_markup
