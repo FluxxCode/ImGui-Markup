@@ -47,11 +47,31 @@ Panel
 ### Description:
 The panel is equal to ```ImGui::BeginWindow()``` and ```ImGui::EndWindow()```. It is necessary to draw other objects.
 ### Attributes:
-| Name     | Type   | Description | Default Value |
-| ---------| ------ | ------------| --------------|
+| Name | Type | Description | Default Value |
+| --- | --- | --- | --- |
 | position | Float2 | The start position of the panel relative to the window | (0, 0) |
-| size     | Float2 | The start size of the panel | Based on the size of the child objects. |
-| title    | String | The title of the window wich is also used as the ImGui-ID, therefore it has to be unique and should be set, even if the panel has no titlebar. It can lead to unexpected behaviour when multiple panels have the same title. | If Object-ID is set, the Object-ID will be used as the title. If both title and Object-ID are not set, the title will be "unknown".
+| size | Float2 | The start size of the panel | Based on the size of the child objects. |
+| title | String | The title of the window wich is also used as the ImGui-ID, therefore it has to be unique and should be set, even if the panel has no titlebar. It can lead to unexpected behaviour when multiple panels have the same title. | If Object-ID is set, the Object-ID will be used as the title. If both title and Object-ID are not set, the title will be "unknown".
+| no_title_bar | Bool | Disable title-bar | False |
+| no_resize | Bool | Disable user resizing with the lower-right grip | False |
+| no_move | Bool | Disable user moving the panel | False |
+| no_scrollbar | Bool | Disable scrollbars. Window can still scroll with mouse or programmatically. | False |
+| no_scroll_with_mouse | Bool | Disable user vertically scrolling with mouse wheel. On child window, mouse wheel will be forwarded to the parent unless NoScrollbar is also set. | False |
+| no_collapse | Bool | Disable user collapsing window by double-clicking on it. | False |
+| always_auto_resize | Bool | Resize every window to its content every frame. | False |
+| no_background | Bool | Disable drawing background color (WindowBg, etc.) and outside border. | False |
+| no_mouse_inputs | Bool | Disable catching mouse, hovering test with pass through. | False |
+| horizontal_scrollbar | Bool | Allow horizontal scrollbar to appear. | False |
+| no_focus_on_appearing | Bool | Disable taking focus when transitioning from hidden to visible state. | False |
+| no_bring_to_front_focus | Bool | Disable bringing window to front when taking focus. | False |
+| always_vertical_scrollbar | Bool | Always show vertical scrollbar. | False |
+| always_horizontal_scrollbar | Bool | Always show horizontal scrollbar. | False |
+| no_nav_inputs | Bool | No gamepad/keyboard navigation within the window. | False |
+| no_nav_focus | Bool | No focusing toward this window with gamepad/keyboard navigation. | False |
+| unsaved_document | Bool | Display a dot next to the title. | False |
+| no_nav | Bool | Enables no_nav_inputs and no_nav_focus. | False |
+| no_decoration | Bool | Enables no_title_bar, no_resize, no_scrollbar, no_collapse. | False |
+| no_inputs | Bool | Enables no_mouse_inputs, no_nav_inputs, no_nav_focus. | False |
 ### Example:
 ```
 # example.ill:

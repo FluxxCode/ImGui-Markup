@@ -7,9 +7,11 @@ namespace imgui_markup
 Panel::Panel(std::string id, Object* parent)
     : Object("Panel", id, parent)
 {
-    this->AddAttribute("title", &this->title_);
+    this->InitWindowFlagAttributes(this->attribute_list_);
+
+    this->AddAttribute("title",    &this->title_);
     this->AddAttribute("position", &this->global_position_);
-    this->AddAttribute("size", &this->size_);
+    this->AddAttribute("size",     &this->size_);
 }
 
 Panel& Panel::operator=(const Panel& other)
@@ -25,7 +27,7 @@ void Panel::Update()
     if (this->init_panel_attributes_)
         this->InitPanelAttributes();
 
-    if (!ImGui::Begin(this->title_))
+    if (!ImGui::Begin(this->title_, 0, this->GenerateWindowFlags()))
     {
         ImGui::End();
         this->is_hovered_ = false;

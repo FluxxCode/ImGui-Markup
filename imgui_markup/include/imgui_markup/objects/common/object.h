@@ -74,6 +74,12 @@ protected:
     std::vector<std::shared_ptr<Object>> child_objects_ = { };
 
     /**
+     * List of the object attributes that can be set through
+     * the markup language.
+     */
+    std::map<std::string, Attribute*> attribute_list_ = { };
+
+    /**
      * Main position that is relative to the parent object.
      */
     Float2 relative_position_;
@@ -122,12 +128,6 @@ protected:
 
 private:
     friend class internal::parser::Interpreter;
-
-    /**
-     * List of the object attributes that can be set through
-     * the markup language.
-     */
-    std::map<std::string, Attribute*> attribute_list_ = { };
 
     /**
      * Adds an child object to the child_objects_ variable.
