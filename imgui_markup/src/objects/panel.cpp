@@ -60,7 +60,7 @@ void Panel::InitPanelAttributes()
     this->init_panel_attributes_ = false;
 }
 
-bool Panel::Validate(std::string& error_message) const
+bool Panel::OnProcessStart(std::string& error_message)
 {
     if (!this->parent_)
         return true;

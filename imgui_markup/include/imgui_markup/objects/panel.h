@@ -28,7 +28,7 @@ private:
     void InitPanelAttributes();
 
     // See object.h for documentation
-    bool Validate(std::string& error_message) const;
+    bool OnProcessStart(std::string& error_message);
     bool OnProcessEnd(std::string& error_message);
 };
 

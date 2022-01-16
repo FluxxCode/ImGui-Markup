@@ -90,9 +90,6 @@ void Interpreter::ProcessObjectNode(
         throw UndefinedObjectType(node);
 
     std::string error_message;
-    if (!object->Validate(error_message))
-        throw ObjectIsNotValid(error_message, node);
-
     parent_object.AddChild(object);
 
     this->InitObjectReference(*object.get(), node);
