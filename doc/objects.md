@@ -55,19 +55,19 @@ The panel is equal to ```ImGui::BeginWindow()``` and ```ImGui::EndWindow()```. I
 | no_title_bar | Bool | Disable title-bar | False |
 | no_resize | Bool | Disable user resizing with the lower-right grip | False |
 | no_move | Bool | Disable user moving the panel | False |
-| no_scrollbar | Bool | Disable scrollbars. Window can still scroll with mouse or programmatically. | False |
-| no_scroll_with_mouse | Bool | Disable user vertically scrolling with mouse wheel. On child window, mouse wheel will be forwarded to the parent unless NoScrollbar is also set. | False |
-| no_collapse | Bool | Disable user collapsing window by double-clicking on it. | False |
-| always_auto_resize | Bool | Resize every window to its content every frame. | False |
-| no_background | Bool | Disable drawing background color (WindowBg, etc.) and outside border. | False |
+| no_scrollbar | Bool | Disable scrollbars. Panel can still scroll with mouse or programmatically. | False |
+| no_scroll_with_mouse | Bool | Disable user vertically scrolling with mouse wheel. On child panel, mouse wheel will be forwarded to the parent unless NoScrollbar is also set. | False |
+| no_collapse | Bool | Disable user collapsing panel by double-clicking on it. | False |
+| always_auto_resize | Bool | Resize every panel to its content every frame. | False |
+| no_background | Bool | Disable drawing background color and outside border. | False |
 | no_mouse_inputs | Bool | Disable catching mouse, hovering test with pass through. | False |
 | horizontal_scrollbar | Bool | Allow horizontal scrollbar to appear. | False |
 | no_focus_on_appearing | Bool | Disable taking focus when transitioning from hidden to visible state. | False |
-| no_bring_to_front_focus | Bool | Disable bringing window to front when taking focus. | False |
+| no_bring_to_front_focus | Bool | Disable bringing panel to front when taking focus. | False |
 | always_vertical_scrollbar | Bool | Always show vertical scrollbar. | False |
 | always_horizontal_scrollbar | Bool | Always show horizontal scrollbar. | False |
-| no_nav_inputs | Bool | No gamepad/keyboard navigation within the window. | False |
-| no_nav_focus | Bool | No focusing toward this window with gamepad/keyboard navigation. | False |
+| no_nav_inputs | Bool | No gamepad/keyboard navigation within the panel. | False |
+| no_nav_focus | Bool | No focusing toward this panel with gamepad/keyboard navigation. | False |
 | unsaved_document | Bool | Display a dot next to the title. | False |
 | no_nav | Bool | Enables no_nav_inputs and no_nav_focus. | False |
 | no_decoration | Bool | Enables no_title_bar, no_resize, no_scrollbar, no_collapse. | False |
