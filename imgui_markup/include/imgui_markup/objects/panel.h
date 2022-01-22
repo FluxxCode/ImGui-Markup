@@ -11,6 +11,8 @@
 namespace imgui_markup
 {
 
+class PanelStyle;
+
 class Panel : public Object, public WindowFlags
 {
 public:
@@ -29,8 +31,11 @@ public:
     Bool no_resize_    = false;
 
 private:
-    bool init_panel_attributes_ = true;
+    friend class PanelStyle;
 
+    PanelStyle* style_ = nullptr;
+
+    bool init_panel_attributes_ = true;
     void InitPanelAttributes();
 
     // See object.h for documentation

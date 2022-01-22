@@ -4,6 +4,7 @@
 #include "imgui_markup/objects/common/object.h"
 
 #include "imgui_markup/objects/panel.h"
+#include "imgui_markup/objects/panel_style.h"
 #include "imgui_markup/objects/child_panel.h"
 #include "imgui_markup/objects/button.h"
 #include "imgui_markup/objects/button_style.h"
@@ -74,6 +75,7 @@ private:
     const std::map<std::string, std::function<std::shared_ptr<Object>(
         std::string, Object*)>> object_list_ = {
             { "Panel",       CreateObjectInstance<Panel>        },
+            { "PanelStyle",  CreateObjectInstance<PanelStyle>   },
             { "ChildPanel",  CreateObjectInstance<ChildPanel>   },
             { "Button",      CreateObjectInstance<Button>       },
             { "ButtonStyle", CreateObjectInstance<ButtonStyle>  },

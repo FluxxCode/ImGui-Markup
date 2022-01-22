@@ -1,6 +1,8 @@
 #include "impch.h"
 #include "imgui_markup/objects/panel.h"
 
+#include "imgui_markup/objects/panel_style.h"
+
 namespace imgui_markup
 {
 
@@ -27,13 +29,23 @@ void Panel::Update()
     if (this->init_panel_attributes_)
         this->InitPanelAttributes();
 
+    if (this->style_)
+        this->style_->PushStyle();
+
     if (!ImGui::Begin(this->title_, 0, this->GenerateWindowFlags()))
     {
-        ImGui::End();
+        if (this->style_)
+            this->style_->PopStyle();
+
         this->is_hovered_ = false;
         this->size_ = Float2();
+
+        ImGui::End();
         return;
     }
+
+    if (this->style_)
+        this->style_->PopStyle();
 
     this->is_hovered_ =
         ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows);
