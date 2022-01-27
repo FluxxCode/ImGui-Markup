@@ -1,6 +1,7 @@
 # Objects
 1. [GlobalObject](#GlobalObject)
 1. [Panel](#Panel)
+1. [PanelStyle](#PanelStyle)
 1. [Style](#Style)
 1. [Text](#Text)
 1. [Button](#Button)
