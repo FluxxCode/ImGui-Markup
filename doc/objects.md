@@ -1,6 +1,7 @@
 # Objects
 1. [GlobalObject](#GlobalObject)
 1. [Panel](#Panel)
+1. [Style](#Style)
 1. [Text](#Text)
 1. [Button](#Button)
 1. [ButtonStyle](#ButtonStyle)
@@ -110,9 +111,48 @@ Panel
 ![ExampleImage](img/objects_panel.png)
 
 ---
+## PanelStyle
+### Description:
+The panel style is used to change the apperance of a panel. Keep in mind that the PanelStyle can only be created inside a panel. The last defined PanelStyle is used if several are defined within a single panel.
+### Attributes:
+| Name | Type | Description | Default Value |
+| --- | --- | --- | --- |
+| background | Float4 | Panel background color | Global color is used |
+| title_background | Float4 | Title background color | Global color is used |
+| title_background_active | Float4 | Title background color when panel is active | Global color is used |
+| title_background_collapsed | Float4 | Title background color when panel is collapsed | Global color is used |
+| title_align | Float2 | Alignment of the panel title | Global alignment is used |
+| scrollbar_background | Float4 | Scrollbar background color | Global color is used |
+| scrollbar_grap | Float4 | Scrollbar grab color | Global color is used |
+| scrollbar_grap_hovered | Float4 | Scrollbar grab color when hovered | Global color is used |
+| scrollbar_grap_active | Float4 | Scrollbar grab color when pressed | Global color is used |
+| padding | Float2 | Padding of the panel to its contents | Global padding is used |
+| rounding | Float2 | Rounding of the panel edges | Global rounding is used |
+| border_size | Float2 | Size of the panel border. Value of 0 means no color. | Global border size is used |
+| border_color | Float2 | Color of the border | Global border color is used |
+```
+# example.ill:
+
+Panel
+{
+    title = "Example panel"
+    size  = (200, 200)
+
+    PanelStyle
+    {
+        background       = (0.2, 0.3, 0.4, 1.0)
+        title_background = (0.4, 0.2, 0.6, 1.0)
+        border_color     = (0.5, 0.4, 0.9, 1.0)
+        border_size      = 1
+    }
+}
+```
+![ExampleImage](img/objects_panel_style.png)
+
+---
 ## Text
 ### Description:
-The text is equal to ```ImGui::Text()``` and used to display information.
+The text is equal to ```ImGui::Text()``` and is used to display information.
 ### Attributes:
 | Name     | Type   | Description                                                  | Default Value           |
 | ---------| ------ | ------------------------------------------------------------ | ----------------------- |
@@ -151,7 +191,7 @@ Panel
 ---
 ## Button
 ### Description:
-The button is equal to ```ImGui::Button()``` and used to get input from the user.
+The button is equal to ```ImGui::Button()``` and is used to get input from the user.
 ### Attributes:
 | Name          | Type   | Description                                                    | Default Value                          |
 | ------------- | ------ | -------------------------------------------------------------- | -------------------------------------- |
