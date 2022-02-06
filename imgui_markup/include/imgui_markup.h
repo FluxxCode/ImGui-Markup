@@ -39,6 +39,8 @@ Result GetLastResult(const size_t id, bool* result = nullptr);
  */
 void Update(const size_t id, bool* result = nullptr);
 
+bool IsPressed(size_t context, std::string object_id, bool* result = nullptr);
+
 }  // namespace imgui_markup::internal
 
 #endif  // IMGUI_MARKUP_INCLUDE_IMGUI_MARKUP_H_

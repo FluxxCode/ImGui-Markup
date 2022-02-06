@@ -1,6 +1,7 @@
 #ifndef IMGUI_MARKUP_SRC_OBJECTS_OBJECT_H_
 #define IMGUI_MARKUP_SRC_OBJECTS_OBJECT_H_
 
+#include "objects/common/object_api.h"
 #include "attribute_types/attribute_type.h"
 #include "attribute_types/float2.h"
 #include "parser/parser_result.h"
@@ -18,7 +19,7 @@ namespace parser
 class Interpreter;  // Used as a friend class
 }
 
-class ObjectBase
+class ObjectBase : public ObjectAPI
 {
 public:
     /**

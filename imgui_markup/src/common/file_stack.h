@@ -47,6 +47,12 @@ public:
      */
     static FileContext* GetFileContext(const size_t id, bool& result);
 
+    /**
+     * Get an ObjectAPI of a specific object from a context.
+     */
+    static ObjectAPI* GetObjectAPI(
+        const size_t id, const std::string object_id);
+
 private:
     /**
      * Main buffer containing the loaded object trees and their file context.
@@ -63,6 +69,7 @@ private:
     void IMPL_FreeContext(const size_t id, bool& result);
     Result IMPL_GetLastResult(const size_t id, bool& result) const;
     FileContext* IMPL_GetFileContext(const size_t id, bool& Result);
+    ObjectAPI* IMPL_GetObjectAPI(const size_t id, const std::string object_id);
 };
 
 }  // namespace imgui_markup::internal

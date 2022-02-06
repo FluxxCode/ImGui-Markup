@@ -26,6 +26,11 @@ FileContext* FileStack::GetFileContext(const size_t id, bool& result)
     return FileStack::Get().IMPL_GetFileContext(id, result);
 }
 
+ObjectAPI* FileStack::GetObjectAPI(const size_t id, const std::string object_id)
+{
+    return FileStack::Get().IMPL_GetObjectAPI(id, object_id);
+}
+
 FileStack::FileStack()
 { }
 
@@ -100,6 +105,27 @@ FileContext* FileStack::IMPL_GetFileContext(const size_t id, bool& result)
     result = true;
 
     return &this->file_contexts_.at(id);
+}
+
+ObjectAPI* FileStack::IMPL_GetObjectAPI(
+    const size_t id, const std::string object_id)
+{
+    bool result;
+    FileContext* context =  this->IMPL_GetFileContext(id, result);
+
+    if (!result)
+        return nullptr;
+
+    if (context->object_references_.find(object_id) ==
+        context->object_references_.end())
+    {
+        this->last_results_[id] =
+            Result(ResultType::kInvalidObjectID, "InvalidObjectID");
+
+        return nullptr;
+    }
+
+    return dynamic_cast<ObjectAPI*>(&context->object_references_.at(object_id));
 }
 
 }  // namespace imgui_markup::internal

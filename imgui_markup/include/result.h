@@ -10,7 +10,8 @@ enum class ResultType
 {
     kSucess,
     kParserError,
-    kInvalidContextID
+    kInvalidContextID,
+    kInvalidObjectID
 };
 
 struct Result

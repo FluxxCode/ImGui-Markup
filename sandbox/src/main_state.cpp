@@ -53,8 +53,8 @@ void MainState::Init()
 
 void MainState::UpdateControlWindow()
 {
-    // if (this->control_window_.IsPressed("btn_reload"))
-    //     this->Init();
+    if (gui::IsPressed(this->control_window_, "btn_reload"))
+        this->Init();
 
     gui::Update(this->control_window_);
 }

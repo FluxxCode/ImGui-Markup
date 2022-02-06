@@ -38,11 +38,6 @@ void Button::Update()
         this->style_->PopStyle();
 }
 
-bool Button::IsPressed()
-{
-    return this->is_pressed_;
-}
-
 bool Button::OnProcessStart(std::string& error_message)
 {
     ObjectBase* parent = this->parent_;
@@ -65,6 +60,11 @@ bool Button::OnProcessEnd(std::string& error_message)
         this->text_ = "##empty_button";
 
     return true;
+}
+
+Bool Button::API_IsPressed() const
+{
+    return this->is_pressed_;
 }
 
 }  // namespace imgui_markup::internal

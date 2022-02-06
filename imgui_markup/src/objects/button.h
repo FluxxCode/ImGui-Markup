@@ -19,7 +19,6 @@ public:
     Button& operator=(const Button& other);
 
     void Update();
-    bool IsPressed();
 
     String text_;
 
@@ -32,6 +31,9 @@ private:
     // See object.h for documentation
     bool OnProcessStart(std::string& error_message);
     bool OnProcessEnd(std::string& error_message);
+
+    // See object_api.h for documentation
+    Bool API_IsPressed() const;
 };
 
 }  // namespace imgui_markup::internal
