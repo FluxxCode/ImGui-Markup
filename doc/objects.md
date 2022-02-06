@@ -1,13 +1,14 @@
 # Objects
-1. [Panel](#Panel)
-1. [PanelStyle](#PanelStyle)
-1. [Style](#Style)
-1. [Text](#Text)
-1. [Button](#Button)
-1. [ButtonStyle](#ButtonStyle)
-1. [ChildPanel](#ChildPanel)
-1. [Container](#Container)
-1. [Attribute type objects](#AttributeTypesObjects)
+1. [Items](#Panel)
+   1. [Panel](#Panel)
+      1. [PanelStyle](#PanelStyle)
+   1. [Text](#Text)
+   1. [Button](#Button)
+      1. [ButtonStyle](#ButtonStyle)
+   1. [ChildPanel](#ChildPanel)
+1. [Other](#container)
+   1. [Container](#Container)
+   1. [Attribute type objects](#AttributeTypesObjects)
 
 ---
 ## Panel
@@ -41,7 +42,7 @@ The panel is equal to ```ImGui::BeginWindow()``` and ```ImGui::EndWindow()```. I
 | no_inputs | Bool | Enables no_mouse_inputs, no_nav_inputs, no_nav_focus. | False |
 ### Example:
 ```
-# example.ill:
+// example.ill:
 
 Panel
 {
@@ -97,7 +98,7 @@ The panel style is used to change the apperance of a panel. Keep in mind that th
 | border_size | Float2 | Size of the panel border. Value of 0 means no color. | Global border size is used |
 | border_color | Float2 | Color of the border | Global border color is used |
 ```
-# example.ill:
+// example.ill:
 
 Panel
 {
@@ -126,7 +127,7 @@ The text is equal to ```ImGui::Text()``` and is used to display information.
 | color    | Float4 | The display color of the text                                | The global text color will be used |
 ### Example:
 ```
-# example.ill:
+// example.ill:
 
 Panel
 {
@@ -163,9 +164,13 @@ The button is equal to ```ImGui::Button()``` and is used to get input from the u
 | ------------- | ------ | -------------------------------------------------------------- | -------------------------------------- |
 | text          | String | The text that is displayed inside the button                   | ""                                     |
 | size          | Float2 | Size of the button                                             | Size of the button contents            |
+### API functions:
+| Function | Description |
+| --- | --- |
+| ```bool IsPressed()``` | Returns true if the button is pressed by the user |
 ### Example:
 ```
-# example.ill:
+// example.ill:
 
 Panel
 {
@@ -173,17 +178,25 @@ Panel
     position = (300, 300)
     size     = (220, 110)
 
-    Button
+    Button : button_0
     {
         text = "Press me"
     }
 
-    Button
+    Button : button_1
     {
         text = "Press me"
         size = (200, 50)
     }
 }
+```
+```cpp
+// example.cpp
+if (gui::IsPressed(file, "button_0"))
+    std::cout << "button_0 is pressed" << std::endl;
+
+if (gui::IsPressed(file, "button_1"))
+    std::cout << "button_1 is pressed" << std::endl;
 ```
 ![ExampleImage](img/objects_button.png)
 
@@ -203,7 +216,7 @@ The button style is used to change the apperance of a button. Keep in mind that 
 | border_shadow | Float4 | Border shadow color. Use an alpha value of 0 for no shadow. | Global border shadow color is used |
 ### Example:
 ```
-# example.ill:
+// example.ill:
 
 Panel
 {
@@ -241,7 +254,7 @@ The ChildPanel is equal to ```ImGui::BeginChild()``` and ```ImGui::EndChild()```
 | border        | Bool   | Sets if a border should be drawn around the child panel             | False                          |
 ### Example:
 ```
-# example.ill:
+// example.ill:
 
 Panel
 {
@@ -271,7 +284,7 @@ The container is used to store custom data or to divide other objects and object
 *The container currently does not have any attributes*
 ### Example:
 ```
-# example.ill:
+// example.ill:
 
 Container : colors
 {
@@ -301,7 +314,7 @@ The attribute type objects are used to dynamically create values from the markup
 | value  | Attribute that stores the custom value |
 ### Example:
 ```
-# example.ill
+// example.ill
 
 Panel
 {
