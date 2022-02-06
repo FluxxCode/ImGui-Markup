@@ -7,8 +7,7 @@
 
 #include <string>
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 class Float4 : public Attribute
 {
@@ -42,6 +41,5 @@ private:
     bool IMPL_LoadValue(const String& value);
 };
 
-}  // namespace imgui_markup
-
+}  // namespace imgui_markup::internal
 #endif  // IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_FLOAT4_H_

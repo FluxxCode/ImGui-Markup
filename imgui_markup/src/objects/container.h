@@ -3,8 +3,7 @@
 
 #include "objects/common/object.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 struct Container : public Object
 {
@@ -15,6 +14,5 @@ struct Container : public Object
     void Update();
 };
 
-}  // namespace imgui_markup
-
+}  // namespace imgui_markup::internal
 #endif  // IMGUI_MARKUP_SRC_OBJECTS_BUTTON_H_

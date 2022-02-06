@@ -22,8 +22,7 @@
 #include <map>
 #include <functional>
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 class ObjectList
 {
@@ -111,6 +110,5 @@ private:
     }
 };
 
-}  // namespace imgui_markup
-
+}  // namespace imgui_markup::internal
 #endif  // IMGUI_MARKUP_SRC_OBJECTS_OBJECT_LIST_H_

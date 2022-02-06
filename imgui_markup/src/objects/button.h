@@ -7,8 +7,7 @@
 #include "attribute_types/float4.h"
 #include "attribute_types/string.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 class ButtonStyle;
 
@@ -35,6 +34,5 @@ private:
     bool OnProcessEnd(std::string& error_message);
 };
 
-}  // namespace imgui_markup
-
+}  // namespace imgui_markup::internal
 #endif  // IMGUI_MARKUP_SRC_OBJECTS_BUTTON_H_

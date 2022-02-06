@@ -1,8 +1,7 @@
 #include "impch.h"
 #include "parser/parser_result.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 /* ParserPosition */
 ParserPosition::ParserPosition(
@@ -63,4 +62,4 @@ ParserResult::operator bool() const
     return this->type_ == ParserResultType::kSuccess ? true : false;
 }
 
-}  // namespace imgui_markup
+}  // namespace imgui_markup::internal

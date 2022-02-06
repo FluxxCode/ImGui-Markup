@@ -1,5 +1,5 @@
 # ImGui-Markup
-Object oriented layer above [ImGui](https://github.com/ocornut/imgui) with a simple markup language. <br/> The aim is to make it easier for developers and users of software using ImGui to change or develop the GUI. <br/>
+Layer above [ImGui](https://github.com/ocornut/imgui) with a simple markup language. <br/> The aim is to make it easier for developers and users of software using ImGui to change or develop the GUI. <br/>
 With the markup language, the frontend is separated from the backend and enables easy access to the GUI for plugins or modders.
 The markup is dynamically loaded at runtime, so most of the GUI changes does not require to recompile the project.<br/><br/>
 Note: Currently the project is in such an early state that it cant be really used in a real application. There are still a lot of features missing and the project will propably change a lot in the future.

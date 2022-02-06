@@ -3,8 +3,7 @@
 
 #include "objects/panel.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 PanelStyle::PanelStyle(std::string id, Object* parent)
     : Object("PanelStyle", id, parent)
@@ -143,4 +142,4 @@ bool PanelStyle::OnProcessStart(std::string& error_message)
     return true;
 }
 
-}  // namespace imgui_markup
+}  // namespace imgui_markup::internal

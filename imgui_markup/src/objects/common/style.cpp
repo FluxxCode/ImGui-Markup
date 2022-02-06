@@ -1,8 +1,7 @@
 #include "impch.h"
 #include "objects/common/style.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 void Style::AddStyleAttirbutes(
     std::map<std::string, Attribute*>& attribute_list)
@@ -102,4 +101,4 @@ void Style::OverwriteName(
     attribute_list[new_name] = value;
 }
 
-}  // namespace imgui_markup
+}  // namespace imgui_markup::internal

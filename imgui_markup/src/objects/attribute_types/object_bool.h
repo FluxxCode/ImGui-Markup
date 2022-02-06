@@ -4,7 +4,7 @@
 #include "objects/common/object.h"
 #include "attribute_types/bool.h"
 
-namespace imgui_markup
+namespace imgui_markup::internal
 {
 
 struct ObjectBool : public Object
@@ -16,6 +16,6 @@ struct ObjectBool : public Object
     Bool value;
 };
 
-}  // namespace imgui_markup
+}  // namespace imgui_markup::internal
 
 #endif  // IMGUI_MARKUP_SRC_IMGUI_MARKUP_OBJECTS_ATTRIBUTE_TYPES_OBJECT_BOOL_H_

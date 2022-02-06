@@ -4,8 +4,7 @@
 #include "objects/common/object.h"
 #include "attribute_types/int.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 struct ObjectInt : public Object
 {
@@ -16,6 +15,5 @@ struct ObjectInt : public Object
     Int value;
 };
 
-}  // namespace imgui_markup
-
+}  // namespace imgui_markup::internal
 #endif  // IMGUI_MARKUP_SRC_IMGUI_MARKUP_OBJECTS_ATTRIBUTE_TYPES_OBJECT_INT_H_

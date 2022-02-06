@@ -1,8 +1,7 @@
 #include "impch.h"
 #include "objects/attribute_types/object_int.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 ObjectInt::ObjectInt(std::string id, Object* parent)
     : Object("Int", id, parent)
@@ -18,4 +17,4 @@ ObjectInt& ObjectInt::operator=(const ObjectInt& other)
     return *this;
 }
 
-}  // namespace imgui_markup
+}  // namespace imgui_markup::internal

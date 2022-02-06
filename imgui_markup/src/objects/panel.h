@@ -8,8 +8,7 @@
 #include "attribute_types/string.h"
 #include "attribute_types/float2.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 class PanelStyle;
 
@@ -43,6 +42,5 @@ private:
     bool OnProcessEnd(std::string& error_message);
 };
 
-}  // namespace imgui_markup
-
+}  // namespace imgui_markup::internal
 #endif  // IMGUI_MARKUP_SRC_OBJECTS_PANEL_H_

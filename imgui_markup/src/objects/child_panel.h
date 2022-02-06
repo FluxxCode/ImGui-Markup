@@ -6,8 +6,7 @@
 #include "attribute_types/bool.h"
 #include "attribute_types/string.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 class ChildPanel : public Object
 {
@@ -29,6 +28,5 @@ private:
     bool OnProcessEnd(std::string& error_message);
 };
 
-}  // namespace imgui_markup
-
+}  // namespace imgui_markup::internal
 #endif  // IMGUI_MARKUP_SRC_OBJECTS_CHILD_PANEL_H

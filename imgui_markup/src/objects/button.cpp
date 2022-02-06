@@ -3,8 +3,7 @@
 
 #include "objects/button_style.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 Button::Button(std::string id, Object* parent)
     : Object("Button", id, parent)
@@ -69,4 +68,4 @@ bool Button::OnProcessEnd(std::string& error_message)
     return true;
 }
 
-}  // namespace imgui_markup
+}  // namespace imgui_markup::internal

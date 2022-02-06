@@ -5,10 +5,9 @@
 
 #include "attribute_types/string.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
-namespace internal::parser
+namespace parser
 {
 class Interpreter;  // Used as a friend class
 }
@@ -66,7 +65,7 @@ public:
         ImGuiMouseButton button = ImGuiMouseButton_Left) const noexcept;
 
 private:
-    friend class internal::parser::Interpreter;
+    friend class parser::Interpreter;
 
     /**
      * Stores a reference to every child object with an ID.
@@ -111,6 +110,5 @@ private:
     bool IsHovered(const Object& object) const noexcept;
 };
 
-}  // namespace imgui_markup
-
+}  // namespace imgui_markup::internal
 #endif  // IMGUI_MARKUP_SRC_OBJECTS_GLOBAL_OBJECT_H_

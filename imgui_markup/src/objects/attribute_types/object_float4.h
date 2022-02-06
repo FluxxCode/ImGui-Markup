@@ -4,8 +4,7 @@
 #include "objects/common/object.h"
 #include "attribute_types/float4.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 struct ObjectFloat4 : public Object
 {
@@ -16,6 +15,5 @@ struct ObjectFloat4 : public Object
     Float4 value;
 };
 
-}  // namespace imgui_markup
-
+}  // namespace imgui_markup::internal
 #endif  // IMGUI_MARKUP_SRC_IMGUI_MARKUP_OBJECTS_ATTRIBUTE_TYPES_OBJECT_FLOAT4_H_

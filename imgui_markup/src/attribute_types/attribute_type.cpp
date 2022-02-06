@@ -1,8 +1,7 @@
 #include "impch.h"
 #include "attribute_types/attribute_type.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 Attribute::Attribute(AttributeType type)
     : type(type)
@@ -58,4 +57,4 @@ bool Attribute::LoadValue(const String& value_in)
     return this->LoadValue<String>(value_in);
 }
 
-}  // namespace imgui_markup
+}  // namespace imgui_markup::internal

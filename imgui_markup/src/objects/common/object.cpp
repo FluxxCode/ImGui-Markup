@@ -1,8 +1,7 @@
 #include "impch.h"
 #include "objects/common/object.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 Object::Object(std::string name, std::string id, Object* parent)
     : type_(name), id_(id), parent_(parent)
@@ -71,4 +70,4 @@ void Object::AddChild(std::shared_ptr<Object> child)
     this->child_objects_.push_back(child);
 }
 
-}  // namespace imgui_markup
+}  // namespace imgui_markup::internal

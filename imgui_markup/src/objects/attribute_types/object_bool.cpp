@@ -1,7 +1,7 @@
 #include "impch.h"
 #include "objects/attribute_types/object_bool.h"
 
-namespace imgui_markup
+namespace imgui_markup::internal
 {
 
 ObjectBool::ObjectBool(std::string id, Object* parent)
@@ -18,4 +18,4 @@ ObjectBool& ObjectBool::operator=(const ObjectBool& other)
     return *this;
 }
 
-}  // namespace imgui_markup
+}  // namespace imgui_markup::internal

@@ -5,8 +5,7 @@
 
 #include <string>
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 enum class AttributeType
 {
@@ -81,6 +80,5 @@ private:
     virtual bool IMPL_LoadValue(const String& value) = 0;
 };
 
-}  // namespace imgui_markup
-
+}  // namespace imgui_markup::internal
 #endif  // IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_ATTRIBUTE_TYPE_H_

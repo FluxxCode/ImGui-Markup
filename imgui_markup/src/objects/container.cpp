@@ -1,8 +1,7 @@
 #include "impch.h"
 #include "objects/container.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 Container::Container(std::string id, Object* parent)
     : Object("Container", id, parent)
@@ -37,4 +36,4 @@ void Container::Update()
     }
 }
 
-}  // namespace imgui_markup
+}  // namespace imgui_markup::internal

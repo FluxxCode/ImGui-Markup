@@ -1,8 +1,7 @@
 #include "impch.h"
 #include "attribute_types/bool.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 Bool::Bool()
     : Attribute(AttributeType::kBool)
@@ -28,4 +27,4 @@ bool Bool::IMPL_LoadValue(const String& value_in)
     return internal::utils::StringToBool(value_in, &this->value);
 }
 
-}  // namespace imgui_markup
+}  // namespace imgui_markup::internal

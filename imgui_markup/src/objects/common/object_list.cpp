@@ -1,8 +1,7 @@
 #include "impch.h"
 #include "objects/common/object_list.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 std::shared_ptr<Object> ObjectList::CreateObject(
     std::string type,
@@ -42,4 +41,4 @@ bool ObjectList::IMPLIsDefined(std::string type)
     return true;
 }
 
-}  // namespace imgui_markup
+}  // namespace imgui_markup::internal

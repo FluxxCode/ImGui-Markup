@@ -3,8 +3,7 @@
 
 #include "objects/common/object_list.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 GlobalObject::GlobalObject()
     : Object("GlobalObject", "global", nullptr)
@@ -101,4 +100,4 @@ bool GlobalObject::IsHovered(const Object& object) const noexcept
     return object.IsHovered();
 }
 
-}  // namespace imgui_markup
+}  // namespace imgui_markup::internal

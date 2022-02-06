@@ -9,8 +9,7 @@
 #include "attribute_types/int.h"
 #include "attribute_types/string.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 String::String()
     : Attribute(AttributeType::kString)
@@ -73,4 +72,4 @@ bool String::IMPL_LoadValue(const String& value_in)
     return true;
 }
 
-}  // namespace imgui_markup
+}  // namespace imgui_markup::internal

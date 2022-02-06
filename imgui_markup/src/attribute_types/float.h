@@ -7,8 +7,7 @@
 
 #include <string>
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 class Float : public Attribute
 {

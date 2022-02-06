@@ -1,8 +1,7 @@
 #include "impch.h"
 #include "objects/child_panel.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 ChildPanel::ChildPanel(std::string id, Object* parent)
     : Object("ChildPanel", id, parent)
@@ -69,4 +68,4 @@ bool ChildPanel::OnProcessEnd(std::string& error_message)
     return true;
 }
 
-}  // namespace imgui_markup
+}  // namespace imgui_markup::internal

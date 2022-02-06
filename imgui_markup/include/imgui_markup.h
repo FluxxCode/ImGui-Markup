@@ -8,8 +8,7 @@
  * @copyright Copyright (c) 2021
  */
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 /**
  * Parses a file containing the valid markup language used for the layer.
@@ -31,6 +30,5 @@ namespace imgui_markup
  */
 // ParserResult ParseFile(const char* path, GlobalObject& global_object);
 
-}  // namespace imgui_markup
-
+}  // namespace imgui_markup::internal
 #endif  // IMGUI_MARKUP_INCLUDE_IMGUI_MARKUP_H_

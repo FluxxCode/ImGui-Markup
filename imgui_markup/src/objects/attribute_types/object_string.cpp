@@ -1,8 +1,7 @@
 #include "impch.h"
 #include "objects/attribute_types/object_string.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 ObjectString:: ObjectString(std::string id, Object* parent)
     : Object("String", id, parent)
@@ -18,4 +17,4 @@ ObjectString& ObjectString::operator=(const ObjectString& other)
     return *this;
 }
 
-}  // namespace imgui_markup
+}  // namespace imgui_markup::internal

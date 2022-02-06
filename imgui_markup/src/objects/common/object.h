@@ -10,10 +10,9 @@
 #include <vector>
 #include <memory>
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
-namespace internal::parser
+namespace parser
 {
 class Interpreter;  // Used as a friend class
 }
@@ -127,7 +126,7 @@ protected:
     void RemoveAttribute(const std::string name);
 
 private:
-    friend class internal::parser::Interpreter;
+    friend class parser::Interpreter;
 
     /**
      * Adds an child object to the child_objects_ variable.
@@ -156,6 +155,5 @@ private:
     virtual bool OnProcessEnd(std::string& error_message) { return true; }
 };
 
-}  // namespace imgui_markup
-
+}  // namespace imgui_markup::internal
 #endif  // IMGUI_MARKUP_SRC_OBJECTS_OBJECT_H_

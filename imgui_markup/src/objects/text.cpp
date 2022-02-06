@@ -1,8 +1,7 @@
 #include "impch.h"
 #include "objects/text.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 Text::Text(std::string id, Object* parent)
     : Object("Text", id, parent)
@@ -48,4 +47,4 @@ bool Text::OnProcessStart(std::string& error_message)
     return false;
 }
 
-}  // namespace imgui_markup
+}  // namespace imgui_markup::internal

@@ -1,8 +1,7 @@
 #include "impch.h"
 #include "objects/attribute_types/object_float4.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 ObjectFloat4::ObjectFloat4(std::string id, Object* parent)
     : Object("Float4", id, parent)
@@ -18,4 +17,4 @@ ObjectFloat4& ObjectFloat4::operator=(const ObjectFloat4& other)
     return *this;
 }
 
-}  // namespace imgui_markup
+}  // namespace imgui_markup::internal
