@@ -19,10 +19,10 @@ private:
     // Variables
     const std::string test_folder_ = "tests";
 
-    gui::GlobalObject control_window_;
-    bool ignore_control_window_ = false;
+    // gui::GlobalObject control_window_;
+    // bool ignore_control_window_ = false;
 
-    std::vector<gui::GlobalObject> tests_;
+    // std::vector<gui::GlobalObject> tests_;
 
     // Functions
     void Init();

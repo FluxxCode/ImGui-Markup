@@ -1,5 +1,5 @@
-#ifndef IMGUI_MARKUP_INCLUDE_IMGUI_MARKUP_IMGUI_MARKUP_H_
-#define IMGUI_MARKUP_INCLUDE_IMGUI_MARKUP_IMGUI_MARKUP_H_
+#ifndef IMGUI_MARKUP_INCLUDE_IMGUI_MARKUP_H_
+#define IMGUI_MARKUP_INCLUDE_IMGUI_MARKUP_H_
 
 /**
  * @file imgui_markup.h
@@ -8,37 +8,29 @@
  * @copyright Copyright (c) 2021
  */
 
-/*
- * Custom attribute types (data types), which allow the dynamic creation
- * of object attributes through the markup language.
-*/
-#include "imgui_markup/attribute_types/attribute_type.h"
-#include "imgui_markup/attribute_types/bool.h"
-#include "imgui_markup/attribute_types/float.h"
-#include "imgui_markup/attribute_types/float2.h"
-#include "imgui_markup/attribute_types/float3.h"
-#include "imgui_markup/attribute_types/float4.h"
-#include "imgui_markup/attribute_types/int.h"
-#include "imgui_markup/attribute_types/string.h"
+namespace imgui_markup
+{
 
-/*
- * Every object that can dynamically be created through the markup language.
-*/
-#include "imgui_markup/objects/global_object.h"
-#include "imgui_markup/objects/text.h"
-#include "imgui_markup/objects/button.h"
-#include "imgui_markup/objects/button_style.h"
-#include "imgui_markup/objects/panel.h"
-#include "imgui_markup/objects/child_panel.h"
-#include "imgui_markup/objects/container.h"
-#include "imgui_markup/objects/attribute_types/object_bool.h"
-#include "imgui_markup/objects/attribute_types/object_float.h"
-#include "imgui_markup/objects/attribute_types/object_float2.h"
-#include "imgui_markup/objects/attribute_types/object_float3.h"
-#include "imgui_markup/objects/attribute_types/object_float4.h"
-#include "imgui_markup/objects/attribute_types/object_int.h"
-#include "imgui_markup/objects/attribute_types/object_string.h"
+/**
+ * Parses a file containing the valid markup language used for the layer.
+ * The parser will create a GlobalObject, which is the root of
+ * the loaded file containing every object that was specified.
+ *
+ * @param[in] path - The path to the file that will get loaded.
+ *                   Absolute and relative paths are allowed.
+ * @param[out] global_object - Reference to a buffer receiving the loaded data.
+ *
+ * @return Result of the operation as a ParserResult, containing error type,
+ *         message and line positions. If there was no error,
+ *         the ParesrErrorType will be set to ParserErrorType::kSuccess and
+ *         the line positions are 0. Everything else is an error that
+ *         occured while loading the file. This can contain an error from the
+ *         Lexer, Parser and Interpreter. The parser will stop the process
+ *         and the global_object will be empty when an error occured while
+ *         parsing the file.
+ */
+// ParserResult ParseFile(const char* path, GlobalObject& global_object);
 
-#include "imgui_markup/common_functions.h"
+}  // namespace imgui_markup
 
-#endif  // IMGUI_MARKUP_INCLUDE_IMGUI_MARKUP_IMGUI_MARKUP_H_
+#endif  // IMGUI_MARKUP_INCLUDE_IMGUI_MARKUP_H_

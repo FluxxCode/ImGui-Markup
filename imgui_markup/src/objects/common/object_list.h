@@ -1,22 +1,22 @@
 #ifndef IMGUI_MARKUP_SRC_OBJECTS_OBJECT_LIST_H_
 #define IMGUI_MARKUP_SRC_OBJECTS_OBJECT_LIST_H_
 
-#include "imgui_markup/objects/common/object.h"
+#include "objects/common/object.h"
 
-#include "imgui_markup/objects/panel.h"
-#include "imgui_markup/objects/panel_style.h"
-#include "imgui_markup/objects/child_panel.h"
-#include "imgui_markup/objects/button.h"
-#include "imgui_markup/objects/button_style.h"
-#include "imgui_markup/objects/text.h"
-#include "imgui_markup/objects/container.h"
-#include "imgui_markup/objects/attribute_types/object_bool.h"
-#include "imgui_markup/objects/attribute_types/object_float.h"
-#include "imgui_markup/objects/attribute_types/object_float2.h"
-#include "imgui_markup/objects/attribute_types/object_float3.h"
-#include "imgui_markup/objects/attribute_types/object_float4.h"
-#include "imgui_markup/objects/attribute_types/object_int.h"
-#include "imgui_markup/objects/attribute_types/object_string.h"
+#include "objects/panel.h"
+#include "objects/panel_style.h"
+#include "objects/child_panel.h"
+#include "objects/button.h"
+#include "objects/button_style.h"
+#include "objects/text.h"
+#include "objects/container.h"
+#include "objects/attribute_types/object_bool.h"
+#include "objects/attribute_types/object_float.h"
+#include "objects/attribute_types/object_float2.h"
+#include "objects/attribute_types/object_float3.h"
+#include "objects/attribute_types/object_float4.h"
+#include "objects/attribute_types/object_int.h"
+#include "objects/attribute_types/object_string.h"
 
 #include <memory>
 #include <map>

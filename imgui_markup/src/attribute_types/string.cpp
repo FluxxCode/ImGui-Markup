@@ -1,13 +1,13 @@
 #include "impch.h"
-#include "imgui_markup/attribute_types/string.h"
+#include "attribute_types/string.h"
 
-#include "imgui_markup/attribute_types/bool.h"
-#include "imgui_markup/attribute_types/float.h"
-#include "imgui_markup/attribute_types/float2.h"
-#include "imgui_markup/attribute_types/float3.h"
-#include "imgui_markup/attribute_types/float4.h"
-#include "imgui_markup/attribute_types/int.h"
-#include "imgui_markup/attribute_types/string.h"
+#include "attribute_types/bool.h"
+#include "attribute_types/float.h"
+#include "attribute_types/float2.h"
+#include "attribute_types/float3.h"
+#include "attribute_types/float4.h"
+#include "attribute_types/int.h"
+#include "attribute_types/string.h"
 
 namespace imgui_markup
 {

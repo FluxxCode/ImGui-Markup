@@ -1,5 +1,5 @@
 #include "impch.h"
-#include "imgui_markup/objects/child_panel.h"
+#include "objects/child_panel.h"
 
 namespace imgui_markup
 {

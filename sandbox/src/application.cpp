@@ -42,8 +42,10 @@ void Application::InitWindow()
     this->window_ = glfwCreateWindow(this->kWindowSizeX_, this->kWindowSizeY_,
                                      this->kWindowTitle_, NULL, NULL);
 
+    int code = glfwGetError(nullptr);
+
     if (!this->window_)
-        std::cerr << "Unable to create window" << std::endl;
+        std::cerr << "Unable to create window: " << code << std::endl;
 
     glfwMakeContextCurrent(this->window_);
 

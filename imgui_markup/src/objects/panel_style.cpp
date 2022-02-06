@@ -1,7 +1,7 @@
 #include "impch.h"
-#include "imgui_markup/objects/panel_style.h"
+#include "objects/panel_style.h"
 
-#include "imgui_markup/objects/panel.h"
+#include "objects/panel.h"
 
 namespace imgui_markup
 {

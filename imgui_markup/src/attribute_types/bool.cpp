@@ -1,5 +1,5 @@
 #include "impch.h"
-#include "imgui_markup/attribute_types/bool.h"
+#include "attribute_types/bool.h"
 
 namespace imgui_markup
 {

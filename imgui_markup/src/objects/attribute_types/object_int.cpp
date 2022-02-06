@@ -1,5 +1,5 @@
 #include "impch.h"
-#include "imgui_markup/objects/attribute_types/object_int.h"
+#include "objects/attribute_types/object_int.h"
 
 namespace imgui_markup
 {
