@@ -58,6 +58,7 @@ enum class ParserResultType
     kMissingVectorValue,
 
     // Interpreter errors:
+    kExpectedObjectDeclaration,
     kWrongBaseNode,
     kUndefinedObjectType,
     kAttributeDoesNotExists,

@@ -1,22 +1,26 @@
-id      = "0"
-version = "0.0.1"
-date    = "14.11.21"
-author  = "FluxxCode"
-
-description = "Test_0 - Used to test the basic functionality of panels.
+/*******************************************************************************
+name: Test_0 - Panels
+version: "0.0.2"
+date: "14.11.21"
+author: "FluxxCode"
 
 Test includes:
 - title attribute:
     - The title of the panel is set by the value of the title attribute
-    - The object-ID will be used as the panel title, if the title attribute is not set
-    - unknown will be used as the panel title, if the title attribute and the object-ID is not set
+    - The object-ID will be used as the panel title, if the title attribute
+      is not set
+    - unknown will be used as the panel title, if the title attribute and the
+      object-ID is not set
 - position attribute:
-    The position attribute will be tested while testing the title and size attribute
-    - The start position of the panel will be set by the value of the position attribute
+    The position attribute will be tested while testing the title and
+    size attribute
+    - The start position of the panel will be set by the value of the position
+       attribute
 - size attribute:
     - The start size of the panel will be set by the value of the size attribute
-    - If the size attribute is not set, the start size will be set dynamic by the size of the child objects"
-
+    - If the size attribute is not set, the start size will be set dynamic by
+    the size of the child objects"
+*******************************************************************************/
 
 ############################################ TITLE ############################################
 

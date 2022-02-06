@@ -7,13 +7,13 @@ namespace imgui_markup::internal::parser
 {
 
 /* Parser */
-ParserResult Parser::ParseFile(const std::string file, GlobalObject& dest)
+ParserResult Parser::ParseFile(const std::string file, FileContext& dest)
 {
     this->Reset();
 
     try
     {
-        dest.Reset();
+        FileContext file_context;
 
         this->lexer_.InitFile(file);
 
@@ -23,6 +23,8 @@ ParserResult Parser::ParseFile(const std::string file, GlobalObject& dest)
         this->ProcessTokens(root_node);
 
         this->interpreter_.ConvertNodeTree(root_node, dest);
+
+        dest = file_context;
     }
     catch(const LexerException& e)
     {

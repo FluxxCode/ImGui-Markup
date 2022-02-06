@@ -2,10 +2,10 @@
 #define IMGUI_MARKUP_SRC_IMGUI_MARKUP_PARSER_PARSER_H_
 
 #include "parser/parser_result.h"
-#include "objects/global_object.h"
 #include "parser/lexer.h"
 #include "parser/interpreter.h"
 #include "parser/parser_nodes.h"
+#include "common/file_context.h"
 
 #include <string>
 #include <vector>
@@ -165,7 +165,7 @@ public:
      *
      * @param file - Path to the file from where the data will be loaded.
      *               Absolute and relative paths are allowed.
-     * @param dest - Reference to a GlobalObject receiving the generated
+     * @param dest - Reference to a FileContext receiving the generated
      *               object tree.
      * @return Result of the operation as a ParserResult, containing error type,
      *         message and line positions. If there was no error,
@@ -176,13 +176,14 @@ public:
      *         process and the global_object will be empty when an error occured
      *         while parsing the file.
      */
-    ParserResult ParseFile(const std::string file, GlobalObject& dest);
+    ParserResult ParseFile(const std::string file,
+                           FileContext& dest);
 
     /**
      * Parses raw string, containing the layer's markup language.
      *
      * @param data - String containg the layer's markup language.
-     * @param dest - Reference to a GlobalObject receiving the generated
+     * @param dest - Reference to a FileContext receiving the generated
      *               object tree.
      * @return Result of the operation as a ParserResult, containing error type,
      *         message and line positions. If there was no error,
@@ -195,7 +196,7 @@ public:
      */
     // NOTE: This function will be implemented later.
     //       Currently the focus is to be able to parse the data from a file.
-    // ParserResult ParseData(const std::string data, GlobalObject& dest);
+    // ParserResult ParseData(const std::string data, FileContext& dest);
 
 private:
     /**

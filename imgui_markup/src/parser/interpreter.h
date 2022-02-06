@@ -4,7 +4,7 @@
 #include "parser/parser_result.h"
 #include "parser/lexer.h"
 #include "parser/parser_nodes.h"
-#include "objects/global_object.h"
+#include "common/file_context.h"
 #include "attribute_types/bool.h"
 #include "attribute_types/float.h"
 #include "attribute_types/float2.h"
@@ -30,6 +30,14 @@ struct InterpreterException
     const std::string message;
     const ParserNode node;
     const ParserResultType type;
+};
+
+struct ExpectedObjectDeclaration : public InterpreterException
+{
+    ExpectedObjectDeclaration(ParserNode node)
+        : InterpreterException("Expected object declaration", node,
+                               ParserResultType::kExpectedObjectDeclaration)
+    { }
 };
 
 struct WrongBaseNode : public InterpreterException
@@ -168,14 +176,14 @@ public:
      * object that can be used in the application.
      *
      * @param root_node - Root of the node tree.
-     * @param dest - Reference to a GlobalObject receiving the generated
+     * @param dest - Reference to a FileContext receiving the generated
      *               object tree.
      * @throws The function can throw interpreter and std exceptions.
      *         The parser will only catch the interpreter exceptions.
      *         Every other exceptions is not catched by the parser!
      */
     void ConvertNodeTree(const std::shared_ptr<ParserNode>& root_node,
-                         GlobalObject& dest);
+                         FileContext& dest);
 
     /**
      * Resets the entire interpreter so it can be used on a new node tree.

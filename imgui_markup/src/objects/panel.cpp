@@ -78,9 +78,6 @@ bool Panel::OnProcessStart(std::string& error_message)
     if (!this->parent_)
         return true;
 
-    if (this->parent_->GetType() == "GlobalObject")
-        return true;
-
     error_message = "Object of type \"Panel\" can only be created inside the "
                     "global file scope";
 

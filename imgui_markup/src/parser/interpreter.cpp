@@ -8,13 +8,33 @@ namespace imgui_markup::internal::parser
 
 /* Interpreter */
 void Interpreter::ConvertNodeTree(
-    const std::shared_ptr<ParserNode>& root_node, GlobalObject& dest)
+    const std::shared_ptr<ParserNode>& root_node,
+    FileContext& dest)
 {
+    // TODO: Rework function
+
     this->Reset();
 
-    this->InitObjectReference(dest, *root_node.get());
-    this->ProcessNodes(*root_node.get(), dest);
+    std::vector<std::shared_ptr<Object>> object_tree;
 
+    for (auto& child : root_node->child_nodes)
+    {
+        if (child->type != ParserNodeType::kObjectNode)
+            throw ExpectedObjectDeclaration(*child.get());
+
+        Object temp("<interpreter_temp>", "<interpreter_temp>", nullptr);
+
+        this->ProcessObjectNode(*child.get(), temp);
+
+        if (temp.child_objects_.size() == 0)
+            continue;
+
+        std::shared_ptr<Object> created_object = temp.child_objects_[0];
+        created_object->parent_ = nullptr;
+        object_tree.push_back(created_object);
+    }
+
+    dest.oject_tree_= object_tree;
     dest.object_references_ = this->object_references_;
 }
 
