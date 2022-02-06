@@ -1,7 +1,7 @@
 #ifndef IMGUI_MARKUP_SRC_OBJECTS_TEXT_H_
 #define IMGUI_MARKUP_SRC_OBJECTS_TEXT_H_
 
-#include "objects/common/object.h"
+#include "objects/common/object_base.h"
 
 #include "attribute_types/float4.h"
 #include "attribute_types/float2.h"
@@ -9,11 +9,11 @@
 
 namespace imgui_markup::internal{
 
-class Text : public Object
+class Text : public ObjectBase
 {
 public:
     // Constructor/Destructor
-    Text(std::string id, Object* parent);
+    Text(std::string id, ObjectBase* parent);
 
     Text& operator=(const Text& other);
 

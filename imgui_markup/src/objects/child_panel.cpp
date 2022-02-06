@@ -3,8 +3,8 @@
 
 namespace imgui_markup::internal{
 
-ChildPanel::ChildPanel(std::string id, Object* parent)
-    : Object("ChildPanel", id, parent)
+ChildPanel::ChildPanel(std::string id, ObjectBase* parent)
+    : ObjectBase("ChildPanel", id, parent)
 {
     this->AddAttribute("size",   &this->size_);
     this->AddAttribute("title",  &this->title_);
@@ -38,7 +38,6 @@ void ChildPanel::Update()
         child->Update();
     }
 
-    this->is_hovered_ = ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows);
     this->size_  = ImGui::GetWindowSize();
 
     ImGui::EndChild();
@@ -46,7 +45,7 @@ void ChildPanel::Update()
 
 bool ChildPanel::OnProcessStart(std::string& error_message)
 {
-    Object* parent = this->parent_;
+    ObjectBase* parent = this->parent_;
     while (parent)
     {
         if (parent->GetType() == "Panel")

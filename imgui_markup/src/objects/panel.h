@@ -1,7 +1,7 @@
 #ifndef IMGUI_MARKUP_SRC_OBJECTS_PANEL_H_
 #define IMGUI_MARKUP_SRC_OBJECTS_PANEL_H_
 
-#include "objects/common/object.h"
+#include "objects/common/object_base.h"
 #include "objects/common/window_flags.h"
 
 #include "attribute_types/bool.h"
@@ -12,11 +12,11 @@ namespace imgui_markup::internal{
 
 class PanelStyle;
 
-class Panel : public Object, public WindowFlags
+class Panel : public ObjectBase, public WindowFlags
 {
 public:
     // Constructor/Destructor
-    Panel(std::string id, Object* parent);
+    Panel(std::string id, ObjectBase* parent);
 
     Panel& operator=(const Panel& other);
 

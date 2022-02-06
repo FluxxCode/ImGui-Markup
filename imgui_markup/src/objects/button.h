@@ -1,7 +1,7 @@
 #ifndef IMGUI_MARKUP_SRC_OBJECTS_BUTTON_H_
 #define IMGUI_MARKUP_SRC_OBJECTS_BUTTON_H_
 
-#include "objects/common/object.h"
+#include "objects/common/object_base.h"
 
 #include "attribute_types/float2.h"
 #include "attribute_types/float4.h"
@@ -11,10 +11,10 @@ namespace imgui_markup::internal{
 
 class ButtonStyle;
 
-class Button : public Object
+class Button : public ObjectBase
 {
 public:
-    Button(std::string id, Object* parent);
+    Button(std::string id, ObjectBase* parent);
 
     Button& operator=(const Button& other);
 

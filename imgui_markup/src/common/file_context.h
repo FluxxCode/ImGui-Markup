@@ -1,7 +1,7 @@
 #ifndef IMGUI_MARKUP_SRC_OBJECTS_GLOBAL_OBJECT_H_
 #define IMGUI_MARKUP_SRC_OBJECTS_GLOBAL_OBJECT_H_
 
-#include "objects/common/object.h"
+#include "objects/common/object_base.h"
 #include "attribute_types/string.h"
 
 namespace imgui_markup::internal
@@ -36,12 +36,12 @@ struct FileContext
      * Will be stored as:
      * "panel_0.child_panel.button_0" -> Button
      */
-    std::map<std::string, Object&> object_references_;
+    std::map<std::string, ObjectBase&> object_references_;
 
     /**
      * Stores the main object tree.
      */
-    std::vector<std::shared_ptr<Object>> oject_tree_;
+    std::vector<std::shared_ptr<ObjectBase>> oject_tree_;
 };
 
 }  // namespace imgui_markup::internal

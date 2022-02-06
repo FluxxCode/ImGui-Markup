@@ -1,7 +1,7 @@
 #ifndef IMGUI_MARKUP_SRC_OBJECTS_BUTTON_STYLE_H_
 #define IMGUI_MARKUP_SRC_OBJECTS_BUTTON_STYLE_H_
 
-#include "objects/common/object.h"
+#include "objects/common/object_base.h"
 #include "objects/button.h"
 
 #include "attribute_types/bool.h"
@@ -11,10 +11,10 @@
 
 namespace imgui_markup::internal{
 
-class ButtonStyle : public Object
+class ButtonStyle : public ObjectBase
 {
 public:
-    ButtonStyle(std::string id, Object* parent);
+    ButtonStyle(std::string id, ObjectBase* parent);
 
     ButtonStyle& operator=(const ButtonStyle& other) = delete;
 

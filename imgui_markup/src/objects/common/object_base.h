@@ -10,14 +10,15 @@
 #include <vector>
 #include <memory>
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 namespace parser
 {
 class Interpreter;  // Used as a friend class
 }
 
-class Object
+class ObjectBase
 {
 public:
     /**
@@ -26,9 +27,9 @@ public:
      * @param[in] parent - Pointer to the parent object, nullptr
      *                     if the object has no parent object.
     */
-    Object(std::string type, std::string id, Object* parent);
+    ObjectBase(std::string type, std::string id, ObjectBase* parent);
 
-    Object& operator=(const Object& other) = delete;
+    ObjectBase& operator=(const ObjectBase& other);
 
     /**
      * Main update function that should be called every frame.
@@ -55,22 +56,27 @@ public:
      */
     void SetPosition(Float2 draw_position, Float2 global_offset);
 
-    inline std::string GetID()           const   { return this->id_; }
-    inline std::string GetType()         const   { return this->type_; }
-    inline Object*     GetParent()       const   { return this->parent_; }
-    inline void        SetParent(Object* parent) { this->parent_ = parent; }
-    inline Float2      GetSize()         const   { return this->size_; }
+    inline void SetParent(ObjectBase* parent)
+        { this->parent_ = parent; }
+
+    inline std::string GetID() const
+        { return this->id_; };
+    inline std::string GetType() const
+        { return this->type_; }
+    inline ObjectBase*     GetParent() const
+        { return this->parent_; }
+    inline Float2 GetSize() const
+        { return this->size_; }
     inline Float2      GetDrawPosition() const
         { return this->draw_position_; }
     inline Float2      GetRelativePosition() const
         { return this->relative_position_; }
-    inline bool        IsHovered() const { return this->is_hovered_; }
 
 protected:
     std::string type_;
     std::string id_;
-    Object* parent_;
-    std::vector<std::shared_ptr<Object>> child_objects_ = { };
+    ObjectBase* parent_;
+    std::vector<std::shared_ptr<ObjectBase>> child_objects_ = { };
 
     /**
      * List of the object attributes that can be set through
@@ -100,12 +106,6 @@ protected:
      */
     Float2 size_;
 
-    /**
-     * If the mouse is hovering above the object.
-     * Overlapping is disabled.
-     */
-    bool is_hovered_ = false;
-
     // Functions
     /**
      * Add an attribute to the attribute list.
@@ -131,7 +131,7 @@ private:
     /**
      * Adds an child object to the child_objects_ variable.
      */
-    void AddChild(std::shared_ptr<Object> child);
+    void AddChild(std::shared_ptr<ObjectBase> child);
 
     /**
      * Function that is called by the interpreter before the interpreter
@@ -156,4 +156,5 @@ private:
 };
 
 }  // namespace imgui_markup::internal
+
 #endif  // IMGUI_MARKUP_SRC_OBJECTS_OBJECT_H_

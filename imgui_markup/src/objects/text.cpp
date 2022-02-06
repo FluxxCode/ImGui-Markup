@@ -3,8 +3,8 @@
 
 namespace imgui_markup::internal{
 
-Text::Text(std::string id, Object* parent)
-    : Object("Text", id, parent)
+Text::Text(std::string id, ObjectBase* parent)
+    : ObjectBase("Text", id, parent)
 {
     this->AddAttribute("text", &this->text_);
     this->AddAttribute("color", &this->color_);
@@ -27,13 +27,12 @@ void Text::Update()
     else
         ImGui::Text("%s", this->text_.value.c_str());
 
-    this->is_hovered_ = ImGui::IsItemHovered();
     this->size_ = ImGui::GetItemRectSize();
 }
 
 bool Text::OnProcessStart(std::string& error_message)
 {
-    Object* parent = this->parent_;
+    ObjectBase* parent = this->parent_;
     while (parent)
     {
         if (parent->GetType() == "Panel")

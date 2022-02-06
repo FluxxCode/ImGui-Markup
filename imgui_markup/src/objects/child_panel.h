@@ -1,18 +1,18 @@
 #ifndef IMGUI_MARKUP_SRC_OBJECTS_CHILD_PANEL_H_
 #define IMGUI_MARKUP_SRC_OBJECTS_CHILD_PANEL_H
 
-#include "objects/common/object.h"
+#include "objects/common/object_base.h"
 
 #include "attribute_types/bool.h"
 #include "attribute_types/string.h"
 
 namespace imgui_markup::internal{
 
-class ChildPanel : public Object
+class ChildPanel : public ObjectBase
 {
 public:
     // Constructor/Destructor
-    ChildPanel(std::string id, Object* parent);
+    ChildPanel(std::string id, ObjectBase* parent);
 
     ChildPanel& operator=(const ChildPanel& other);
 

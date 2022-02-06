@@ -3,8 +3,8 @@
 
 namespace imgui_markup::internal{
 
-ObjectFloat4::ObjectFloat4(std::string id, Object* parent)
-    : Object("Float4", id, parent)
+ObjectFloat4::ObjectFloat4(std::string id, ObjectBase* parent)
+    : ObjectBase("Float4", id, parent)
 {
     this->AddAttribute("value", &this->value);
 }

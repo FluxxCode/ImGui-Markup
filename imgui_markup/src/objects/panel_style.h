@@ -1,7 +1,7 @@
 #ifndef IMGUI_MARKUP_SRC_OBJECTS_PANEL_STYLE_H_
 #define IMGUI_MARKUP_SRC_OBJECTS_PANEL_STYLE_H_
 
-#include "objects/common/object.h"
+#include "objects/common/object_base.h"
 
 #include "attribute_types/bool.h"
 #include "attribute_types/float.h"
@@ -10,10 +10,10 @@
 
 namespace imgui_markup::internal{
 
-class PanelStyle : public Object
+class PanelStyle : public ObjectBase
 {
 public:
-    PanelStyle(std::string id, Object* parent);
+    PanelStyle(std::string id, ObjectBase* parent);
 
     PanelStyle& operator=(const PanelStyle& other) = delete;
 

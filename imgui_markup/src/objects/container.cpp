@@ -3,8 +3,8 @@
 
 namespace imgui_markup::internal{
 
-Container::Container(std::string id, Object* parent)
-    : Object("Container", id, parent)
+Container::Container(std::string id, ObjectBase* parent)
+    : ObjectBase("Container", id, parent)
 { }
 
 Container& Container::operator=(const Container& other)

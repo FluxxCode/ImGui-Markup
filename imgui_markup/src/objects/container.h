@@ -1,13 +1,13 @@
 #ifndef IMGUI_MARKUP_SRC_OBJECTS_CONTAINER_H_
 #define IMGUI_MARKUP_SRC_OBJECTS_CONTAINER_H_
 
-#include "objects/common/object.h"
+#include "objects/common/object_base.h"
 
 namespace imgui_markup::internal{
 
-struct Container : public Object
+struct Container : public ObjectBase
 {
-    Container(std::string id, Object* parent);
+    Container(std::string id, ObjectBase* parent);
 
     Container& operator=(const Container& other);
 

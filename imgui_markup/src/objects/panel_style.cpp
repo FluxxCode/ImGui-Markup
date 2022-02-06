@@ -5,8 +5,8 @@
 
 namespace imgui_markup::internal{
 
-PanelStyle::PanelStyle(std::string id, Object* parent)
-    : Object("PanelStyle", id, parent)
+PanelStyle::PanelStyle(std::string id, ObjectBase* parent)
+    : ObjectBase("PanelStyle", id, parent)
 {
     this->AddAttribute("background",            &this->background_);
     this->AddAttribute("title_background",      &this->title_background_);

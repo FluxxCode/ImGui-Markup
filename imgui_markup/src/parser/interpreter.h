@@ -218,7 +218,7 @@ private:
      * Will be stored as:
      * "panel_0.child_panel.button_0" -> Button
      */
-    std::map<std::string, Object&> object_references_;
+    std::map<std::string, ObjectBase&> object_references_;
 
     /**
      * Adds the object to the object references.
@@ -231,7 +231,7 @@ private:
      *         The parser will only catch the interpreter exceptions.
      *         Every other exceptions is not catched by the parser!
      */
-    void InitObjectReference(Object& object, const ParserNode& node);
+    void InitObjectReference(ObjectBase& object, const ParserNode& node);
 
     /**
      * Processes a node and executes its child nodes on the parent_object.
@@ -247,7 +247,7 @@ private:
      *         The parser will only catch the interpreter exceptions.
      *         Every other exceptions is not catched by the parser!
      */
-    void ProcessNodes(const ParserNode& node, Object& parent_object);
+    void ProcessNodes(const ParserNode& node, ObjectBase& parent_object);
 
     /**
      * Creates a new child object in the parent object and
@@ -261,7 +261,7 @@ private:
      *         The parser will only catch the interpreter exceptions.
      *         Every other exceptions is not catched by the parser!
      */
-    void ProcessObjectNode(const ParserNode& node, Object& parent_object);
+    void ProcessObjectNode(const ParserNode& node, ObjectBase& parent_object);
 
     /**
      * Changes the defined attribute of the parent_object to the
@@ -276,7 +276,7 @@ private:
      *         Every other exceptions is not catched by the parser!
      */
     void ProcessAttributeAssignNode(
-        const ParserNode& node, Object& parent_object);
+        const ParserNode& node, ObjectBase& parent_object);
 
     /**
      * Converts a string node to its value as a string.
@@ -330,7 +330,7 @@ private:
      *         Every other exceptions is not catched by the parser!
      */
     std::shared_ptr<Attribute> ProcessVectorNode(
-        const ParserNode& node, Object& parent_object) const;
+        const ParserNode& node, ObjectBase& parent_object) const;
 
     /**
      * Helper function that takes a node of one of the following types:
@@ -347,7 +347,7 @@ private:
      *         Every other exceptions is not catched by the parser!
      */
     std::shared_ptr<Attribute> ProcessValueNode(
-        const ParserNode& node, Object& parent_object) const;
+        const ParserNode& node, ObjectBase& parent_object) const;
 
     /**
      * Resolves an attribute access node to its value as a string.
@@ -389,7 +389,7 @@ private:
      *         Every other exceptions is not catched by the parser!
      */
     Attribute& ProcessAttributeAccessNode(
-        const ParserNode& node, Object& parent_object) const;
+        const ParserNode& node, ObjectBase& parent_object) const;
 
     /**
      * Gets an attribute from the given object as a string.
@@ -401,7 +401,7 @@ private:
      */
     Attribute& GetAttributeFromObject(
         const std::string attribute,
-        Object& parent_object,
+        ObjectBase& parent_object,
         const ParserNode& node) const;
 
     /**

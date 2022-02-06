@@ -3,10 +3,10 @@
 
 namespace imgui_markup::internal{
 
-std::shared_ptr<Object> ObjectList::CreateObject(
+std::shared_ptr<ObjectBase> ObjectList::CreateObject(
     std::string type,
     std::string id,
-    Object* parent)
+    ObjectBase* parent)
 {
     return ObjectList::Get().IMPLCreateObject(type, id, parent);
 }
@@ -22,10 +22,10 @@ ObjectList& ObjectList::Get()
     return instance;
 }
 
-std::shared_ptr<Object> ObjectList::IMPLCreateObject(
+std::shared_ptr<ObjectBase> ObjectList::IMPLCreateObject(
     std::string type,
     std::string id,
-    Object* parent)
+    ObjectBase* parent)
 {
     if (this->IsDefined(type))
         return this->object_list_.at(type)(id, parent);

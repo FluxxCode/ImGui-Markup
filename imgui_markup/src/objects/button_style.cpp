@@ -3,8 +3,8 @@
 
 namespace imgui_markup::internal{
 
-ButtonStyle::ButtonStyle(std::string id, Object* parent)
-    : Object("ButtonStyle", id, parent)
+ButtonStyle::ButtonStyle(std::string id, ObjectBase* parent)
+    : ObjectBase("ButtonStyle", id, parent)
 {
     this->AddAttribute("color",           &this->color_);
     this->AddAttribute("color_hovered",   &this->color_hovered_);

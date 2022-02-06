@@ -5,8 +5,8 @@
 
 namespace imgui_markup::internal{
 
-Panel::Panel(std::string id, Object* parent)
-    : Object("Panel", id, parent)
+Panel::Panel(std::string id, ObjectBase* parent)
+    : ObjectBase("Panel", id, parent)
 {
     this->InitWindowFlagAttributes(this->attribute_list_);
 
@@ -36,7 +36,6 @@ void Panel::Update()
         if (this->style_)
             this->style_->PopStyle();
 
-        this->is_hovered_ = false;
         this->size_ = Float2();
 
         ImGui::End();
@@ -46,8 +45,6 @@ void Panel::Update()
     if (this->style_)
         this->style_->PopStyle();
 
-    this->is_hovered_ =
-        ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows);
     this->size_ = ImGui::GetWindowSize();
     this->global_position_ = ImGui::GetWindowPos();
 

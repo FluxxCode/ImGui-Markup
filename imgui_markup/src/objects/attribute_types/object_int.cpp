@@ -3,8 +3,8 @@
 
 namespace imgui_markup::internal{
 
-ObjectInt::ObjectInt(std::string id, Object* parent)
-    : Object("Int", id, parent)
+ObjectInt::ObjectInt(std::string id, ObjectBase* parent)
+    : ObjectBase("Int", id, parent)
 {
     this->AddAttribute("value", &this->value);
 }
