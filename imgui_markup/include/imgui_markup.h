@@ -8,27 +8,37 @@
  * @copyright Copyright (c) 2021
  */
 
-namespace imgui_markup::internal{
+#include "result.h"
+
+namespace imgui_markup
+{
 
 /**
  * Parses a file containing the valid markup language used for the layer.
- * The parser will create a GlobalObject, which is the root of
- * the loaded file containing every object that was specified.
  *
  * @param[in] path - The path to the file that will get loaded.
  *                   Absolute and relative paths are allowed.
- * @param[out] global_object - Reference to a buffer receiving the loaded data.
  *
- * @return Result of the operation as a ParserResult, containing error type,
- *         message and line positions. If there was no error,
- *         the ParesrErrorType will be set to ParserErrorType::kSuccess and
- *         the line positions are 0. Everything else is an error that
- *         occured while loading the file. This can contain an error from the
- *         Lexer, Parser and Interpreter. The parser will stop the process
- *         and the global_object will be empty when an error occured while
- *         parsing the file.
+ * @return ID of the loaded file context.
  */
-// ParserResult ParseFile(const char* path, GlobalObject& global_object);
+size_t ParseFile(const char* path, bool* result = nullptr);
+
+/**
+ * Deletes both file context and result of a specific context.
+ */
+void FreeContext(const size_t id, bool* result = nullptr);
+
+/**
+ * Get the last result of a specific context.
+ */
+Result GetLastResult(const size_t id, bool* result = nullptr);
+
+/**
+ * Updates a specific context.
+ * Should be called ervery frame for every context that should be rendered.
+ */
+void Update(const size_t id, bool* result = nullptr);
 
 }  // namespace imgui_markup::internal
+
 #endif  // IMGUI_MARKUP_INCLUDE_IMGUI_MARKUP_H_

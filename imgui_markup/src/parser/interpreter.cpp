@@ -24,7 +24,7 @@ void Interpreter::ConvertNodeTree(
 
         ObjectBase temp("<interpreter_temp>", "<interpreter_temp>", nullptr);
 
-        this->ProcessObjectNode(*child.get(), temp);
+        this->ProcessObjectNode(*child.get(), temp, true);
 
         if (temp.child_objects_.size() == 0)
             continue;
@@ -34,7 +34,7 @@ void Interpreter::ConvertNodeTree(
         object_tree.push_back(created_object);
     }
 
-    dest.oject_tree_= object_tree;
+    dest.object_tree_= object_tree;
     dest.object_references_ = this->object_references_;
 }
 
@@ -96,7 +96,7 @@ void Interpreter::ProcessNodes(
 }
 
 void Interpreter::ProcessObjectNode(
-    const ParserNode& node_in, ObjectBase& parent_object)
+    const ParserNode& node_in, ObjectBase& parent_object, bool no_parent)
 {
     if (node_in.type != ParserNodeType::kObjectNode)
         throw InternalWrongNodeType(node_in);
@@ -104,12 +104,13 @@ void Interpreter::ProcessObjectNode(
     ParserObjectNode& node = (ParserObjectNode&)node_in;
 
     std::shared_ptr<ObjectBase> object = ObjectList::CreateObject(
-        node.object_type, node.object_id, &parent_object);
+        node.object_type, node.object_id, no_parent ? nullptr : &parent_object);
 
     if (!object)
         throw UndefinedObjectType(node);
 
     std::string error_message;
+
     parent_object.AddChild(object);
 
     this->InitObjectReference(*object.get(), node);

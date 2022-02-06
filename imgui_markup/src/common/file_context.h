@@ -41,7 +41,7 @@ struct FileContext
     /**
      * Stores the main object tree.
      */
-    std::vector<std::shared_ptr<ObjectBase>> oject_tree_;
+    std::vector<std::shared_ptr<ObjectBase>> object_tree_;
 };
 
 }  // namespace imgui_markup::internal

@@ -257,11 +257,18 @@ private:
      * @param node - The object node that will be executed
      * @param parent_object - The object on where the object node
      *                        will be executed.
+     * @param no_parent     - Specifies if the parent of the newly created
+     *                        object should be nullptr.
+     *                        This is currently only used for the root
+     *                        objects.
      * @throws The function can throw interpreter and std exceptions.
      *         The parser will only catch the interpreter exceptions.
      *         Every other exceptions is not catched by the parser!
      */
-    void ProcessObjectNode(const ParserNode& node, ObjectBase& parent_object);
+    void ProcessObjectNode(
+        const ParserNode& node,
+        ObjectBase& parent_object,
+        bool no_parent = false);
 
     /**
      * Changes the defined attribute of the parent_object to the

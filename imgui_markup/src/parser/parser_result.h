@@ -4,7 +4,8 @@
 #include <string>
 #include <vector>
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 struct ParserPosition
 {
@@ -91,4 +92,5 @@ public:
 };
 
 }  // namespace imgui_markup::internal
+
 #endif  // IMGUI_MARKUP_SRC_PARSER_PARSER_RESULT_H_

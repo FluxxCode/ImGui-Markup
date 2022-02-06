@@ -23,8 +23,6 @@ ParserResult Parser::ParseFile(const std::string file, FileContext& dest)
         this->ProcessTokens(root_node);
 
         this->interpreter_.ConvertNodeTree(root_node, dest);
-
-        dest = file_context;
     }
     catch(const LexerException& e)
     {
