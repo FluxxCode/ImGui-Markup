@@ -1,7 +1,10 @@
 #include "impch.h"
 #include "objects/child_panel.h"
 
-namespace imgui_markup::internal{
+#include "utility/imgui_conversion.h"
+
+namespace imgui_markup::internal
+{
 
 ChildPanel::ChildPanel(std::string id, ObjectBase* parent)
     : ObjectBase("ChildPanel", id, parent)
@@ -27,6 +30,8 @@ void ChildPanel::Update()
     ImGui::SetCursorPos(this->draw_position_);
 
     ImGui::BeginChild(this->title_, this->size_, this->border_.value);
+
+    this->is_hovered_ = ImGui::IsWindowHovered();
 
     for (auto& child : this->child_objects_)
     {
@@ -65,6 +70,17 @@ bool ChildPanel::OnProcessEnd(std::string& error_message)
         this->title_ = this->id_.empty() ? "unknown" : this->id_;
 
     return true;
+}
+
+Bool ChildPanel::API_IsPressed(MouseButton button) const
+{
+    return this->is_hovered_&&
+        ImGui::IsMouseClicked(MouseButtonToImGui(button));
+}
+
+Bool ChildPanel::API_IsHovered() const
+{
+    return this->is_hovered_;
 }
 
 }  // namespace imgui_markup::internal

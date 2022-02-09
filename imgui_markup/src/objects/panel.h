@@ -8,7 +8,8 @@
 #include "attribute_types/string.h"
 #include "attribute_types/float2.h"
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 class PanelStyle;
 
@@ -31,16 +32,23 @@ public:
 
 private:
     friend class PanelStyle;
-
     PanelStyle* style_ = nullptr;
 
     bool init_panel_attributes_ = true;
+
+    bool is_hovered_ = false;
+
     void InitPanelAttributes();
 
-    // See object.h for documentation
+     // See object.h for documentation
     bool OnProcessStart(std::string& error_message);
     bool OnProcessEnd(std::string& error_message);
+
+    // See object_api.h for documentation
+    Bool API_IsPressed(MouseButton button) const;
+    Bool API_IsHovered() const;
 };
 
 }  // namespace imgui_markup::internal
+
 #endif  // IMGUI_MARKUP_SRC_OBJECTS_PANEL_H_

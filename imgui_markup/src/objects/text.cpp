@@ -1,6 +1,8 @@
 #include "impch.h"
 #include "objects/text.h"
 
+#include "utility/imgui_conversion.h"
+
 namespace imgui_markup::internal{
 
 Text::Text(std::string id, ObjectBase* parent)
@@ -27,6 +29,9 @@ void Text::Update()
     else
         ImGui::Text("%s", this->text_.value.c_str());
 
+    this->is_hovered_ = ImGui::IsMouseHoveringRect(
+        ImGui::GetItemRectMin(), ImGui::GetItemRectMax());
+
     this->size_ = ImGui::GetItemRectSize();
 }
 
@@ -44,6 +49,17 @@ bool Text::OnProcessStart(std::string& error_message)
     error_message = "One of the texts parent objects must be an object "
                     "of type \"Panel\".";
     return false;
+}
+
+Bool Text::API_IsPressed(MouseButton button) const
+{
+    return this->is_hovered_&&
+        ImGui::IsMouseClicked(MouseButtonToImGui(button));
+}
+
+Bool Text::API_IsHovered() const
+{
+    return this->is_hovered_;
 }
 
 }  // namespace imgui_markup::internal

@@ -26,14 +26,11 @@ void Button::Update()
     if (this->style_)
         this->style_->PushStyle();
 
-    this->is_hovered_ = false;
-
     ImGui::SetCursorPos(this->draw_position_);
 
     ImGui::Button(this->text_, this->size_);
 
-    if (ImGui::IsItemHovered())
-        this->is_hovered_ = true;
+    this->is_hovered_ = ImGui::IsItemHovered();
 
     this->size_ = ImGui::GetItemRectSize();
 

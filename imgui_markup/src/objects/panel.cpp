@@ -1,9 +1,11 @@
 #include "impch.h"
 #include "objects/panel.h"
 
+#include "utility/imgui_conversion.h"
 #include "objects/panel_style.h"
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 Panel::Panel(std::string id, ObjectBase* parent)
     : ObjectBase("Panel", id, parent)
@@ -44,6 +46,8 @@ void Panel::Update()
 
     if (this->style_)
         this->style_->PopStyle();
+
+    this->is_hovered_ = ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows);
 
     this->size_ = ImGui::GetWindowSize();
     this->global_position_ = ImGui::GetWindowPos();
@@ -87,6 +91,17 @@ bool Panel::OnProcessEnd(std::string& error_message)
         this->title_ = this->id_.empty() ? "unknown" : this->id_;
 
     return true;
+}
+
+Bool Panel::API_IsPressed(MouseButton button) const
+{
+    return this->is_hovered_&&
+        ImGui::IsMouseClicked(MouseButtonToImGui(button));
+}
+
+Bool Panel::API_IsHovered() const
+{
+    return this->is_hovered_;
 }
 
 }  // namespace imgui_markup::internal

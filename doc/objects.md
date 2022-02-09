@@ -40,6 +40,11 @@ The panel is equal to ```ImGui::BeginWindow()``` and ```ImGui::EndWindow()```. I
 | no_nav | Bool | Enables no_nav_inputs and no_nav_focus. | False |
 | no_decoration | Bool | Enables no_title_bar, no_resize, no_scrollbar, no_collapse. | False |
 | no_inputs | Bool | Enables no_mouse_inputs, no_nav_inputs, no_nav_focus. | False |
+### Implemented API functions:
+| Function | Description |
+| --- | --- |
+| ```bool IsPressed()``` | Returns true if the Panel is pressed by the user |
+| ```bool IsHovered()``` | Returns true if the Panel is hovered by the user |
 ### Example:
 ```
 // example.ill:
@@ -125,6 +130,11 @@ The text is equal to ```ImGui::Text()``` and is used to display information.
 | ---------| ------ | ------------------------------------------------------------ | ----------------------- |
 | text     | String | The Text that will be displayed                              | ""                      |
 | color    | Float4 | The display color of the text                                | The global text color will be used |
+### Implemented API functions:
+| Function | Description |
+| --- | --- |
+| ```bool IsPressed()``` | Returns true if the Text is pressed by the user |
+| ```bool IsHovered()``` | Returns true if the Text is hovered by the user |
 ### Example:
 ```
 // example.ill:
@@ -158,16 +168,17 @@ Panel
 ---
 ## Button
 ### Description:
-The button is equal to ```ImGui::Button()``` and is used to get input from the user.
+The button is equal to ```ImGui::Button()```.
 ### Attributes:
 | Name          | Type   | Description                                                    | Default Value                          |
 | ------------- | ------ | -------------------------------------------------------------- | -------------------------------------- |
 | text          | String | The text that is displayed inside the button                   | ""                                     |
 | size          | Float2 | Size of the button                                             | Size of the button contents            |
-### API functions:
+### Implemented API functions:
 | Function | Description |
 | --- | --- |
 | ```bool IsPressed()``` | Returns true if the button is pressed by the user |
+| ```bool IsHovered()``` | Returns true if the button is hovered by the user |
 ### Example:
 ```
 // example.ill:
@@ -195,7 +206,7 @@ Panel
 if (gui::IsPressed(file, "button_0"))
     std::cout << "button_0 is pressed" << std::endl;
 
-if (gui::IsPressed(file, "button_1"))
+if (gui::IsHovered(file, "button_1"))
     std::cout << "button_1 is pressed" << std::endl;
 ```
 ![ExampleImage](img/objects_button.png)
@@ -252,6 +263,11 @@ The ChildPanel is equal to ```ImGui::BeginChild()``` and ```ImGui::EndChild()```
 | size          | Float2 | The size of the child panel                                         | Size of the parent panel       |
 | title         | String | The title of the child panel wich is also used as the ImGui-ID, therefore it has to be unique and should be set. It can lead to unexpected behaviour when multiple child panels have the same title. | If Object-ID is set, the Object-ID will be used as the title. If both title and Object-ID are not set, the title will be "unknown". |
 | border        | Bool   | Sets if a border should be drawn around the child panel             | False                          |
+### Implemented API functions:
+| Function | Description |
+| --- | --- |
+| ```bool IsPressed()``` | Returns true if the ChildPanel is pressed by the user |
+| ```bool IsHovered()``` | Returns true if the ChildPanel is hovered by the user |
 ### Example:
 ```
 // example.ill:
