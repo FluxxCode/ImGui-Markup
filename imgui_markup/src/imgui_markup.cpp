@@ -38,17 +38,11 @@ void Update(const size_t id, bool* result)
 
 bool IsPressed(size_t context_id, std::string object_id, bool* result)
 {
-    if (result)
-        *result = false;
-
     internal::ObjectAPI* api =
         internal::FileStack::GetObjectAPI(context_id, object_id);
 
     if (!api)
         return false;
-
-    if (result)
-        *result = true;
 
     return api->API_IsPressed();
 }
