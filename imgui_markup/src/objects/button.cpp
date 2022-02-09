@@ -2,6 +2,7 @@
 #include "objects/button.h"
 
 #include "objects/button_style.h"
+#include "utility/imgui_conversion.h"
 
 namespace imgui_markup::internal{
 
@@ -25,12 +26,14 @@ void Button::Update()
     if (this->style_)
         this->style_->PushStyle();
 
+    this->is_hovered_ = false;
+
     ImGui::SetCursorPos(this->draw_position_);
 
-    if (ImGui::Button(this->text_, this->size_))
-        this->is_pressed_ = true;
-    else
-        this->is_pressed_ = false;
+    ImGui::Button(this->text_, this->size_);
+
+    if (ImGui::IsItemHovered())
+        this->is_hovered_ = true;
 
     this->size_ = ImGui::GetItemRectSize();
 
@@ -62,9 +65,15 @@ bool Button::OnProcessEnd(std::string& error_message)
     return true;
 }
 
-Bool Button::API_IsPressed() const
+Bool Button::API_IsPressed(MouseButton button) const
 {
-    return this->is_pressed_;
+    return this->is_hovered_&&
+        ImGui::IsMouseClicked(MouseButtonToImGui(button));
+}
+
+Bool Button::API_IsHovered() const
+{
+    return this->is_hovered_;
 }
 
 }  // namespace imgui_markup::internal

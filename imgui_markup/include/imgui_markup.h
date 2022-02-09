@@ -9,6 +9,7 @@
  */
 
 #include "result.h"
+#include "input.h"
 
 namespace imgui_markup
 {
@@ -39,7 +40,11 @@ Result GetLastResult(const size_t id, bool* result = nullptr);
  */
 void Update(const size_t id, bool* result = nullptr);
 
-bool IsPressed(size_t context, std::string object_id, bool* result = nullptr);
+bool IsPressed(
+    size_t context, std::string object_id,
+    MouseButton button = MouseButton::kLeft, bool* result = nullptr);
+
+bool IsHovered(size_t context, std::string object_id, bool* resutl = nullptr);
 
 }  // namespace imgui_markup::internal
 

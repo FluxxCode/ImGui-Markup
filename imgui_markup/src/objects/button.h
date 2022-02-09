@@ -7,7 +7,8 @@
 #include "attribute_types/float4.h"
 #include "attribute_types/string.h"
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 class ButtonStyle;
 
@@ -24,17 +25,19 @@ public:
 
 private:
     friend class ButtonStyle;
-
-    bool is_pressed_ = false;
     ButtonStyle* style_ = nullptr;
+
+    bool is_hovered_ = false;
 
     // See object.h for documentation
     bool OnProcessStart(std::string& error_message);
     bool OnProcessEnd(std::string& error_message);
 
     // See object_api.h for documentation
-    Bool API_IsPressed() const;
+    Bool API_IsPressed(MouseButton button) const;
+    Bool API_IsHovered() const;
 };
 
 }  // namespace imgui_markup::internal
+
 #endif  // IMGUI_MARKUP_SRC_OBJECTS_BUTTON_H_

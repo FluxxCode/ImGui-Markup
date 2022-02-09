@@ -1,9 +1,12 @@
 #include "impch.h"
 #include "imgui_markup.h"
 
+#include "input.h"
 #include "common/file_stack.h"
 #include "common/file_context.h"
 #include "objects/common/object_api.h"
+
+#include <assert.h>
 
 namespace imgui_markup
 {
@@ -36,7 +39,8 @@ void Update(const size_t id, bool* result)
         child->Update();
 }
 
-bool IsPressed(size_t context_id, std::string object_id, bool* result)
+bool IsPressed(
+    size_t context_id, std::string object_id, MouseButton button, bool* result)
 {
     internal::ObjectAPI* api =
         internal::FileStack::GetObjectAPI(context_id, object_id);
@@ -44,7 +48,18 @@ bool IsPressed(size_t context_id, std::string object_id, bool* result)
     if (!api)
         return false;
 
-    return api->API_IsPressed();
+    return api->API_IsPressed(button);
+}
+
+bool IsHovered(size_t context_id, std::string object_id, bool* result)
+{
+    internal::ObjectAPI* api =
+        internal::FileStack::GetObjectAPI(context_id, object_id);
+
+    if (!api)
+        return false;
+
+    return api->API_IsHovered();
 }
 
 }  // namespace imgui_markup
