@@ -28,24 +28,24 @@ public:
      *         An ID of 0 is invalid and means that an error occurred while
      *         parsing the file.
     */
-    static size_t ParseFile(const std::string file, bool& result);
+    static size_t ParseFile(const std::string file, bool* result);
 
     /**
      * Deletes both file context and result of a specific context.
      */
-    static void FreeContext(const size_t id, bool& result);
+    static void FreeContext(const size_t id, bool* result);
 
     /**
      * Get the last result of a specific context.
      */
-    static Result GetLastResult(const size_t id, bool& result);
+    static Result GetLastResult(const size_t id, bool* result);
 
     /**
      * Get a specific file context.
      * nullptr is returned when the id is invalid and
      * the context not exists.
      */
-    static FileContext* GetFileContext(const size_t id, bool& result);
+    static FileContext* GetFileContext(const size_t id, bool* result);
 
     /**
      * Get an ObjectAPI of a specific object from a context.
@@ -65,10 +65,10 @@ private:
     FileStack();
     static FileStack& Get();
 
-    size_t IMPL_ParseFile(const std::string file, bool& result);
-    void IMPL_FreeContext(const size_t id, bool& result);
-    Result IMPL_GetLastResult(const size_t id, bool& result) const;
-    FileContext* IMPL_GetFileContext(const size_t id, bool& Result);
+    size_t IMPL_ParseFile(const std::string file, bool* result);
+    void IMPL_FreeContext(const size_t id, bool* result);
+    Result IMPL_GetLastResult(const size_t id, bool* result) const;
+    FileContext* IMPL_GetFileContext(const size_t id, bool* Result);
     ObjectAPI* IMPL_GetObjectAPI(const size_t id, const std::string object_id);
 };
 

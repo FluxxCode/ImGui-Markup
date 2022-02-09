@@ -10,46 +10,36 @@ namespace imgui_markup
 
 size_t ParseFile(const char* path, bool* result)
 {
-    bool temp_result;
-    return internal::FileStack::ParseFile(path, result ? *result : temp_result);
+    return internal::FileStack::ParseFile(path, result);
 }
 
 void FreeContext(const size_t id, bool* result)
 {
-    bool temp_result;
-    internal::FileStack::FreeContext(id, result ? *result : temp_result);
+    internal::FileStack::FreeContext(id, result);
 }
 
 Result GetLastResult(const size_t id, bool* result)
 {
     bool temp_result;
-    return internal::FileStack::GetLastResult(
-        id, result ? *result : temp_result);
+    return internal::FileStack::GetLastResult(id, result);
 }
 
-void Update(const size_t id, bool* result_out)
+void Update(const size_t id, bool* result)
 {
-    bool result;
-
     internal::FileContext* context =
         internal::FileStack::GetFileContext(id, result);
 
-    if (!result)
-    {
-        if (result_out)
-            *result_out = result;
+    if (!context)
         return;
-    }
 
     for (auto& child : context->object_tree_)
         child->Update();
 }
 
-// TODO: Change the result system. Its currently total crap
-bool IsPressed(size_t context_id, std::string object_id, bool* result_out)
+bool IsPressed(size_t context_id, std::string object_id, bool* result)
 {
-    if (result_out)
-        *result_out = false;
+    if (result)
+        *result = false;
 
     internal::ObjectAPI* api =
         internal::FileStack::GetObjectAPI(context_id, object_id);
@@ -57,8 +47,8 @@ bool IsPressed(size_t context_id, std::string object_id, bool* result_out)
     if (!api)
         return false;
 
-    if (result_out)
-        *result_out = true;
+    if (result)
+        *result = true;
 
     return api->API_IsPressed();
 }
