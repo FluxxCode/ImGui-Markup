@@ -18,7 +18,7 @@ Float2::Float2(ImVec2 vec)
 
 std::string Float2::ToString() const
 {
-    return std::to_string(this->x) + ", " + std::to_string(this->y);
+    return std::to_string(this->x) + "," + std::to_string(this->y);
 }
 
 bool Float2::IMPL_LoadValue(const Float2& value_in)
