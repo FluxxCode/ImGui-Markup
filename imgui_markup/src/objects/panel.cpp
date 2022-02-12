@@ -1,13 +1,14 @@
 #include "impch.h"
-#include "imgui_markup/objects/panel.h"
+#include "objects/panel.h"
 
-#include "imgui_markup/objects/panel_style.h"
+#include "utility/imgui_conversion.h"
+#include "objects/panel_style.h"
 
-namespace imgui_markup
+namespace imgui_markup::internal
 {
 
-Panel::Panel(std::string id, Object* parent)
-    : Object("Panel", id, parent)
+Panel::Panel(std::string id, ObjectBase* parent)
+    : ObjectBase("Panel", id, parent)
 {
     this->InitWindowFlagAttributes(this->attribute_list_);
 
@@ -37,7 +38,6 @@ void Panel::Update()
         if (this->style_)
             this->style_->PopStyle();
 
-        this->is_hovered_ = false;
         this->size_ = Float2();
 
         ImGui::End();
@@ -47,8 +47,8 @@ void Panel::Update()
     if (this->style_)
         this->style_->PopStyle();
 
-    this->is_hovered_ =
-        ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows);
+    this->is_hovered_ = ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows);
+
     this->size_ = ImGui::GetWindowSize();
     this->global_position_ = ImGui::GetWindowPos();
 
@@ -79,9 +79,6 @@ bool Panel::OnProcessStart(std::string& error_message)
     if (!this->parent_)
         return true;
 
-    if (this->parent_->GetType() == "GlobalObject")
-        return true;
-
     error_message = "Object of type \"Panel\" can only be created inside the "
                     "global file scope";
 
@@ -96,4 +93,15 @@ bool Panel::OnProcessEnd(std::string& error_message)
     return true;
 }
 
-}  // namespace imgui_markup
+Bool Panel::API_IsPressed(MouseButton button) const
+{
+    return this->is_hovered_&&
+        ImGui::IsMouseClicked(MouseButtonToImGui(button));
+}
+
+Bool Panel::API_IsHovered() const
+{
+    return this->is_hovered_;
+}
+
+}  // namespace imgui_markup::internal

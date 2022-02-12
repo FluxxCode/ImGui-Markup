@@ -1,11 +1,11 @@
 #include "impch.h"
-#include "imgui_markup/objects/attribute_types/object_bool.h"
+#include "objects/attribute_types/object_bool.h"
 
-namespace imgui_markup
+namespace imgui_markup::internal
 {
 
-ObjectBool::ObjectBool(std::string id, Object* parent)
-    : Object("Bool", id, parent)
+ObjectBool::ObjectBool(std::string id, ObjectBase* parent)
+    : ObjectBase("Bool", id, parent)
 {
     this->AddAttribute("value", &this->value);
 }
@@ -18,4 +18,4 @@ ObjectBool& ObjectBool::operator=(const ObjectBool& other)
     return *this;
 }
 
-}  // namespace imgui_markup
+}  // namespace imgui_markup::internal

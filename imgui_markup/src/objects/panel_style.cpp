@@ -1,13 +1,12 @@
 #include "impch.h"
-#include "imgui_markup/objects/panel_style.h"
+#include "objects/panel_style.h"
 
-#include "imgui_markup/objects/panel.h"
+#include "objects/panel.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
-PanelStyle::PanelStyle(std::string id, Object* parent)
-    : Object("PanelStyle", id, parent)
+PanelStyle::PanelStyle(std::string id, ObjectBase* parent)
+    : ObjectBase("PanelStyle", id, parent)
 {
     this->AddAttribute("background",            &this->background_);
     this->AddAttribute("title_background",      &this->title_background_);
@@ -143,4 +142,4 @@ bool PanelStyle::OnProcessStart(std::string& error_message)
     return true;
 }
 
-}  // namespace imgui_markup
+}  // namespace imgui_markup::internal

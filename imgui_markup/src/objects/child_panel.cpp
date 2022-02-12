@@ -1,11 +1,13 @@
 #include "impch.h"
-#include "imgui_markup/objects/child_panel.h"
+#include "objects/child_panel.h"
 
-namespace imgui_markup
+#include "utility/imgui_conversion.h"
+
+namespace imgui_markup::internal
 {
 
-ChildPanel::ChildPanel(std::string id, Object* parent)
-    : Object("ChildPanel", id, parent)
+ChildPanel::ChildPanel(std::string id, ObjectBase* parent)
+    : ObjectBase("ChildPanel", id, parent)
 {
     this->AddAttribute("size",   &this->size_);
     this->AddAttribute("title",  &this->title_);
@@ -29,6 +31,8 @@ void ChildPanel::Update()
 
     ImGui::BeginChild(this->title_, this->size_, this->border_.value);
 
+    this->is_hovered_ = ImGui::IsWindowHovered();
+
     for (auto& child : this->child_objects_)
     {
         if (!child)
@@ -39,7 +43,6 @@ void ChildPanel::Update()
         child->Update();
     }
 
-    this->is_hovered_ = ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows);
     this->size_  = ImGui::GetWindowSize();
 
     ImGui::EndChild();
@@ -47,7 +50,7 @@ void ChildPanel::Update()
 
 bool ChildPanel::OnProcessStart(std::string& error_message)
 {
-    Object* parent = this->parent_;
+    ObjectBase* parent = this->parent_;
     while (parent)
     {
         if (parent->GetType() == "Panel")
@@ -69,4 +72,15 @@ bool ChildPanel::OnProcessEnd(std::string& error_message)
     return true;
 }
 
-}  // namespace imgui_markup
+Bool ChildPanel::API_IsPressed(MouseButton button) const
+{
+    return this->is_hovered_&&
+        ImGui::IsMouseClicked(MouseButtonToImGui(button));
+}
+
+Bool ChildPanel::API_IsHovered() const
+{
+    return this->is_hovered_;
+}
+
+}  // namespace imgui_markup::internal

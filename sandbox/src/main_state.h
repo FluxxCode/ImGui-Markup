@@ -17,12 +17,11 @@ public:
 
 private:
     // Variables
-    const std::string test_folder_ = "tests";
+    const char* test_folder_ = "tests";
+    const char* control_window_path_ = "tests/control_window.ills";
 
-    gui::GlobalObject control_window_;
-    bool ignore_control_window_ = false;
-
-    std::vector<gui::GlobalObject> tests_;
+    size_t control_window_;
+    std::vector<size_t> tests_;
 
     // Functions
     void Init();

@@ -1,5 +1,5 @@
-#ifndef IMGUI_MARKUP_INCLUDE_IMGUI_MARKUP_IMGUI_MARKUP_H_
-#define IMGUI_MARKUP_INCLUDE_IMGUI_MARKUP_IMGUI_MARKUP_H_
+#ifndef IMGUI_MARKUP_INCLUDE_IMGUI_MARKUP_H_
+#define IMGUI_MARKUP_INCLUDE_IMGUI_MARKUP_H_
 
 /**
  * @file imgui_markup.h
@@ -8,37 +8,44 @@
  * @copyright Copyright (c) 2021
  */
 
-/*
- * Custom attribute types (data types), which allow the dynamic creation
- * of object attributes through the markup language.
-*/
-#include "imgui_markup/attribute_types/attribute_type.h"
-#include "imgui_markup/attribute_types/bool.h"
-#include "imgui_markup/attribute_types/float.h"
-#include "imgui_markup/attribute_types/float2.h"
-#include "imgui_markup/attribute_types/float3.h"
-#include "imgui_markup/attribute_types/float4.h"
-#include "imgui_markup/attribute_types/int.h"
-#include "imgui_markup/attribute_types/string.h"
+#include "result.h"
+#include "input.h"
 
-/*
- * Every object that can dynamically be created through the markup language.
-*/
-#include "imgui_markup/objects/global_object.h"
-#include "imgui_markup/objects/text.h"
-#include "imgui_markup/objects/button.h"
-#include "imgui_markup/objects/button_style.h"
-#include "imgui_markup/objects/panel.h"
-#include "imgui_markup/objects/child_panel.h"
-#include "imgui_markup/objects/container.h"
-#include "imgui_markup/objects/attribute_types/object_bool.h"
-#include "imgui_markup/objects/attribute_types/object_float.h"
-#include "imgui_markup/objects/attribute_types/object_float2.h"
-#include "imgui_markup/objects/attribute_types/object_float3.h"
-#include "imgui_markup/objects/attribute_types/object_float4.h"
-#include "imgui_markup/objects/attribute_types/object_int.h"
-#include "imgui_markup/objects/attribute_types/object_string.h"
+namespace imgui_markup
+{
 
-#include "imgui_markup/common_functions.h"
+/**
+ * Parses a file containing the valid markup language used for the layer.
+ *
+ * @param[in] path - The path to the file that will get loaded.
+ *                   Absolute and relative paths are allowed.
+ *
+ * @return ID of the loaded file context.
+ */
+size_t ParseFile(const char* path, bool* result = nullptr);
 
-#endif  // IMGUI_MARKUP_INCLUDE_IMGUI_MARKUP_IMGUI_MARKUP_H_
+/**
+ * Deletes both file context and result of a specific context.
+ */
+void FreeContext(const size_t id, bool* result = nullptr);
+
+/**
+ * Get the last result of a specific context.
+ */
+Result GetLastResult(const size_t id, bool* result = nullptr);
+
+/**
+ * Updates a specific context.
+ * Should be called ervery frame for every context that should be rendered.
+ */
+void Update(const size_t id, bool* result = nullptr);
+
+bool IsPressed(
+    size_t context, std::string object_id,
+    MouseButton button = MouseButton::kLeft, bool* result = nullptr);
+
+bool IsHovered(size_t context, std::string object_id, bool* resutl = nullptr);
+
+}  // namespace imgui_markup::internal
+
+#endif  // IMGUI_MARKUP_INCLUDE_IMGUI_MARKUP_H_

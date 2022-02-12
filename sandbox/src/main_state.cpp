@@ -8,11 +8,10 @@ MainState::MainState()
 
 void MainState::Update()
 {
-    if (!this->ignore_control_window_)
-        this->UpdateControlWindow();
+    this->UpdateControlWindow();
 
     for (unsigned int i = 0; i < this->tests_.size(); i++)
-        this->tests_[i].Update();
+        gui::Update(this->tests_[i]);
 }
 
 void MainState::Render()
@@ -24,15 +23,13 @@ void MainState::Init()
 
     this->tests_.clear();
 
-    gui::ParserResult result = gui::ParseFile(
-       "tests/control_window.ills", this->control_window_);
+    bool result = false;
 
-    if (result.type_ != gui::ParserResultType::kSuccess)
+    this->control_window_ = gui::ParseFile(this->control_window_path_, &result);
+    if (!result)
     {
        std::cerr << "Unable to load control window: " << std::endl <<
-           result.ToString() << std::endl;
-
-       this->ignore_control_window_ = true;
+           gui::GetLastResult(this->control_window_).message << std::endl;
     }
 
     for (auto const& entry : fs::directory_iterator(
@@ -41,15 +38,13 @@ void MainState::Init()
        if (entry.path().extension() != ".ill")
            continue;
 
-       this->tests_.emplace_back(gui::GlobalObject());
-       result = gui::ParseFile(entry.path().string().c_str(), this->tests_.back());
+       this->tests_.emplace_back(
+           gui::ParseFile(entry.path().string().c_str(), &result));
 
-       if (result.type_ != gui::ParserResultType::kSuccess)
+       if (!result)
        {
             std::cerr << "Unable to load test " << entry.path() << ":\n" <<
-                result.ToString() << std::endl;
-
-            this->tests_.pop_back();
+                gui::GetLastResult(this->tests_.back()).message << std::endl;
 
            continue;
        }
@@ -58,8 +53,8 @@ void MainState::Init()
 
 void MainState::UpdateControlWindow()
 {
-    if (this->control_window_.IsPressed("btn_reload"))
+    if (gui::IsPressed(this->control_window_, "btn_reload"))
         this->Init();
 
-    this->control_window_.Update();
+    gui::Update(this->control_window_);
 }

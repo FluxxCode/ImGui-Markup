@@ -1,5 +1,5 @@
 #include "impch.h"
-#include "imgui_markup/parser/parser.h"
+#include "parser/parser.h"
 
 #include <iostream>
 
@@ -7,13 +7,13 @@ namespace imgui_markup::internal::parser
 {
 
 /* Parser */
-ParserResult Parser::ParseFile(const std::string file, GlobalObject& dest)
+ParserResult Parser::ParseFile(const std::string file, FileContext& dest)
 {
     this->Reset();
 
     try
     {
-        dest.Reset();
+        FileContext file_context;
 
         this->lexer_.InitFile(file);
 

@@ -1,29 +1,28 @@
 #ifndef IMGUI_MARKUP_SRC_OBJECTS_OBJECT_LIST_H_
 #define IMGUI_MARKUP_SRC_OBJECTS_OBJECT_LIST_H_
 
-#include "imgui_markup/objects/common/object.h"
+#include "objects/common/object_base.h"
 
-#include "imgui_markup/objects/panel.h"
-#include "imgui_markup/objects/panel_style.h"
-#include "imgui_markup/objects/child_panel.h"
-#include "imgui_markup/objects/button.h"
-#include "imgui_markup/objects/button_style.h"
-#include "imgui_markup/objects/text.h"
-#include "imgui_markup/objects/container.h"
-#include "imgui_markup/objects/attribute_types/object_bool.h"
-#include "imgui_markup/objects/attribute_types/object_float.h"
-#include "imgui_markup/objects/attribute_types/object_float2.h"
-#include "imgui_markup/objects/attribute_types/object_float3.h"
-#include "imgui_markup/objects/attribute_types/object_float4.h"
-#include "imgui_markup/objects/attribute_types/object_int.h"
-#include "imgui_markup/objects/attribute_types/object_string.h"
+#include "objects/panel.h"
+#include "objects/panel_style.h"
+#include "objects/child_panel.h"
+#include "objects/button.h"
+#include "objects/button_style.h"
+#include "objects/text.h"
+#include "objects/container.h"
+#include "objects/attribute_types/object_bool.h"
+#include "objects/attribute_types/object_float.h"
+#include "objects/attribute_types/object_float2.h"
+#include "objects/attribute_types/object_float3.h"
+#include "objects/attribute_types/object_float4.h"
+#include "objects/attribute_types/object_int.h"
+#include "objects/attribute_types/object_string.h"
 
 #include <memory>
 #include <map>
 #include <functional>
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 class ObjectList
 {
@@ -50,10 +49,10 @@ public:
      *         Nullptr will be returned if the object was not created because
      *         the given type does not exists in the object_list_.
     */
-    static std::shared_ptr<Object> CreateObject(
+    static std::shared_ptr<ObjectBase> CreateObject(
         std::string type,
         std::string id,
-        Object* parent);
+        ObjectBase* parent);
 
     /**
      * Checks if the given type is defined in the object_list_.
@@ -72,8 +71,8 @@ private:
      * This is the main object_list_, containing the types and function
      * pointers to create an instance of an object.
     */
-    const std::map<std::string, std::function<std::shared_ptr<Object>(
-        std::string, Object*)>> object_list_ = {
+    const std::map<std::string, std::function<std::shared_ptr<ObjectBase>(
+        std::string, ObjectBase*)>> object_list_ = {
             { "Panel",       CreateObjectInstance<Panel>        },
             { "PanelStyle",  CreateObjectInstance<PanelStyle>   },
             { "ChildPanel",  CreateObjectInstance<ChildPanel>   },
@@ -95,22 +94,21 @@ private:
     // Functions
     static ObjectList& Get();
 
-    std::shared_ptr<Object> IMPLCreateObject(
+    std::shared_ptr<ObjectBase> IMPLCreateObject(
         std::string type,
         std::string id,
-        Object* parent);
+        ObjectBase* parent);
 
     bool IMPLIsDefined(std::string type);
 
     template<typename T>
     static std::shared_ptr<T> CreateObjectInstance(
         std::string id,
-        Object* parent)
+        ObjectBase* parent)
     {
         return std::make_shared<T>(id, parent);
     }
 };
 
-}  // namespace imgui_markup
-
+}  // namespace imgui_markup::internal
 #endif  // IMGUI_MARKUP_SRC_OBJECTS_OBJECT_LIST_H_

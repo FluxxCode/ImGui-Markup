@@ -1,13 +1,13 @@
 #include "impch.h"
-#include "imgui_markup/objects/button.h"
+#include "objects/button.h"
 
-#include "imgui_markup/objects/button_style.h"
+#include "objects/button_style.h"
+#include "utility/imgui_conversion.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
-Button::Button(std::string id, Object* parent)
-    : Object("Button", id, parent)
+Button::Button(std::string id, ObjectBase* parent)
+    : ObjectBase("Button", id, parent)
 {
     this->AddAttribute("size", &this->size_);
     this->AddAttribute("text", &this->text_);
@@ -28,26 +28,19 @@ void Button::Update()
 
     ImGui::SetCursorPos(this->draw_position_);
 
-    if (ImGui::Button(this->text_, this->size_))
-        this->is_pressed_ = true;
-    else
-        this->is_pressed_ = false;
+    ImGui::Button(this->text_, this->size_);
 
     this->is_hovered_ = ImGui::IsItemHovered();
+
     this->size_ = ImGui::GetItemRectSize();
 
     if (this->style_)
         this->style_->PopStyle();
 }
 
-bool Button::IsPressed()
-{
-    return this->is_pressed_;
-}
-
 bool Button::OnProcessStart(std::string& error_message)
 {
-    Object* parent = this->parent_;
+    ObjectBase* parent = this->parent_;
     while (parent)
     {
         if (parent->GetType() == "Panel")
@@ -69,4 +62,15 @@ bool Button::OnProcessEnd(std::string& error_message)
     return true;
 }
 
-}  // namespace imgui_markup
+Bool Button::API_IsPressed(MouseButton button) const
+{
+    return this->is_hovered_&&
+        ImGui::IsMouseClicked(MouseButtonToImGui(button));
+}
+
+Bool Button::API_IsHovered() const
+{
+    return this->is_hovered_;
+}
+
+}  // namespace imgui_markup::internal

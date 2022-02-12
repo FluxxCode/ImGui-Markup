@@ -1,8 +1,7 @@
 #include "impch.h"
-#include "imgui_markup/attribute_types/int.h"
+#include "attribute_types/int.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 Int::Int()
     : Attribute(AttributeType::kInt)
@@ -28,4 +27,4 @@ bool Int::IMPL_LoadValue(const String& value_in)
     return internal::utils::StringToInt(value_in, &this->value);
 }
 
-}  // namespace imgui_markup
+}  // namespace imgui_markup::internal

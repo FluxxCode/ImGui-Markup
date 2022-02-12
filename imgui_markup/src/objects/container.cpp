@@ -1,11 +1,10 @@
 #include "impch.h"
-#include "imgui_markup/objects/container.h"
+#include "objects/container.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
-Container::Container(std::string id, Object* parent)
-    : Object("Container", id, parent)
+Container::Container(std::string id, ObjectBase* parent)
+    : ObjectBase("Container", id, parent)
 { }
 
 Container& Container::operator=(const Container& other)
@@ -37,4 +36,4 @@ void Container::Update()
     }
 }
 
-}  // namespace imgui_markup
+}  // namespace imgui_markup::internal

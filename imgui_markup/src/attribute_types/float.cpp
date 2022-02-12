@@ -1,8 +1,7 @@
 #include "impch.h"
-#include "imgui_markup/attribute_types/float.h"
+#include "attribute_types/float.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
 Float::Float()
     : Attribute(AttributeType::kFloat)
@@ -34,4 +33,4 @@ bool Float::IMPL_LoadValue(const Int& value_in)
     return true;
 }
 
-}  // namespace imgui_markup
+}  // namespace imgui_markup::internal

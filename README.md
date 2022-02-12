@@ -1,5 +1,5 @@
 # ImGui-Markup
-Object oriented layer above [ImGui](https://github.com/ocornut/imgui) with a simple markup language. <br/> The aim is to make it easier for developers and users of software using ImGui to change or develop the GUI. <br/>
+Layer above [ImGui](https://github.com/ocornut/imgui) with a simple markup language. <br/> The aim is to make it easier for developers and users of software using ImGui to change or develop the GUI. <br/>
 With the markup language, the frontend is separated from the backend and enables easy access to the GUI for plugins or modders.
 The markup is dynamically loaded at runtime, so most of the GUI changes does not require to recompile the project.<br/><br/>
 Note: Currently the project is in such an early state that it cant be really used in a real application. There are still a lot of features missing and the project will propably change a lot in the future.
@@ -68,24 +68,26 @@ Panel
 // main.cpp
 namespace gui = imgui_markup;
 
-gui::GlobalObject example_file;
+size_t example_file;
 
 void Init()
 {
     // Load the file and make sure that there are no errors
-    gui::ParserResult result = gui::ParseFile("example.ill", example_file);
+    bool result;
 
-    if (resul.type_ != gui::ParserResultType::kSuccess)
-        std::cerr << result.ToString() << std::endl;
+    example_file = gui::ParseFile("example.ill", &result);
+
+    if (!result)
+        std::cerr << gui::GetLastError(example_file).message << std::endl;
 }
 
 // Main update function of the program, called every frame
 void Update()
 {
-    example_file.Update();
+    gui::Update(example_file);
 
     // Check if the object with an ID of 'button_0' is pressed
-    if (example_file.IsPressed("button_0"))
+    if (gui::IsPressed(example_file, "button_0"))
         std::cout << "Button is pressed" << std::endl;
 }
 ```

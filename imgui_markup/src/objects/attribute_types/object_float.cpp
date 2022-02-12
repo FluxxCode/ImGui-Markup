@@ -1,11 +1,10 @@
 #include "impch.h"
-#include "imgui_markup/objects/attribute_types/object_float.h"
+#include "objects/attribute_types/object_float.h"
 
-namespace imgui_markup
-{
+namespace imgui_markup::internal{
 
-ObjectFloat::ObjectFloat(std::string id, Object* parent)
-    : Object("Float", id, parent)
+ObjectFloat::ObjectFloat(std::string id, ObjectBase* parent)
+    : ObjectBase("Float", id, parent)
 {
     this->AddAttribute("value", &this->value);
 }
@@ -18,4 +17,4 @@ ObjectFloat& ObjectFloat::operator=(const ObjectFloat& other)
     return *this;
 }
 
-}  // namespace imgui_markup
+}  // namespace imgui_markup::internal

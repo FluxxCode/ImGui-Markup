@@ -1,11 +1,12 @@
 #include "impch.h"
-#include "imgui_markup/objects/text.h"
+#include "objects/text.h"
 
-namespace imgui_markup
-{
+#include "utility/imgui_conversion.h"
 
-Text::Text(std::string id, Object* parent)
-    : Object("Text", id, parent)
+namespace imgui_markup::internal{
+
+Text::Text(std::string id, ObjectBase* parent)
+    : ObjectBase("Text", id, parent)
 {
     this->AddAttribute("text", &this->text_);
     this->AddAttribute("color", &this->color_);
@@ -28,13 +29,15 @@ void Text::Update()
     else
         ImGui::Text("%s", this->text_.value.c_str());
 
-    this->is_hovered_ = ImGui::IsItemHovered();
+    this->is_hovered_ = ImGui::IsMouseHoveringRect(
+        ImGui::GetItemRectMin(), ImGui::GetItemRectMax());
+
     this->size_ = ImGui::GetItemRectSize();
 }
 
 bool Text::OnProcessStart(std::string& error_message)
 {
-    Object* parent = this->parent_;
+    ObjectBase* parent = this->parent_;
     while (parent)
     {
         if (parent->GetType() == "Panel")
@@ -48,4 +51,15 @@ bool Text::OnProcessStart(std::string& error_message)
     return false;
 }
 
-}  // namespace imgui_markup
+Bool Text::API_IsPressed(MouseButton button) const
+{
+    return this->is_hovered_&&
+        ImGui::IsMouseClicked(MouseButtonToImGui(button));
+}
+
+Bool Text::API_IsHovered() const
+{
+    return this->is_hovered_;
+}
+
+}  // namespace imgui_markup::internal
