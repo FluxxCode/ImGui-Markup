@@ -1,14 +1,15 @@
 # Objects
-1. [Items](#Panel)
-   1. [Panel](#Panel)
-      1. [PanelStyle](#PanelStyle)
-   1. [Text](#Text)
-   1. [Button](#Button)
-      1. [ButtonStyle](#ButtonStyle)
-   1. [ChildPanel](#ChildPanel)
-1. [Other](#container)
-   1. [Container](#Container)
-   1. [Attribute type objects](#AttributeTypesObjects)
+**Items:**
+1. [Panel](#Panel)
+    1. [PanelStyle](#PanelStyle)
+1. [Text](#Text)
+1. [Button](#Button)
+    1. [ButtonStyle](#ButtonStyle)
+1. [ChildPanel](#ChildPanel)
+
+**Other:**
+1. [Container](#Container)
+1. [Attribute type objects](#AttributeTypesObjects)
 
 ---
 ## Panel
