@@ -141,8 +141,8 @@ std::string Lexer::TokenToString(LexerToken token)
         message += "FLOAT=" + token.data;
         break;
 
-    case LexerTokenType::kData:
-        message += "DAT=" + token.data;
+    case LexerTokenType::kID:
+        message += "ID=" + token.data;
         break;
 
     case LexerTokenType::kEOF:
@@ -275,8 +275,6 @@ LexerToken Lexer::GenerateToken()
         return this->GenerateToken();
     }
 
-    std::string temp_buffer;
-
     if (std::isspace(c))
         return this->GenerateToken();
     else if (this->IsComment())
@@ -304,12 +302,12 @@ LexerToken Lexer::GenerateToken()
         return this->ProcessLexerInstruction();
     else if(c == '"')
         return this->CreateString();
-    else if (std::isdigit(c) || c == '-')
+    else if (c == '-' || std::isdigit(c))
         return this->CreateNumber();
-    else if (this->IsBool(temp_buffer))
-        return this->CreateBool(temp_buffer);
-    else if (std::isalpha(c) || std::isdigit(c) || c == '_' || c == '.')
-        return this->CreateData();
+    else if (this->IsBool())
+        return this->CreateBool();
+    else if (std::isalpha(c) || isdigit(c) || c == '_' || c == '.')
+        return this->CreateID();
     else
         throw InvalidSymbol(this->ConstructToken(LexerTokenType::kUndefined,
                                 std::string(1, c)));
@@ -444,39 +442,38 @@ LexerToken Lexer::CreateNumber()
                             start_pos, this->GetCurrentPosition());
 }
 
-bool Lexer::IsBool(std::string& value_out) const
+bool Lexer::IsBool()
 {
+    const size_t start_pos = this->GetCurrentPosition();
+
     std::string value;
     for (unsigned int i = 0; i < 4; i++)
         value += this->GetCurrentChar(i);
 
-    value_out = value;
+    this->OverwriteCurrentPosition(start_pos + 1);
 
     if (value == "true")
         return true;
 
-    value += this->GetCurrentChar(4);
-    value_out = value;
-
     if (value == "false")
         return true;
+
     return false;
 }
 
-LexerToken Lexer::CreateBool(std::string value)
+LexerToken Lexer::CreateBool()
 {
-    LexerToken token = this->ConstructToken(LexerTokenType::kBool, value);
+    const size_t start_position = this->GetCurrentPosition();
 
-    token.position.end = token.position.start + value.size();
+    std::string value;
+    for (unsigned int i = 0; i < 4; i++)
+        value += this->GetCurrentChar(i);
 
-    File& file = this->file_stack_.back();
-
-    file.position_in_line += value.size();
-
-    return token;
+    return this->ConstructToken(LexerTokenType::kBool, value,
+                start_position, this->GetCurrentPosition());
 }
 
-LexerToken Lexer::CreateData()
+LexerToken Lexer::CreateID()
 {
     std::string value;
     value += this->GetCurrentChar();
@@ -502,7 +499,7 @@ LexerToken Lexer::CreateData()
         }
     }
 
-    return this->ConstructToken(LexerTokenType::kData, value,
+    return this->ConstructToken(LexerTokenType::kID, value,
                                 start_pos, this->GetCurrentPosition());
 }
 
@@ -582,6 +579,15 @@ size_t Lexer::GetCurrentPosition() const
     const File& file = this->file_stack_.back();
 
     return file.position_in_line == 0 ? 0 : file.position_in_line - 1;
+}
+
+void Lexer::OverwriteCurrentPosition(size_t position)
+{
+    if (this->file_stack_.empty())
+        return;
+
+    File& file = this->file_stack_.back();
+    file.position_in_line = position;
 }
 
 std::string Lexer::GetCurrentDirectory() const

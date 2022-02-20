@@ -86,7 +86,7 @@ bool Parser::TokenIsObjectNode()
     const LexerToken current_token = this->lexer_.LookAhead(0);
     const LexerToken next_token    = this->lexer_.LookAhead(1);
 
-    if (current_token.type != LexerTokenType::kData)
+    if (current_token.type != LexerTokenType::kID)
         return false;
 
     if (next_token.type == LexerTokenType::kCBracketOpen ||
@@ -117,7 +117,8 @@ void Parser::CreateObjectNode(ParserNode& parent_node)
     {
         if (!this->lexer_.GetNextToken(token))
             throw UnexpectedEndOfFile(this->lexer_.LookAhead(0));
-        if (token.type != LexerTokenType::kData)
+
+        if (token.type != LexerTokenType::kID)
             throw ObjectIDWrongValueType(token);
 
         id = token.data;
@@ -152,7 +153,7 @@ bool Parser::TokenIsAttributeAssignNode()
     const LexerToken current_token = this->lexer_.LookAhead(0);
     const LexerToken next_token    = this->lexer_.LookAhead(1);
 
-    if (current_token.type == LexerTokenType::kData &&
+    if (current_token.type == LexerTokenType::kID &&
         next_token.type    == LexerTokenType::kEqual)
     {
         return true;

@@ -54,7 +54,7 @@ struct UnexpectedEndOfFile : public ParserException
 struct ObjectIDWrongValueType : public ParserException
 {
     ObjectIDWrongValueType(LexerToken token)
-        : ParserException("Wrong value type of the object id", token,
+        : ParserException("Expected attribute ID", token,
                          ParserResultType::kObjectIDWrongValueType)
     { }
 };
