@@ -294,7 +294,7 @@ LexerToken Lexer::GenerateToken()
         return this->ConstructToken(LexerTokenType::kCBracketOpen);
     else if(c == '}')
         return this->ConstructToken(LexerTokenType::kCBracketClose);
-    else if (c == '@')
+    else if (c == '#')
         return this->ProcessLexerInstruction();
     else if(c == '"')
         return this->CreateString();
@@ -317,9 +317,6 @@ bool Lexer::IsComment() const
         return false;
 
     const File& file = this->file_stack_.back();
-
-    if (this->GetCurrentChar() == '#')
-        return true;
 
     if (this->GetCurrentChar()   == '/' &&
         (this->GetCurrentChar(1) == '/' || this->GetCurrentChar(1) == '*'))
