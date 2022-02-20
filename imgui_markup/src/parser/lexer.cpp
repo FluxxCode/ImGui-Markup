@@ -444,13 +444,14 @@ LexerToken Lexer::CreateNumber()
 
 bool Lexer::IsBool()
 {
-    const size_t start_pos = this->GetCurrentPosition();
-
     std::string value;
-    for (unsigned int i = 0; i < 4; i++)
-        value += this->GetCurrentChar(i);
 
-    this->OverwriteCurrentPosition(start_pos + 1);
+    size_t iterator = 0;
+    while (std::isalpha(this->GetCurrentChar(iterator)))
+    {
+        value += this->GetCurrentChar(iterator);
+        iterator++;
+    }
 
     if (value == "true")
         return true;
@@ -466,8 +467,16 @@ LexerToken Lexer::CreateBool()
     const size_t start_position = this->GetCurrentPosition();
 
     std::string value;
-    for (unsigned int i = 0; i < 4; i++)
-        value += this->GetCurrentChar(i);
+    value += this->GetCurrentChar();
+
+    char c;
+    while (this->GetNextChar(c))
+    {
+        if (std::isspace(c))
+            break;
+
+        value += c;
+    }
 
     return this->ConstructToken(LexerTokenType::kBool, value,
                 start_position, this->GetCurrentPosition());
