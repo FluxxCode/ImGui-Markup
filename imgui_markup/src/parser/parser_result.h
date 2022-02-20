@@ -32,6 +32,7 @@ enum class ParserResultType
     kFileNotFound,
     kUnableToOpenFile,
     kInvalidSymbol,
+    kExpectedAttributeID,
     kUnknownLexerInstruction,
     kWrongIncludeArgument,
     kIncludeFileDoesNotExists,

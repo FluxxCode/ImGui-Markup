@@ -292,9 +292,9 @@ Panel
 {
     title = "Container example"
 
-    Text { text = "Red text"   color = colors.red.value   }
-    Text { text = "Green text" color = colors.green.value }
-    Text { text = "Blue text"  color = colors.blue.value  }
+    Text { text = "Red text"   color = @colors.red.value   }
+    Text { text = "Green text" color = @colors.green.value }
+    Text { text = "Blue text"  color = @colors.blue.value  }
 }
 ```
 ![ExampleImage](img/objects_container.png)
@@ -323,13 +323,13 @@ Panel
     Int    : int     { value = 1234         }
     String : string  { value = "String"     }
 
-    Text { text = bool.value    }
-    Text { text = float.value   }
-    Text { text = float_2.value }
-    Text { text = float_3.value }
-    Text { text = float_4.value }
-    Text { text = int.value     }
-    Text { text = string.value  }
+    Text { text = @bool.value    }
+    Text { text = @float.value   }
+    Text { text = @float_2.value }
+    Text { text = @float_3.value }
+    Text { text = @float_4.value }
+    Text { text = @int.value     }
+    Text { text = @string.value  }
 }
 
 Container : colors
@@ -344,9 +344,9 @@ Panel
     title = "Color example"
     size = (100, 100)
 
-    Text { text = "Red"   color = colors.red.value   }
-    Text { text = "Green" color = colors.green.value }
-    Text { text = "Blue"  color = colors.blue.value  }
+    Text { text = "Red"   color = @colors.red.value   }
+    Text { text = "Green" color = @colors.green.value }
+    Text { text = "Blue"  color = @colors.blue.value  }
 }
 ```
 ![ExampleImage](img/objects_attribute_types.png)

@@ -57,9 +57,9 @@ Panel
              * Accessing the values and attributes from another object
              * defined in this file.
             */
-            color         = colors.red.value
-            color_hovered = colors.green.value
-            color_active  = colors.blue.value
+            color         = @colors.red.value
+            color_hovered = @colors.green.value
+            color_active  = @colors.blue.value
         }
     }
 }
@@ -72,7 +72,6 @@ size_t example_file;
 
 void Init()
 {
-    // Load the file and make sure that there are no errors
     bool result;
 
     example_file = gui::ParseFile("example.ill", &result);
@@ -81,12 +80,11 @@ void Init()
         std::cerr << gui::GetLastError(example_file).message << std::endl;
 }
 
-// Main update function of the program, called every frame
+// Main update function called every frame
 void Update()
 {
     gui::Update(example_file);
 
-    // Check if the object with an ID of 'button_0' is pressed
     if (gui::IsPressed(example_file, "button_0"))
         std::cout << "Button is pressed" << std::endl;
 }

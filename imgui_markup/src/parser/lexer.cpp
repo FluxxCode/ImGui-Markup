@@ -125,6 +125,10 @@ std::string Lexer::TokenToString(LexerToken token)
         message += "CBC";
         break;
 
+    case LexerTokenType::kReference:
+        message += "REF" + token.data;
+        break;
+
     case LexerTokenType::kString:
         message += "STR=" + token.data;
         break;
@@ -294,6 +298,8 @@ LexerToken Lexer::GenerateToken()
         return this->ConstructToken(LexerTokenType::kCBracketOpen);
     else if(c == '}')
         return this->ConstructToken(LexerTokenType::kCBracketClose);
+    else if (c == '@')
+        return this->CreateReference();
     else if (c == '#')
         return this->ProcessLexerInstruction();
     else if(c == '"')
@@ -343,6 +349,31 @@ void Lexer::SkipComment()
         if (multiline && c == '/' && this->GetCurrentChar(-1) == '*')
             return;
     }
+}
+
+LexerToken Lexer::CreateReference()
+{
+    std::string attribute_id;
+    size_t start_pos = this->GetCurrentPosition();
+
+    char c;
+    while (this->GetNextChar(c))
+    {
+        if (std::isspace(c))
+            break;
+
+        attribute_id += c;
+    }
+
+    if (attribute_id.empty())
+    {
+        throw ExpectedAttributeID(
+            this->ConstructToken(LexerTokenType::kReference));
+    }
+
+    return this->ConstructToken(
+        LexerTokenType::kReference, attribute_id,
+        start_pos, this->GetCurrentPosition());
 }
 
 LexerToken Lexer::CreateString()

@@ -134,7 +134,8 @@ struct UnableToCreateAttributeAccessNode : public ParserException
 struct ValueNodeWrongType : public ParserException
 {
     ValueNodeWrongType(LexerToken token)
-        : ParserException("Expecting string, number, vector or object name",
+        : ParserException("Expecting string, number, "
+                          "vector or attribute reference",
                          token, ParserResultType::kValueNodeWrongType)
     { }
 };

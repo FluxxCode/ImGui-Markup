@@ -71,12 +71,12 @@ Panel
     Text
     {
         text = "This is the first text to test the dynamic size of a panel"
-        color = panel_fixed_size.text.color
+        color = @panel_fixed_size.text.color
     }
 
     Text
     {
         text = "This is the second text to test the dynamic size of a panel"
-        color = panel_fixed_size.text.color
+        color = @panel_fixed_size.text.color
     }
 }

@@ -54,10 +54,10 @@ void Parser::ProcessTokens(std::shared_ptr<ParserNode> parent_node)
     LexerToken token;
     while (this->lexer_.GetNextToken(token))
     {
-        if (TokenIsBlockEnd(*parent_node))
+        if (this->TokenIsBlockEnd(*parent_node))
             return;
 
-        if (TokenIsObjectNode())
+        if (this->TokenIsObjectNode())
             this->CreateObjectNode(*parent_node);
         else if (TokenIsAttributeAssignNode())
             this->CreateAttributeAssignNode(*parent_node);
@@ -361,7 +361,7 @@ bool Parser::TokenIsAttributeAccessNode()
 {
     const LexerToken current_token = this->lexer_.LookAhead(0);
 
-    if (current_token.type == LexerTokenType::kData)
+    if (current_token.type == LexerTokenType::kReference)
         return true;
 
     return false;
@@ -370,7 +370,7 @@ bool Parser::TokenIsAttributeAccessNode()
 std::shared_ptr<ParserAttributeAccessNode> Parser::CreateAttributeAccessNode()
 {
     const LexerToken token = this->lexer_.LookAhead(0);
-    if (token.type != LexerTokenType::kData)
+    if (token.type != LexerTokenType::kReference)
         throw ValueNodeWrongType(token);
 
     std::shared_ptr<ParserAttributeAccessNode> node =
