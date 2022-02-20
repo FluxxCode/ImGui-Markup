@@ -273,46 +273,28 @@ std::shared_ptr<Attribute> Interpreter::ProcessValueNode(
         return std::make_shared<Bool>(this->ProcessBoolNode(node));
     case ParserNodeType::kVectorNode:
         return this->ProcessVectorNode(node, parent_object);
-    case ParserNodeType::kAttributeAccessNode:
-        return std::shared_ptr<Attribute>(
-            &this->ProcessAttributeAccessNode(node, parent_object),
-                [](Attribute*){});  // Used that the pointer does not delete
-                                    // the attribute. This will be changed
-                                    // when references are implemented.
+    case ParserNodeType::kAttributeReferenceNode:
+        return std::make_shared<Reference>(
+            this->ProcessAttributeReferenceNode(node, parent_object));
     default:
         throw UnknownAttributeValueType(node);
     }
 }
 
-Attribute& Interpreter::ProcessAttributeAccessNode(
+Reference Interpreter::ProcessAttributeReferenceNode(
     const ParserNode& node_in, ObjectBase& parent_object) const
 {
-    if (node_in.type != ParserNodeType::kAttributeAccessNode)
+    if (node_in.type != ParserNodeType::kAttributeReferenceNode)
             throw InternalWrongNodeType(node_in);
 
-    ParserAttributeAccessNode& node = (ParserAttributeAccessNode&)node_in;
+    ParserAttributeReferenceNode& node = (ParserAttributeReferenceNode&)node_in;
 
     std::string attribute = node.attribute_name;
 
-    // We will assume a reference to a attribute of the current object
-    // if the attribute name does not contain '.'
-    if (attribute.find('.') == std::string::npos)
-        return this->GetAttributeFromObject(attribute, parent_object, node);
+    Attribute* ptr =
+        &this->GetAttribtueFromObjectReference(attribute, node);
 
-    return this->GetAttribtueFromObjectReference(attribute, node);
-}
-
-
-Attribute& Interpreter::GetAttributeFromObject(
-    const std::string attribute_name,
-    ObjectBase& object,
-    const ParserNode& node) const
-{
-    Attribute* attribute = object.GetAttribute(attribute_name);
-    if (!attribute)
-        throw AttributeDoesNotExists(object.GetType(), attribute_name, node);
-
-    return *attribute;
+    return Reference(ptr);
 }
 
 Attribute& Interpreter::GetAttribtueFromObjectReference(

@@ -191,8 +191,8 @@ void Parser::CreateAttributeAssignNode(ParserNode& parent_node)
         value_node = this->CreateBoolNode();
     else if (this->TokenIsVectorNode())
         value_node = this->CreateVectorNode();
-    else if(this->TokenIsAttributeAccessNode())
-        value_node = this->CreateAttributeAccessNode();
+    else if(this->TokenIsAttributeReferenceNode())
+        value_node = this->CreateAttributeReferenceNode();
     else
         throw ValueNodeWrongType(token);
 
@@ -342,8 +342,8 @@ std::shared_ptr<ParserVectorNode> Parser::CreateVectorNode()
             value_node = this->CreateIntNode();
         else if (this->TokenIsFloatNode())
             value_node = this->CreateFloatNode();
-        else if(this->TokenIsAttributeAccessNode())
-            value_node = this->CreateAttributeAccessNode();
+        else if(this->TokenIsAttributeReferenceNode())
+            value_node = this->CreateAttributeReferenceNode();
         else
             throw ValueNodeWrongType(token);
 
@@ -358,7 +358,7 @@ std::shared_ptr<ParserVectorNode> Parser::CreateVectorNode()
 }
 
 /* Attribute access node */
-bool Parser::TokenIsAttributeAccessNode()
+bool Parser::TokenIsAttributeReferenceNode()
 {
     const LexerToken current_token = this->lexer_.LookAhead(0);
 
@@ -368,14 +368,15 @@ bool Parser::TokenIsAttributeAccessNode()
     return false;
 }
 
-std::shared_ptr<ParserAttributeAccessNode> Parser::CreateAttributeAccessNode()
+std::shared_ptr<ParserAttributeReferenceNode>
+    Parser::CreateAttributeReferenceNode()
 {
     const LexerToken token = this->lexer_.LookAhead(0);
     if (token.type != LexerTokenType::kReference)
         throw ValueNodeWrongType(token);
 
-    std::shared_ptr<ParserAttributeAccessNode> node =
-        std::make_shared<ParserAttributeAccessNode>(token.data, token.position);
+    std::shared_ptr<ParserAttributeReferenceNode> node =
+        std::make_shared<ParserAttributeReferenceNode>(token.data, token.position);
 
     if (!node)
         throw UnableToCreateAttributeAccessNode(token);

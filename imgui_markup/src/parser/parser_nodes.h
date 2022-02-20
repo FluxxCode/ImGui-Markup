@@ -24,7 +24,7 @@ enum class ParserNodeType
     kFloatNode,
     kBoolNode,
     kVectorNode,
-    kAttributeAccessNode
+    kAttributeReferenceNode
 };
 
 struct ParserNode
@@ -90,9 +90,9 @@ struct ParserAttributeAssignNode : public ParserNode
     const std::shared_ptr<ParserNode> value_node;
 };
 
-struct ParserAttributeAccessNode : public ParserNode
+struct ParserAttributeReferenceNode : public ParserNode
 {
-    ParserAttributeAccessNode(std::string attribute_name,
+    ParserAttributeReferenceNode(std::string attribute_name,
                               ParserPosition position);
 
     const std::string attribute_name;

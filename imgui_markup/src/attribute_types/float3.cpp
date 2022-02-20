@@ -1,7 +1,8 @@
 #include "impch.h"
 #include "attribute_types/float3.h"
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 Float3::Float3()
     : Attribute(AttributeType::kFloat3)

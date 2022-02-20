@@ -1,7 +1,8 @@
 #include "impch.h"
 #include "attribute_types/int.h"
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 Int::Int()
     : Attribute(AttributeType::kInt)

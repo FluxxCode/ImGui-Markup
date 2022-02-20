@@ -12,6 +12,7 @@
 #include "attribute_types/float4.h"
 #include "attribute_types/int.h"
 #include "attribute_types/string.h"
+#include "attribute_types/reference.h"
 
 #include <string>
 #include <vector>
@@ -395,21 +396,8 @@ private:
      *         The parser will only catch the interpreter exceptions.
      *         Every other exceptions is not catched by the parser!
      */
-    Attribute& ProcessAttributeAccessNode(
+    Reference ProcessAttributeReferenceNode(
         const ParserNode& node, ObjectBase& parent_object) const;
-
-    /**
-     * Gets an attribute from the given object as a string.
-     *
-     * @param node - Used for error handling
-     * @throws The function can throw interpreter and std exceptions.
-     *         The parser will only catch the interpreter exceptions.
-     *         Every other exceptions is not catched by the parser!
-     */
-    Attribute& GetAttributeFromObject(
-        const std::string attribute,
-        ObjectBase& parent_object,
-        const ParserNode& node) const;
 
     /**
      * Gets the attribute value of an object in the object_reference buffer.

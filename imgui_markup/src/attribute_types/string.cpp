@@ -9,7 +9,8 @@
 #include "attribute_types/int.h"
 #include "attribute_types/string.h"
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 String::String()
     : Attribute(AttributeType::kString)

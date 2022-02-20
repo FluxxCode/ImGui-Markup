@@ -304,8 +304,9 @@ private:
      * token sequence:
      *   - Data
      */
-    bool TokenIsAttributeAccessNode();
-    std::shared_ptr<ParserAttributeAccessNode> CreateAttributeAccessNode();
+    bool TokenIsAttributeReferenceNode();
+    std::shared_ptr<ParserAttributeReferenceNode>
+        CreateAttributeReferenceNode();
 };
 
 }  // namespace imgui_markup::internal::parser

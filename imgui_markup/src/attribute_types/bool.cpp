@@ -1,7 +1,8 @@
 #include "impch.h"
 #include "attribute_types/bool.h"
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 Bool::Bool()
     : Attribute(AttributeType::kBool)

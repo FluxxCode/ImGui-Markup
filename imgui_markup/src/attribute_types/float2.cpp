@@ -1,7 +1,8 @@
 #include "impch.h"
 #include "attribute_types/float2.h"
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 Float2::Float2()
     : Attribute(AttributeType::kFloat2)
