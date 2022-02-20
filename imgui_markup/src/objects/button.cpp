@@ -21,7 +21,7 @@ Button& Button::operator=(const Button& other)
     return *this;
 }
 
-void Button::Update()
+void Button::IMPL_Update()
 {
     if (this->style_)
         this->style_->PushStyle();
@@ -57,7 +57,7 @@ bool Button::OnProcessStart(std::string& error_message)
 bool Button::OnProcessEnd(std::string& error_message)
 {
     if (this->text_.value.empty())
-        this->text_ = "##empty_button";
+        this->text_ = "##" + this->draw_id_;
 
     return true;
 }

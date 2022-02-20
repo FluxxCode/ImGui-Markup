@@ -17,9 +17,6 @@ public:
 
     ChildPanel& operator=(const ChildPanel& other);
 
-    // Functions
-    void Update();
-
     String title_;
     Bool border_;
 
@@ -27,6 +24,7 @@ private:
     bool is_hovered_ = false;
 
     // See object.h for documentation
+    void IMPL_Update();
     bool OnProcessStart(std::string& error_message);
     bool OnProcessEnd(std::string& error_message);
 

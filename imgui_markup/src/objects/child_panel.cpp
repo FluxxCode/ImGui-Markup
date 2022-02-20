@@ -22,7 +22,7 @@ ChildPanel& ChildPanel::operator=(const ChildPanel& other)
     return *this;
 }
 
-void ChildPanel::Update()
+void ChildPanel::IMPL_Update()
 {
     if (this->size_.value_changed_)
         ImGui::SetNextWindowSize(this->size_);
@@ -67,7 +67,7 @@ bool ChildPanel::OnProcessStart(std::string& error_message)
 bool ChildPanel::OnProcessEnd(std::string& error_message)
 {
     if (this->title_.value.empty())
-        this->title_ = this->id_.empty() ? "unknown" : this->id_;
+        this->title_ = "##" + this->draw_id_;
 
     return true;
 }

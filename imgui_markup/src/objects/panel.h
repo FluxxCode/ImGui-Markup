@@ -21,9 +21,6 @@ public:
 
     Panel& operator=(const Panel& other);
 
-    // Functions
-    void Update();
-
     String title_;
 
     // Flags
@@ -40,7 +37,8 @@ private:
 
     void InitPanelAttributes();
 
-     // See object.h for documentation
+    // See object.h for documentation
+    void IMPL_Update();
     bool OnProcessStart(std::string& error_message);
     bool OnProcessEnd(std::string& error_message);
 

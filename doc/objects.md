@@ -19,8 +19,8 @@ The panel is equal to ```ImGui::BeginWindow()``` and ```ImGui::EndWindow()```. I
 | Name | Type | Description | Default Value |
 | --- | --- | --- | --- |
 | position | Float2 | The start position of the panel relative to the window | (0, 0) |
-| size | Float2 | The start size of the panel | Based on the size of the child objects. |
-| title | String | The title of the window wich is also used as the ImGui-ID, therefore it has to be unique and should be set, even if the panel has no titlebar. It can lead to unexpected behaviour when multiple panels have the same title. | If Object-ID is set, the Object-ID will be used as the title. If both title and Object-ID are not set, the title will be "unknown".
+| size | Float2 | The start size of the panel | Dynamic size based on the size of the child objects. |
+| title | String | The title of the panel | "##<object_address>", which is displayed as an empty string. |
 | no_title_bar | Bool | Disable title-bar | False |
 | no_resize | Bool | Disable user resizing with the lower-right grip | False |
 | no_move | Bool | Disable user moving the panel | False |
@@ -57,28 +57,6 @@ Panel
     size     = (200, 200)
 
     Text { text = "This is a text inside the panel" }
-}
-
-// Title is "Title by attribute"
-Panel
-{
-    title    = "Title by attribute"
-    position = (510, 300)
-    size     = (200, 200)
-}
-
-// Title is "title_by_object_id"
-Panel : title_by_object_id
-{
-    position = (720, 300)
-    size     = (200, 200)
-}
-
-// Title is "unknown"
-Panel
-{
-    position = (930, 300)
-    size     = (200, 200)
 }
 ```
 ![ExampleImage](img/objects_panel.png)
@@ -129,7 +107,7 @@ The text is equal to ```ImGui::Text()``` and is used to display information.
 ### Attributes:
 | Name     | Type   | Description                                                  | Default Value           |
 | ---------| ------ | ------------------------------------------------------------ | ----------------------- |
-| text     | String | The Text that will be displayed                              | ""                      |
+| text     | String | The Text that will be displayed                              |  "##<object_address>", which is displayed as an empty string. |
 | color    | Float4 | The display color of the text                                | The global text color will be used |
 ### Implemented API functions:
 | Function | Description |
@@ -173,7 +151,7 @@ The button is equal to ```ImGui::Button()```.
 ### Attributes:
 | Name          | Type   | Description                                                    | Default Value                          |
 | ------------- | ------ | -------------------------------------------------------------- | -------------------------------------- |
-| text          | String | The text that is displayed inside the button                   | ""                                     |
+| text          | String | The text that is displayed inside the button                   |  "##<object_address>", which is displayed as an empty string. |
 | size          | Float2 | Size of the button                                             | Size of the button contents            |
 ### Implemented API functions:
 | Function | Description |
@@ -262,7 +240,7 @@ The ChildPanel is equal to ```ImGui::BeginChild()``` and ```ImGui::EndChild()```
 | Name          | Type   | Description                                                         | Default Value                  |
 | ------------- | ------ | ------------------------------------------------------------------- | ------------------------------ |
 | size          | Float2 | The size of the child panel                                         | Size of the parent panel       |
-| title         | String | The title of the child panel wich is also used as the ImGui-ID, therefore it has to be unique and should be set. It can lead to unexpected behaviour when multiple child panels have the same title. | If Object-ID is set, the Object-ID will be used as the title. If both title and Object-ID are not set, the title will be "unknown". |
+| title         | String | The title of the child panel. |  "##<object_address>", which is displayed as an empty string. |
 | border        | Bool   | Sets if a border should be drawn around the child panel             | False                          |
 ### Implemented API functions:
 | Function | Description |

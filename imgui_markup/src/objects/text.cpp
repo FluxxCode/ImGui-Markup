@@ -20,7 +20,7 @@ Text& Text::operator=(const Text& other)
     return *this;
 }
 
-void Text::Update()
+void Text::IMPL_Update()
 {
     ImGui::SetCursorPos(this->draw_position_);
 
@@ -29,8 +29,7 @@ void Text::Update()
     else
         ImGui::Text("%s", this->text_.value.c_str());
 
-    this->is_hovered_ = ImGui::IsMouseHoveringRect(
-        ImGui::GetItemRectMin(), ImGui::GetItemRectMax());
+    this->is_hovered_ = ImGui::IsItemHovered();
 
     this->size_ = ImGui::GetItemRectSize();
 }
@@ -49,6 +48,14 @@ bool Text::OnProcessStart(std::string& error_message)
     error_message = "One of the texts parent objects must be an object "
                     "of type \"Panel\".";
     return false;
+}
+
+bool Text::OnProcessEnd(std::string& error_message)
+{
+    if (this->text_.value.empty())
+        this->text_ = "##" + this->draw_id_;
+
+    return true;
 }
 
 Bool Text::API_IsPressed(MouseButton button) const

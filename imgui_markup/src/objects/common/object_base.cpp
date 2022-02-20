@@ -4,15 +4,19 @@
 namespace imgui_markup::internal{
 
 ObjectBase::ObjectBase(std::string name, std::string id, ObjectBase* parent)
-    : type_(name), id_(id), parent_(parent)
-{ }
-
-ObjectBase& ObjectBase::operator=(const ObjectBase& other)
+    : type_(name), access_id_(id), parent_(parent)
 {
-    for (auto& child : this->child_objects_)
-        child->SetParent(other.parent_);
+    const void* address = static_cast<const void*>(this);
+    std::stringstream ss;
+    ss << address;
+    this->draw_id_ = ss.str();
+}
 
-    return *this;
+void ObjectBase::Update()
+{
+    ImGui::PushID(this);
+    this->IMPL_Update();
+    ImGui::PopID();
 }
 
 Attribute* ObjectBase::GetAttribute(const std::string name) const

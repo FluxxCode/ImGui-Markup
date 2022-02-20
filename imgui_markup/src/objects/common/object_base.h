@@ -30,12 +30,12 @@ public:
     */
     ObjectBase(std::string type, std::string id, ObjectBase* parent);
 
-    ObjectBase& operator=(const ObjectBase& other);
+    ObjectBase& operator=(const ObjectBase& other) = delete;
 
     /**
      * Main update function that should be called every frame.
      */
-    virtual void Update() { };
+    void Update();
 
     /**
      * Get a pointer to an attribute from this object by its name.
@@ -61,7 +61,7 @@ public:
         { this->parent_ = parent; }
 
     inline std::string GetID() const
-        { return this->id_; };
+        { return this->access_id_; };
     inline std::string GetType() const
         { return this->type_; }
     inline ObjectBase*     GetParent() const
@@ -75,7 +75,18 @@ public:
 
 protected:
     std::string type_;
-    std::string id_;
+
+    /**
+     * ID set by the markup language that allows the access
+     * through the backend.
+     */
+    std::string access_id_;
+
+    /**
+     * ImGui ID of the object.
+     */
+    std::string draw_id_;
+
     ObjectBase* parent_;
     std::vector<std::shared_ptr<ObjectBase>> child_objects_ = { };
 
@@ -108,6 +119,8 @@ protected:
     Float2 size_;
 
     // Functions
+    virtual void IMPL_Update() { };
+
     /**
      * Add an attribute to the attribute list.
      *

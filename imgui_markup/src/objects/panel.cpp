@@ -25,7 +25,7 @@ Panel& Panel::operator=(const Panel& other)
     return *this;
 }
 
-void Panel::Update()
+void Panel::IMPL_Update()
 {
     if (this->init_panel_attributes_)
         this->InitPanelAttributes();
@@ -88,7 +88,7 @@ bool Panel::OnProcessStart(std::string& error_message)
 bool Panel::OnProcessEnd(std::string& error_message)
 {
     if (this->title_.value.empty())
-        this->title_ = this->id_.empty() ? "unknown" : this->id_;
+        this->title_ = "##" + this->draw_id_;
 
     return true;
 }

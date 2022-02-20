@@ -18,9 +18,6 @@ public:
 
     Text& operator=(const Text& other);
 
-    // Functions
-    void Update();
-
     String text_;
     Float4 color_;
 
@@ -28,7 +25,9 @@ private:
     bool is_hovered_ = false;
 
     // See object.h for documentation
+    void IMPL_Update();
     bool OnProcessStart(std::string& error_message);
+    bool OnProcessEnd(std::string& error_message);
 
     // See object_api.h for documentation
     Bool API_IsPressed(MouseButton button) const;

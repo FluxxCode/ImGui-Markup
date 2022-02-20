@@ -19,8 +19,6 @@ public:
 
     Button& operator=(const Button& other);
 
-    void Update();
-
     String text_;
 
 private:
@@ -30,6 +28,7 @@ private:
     bool is_hovered_ = false;
 
     // See object.h for documentation
+    void IMPL_Update();
     bool OnProcessStart(std::string& error_message);
     bool OnProcessEnd(std::string& error_message);
 
