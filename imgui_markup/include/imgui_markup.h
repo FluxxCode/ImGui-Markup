@@ -27,12 +27,12 @@ size_t ParseFile(const char* path, bool* result = nullptr);
 /**
  * Deletes both file context and result of a specific context.
  */
-void FreeContext(const size_t id, bool* result = nullptr);
+void FreeContext(const size_t context, bool* result = nullptr);
 
 /**
  * Get the last result of a specific context.
  */
-Result GetLastResult(const size_t id, bool* result = nullptr);
+Result GetLastResult(const size_t context, bool* result = nullptr);
 
 /**
  * Updates a specific context.
@@ -45,6 +45,8 @@ bool IsPressed(
     MouseButton button = MouseButton::kLeft, bool* result = nullptr);
 
 bool IsHovered(size_t context, std::string object_id, bool* resutl = nullptr);
+
+bool IsToggled(size_t context, std::string object_id, bool* resutl = nullptr);
 
 }  // namespace imgui_markup::internal
 

@@ -13,6 +13,7 @@ struct ObjectAPI
 
 virtual Bool API_IsPressed(MouseButton button) const { return false; }
 virtual Bool API_IsHovered() const { return false; }
+virtual Bool API_IsToggled() const { return false; }
 
 };
 

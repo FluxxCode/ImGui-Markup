@@ -62,4 +62,15 @@ bool IsHovered(size_t context_id, std::string object_id, bool* result)
     return api->API_IsHovered();
 }
 
+bool IsToggled(size_t context_id, std::string object_id, bool* result)
+{
+    internal::ObjectAPI* api =
+        internal::FileStack::GetObjectAPI(context_id, object_id);
+
+    if (!api)
+        return false;
+
+    return api->API_IsToggled();
+}
+
 }  // namespace imgui_markup

@@ -5,6 +5,7 @@
 1. [Text](#Text)
 1. [Button](#Button)
     1. [ButtonStyle](#ButtonStyle)
+1. [Checkbox](#Checkbox)
 1. [ChildPanel](#ChildPanel)
 
 **Other:**
@@ -231,6 +232,54 @@ Panel
 }
 ```
 ![ExampleImage](img/objects_button_style.png)
+
+---
+## Checkbox
+### Description:
+The checkbox is equal to ```ImGui::Checkbox()```.
+### Attributes:
+| Name | Type | Description | Default Value |
+| ---| --- | --- | --- |
+| text | String | Text that is displayed next to the checkbox | "##<object_address>", which is displayed as an empty string. |
+| toggled | Bool | State of the checkbox when it's loaded | False |
+### Implemented API functions:
+| Function | Description |
+| --- | --- |
+| ```bool IsPressed()``` | Returns true if the checkbox or its text is pressed by the user. |
+| ```bool IsHovered()``` | Returns true if the checkbox or its text is hovered by the user. |
+| ```bool IsToggled()``` | Returns the state of the checkbox. |
+### Example:
+```
+// example.ill:
+
+Panel
+{
+    title    = "Example panel"
+    position = (300, 300)
+    size     = (220, 110)
+
+    Checkbox : checkbox_0
+    {
+        text = "Test checkbox 1"
+        toggled = false
+    }
+
+    Checkbox : checkbox_1
+    {
+        text = "Test checkbox 2"
+        toggled = true
+    }
+}
+```
+```cpp
+// example.cpp
+if (gui::IsToggled(file, "checkbox_0"))
+    std::cout << "checkbox_0 is toggled" << std::endl;
+
+if (gui::IsToggled(file, "checkbox_1"))
+    std::cout << "checkbox_1 is toggled" << std::endl;
+```
+![ExampleImage](img/objects_checkbox.png)
 
 ---
 ## ChildPanel

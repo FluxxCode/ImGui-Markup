@@ -9,6 +9,7 @@
 #include "objects/button.h"
 #include "objects/button_style.h"
 #include "objects/text.h"
+#include "objects/checkbox.h"
 #include "objects/container.h"
 #include "objects/attribute_types/object_bool.h"
 #include "objects/attribute_types/object_float.h"
@@ -80,6 +81,7 @@ private:
             { "Button",      CreateObjectInstance<Button>       },
             { "ButtonStyle", CreateObjectInstance<ButtonStyle>  },
             { "Text",        CreateObjectInstance<Text>         },
+            { "Checkbox",    CreateObjectInstance<Checkbox>     },
             { "Container",   CreateObjectInstance<Container>    },
 
             // Atribute types
