@@ -3,7 +3,8 @@
 
 #include "objects/common/object_base.h"
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 struct Container : public ObjectBase
 {
@@ -15,4 +16,5 @@ struct Container : public ObjectBase
 };
 
 }  // namespace imgui_markup::internal
+
 #endif  // IMGUI_MARKUP_SRC_OBJECTS_BUTTON_H_

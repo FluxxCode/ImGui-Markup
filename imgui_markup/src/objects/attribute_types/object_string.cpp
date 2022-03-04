@@ -1,7 +1,8 @@
 #include "impch.h"
 #include "objects/attribute_types/object_string.h"
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 ObjectString:: ObjectString(std::string id, ObjectBase* parent)
     : ObjectBase("String", id, parent)

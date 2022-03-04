@@ -1,7 +1,8 @@
 #include "impch.h"
 #include "parser/parser_result.h"
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 /* ParserPosition */
 ParserPosition::ParserPosition(

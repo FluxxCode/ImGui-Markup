@@ -8,7 +8,8 @@
 #include "attribute_types/float2.h"
 #include "attribute_types/float4.h"
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 class PanelStyle : public ObjectBase
 {
@@ -43,4 +44,5 @@ private:
 };
 
 }  // namespace imgui_markup::internal
+
 #endif  // IMGUI_MARKUP_SRC_OBJECTS_PANEL_STYLE_H_

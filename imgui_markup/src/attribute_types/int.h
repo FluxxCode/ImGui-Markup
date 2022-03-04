@@ -6,7 +6,8 @@
 
 #include <string>
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 class Int : public Attribute
 {
@@ -26,4 +27,5 @@ private:
 };
 
 }  // namespace imgui_markup::internal
+
 #endif  // IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_INT_H_

@@ -18,11 +18,12 @@
 #include "objects/attribute_types/object_int.h"
 #include "objects/attribute_types/object_string.h"
 
-#include <memory>
-#include <map>
-#include <functional>
+#include <memory>      // shared_ptr
+#include <map>         // map
+#include <functional>  // function
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 class ObjectList
 {
@@ -111,4 +112,5 @@ private:
 };
 
 }  // namespace imgui_markup::internal
+
 #endif  // IMGUI_MARKUP_SRC_OBJECTS_OBJECT_LIST_H_

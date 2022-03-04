@@ -1,7 +1,8 @@
 #include "impch.h"
 #include "objects/common/object_base.h"
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 ObjectBase::ObjectBase(std::string name, std::string id, ObjectBase* parent)
     : type_(name), access_id_(id), parent_(parent)

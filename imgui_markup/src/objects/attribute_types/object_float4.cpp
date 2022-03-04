@@ -1,7 +1,8 @@
 #include "impch.h"
 #include "objects/attribute_types/object_float4.h"
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 ObjectFloat4::ObjectFloat4(std::string id, ObjectBase* parent)
     : ObjectBase("Float4", id, parent)

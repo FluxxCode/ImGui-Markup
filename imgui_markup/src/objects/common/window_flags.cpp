@@ -1,7 +1,8 @@
 #include "impch.h"
 #include "objects/common/window_flags.h"
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 void WindowFlags::InitWindowFlagAttributes(
     std::map<std::string, Attribute*>& attribute_list)

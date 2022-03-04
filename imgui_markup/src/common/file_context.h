@@ -45,4 +45,5 @@ struct FileContext
 };
 
 }  // namespace imgui_markup::internal
+
 #endif  // IMGUI_MARKUP_SRC_OBJECTS_GLOBAL_OBJECT_H_

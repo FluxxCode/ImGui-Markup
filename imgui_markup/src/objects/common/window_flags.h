@@ -6,7 +6,8 @@
 #include <map>
 #include <string>
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 /**
  * Wrapper above the ImGuiWindowFlags
@@ -54,4 +55,5 @@ protected:
 };
 
 }  // namespace imgui_markup::internal
+
 #endif  // IMGUI_MARKUP_SRC_IMGUI_MARKUP_OBJECTS_COMMON_WINDOW_FLAGS_H_

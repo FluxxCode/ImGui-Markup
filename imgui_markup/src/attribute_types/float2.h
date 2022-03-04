@@ -7,7 +7,8 @@
 
 #include <string>
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 class Float2 : public Attribute
 {
@@ -40,4 +41,5 @@ private:
 };
 
 }  // namespace imgui_markup::internal
+
 #endif  // IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_FLOAT2_H_

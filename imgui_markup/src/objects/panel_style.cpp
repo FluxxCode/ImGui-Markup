@@ -3,7 +3,8 @@
 
 #include "objects/panel.h"
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 PanelStyle::PanelStyle(std::string id, ObjectBase* parent)
     : ObjectBase("PanelStyle", id, parent)

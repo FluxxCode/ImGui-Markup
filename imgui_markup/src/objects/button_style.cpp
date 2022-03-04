@@ -1,7 +1,8 @@
 #include "impch.h"
 #include "objects/button_style.h"
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 ButtonStyle::ButtonStyle(std::string id, ObjectBase* parent)
     : ObjectBase("ButtonStyle", id, parent)

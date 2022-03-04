@@ -1,7 +1,8 @@
 #include "impch.h"
 #include "objects/common/object_list.h"
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 std::shared_ptr<ObjectBase> ObjectList::CreateObject(
     std::string type,

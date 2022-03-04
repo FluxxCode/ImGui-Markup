@@ -7,7 +7,8 @@
 #include "attribute_types/float4.h"
 #include "attribute_types/int.h"
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 /**
  * Wrapper above the imgui style.
@@ -67,4 +68,5 @@ protected:
 };
 
 }  // namespace imgui_markup::internal
+
 #endif  // IMGUI_MARKUP_SRC_OBJECTS_STYLE_H_

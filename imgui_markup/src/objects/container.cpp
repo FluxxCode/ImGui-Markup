@@ -1,7 +1,8 @@
 #include "impch.h"
 #include "objects/container.h"
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 Container::Container(std::string id, ObjectBase* parent)
     : ObjectBase("Container", id, parent)

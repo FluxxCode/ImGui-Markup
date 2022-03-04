@@ -4,7 +4,8 @@
 #include "objects/common/object_base.h"
 #include "attribute_types/string.h"
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 struct ObjectString : public ObjectBase
 {
@@ -16,4 +17,5 @@ struct ObjectString : public ObjectBase
 };
 
 }  // namespace imgui_markup::internal
+
 #endif  // IMGUI_MARKUP_SRC_IMGUI_MARKUP_OBJECTS_ATTRIBUTE_TYPES_OBJECT_STRING_H_

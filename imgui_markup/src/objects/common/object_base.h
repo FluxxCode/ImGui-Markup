@@ -64,17 +64,19 @@ public:
         { return this->access_id_; };
     inline std::string GetType() const
         { return this->type_; }
-    inline ObjectBase*     GetParent() const
+    inline ObjectBase* GetParent() const
         { return this->parent_; }
     inline Float2 GetSize() const
         { return this->size_; }
-    inline Float2      GetDrawPosition() const
+    inline Float2 GetDrawPosition() const
         { return this->draw_position_; }
-    inline Float2      GetRelativePosition() const
+    inline Float2 GetRelativePosition() const
         { return this->relative_position_; }
 
 protected:
     std::string type_;
+    ObjectBase* parent_;
+    std::vector<std::shared_ptr<ObjectBase>> child_objects_ = { };
 
     /**
      * ID set by the markup language that allows the access
@@ -86,9 +88,6 @@ protected:
      * ImGui ID of the object.
      */
     std::string draw_id_;
-
-    ObjectBase* parent_;
-    std::vector<std::shared_ptr<ObjectBase>> child_objects_ = { };
 
     /**
      * List of the object attributes that can be set through
@@ -124,8 +123,8 @@ protected:
     /**
      * Add an attribute to the attribute list.
      *
-     * @param[in] name      - The name of the attribute, that can be used to
-     *                        access the attribute from data that is parsed.
+     * @param[in] name - The name of the attribute, that can be used to
+     *                   access the attribute from data that is parsed.
      * @param[in] attribute - An pointer to the attribute.
     */
     void AddAttribute(const std::string name, Attribute* attribute);

@@ -1,7 +1,8 @@
 #include "impch.h"
 #include "objects/common/style.h"
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 void Style::AddStyleAttirbutes(
     std::map<std::string, Attribute*>& attribute_list)

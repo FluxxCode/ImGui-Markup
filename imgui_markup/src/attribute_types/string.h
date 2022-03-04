@@ -6,7 +6,8 @@
 
 #include <string>
 
-namespace imgui_markup::internal{
+namespace imgui_markup::internal
+{
 
 class String : public Attribute
 {
@@ -33,4 +34,5 @@ private:
 };
 
 }  // namespace imgui_markup::internal
+
 #endif  // IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_STRING_H_
