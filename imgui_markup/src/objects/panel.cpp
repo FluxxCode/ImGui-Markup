@@ -17,14 +17,6 @@ Panel::Panel(std::string id, ObjectBase* parent)
     this->AddAttribute("size",     &this->size_);
 }
 
-Panel& Panel::operator=(const Panel& other)
-{
-    for (auto& child : this->child_objects_)
-        child->SetParent(other.parent_);
-
-    return *this;
-}
-
 void Panel::IMPL_Update()
 {
     if (this->init_panel_attributes_)

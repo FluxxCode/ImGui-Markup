@@ -9,8 +9,7 @@ namespace imgui_markup::internal{
 struct ObjectInt : public ObjectBase
 {
     ObjectInt(std::string id, ObjectBase* parent);
-
-    ObjectInt& operator=(const ObjectInt& other);
+    ObjectInt(const ObjectInt&) = delete;
 
     Int value;
 };

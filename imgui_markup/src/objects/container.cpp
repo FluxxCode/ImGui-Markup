@@ -7,14 +7,6 @@ Container::Container(std::string id, ObjectBase* parent)
     : ObjectBase("Container", id, parent)
 { }
 
-Container& Container::operator=(const Container& other)
-{
-    for (auto& child : this->child_objects_)
-        child->SetParent(other.parent_);
-
-    return *this;
-}
-
 void Container::Update()
 {
     for (auto& child : this->child_objects_)

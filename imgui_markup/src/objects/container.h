@@ -8,8 +8,7 @@ namespace imgui_markup::internal{
 struct Container : public ObjectBase
 {
     Container(std::string id, ObjectBase* parent);
-
-    Container& operator=(const Container& other);
+    Container(const Container&) = delete;
 
     void Update();
 };

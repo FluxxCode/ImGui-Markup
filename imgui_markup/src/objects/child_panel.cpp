@@ -14,14 +14,6 @@ ChildPanel::ChildPanel(std::string id, ObjectBase* parent)
     this->AddAttribute("border", &this->border_);
 }
 
-ChildPanel& ChildPanel::operator=(const ChildPanel& other)
-{
-    for (auto& child : this->child_objects_)
-        child->SetParent(other.parent_);
-
-    return *this;
-}
-
 void ChildPanel::IMPL_Update()
 {
     if (this->size_.value_changed_)

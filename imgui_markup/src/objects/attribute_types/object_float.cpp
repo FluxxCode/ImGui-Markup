@@ -9,12 +9,4 @@ ObjectFloat::ObjectFloat(std::string id, ObjectBase* parent)
     this->AddAttribute("value", &this->value);
 }
 
-ObjectFloat& ObjectFloat::operator=(const ObjectFloat& other)
-{
-    for (auto& child : this->child_objects_)
-        child->SetParent(other.parent_);
-
-    return *this;
-}
-
 }  // namespace imgui_markup::internal

@@ -29,8 +29,7 @@ public:
      *                     if the object has no parent object.
     */
     ObjectBase(std::string type, std::string id, ObjectBase* parent);
-
-    ObjectBase& operator=(const ObjectBase& other) = delete;
+    ObjectBase(const ObjectBase&) = delete;
 
     /**
      * Main update function that should be called every frame.

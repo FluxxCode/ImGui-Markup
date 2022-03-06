@@ -15,8 +15,7 @@ class Text : public ObjectBase
 public:
     // Constructor/Destructor
     Text(std::string id, ObjectBase* parent);
-
-    Text& operator=(const Text& other);
+    Text(const Text&) = delete;
 
     String text_;
     Float4 color_;

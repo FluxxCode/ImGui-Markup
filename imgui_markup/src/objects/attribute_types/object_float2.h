@@ -9,8 +9,7 @@ namespace imgui_markup::internal{
 struct ObjectFloat2 : public ObjectBase
 {
     ObjectFloat2(std::string id, ObjectBase* parent);
-
-    ObjectFloat2& operator=(const ObjectFloat2& other);
+    ObjectFloat2(const ObjectFloat2&) = delete;
 
     Float2 value;
 };

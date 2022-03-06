@@ -14,8 +14,7 @@ class ChildPanel : public ObjectBase
 public:
     // Constructor/Destructor
     ChildPanel(std::string id, ObjectBase* parent);
-
-    ChildPanel& operator=(const ChildPanel& other);
+    ChildPanel(const ChildPanel&) = delete;
 
     String title_;
     Bool border_;
