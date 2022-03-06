@@ -16,7 +16,7 @@ Container& Container::operator=(const Container& other)
     return *this;
 }
 
-void Container::Update()
+void Container::IMPL_Update()
 {
     for (auto& child : this->child_objects_)
     {
@@ -28,13 +28,18 @@ void Container::Update()
             this->global_position_.y - this->draw_position_.y));
 
         child->Update();
-
-        if (child->GetRelativePosition().x + child->GetSize().x > this->size_.x)
-            this->size_.x = child->GetRelativePosition().x + child->GetSize().x;
-
-        if (child->GetRelativePosition().y + child->GetSize().y > this->size_.y)
-            this->size_.y = child->GetRelativePosition().y + child->GetSize().y;
     }
+}
+
+bool Container::OnProcessStart(std::string& error_message)
+{
+    if (!this->parent_)
+        return true;
+
+    error_message = "Object of type \"Container\" can only be created within "
+                    "the global file scope";
+
+    return false;
 }
 
 }  // namespace imgui_markup::internal

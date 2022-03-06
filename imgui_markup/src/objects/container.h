@@ -6,13 +6,16 @@
 namespace imgui_markup::internal
 {
 
-struct Container : public ObjectBase
+class Container : public ObjectBase
 {
+public:
     Container(std::string id, ObjectBase* parent);
-
     Container& operator=(const Container& other);
 
-    void Update();
+private:
+    // See object.h for documentation
+    void IMPL_Update();
+    bool OnProcessStart(std::string& error_message);
 };
 
 }  // namespace imgui_markup::internal

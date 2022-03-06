@@ -15,7 +15,7 @@
 ---
 ## Panel
 ### Description:
-The panel is equal to ```ImGui::BeginWindow()``` and ```ImGui::EndWindow()```. It is necessary to draw other objects.
+The panel is equal to ```ImGui::BeginWindow()``` and ```ImGui::EndWindow()```. It is used as the root of every drawable item and can only be created in the global file scope.
 ### Attributes:
 | Name | Type | Description | Default Value |
 | --- | --- | --- | --- |
@@ -323,7 +323,7 @@ Panel
 ---
 ## Container
 ### Description:
-The container is used to store custom data or to divide other objects and object IDs.
+The container is used to store custom data and can only be created in the global file scope.
 ### Attributes:
 *The container currently does not have any attributes*
 ### Example:
