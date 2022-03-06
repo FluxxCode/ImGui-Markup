@@ -4,10 +4,6 @@
 namespace imgui_markup::internal
 {
 
-Reference::Reference()
-    : Attribute(AttributeType::kReference)
-{ }
-
 Reference::Reference(AttributeType expected_type)
     : Attribute(AttributeType::kReference),
     expected_type(expected_type)
@@ -20,6 +16,8 @@ Reference::Reference(Attribute* reference)
     if (!this->reference)
         return;
 
+    // Init the reference to the referenced attribute to ensure that the
+    // reference is set to nullptr when the referenced attribute is deleted.
     this->reference->InitReference(this);
 }
 
@@ -28,13 +26,15 @@ Reference::~Reference()
     if (!this->reference)
         return;
 
+    // Ensure that the reference to this object is deleted from
+    // the object to be referenced.
     this->reference->RemoveReference(this);
 }
 
 std::string Reference::ToString() const
 {
     if (!this->reference)
-        return "null";
+        return "<null>";
 
     return this->reference->ToString();
 }

@@ -12,6 +12,7 @@ Attribute::Attribute(AttributeType type)
 
 Attribute::~Attribute()
 {
+    // Set references pointing to this attribute to nullptr
     for (Reference* reference : this->references_)
         reference->reference = nullptr;
 }

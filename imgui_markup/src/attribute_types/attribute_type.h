@@ -67,7 +67,9 @@ public:
 
     /**
      * Adds a reference to the references vector.
-     * Used to keep track of every reference pointing to this.
+     * Used to keep track of every reference pointing to this attribute.
+     * This way we can ensure that the references pointing to this attribute
+     * are set to nullptr when this attribute is deleted.
      */
     void InitReference(Reference* reference);
 
@@ -75,6 +77,7 @@ public:
      * Removes every instance of a specify reference from the references
      * vector. This should be called every time a specifc reference
      * gets deleted.
+     * Currently the function is only called by the reference destructor.
      */
     void RemoveReference(Reference* reference);
 
