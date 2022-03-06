@@ -76,17 +76,24 @@ struct UnknownAttributeValueType : public InterpreterException
 
 struct AttributeConversionError : public InterpreterException
 {
+    // This constructor is only used by Interpreter::ThrowReferenceError
+    AttributeConversionError(std::string message, ParserNode node)
+        : InterpreterException(message, node,
+                              ParserResultType::kAttributeConversionError)
+    { }
+
     AttributeConversionError(std::string type_left, std::string type_right,
                              std::string value, ParserNode node)
         : InterpreterException("Unable to convert \"" + value +
                                "\" of type \"" + type_right + "\" to a " +
-                               "value of type: \"" + type_left + "\"", node,
+                               "value of type \"" + type_left + "\"", node,
                               ParserResultType::kAttributeConversionError)
     { }
+
     AttributeConversionError(std::string type_left,
                              std::string value, ParserNode node)
         : InterpreterException("Unable to convert \"" + value + "\" to a " +
-                               "value of type: \"" + type_left + "\"", node,
+                               "value of type \"" + type_left + "\"", node,
                               ParserResultType::kAttributeConversionError)
     { }
 };
@@ -431,6 +438,11 @@ private:
     std::string GetObjectNameFromAttributeReferenceString(
         const std::string attribute, const ParserNode& node) const;
 
+    void ThrowReferenceError(
+        Attribute* attribute,
+        Attribute* value,
+        ParserNode& node) const;
+
     /**
      * Converts the type of an attribtue to one of the following strings:
      *  - "Bool"
@@ -440,6 +452,7 @@ private:
      *  - "Float4"
      *  - "Int"
      *  - "String"
+     *  - "Reference"
      */
     std::string AttributeTypeToString(const Attribute& attribute) const;
     std::string AttributeTypeToString(const AttributeType type) const;

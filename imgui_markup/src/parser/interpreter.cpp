@@ -150,6 +150,12 @@ void Interpreter::ProcessAttributeAssignNode(
 
     if (!attribute->LoadValue(*value))
     {
+        if (attribute->type == AttributeType::kReference ||
+            value->type == AttributeType::kReference)
+        {
+            this->ThrowReferenceError(attribute, value.get(), node);
+        }
+
         throw AttributeConversionError(this->AttributeTypeToString(*attribute),
             this->AttributeTypeToString(*value), value->ToString(), node);
     }
@@ -366,6 +372,40 @@ std::string Interpreter::GetObjectNameFromAttributeReferenceString(
     return object_id;
 }
 
+void Interpreter::ThrowReferenceError(
+    Attribute* attribute,
+    Attribute* value,
+    ParserNode& node) const
+{
+    AttributeType type_left = attribute->type;
+    AttributeType type_right = value->type;
+
+    if (type_left == AttributeType::kReference)
+    {
+        Reference* reference = dynamic_cast<Reference*>(attribute);
+
+        if (type_right != AttributeType::kReference)
+        {
+            throw AttributeConversionError(
+                "Expected reference to an attribute, starting with an '@'",
+                node);
+        }
+
+        Reference* referenced = dynamic_cast<Reference*>(attribute);
+
+        throw AttributeConversionError(
+            "Expected reference to an attribute of type \"" +
+            this->AttributeTypeToString(reference->expected_type) + "\"", node);
+    }
+
+    Reference* referenced = dynamic_cast<Reference*>(value);
+
+    throw AttributeConversionError(
+        this->AttributeTypeToString(type_left),
+        this->AttributeTypeToString(referenced->reference->type),
+        referenced->reference->ToString(), node);
+}
+
 std::string Interpreter::AttributeTypeToString(const Attribute& attribute) const
 {
     return this->AttributeTypeToString(attribute.type);
@@ -375,13 +415,14 @@ std::string Interpreter::AttributeTypeToString(const AttributeType type) const
 {
     switch (type)
     {
-    case AttributeType::kBool:   return "Bool";
-    case AttributeType::kFloat:  return "Float";
-    case AttributeType::kFloat2: return "Float2";
-    case AttributeType::kFloat3: return "Float3";
-    case AttributeType::kFloat4: return "Float4";
-    case AttributeType::kInt:    return "Int";
-    case AttributeType::kString: return "String";
+    case AttributeType::kBool:      return "Bool";
+    case AttributeType::kFloat:     return "Float";
+    case AttributeType::kFloat2:    return "Float2";
+    case AttributeType::kFloat3:    return "Float3";
+    case AttributeType::kFloat4:    return "Float4";
+    case AttributeType::kInt:       return "Int";
+    case AttributeType::kString:    return "String";
+    case AttributeType::kReference: return "Reference";
     default: return "Undefined";
     }
 }

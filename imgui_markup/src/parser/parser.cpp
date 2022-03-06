@@ -166,7 +166,7 @@ void Parser::CreateAttributeAssignNode(ParserNode& parent_node)
 {
     const std::string name = this->lexer_.LookAhead(0).data;
 
-    const size_t start_position = this->lexer_.LookAhead(0).position.start;
+    ParserPosition position = this->lexer_.LookAhead(0).position;
 
     LexerToken token;
     if (!this->lexer_.GetNextToken(token))
@@ -196,8 +196,7 @@ void Parser::CreateAttributeAssignNode(ParserNode& parent_node)
     else
         throw ValueNodeWrongType(token);
 
-    ParserPosition position = value_node->position;
-    position.start = start_position;
+    position.end = value_node->position.end;
 
     std::shared_ptr<ParserNode> node =
         std::make_shared<ParserAttributeAssignNode>(name, value_node, position);
