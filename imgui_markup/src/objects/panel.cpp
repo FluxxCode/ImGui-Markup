@@ -87,8 +87,7 @@ bool Panel::OnProcessStart(std::string& error_message)
 
 bool Panel::OnProcessEnd(std::string& error_message)
 {
-    if (this->title_.value.empty())
-        this->title_ = "##" + this->draw_id_;
+    this->title_.value += "##" + this->draw_id_;
 
     return true;
 }
