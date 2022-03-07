@@ -283,7 +283,7 @@ private:
      * defined value.
      * The attribtue name and value is defined by the node.
      *
-     * @param node - Attribute assign node containing attribute name and value.
+     * @param node - AttributeBase assign node containing attribute name and value.
      * @param parent_object - The object on where the attribute assign node
      *                        will be executed.
      * @throws The function can throw interpreter and std exceptions.
@@ -344,7 +344,7 @@ private:
      *         The parser will only catch the interpreter exceptions.
      *         Every other exceptions is not catched by the parser!
      */
-    std::shared_ptr<Attribute> ProcessVectorNode(
+    std::shared_ptr<AttributeBase> ProcessVectorNode(
         const ParserNode& node, ObjectBase& parent_object) const;
 
     /**
@@ -361,7 +361,7 @@ private:
      *         The parser will only catch the interpreter exceptions.
      *         Every other exceptions is not catched by the parser!
      */
-    std::shared_ptr<Attribute> ProcessValueNode(
+    std::shared_ptr<AttributeBase> ProcessValueNode(
         const ParserNode& node, ObjectBase& parent_object) const;
 
     /**
@@ -385,7 +385,7 @@ private:
      * Note: The full ID has to be specified.
      * "text_0.text" will not work!
      *
-     * Attribute names without a '.'corresponds to an attribute of the
+     * AttributeBase names without a '.'corresponds to an attribute of the
      * parent object.
      * Example:
      * Panel : panel_0
@@ -395,7 +395,7 @@ private:
      *                       # specify the full ID.
      * }
      *
-     * @param node - Attribute access node that will be executed
+     * @param node - AttributeBase access node that will be executed
      * @param parent_object - Parent object that is used for local attribute
      *                        names.
      * @return The value of the references attribute
@@ -416,7 +416,7 @@ private:
      *         The parser will only catch the interpreter exceptions.
      *         Every other exceptions is not catched by the parser!
      */
-    Attribute& GetAttribtueFromObjectReference(
+    AttributeBase& GetAttribtueFromObjectReference(
         const std::string attribute, const ParserNode& node) const;
 
     /**
@@ -439,8 +439,8 @@ private:
         const std::string attribute, const ParserNode& node) const;
 
     void ThrowReferenceError(
-        Attribute* attribute,
-        Attribute* value,
+        AttributeBase* attribute,
+        AttributeBase* value,
         ParserNode& node) const;
 
     /**
@@ -454,7 +454,7 @@ private:
      *  - "String"
      *  - "Reference"
      */
-    std::string AttributeTypeToString(const Attribute& attribute) const;
+    std::string AttributeTypeToString(const AttributeBase& attribute) const;
     std::string AttributeTypeToString(const AttributeType type) const;
 };
 

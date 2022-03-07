@@ -43,7 +43,7 @@ protected:
      * Adds the window flags attributes to the given attribute list.
      */
     void InitWindowFlagAttributes(
-        std::map<std::string, Attribute*>& attribute_list);
+        std::map<std::string, AttributeBase*>& attribute_list);
 
     /**
      * Generates the ImGuiWindowFlags based on the attributes from this object.

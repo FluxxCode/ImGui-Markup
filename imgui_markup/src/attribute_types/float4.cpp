@@ -5,15 +5,15 @@ namespace imgui_markup::internal
 {
 
 Float4::Float4()
-    : Attribute(AttributeType::kFloat4)
+    : AttributeBase(AttributeType::kFloat4)
 { }
 
 Float4::Float4(float x, float y, float z, float w)
-    : Attribute(AttributeType::kFloat4), x(x), y(y), z(z), w(w)
+    : AttributeBase(AttributeType::kFloat4), x(x), y(y), z(z), w(w)
 { }
 
 Float4::Float4(ImVec4 vec)
-    : Attribute(AttributeType::kFloat4), x(vec.x), y(vec.y), z(vec.z), w(vec.w)
+    : AttributeBase(AttributeType::kFloat4), x(vec.x), y(vec.y), z(vec.z), w(vec.w)
 { }
 
 std::string Float4::ToString() const

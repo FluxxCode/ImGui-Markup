@@ -5,15 +5,15 @@ namespace imgui_markup::internal
 {
 
 Float2::Float2()
-    : Attribute(AttributeType::kFloat2)
+    : AttributeBase(AttributeType::kFloat2)
 { }
 
 Float2::Float2(float x, float y)
-    : Attribute(AttributeType::kFloat2), x(x), y(y)
+    : AttributeBase(AttributeType::kFloat2), x(x), y(y)
 { }
 
 Float2::Float2(ImVec2 vec)
-    : Attribute(AttributeType::kFloat2), x(vec.x), y(vec.y)
+    : AttributeBase(AttributeType::kFloat2), x(vec.x), y(vec.y)
 { }
 
 std::string Float2::ToString() const

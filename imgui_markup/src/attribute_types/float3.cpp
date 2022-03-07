@@ -5,11 +5,11 @@ namespace imgui_markup::internal
 {
 
 Float3::Float3()
-    : Attribute(AttributeType::kFloat3)
+    : AttributeBase(AttributeType::kFloat3)
 { }
 
 Float3::Float3(float x, float y, float z)
-    : Attribute(AttributeType::kFloat3), x(x), y(y), z(z)
+    : AttributeBase(AttributeType::kFloat3), x(x), y(y), z(z)
 { }
 
 std::string Float3::ToString() const

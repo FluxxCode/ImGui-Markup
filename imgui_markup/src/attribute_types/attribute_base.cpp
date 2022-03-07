@@ -1,23 +1,23 @@
 #include "impch.h"
-#include "attribute_types/attribute_type.h"
+#include "attribute_types/attribute_base.h"
 
 #include "attribute_types/reference.h"
 
 namespace imgui_markup::internal
 {
 
-Attribute::Attribute(AttributeType type)
+AttributeBase::AttributeBase(AttributeType type)
     : type(type)
 { }
 
-Attribute::~Attribute()
+AttributeBase::~AttributeBase()
 {
     // Set references pointing to this attribute to nullptr
     for (Reference* reference : this->references_)
         reference->reference = nullptr;
 }
 
-bool Attribute::LoadValue(const Attribute& value)
+bool AttributeBase::LoadValue(const AttributeBase& value)
 {
     switch (value.type)
     {
@@ -34,52 +34,52 @@ bool Attribute::LoadValue(const Attribute& value)
     }
 }
 
-bool Attribute::LoadValue(const Bool& value_in)
+bool AttributeBase::LoadValue(const Bool& value_in)
 {
     return this->LoadValue<Bool>(value_in);
 }
 
-bool Attribute::LoadValue(const Float& value_in)
+bool AttributeBase::LoadValue(const Float& value_in)
 {
     return this->LoadValue<Float>(value_in);
 }
 
-bool Attribute::LoadValue(const Float2& value_in)
+bool AttributeBase::LoadValue(const Float2& value_in)
 {
     return this->LoadValue<Float2>(value_in);
 }
 
-bool Attribute::LoadValue(const Float3& value_in)
+bool AttributeBase::LoadValue(const Float3& value_in)
 {
     return this->LoadValue<Float3>(value_in);
 }
 
-bool Attribute::LoadValue(const Float4& value_in)
+bool AttributeBase::LoadValue(const Float4& value_in)
 {
     return this->LoadValue<Float4>(value_in);
 }
 
-bool Attribute::LoadValue(const Int& value_in)
+bool AttributeBase::LoadValue(const Int& value_in)
 {
     return this->LoadValue<Int>(value_in);
 }
 
-bool Attribute::LoadValue(const String& value_in)
+bool AttributeBase::LoadValue(const String& value_in)
 {
     return this->LoadValue<String>(value_in);
 }
 
-bool Attribute::LoadValue(const Reference& value_in)
+bool AttributeBase::LoadValue(const Reference& value_in)
 {
     return this->LoadValue<Reference>(value_in);
 }
 
-void Attribute::InitReference(Reference* reference)
+void AttributeBase::InitReference(Reference* reference)
 {
     this->references_.push_back(reference);
 }
 
-void Attribute::RemoveReference(Reference* reference)
+void AttributeBase::RemoveReference(Reference* reference)
 {
     for (unsigned int i = 0; i < this->references_.size(); i++)
     {
@@ -88,7 +88,7 @@ void Attribute::RemoveReference(Reference* reference)
     }
 }
 
-bool Attribute::IMPL_LoadValue(const Reference& value)
+bool AttributeBase::IMPL_LoadValue(const Reference& value)
 {
     if (!value.reference)
         return false;

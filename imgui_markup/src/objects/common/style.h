@@ -60,9 +60,9 @@ protected:
     Float  circle_tessellation_max_error_;
 
     // Functions
-    void AddStyleAttirbutes(std::map<std::string, Attribute*>& attribute_list);
+    void AddStyleAttirbutes(std::map<std::string, AttributeBase*>& attribute_list);
 
-    void OverwriteName(std::map<std::string, Attribute*>& attribute_list,
+    void OverwriteName(std::map<std::string, AttributeBase*>& attribute_list,
                        const std::string old_name,
                        const std::string new_name);
 };

@@ -1,5 +1,5 @@
-#ifndef IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_ATTRIBUTE_TYPE_H_
-#define IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_ATTRIBUTE_TYPE_H_
+#ifndef IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_ATTRIBUTE_BASE_H_
+#define IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_ATTRIBUTE_BASE_H_
 
 #include "parser/parser_result.h"
 
@@ -30,11 +30,11 @@ class Int;
 class String;
 class Reference;
 
-class Attribute
+class AttributeBase
 {
 public:
-    Attribute(AttributeType type);
-    virtual ~Attribute();
+    AttributeBase(AttributeType type);
+    virtual ~AttributeBase();
 
     AttributeType type;
 
@@ -50,7 +50,7 @@ public:
      * @return true on sucess
      * @return false if there was a conversion error
      */
-    bool LoadValue(const Attribute& value);
+    bool LoadValue(const AttributeBase& value);
     bool LoadValue(const Bool& value);
     bool LoadValue(const Float& value);
     bool LoadValue(const Float2& value);
@@ -110,4 +110,4 @@ private:
 
 }  // namespace imgui_markup::internal
 
-#endif  // IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_ATTRIBUTE_TYPE_H_
+#endif  // IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_ATTRIBUTE_BASE_H_

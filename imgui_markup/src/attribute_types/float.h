@@ -1,7 +1,7 @@
 #ifndef IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES
 #define IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES
 
-#include "attribute_types/attribute_type.h"
+#include "attribute_types/attribute_base.h"
 #include "attribute_types/string.h"
 #include "attribute_types/int.h"
 
@@ -10,7 +10,7 @@
 namespace imgui_markup::internal
 {
 
-class Float : public Attribute
+class Float : public AttributeBase
 {
 public:
     Float();

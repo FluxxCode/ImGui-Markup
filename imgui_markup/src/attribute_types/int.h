@@ -1,7 +1,7 @@
 #ifndef IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_INT_H_
 #define IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_INT_H_
 
-#include "attribute_type.h"
+#include "attribute_types/attribute_base.h"
 #include "string.h"
 
 #include <string>
@@ -9,7 +9,7 @@
 namespace imgui_markup::internal
 {
 
-class Int : public Attribute
+class Int : public AttributeBase
 {
 public:
     Int();

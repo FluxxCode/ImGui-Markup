@@ -147,7 +147,7 @@ void Parser::CreateObjectNode(ParserNode& parent_node)
     parent_node.child_nodes.push_back(node);
 }
 
-/* Attribute assign node */
+/* AttributeBase assign node */
 bool Parser::TokenIsAttributeAssignNode()
 {
     const LexerToken current_token = this->lexer_.LookAhead(0);
@@ -356,7 +356,7 @@ std::shared_ptr<ParserVectorNode> Parser::CreateVectorNode()
     return node;
 }
 
-/* Attribute access node */
+/* AttributeBase access node */
 bool Parser::TokenIsAttributeReferenceNode()
 {
     const LexerToken current_token = this->lexer_.LookAhead(0);

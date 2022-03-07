@@ -2,14 +2,14 @@
 #define IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_STRING_H_
 
 // Also includes forward declarions for other attribute types
-#include "attribute_types/attribute_type.h"
+#include "attribute_types/attribute_base.h"
 
 #include <string>
 
 namespace imgui_markup::internal
 {
 
-class String : public Attribute
+class String : public AttributeBase
 {
 public:
     String();

@@ -1,20 +1,20 @@
 #ifndef IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_REFERENCE_H_
 #define IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_REFERENCE_H_
 
-#include "attribute_types/attribute_type.h"
+#include "attribute_types/attribute_base.h"
 
 namespace imgui_markup::internal
 {
 
-class Reference : public Attribute
+class Reference : public AttributeBase
 {
 public:
     Reference(AttributeType expected_type);
-    Reference(Attribute* reference);
+    Reference(AttributeBase* reference);
 
     virtual ~Reference();
 
-    Attribute* reference = nullptr;
+    AttributeBase* reference = nullptr;
     AttributeType expected_type = AttributeType::kUndefined;
 
     std::string ToString() const;

@@ -5,12 +5,12 @@ namespace imgui_markup::internal
 {
 
 Reference::Reference(AttributeType expected_type)
-    : Attribute(AttributeType::kReference),
+    : AttributeBase(AttributeType::kReference),
     expected_type(expected_type)
 { }
 
-Reference::Reference(Attribute* reference)
-    : Attribute(AttributeType::kReference),
+Reference::Reference(AttributeBase* reference)
+    : AttributeBase(AttributeType::kReference),
     reference(reference)
 {
     if (!this->reference)

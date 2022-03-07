@@ -2,7 +2,7 @@
 #define IMGUI_MARKUP_SRC_OBJECTS_OBJECT_H_
 
 #include "objects/common/object_api.h"
-#include "attribute_types/attribute_type.h"
+#include "attribute_types/attribute_base.h"
 #include "attribute_types/float2.h"
 #include "parser/parser_result.h"
 
@@ -44,7 +44,7 @@ public:
      * @return a pointer to the attribute. nullptr, if the attribute with the
      *         given name does not exists.
     */
-    Attribute* GetAttribute(const std::string name) const;
+    AttributeBase* GetAttribute(const std::string name) const;
 
     /**
      * Sets the position attributes of the object.
@@ -92,7 +92,7 @@ protected:
      * List of the object attributes that can be set through
      * the markup language.
      */
-    std::map<std::string, Attribute*> attribute_list_ = { };
+    std::map<std::string, AttributeBase*> attribute_list_ = { };
 
     /**
      * Main position that is relative to the parent object.
@@ -126,7 +126,7 @@ protected:
      *                   access the attribute from data that is parsed.
      * @param[in] attribute - An pointer to the attribute.
     */
-    void AddAttribute(const std::string name, Attribute* attribute);
+    void AddAttribute(const std::string name, AttributeBase* attribute);
 
     /**
      * Remove an attribute from the attribute list.

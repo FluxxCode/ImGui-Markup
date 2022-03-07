@@ -135,13 +135,13 @@ void Interpreter::ProcessAttributeAssignNode(
     if (!node.value_node)
         throw MissingAttributeValue(node);
 
-    std::shared_ptr<Attribute> value =
+    std::shared_ptr<AttributeBase> value =
         this->ProcessValueNode(*node.value_node.get(), parent_object);
 
     if (!value)
         throw AttributeConversionError("Undefined", "Undefined", node);
 
-    Attribute* attribute = parent_object.GetAttribute(node.attribute_name);
+    AttributeBase* attribute = parent_object.GetAttribute(node.attribute_name);
     if (!attribute)
     {
         throw AttributeDoesNotExists(
@@ -217,7 +217,7 @@ Bool Interpreter::ProcessBoolNode(
     return value;
 }
 
-std::shared_ptr<Attribute> Interpreter::ProcessVectorNode(
+std::shared_ptr<AttributeBase> Interpreter::ProcessVectorNode(
     const ParserNode& node_in, ObjectBase& parent_object) const
 {
     if (node_in.type != ParserNodeType::kVectorNode)
@@ -264,7 +264,7 @@ std::shared_ptr<Attribute> Interpreter::ProcessVectorNode(
     throw AttributeConversionError("Vector", value, node_in);
 }
 
-std::shared_ptr<Attribute> Interpreter::ProcessValueNode(
+std::shared_ptr<AttributeBase> Interpreter::ProcessValueNode(
     const ParserNode& node, ObjectBase& parent_object) const
 {
     switch (node.type)
@@ -297,13 +297,13 @@ Reference Interpreter::ProcessAttributeReferenceNode(
 
     std::string attribute = node.attribute_name;
 
-    Attribute* ptr =
+    AttributeBase* ptr =
         &this->GetAttribtueFromObjectReference(attribute, node);
 
     return Reference(ptr);
 }
 
-Attribute& Interpreter::GetAttribtueFromObjectReference(
+AttributeBase& Interpreter::GetAttribtueFromObjectReference(
     std::string attribute, const ParserNode& node) const
 {
     std::string object_id =
@@ -326,7 +326,7 @@ Attribute& Interpreter::GetAttribtueFromObjectReference(
     const std::string id   = object.GetID().empty() ?
                                 "null" : object.GetID();
 
-    Attribute* att = object.GetAttribute(attribute);
+    AttributeBase* att = object.GetAttribute(attribute);
     if (!att)
         throw AttributeDoesNotExists(object.GetType(), attribute, node);
 
@@ -373,8 +373,8 @@ std::string Interpreter::GetObjectNameFromAttributeReferenceString(
 }
 
 void Interpreter::ThrowReferenceError(
-    Attribute* attribute,
-    Attribute* value,
+    AttributeBase* attribute,
+    AttributeBase* value,
     ParserNode& node) const
 {
     AttributeType type_left = attribute->type;
@@ -406,7 +406,7 @@ void Interpreter::ThrowReferenceError(
         referenced->reference->ToString(), node);
 }
 
-std::string Interpreter::AttributeTypeToString(const Attribute& attribute) const
+std::string Interpreter::AttributeTypeToString(const AttributeBase& attribute) const
 {
     return this->AttributeTypeToString(attribute.type);
 }

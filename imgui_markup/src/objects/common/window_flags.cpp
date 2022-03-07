@@ -5,7 +5,7 @@ namespace imgui_markup::internal
 {
 
 void WindowFlags::InitWindowFlagAttributes(
-    std::map<std::string, Attribute*>& attribute_list)
+    std::map<std::string, AttributeBase*>& attribute_list)
 {
     attribute_list["no_title_bar"]            = &this->no_title_bar_;
     attribute_list["no_resize"]               = &this->no_resize_;

@@ -13,15 +13,15 @@ namespace imgui_markup::internal
 {
 
 String::String()
-    : Attribute(AttributeType::kString)
+    : AttributeBase(AttributeType::kString)
 { }
 
 String::String(std::string str)
-    : Attribute(AttributeType::kString), value(str)
+    : AttributeBase(AttributeType::kString), value(str)
 { }
 
 String::String(const char* str)
-    : Attribute(AttributeType::kString), value(str)
+    : AttributeBase(AttributeType::kString), value(str)
 { }
 
 std::string String::ToString() const

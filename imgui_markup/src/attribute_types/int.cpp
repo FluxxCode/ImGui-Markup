@@ -5,11 +5,11 @@ namespace imgui_markup::internal
 {
 
 Int::Int()
-    : Attribute(AttributeType::kInt)
+    : AttributeBase(AttributeType::kInt)
 { }
 
 Int::Int(int i)
-    : Attribute(AttributeType::kInt), value(i)
+    : AttributeBase(AttributeType::kInt), value(i)
 { }
 
 std::string Int::ToString() const

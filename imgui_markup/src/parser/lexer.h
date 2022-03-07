@@ -22,7 +22,7 @@ enum class LexerTokenType
     kCBracketOpen,   // {
     kCBracketClose,  // }
     kReference,      // @<attribute_id>
-                     // Attribute references starting with
+                     // AttributeBase references starting with
                      // an '@' symbol, followed by the ID of the attribute
                      // that is being referenced. (No space is allowed)
     kString,         // "<text>"

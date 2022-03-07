@@ -20,7 +20,7 @@ void ObjectBase::Update()
     ImGui::PopID();
 }
 
-Attribute* ObjectBase::GetAttribute(const std::string name) const
+AttributeBase* ObjectBase::GetAttribute(const std::string name) const
 {
     if (this->attribute_list_.find(name) == this->attribute_list_.end())
         return nullptr;
@@ -43,12 +43,12 @@ void ObjectBase::SetPosition(Float2 draw_position, Float2 global_offset)
                                       draw_position.y - parent_position.y);
 }
 
-void ObjectBase::AddAttribute(const std::string name, Attribute* attribute)
+void ObjectBase::AddAttribute(const std::string name, AttributeBase* attribute)
 {
     if (this->attribute_list_.find(name) != this->attribute_list_.end())
     {
         internal::utils::Log("WARNING: Object \"" + this->type_ +
-            "\": Attribute \"" + name + "\" is already set in attribute list!");
+            "\": AttributeBase \"" + name + "\" is already set in attribute list!");
 
         return;
     }
@@ -61,7 +61,7 @@ void ObjectBase::RemoveAttribute(const std::string name)
     if (this->attribute_list_.find(name) == this->attribute_list_.end())
     {
         internal::utils::Log("WARNING: Object \"" + this->type_ +
-            "\": Attribute \"" + name +
+            "\": AttributeBase \"" + name +
             "\" does not exists in the attribute list!");
 
         return;

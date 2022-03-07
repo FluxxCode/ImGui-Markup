@@ -5,11 +5,11 @@ namespace imgui_markup::internal
 {
 
 Float::Float()
-    : Attribute(AttributeType::kFloat)
+    : AttributeBase(AttributeType::kFloat)
 { }
 
 Float::Float(float f)
-    : Attribute(AttributeType::kFloat), value(f)
+    : AttributeBase(AttributeType::kFloat), value(f)
 { }
 
 std::string Float::ToString() const

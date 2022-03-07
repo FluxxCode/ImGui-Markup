@@ -5,11 +5,11 @@ namespace imgui_markup::internal
 {
 
 Bool::Bool()
-    : Attribute(AttributeType::kBool)
+    : AttributeBase(AttributeType::kBool)
 { }
 
 Bool::Bool(const bool b)
-    : Attribute(AttributeType::kBool), value(b)
+    : AttributeBase(AttributeType::kBool), value(b)
 { }
 
 std::string Bool::ToString() const
