@@ -37,6 +37,7 @@ public:
 private:
     bool IMPL_LoadValue(const Float2& value);
     bool IMPL_LoadValue(const String& value);
+
     void Reset();
 };
 

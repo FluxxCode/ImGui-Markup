@@ -10,8 +10,7 @@ namespace imgui_markup::internal
 struct ObjectBool : public ObjectBase
 {
     ObjectBool(std::string id, ObjectBase* parent);
-
-    ObjectBool& operator=(const ObjectBool& other);
+    ObjectBool(const ObjectBool&) = delete;
 
     Bool value;
 };

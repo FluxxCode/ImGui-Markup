@@ -16,8 +16,7 @@ class Button : public ObjectBase
 {
 public:
     Button(std::string id, ObjectBase* parent);
-
-    Button& operator=(const Button& other);
+    Button(const Button&) = delete;
 
     String text_;
 

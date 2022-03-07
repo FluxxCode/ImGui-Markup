@@ -13,14 +13,6 @@ Button::Button(std::string id, ObjectBase* parent)
     this->AddAttribute("text", &this->text_);
 }
 
-Button& Button::operator=(const Button& other)
-{
-    for (auto& child : this->child_objects_)
-        child->SetParent(other.parent_);
-
-    return *this;
-}
-
 void Button::IMPL_Update()
 {
     if (this->style_)

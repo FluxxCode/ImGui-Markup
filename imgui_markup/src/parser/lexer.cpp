@@ -351,27 +351,23 @@ void Lexer::SkipComment()
 
 LexerToken Lexer::CreateReference()
 {
-    std::string attribute_id;
-    size_t start_pos = this->GetCurrentPosition();
-
-    char c;
-    while (this->GetNextChar(c))
+    if (std::isspace(this->GetCurrentChar(1)))
     {
-        if (std::isspace(c))
-            break;
-
-        attribute_id += c;
+        throw ExpectedAttributeID(
+            this->ConstructToken(LexerTokenType::kReference));
     }
 
-    if (attribute_id.empty())
+    LexerToken attribute_id = this->GenerateToken();
+
+    if (attribute_id.type != LexerTokenType::kID || attribute_id.data.empty())
     {
         throw ExpectedAttributeID(
             this->ConstructToken(LexerTokenType::kReference));
     }
 
     return this->ConstructToken(
-        LexerTokenType::kReference, attribute_id,
-        start_pos, this->GetCurrentPosition());
+        LexerTokenType::kReference, attribute_id.data,
+        attribute_id.position.start - 1, this->GetCurrentPosition());
 }
 
 LexerToken Lexer::CreateString()

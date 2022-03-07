@@ -10,8 +10,7 @@ namespace imgui_markup::internal
 struct ObjectString : public ObjectBase
 {
     ObjectString(std::string id, ObjectBase* parent);
-
-    ObjectString& operator=(const ObjectString& other);
+    ObjectString(const ObjectString&) = delete;
 
     String value;
 };

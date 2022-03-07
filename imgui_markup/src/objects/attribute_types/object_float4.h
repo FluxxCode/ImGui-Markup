@@ -10,8 +10,7 @@ namespace imgui_markup::internal
 struct ObjectFloat4 : public ObjectBase
 {
     ObjectFloat4(std::string id, ObjectBase* parent);
-
-    ObjectFloat4& operator=(const ObjectFloat4& other);
+    ObjectFloat4(const ObjectFloat4&) = delete;
 
     Float4 value;
 };

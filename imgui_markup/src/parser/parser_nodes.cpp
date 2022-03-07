@@ -57,10 +57,10 @@ ParserAttributeAssignNode::ParserAttributeAssignNode(
       attribute_name(attribute_name), value_node(value_node)
 { }
 
-ParserAttributeAccessNode::ParserAttributeAccessNode(
+ParserAttributeReferenceNode::ParserAttributeReferenceNode(
     std::string attribute_name,
     ParserPosition position)
-    : ParserNode(ParserNodeType::kAttributeAccessNode, position),
+    : ParserNode(ParserNodeType::kAttributeReferenceNode, position),
       attribute_name(attribute_name)
 { }
 

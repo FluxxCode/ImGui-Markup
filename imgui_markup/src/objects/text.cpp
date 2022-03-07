@@ -12,14 +12,6 @@ Text::Text(std::string id, ObjectBase* parent)
     this->AddAttribute("color", &this->color_);
 }
 
-Text& Text::operator=(const Text& other)
-{
-    for (auto& child : this->child_objects_)
-        child->SetParent(other.parent_);
-
-    return *this;
-}
-
 void Text::IMPL_Update()
 {
     ImGui::SetCursorPos(this->draw_position_);

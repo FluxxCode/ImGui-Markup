@@ -16,8 +16,7 @@ class ButtonStyle : public ObjectBase
 {
 public:
     ButtonStyle(std::string id, ObjectBase* parent);
-
-    ButtonStyle& operator=(const ButtonStyle& other) = delete;
+    ButtonStyle(const ButtonStyle&) = delete;
 
     Float4 color_;            // ImGuiCol_Button
     Float4 color_active_;     // ImGuiCol_ButtonHovered

@@ -18,8 +18,7 @@ class Panel : public ObjectBase, public WindowFlags
 public:
     // Constructor/Destructor
     Panel(std::string id, ObjectBase* parent);
-
-    Panel& operator=(const Panel& other);
+    Panel(const Panel&) = delete;
 
     String title_;
 

@@ -12,6 +12,7 @@
 #include "attribute_types/float4.h"
 #include "attribute_types/int.h"
 #include "attribute_types/string.h"
+#include "attribute_types/reference.h"
 
 #include <string>
 #include <vector>
@@ -75,17 +76,24 @@ struct UnknownAttributeValueType : public InterpreterException
 
 struct AttributeConversionError : public InterpreterException
 {
+    // This constructor is only used by Interpreter::ThrowReferenceError
+    AttributeConversionError(std::string message, ParserNode node)
+        : InterpreterException(message, node,
+                              ParserResultType::kAttributeConversionError)
+    { }
+
     AttributeConversionError(std::string type_left, std::string type_right,
                              std::string value, ParserNode node)
         : InterpreterException("Unable to convert \"" + value +
                                "\" of type \"" + type_right + "\" to a " +
-                               "value of type: \"" + type_left + "\"", node,
+                               "value of type \"" + type_left + "\"", node,
                               ParserResultType::kAttributeConversionError)
     { }
+
     AttributeConversionError(std::string type_left,
                              std::string value, ParserNode node)
         : InterpreterException("Unable to convert \"" + value + "\" to a " +
-                               "value of type: \"" + type_left + "\"", node,
+                               "value of type \"" + type_left + "\"", node,
                               ParserResultType::kAttributeConversionError)
     { }
 };
@@ -395,21 +403,8 @@ private:
      *         The parser will only catch the interpreter exceptions.
      *         Every other exceptions is not catched by the parser!
      */
-    Attribute& ProcessAttributeAccessNode(
+    Reference ProcessAttributeReferenceNode(
         const ParserNode& node, ObjectBase& parent_object) const;
-
-    /**
-     * Gets an attribute from the given object as a string.
-     *
-     * @param node - Used for error handling
-     * @throws The function can throw interpreter and std exceptions.
-     *         The parser will only catch the interpreter exceptions.
-     *         Every other exceptions is not catched by the parser!
-     */
-    Attribute& GetAttributeFromObject(
-        const std::string attribute,
-        ObjectBase& parent_object,
-        const ParserNode& node) const;
 
     /**
      * Gets the attribute value of an object in the object_reference buffer.
@@ -443,6 +438,11 @@ private:
     std::string GetObjectNameFromAttributeReferenceString(
         const std::string attribute, const ParserNode& node) const;
 
+    void ThrowReferenceError(
+        Attribute* attribute,
+        Attribute* value,
+        ParserNode& node) const;
+
     /**
      * Converts the type of an attribtue to one of the following strings:
      *  - "Bool"
@@ -452,6 +452,7 @@ private:
      *  - "Float4"
      *  - "Int"
      *  - "String"
+     *  - "Reference"
      */
     std::string AttributeTypeToString(const Attribute& attribute) const;
     std::string AttributeTypeToString(const AttributeType type) const;

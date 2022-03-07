@@ -10,7 +10,7 @@ class Container : public ObjectBase
 {
 public:
     Container(std::string id, ObjectBase* parent);
-    Container& operator=(const Container& other);
+    Container(const Container&) = delete;
 
 private:
     // See object.h for documentation

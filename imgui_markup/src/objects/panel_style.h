@@ -15,8 +15,7 @@ class PanelStyle : public ObjectBase
 {
 public:
     PanelStyle(std::string id, ObjectBase* parent);
-
-    PanelStyle& operator=(const PanelStyle& other) = delete;
+    PanelStyle(const PanelStyle&) = delete;
 
     Float4 background_;                  // ImGuiCol_WindowBg
     Float4 title_background_;            // ImGuiCol_TitleBg
