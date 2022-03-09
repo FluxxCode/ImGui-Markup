@@ -1,6 +1,7 @@
 #ifndef IMGUI_MARKUP_SRC_OBJECTS_OBJECT_H_
 #define IMGUI_MARKUP_SRC_OBJECTS_OBJECT_H_
 
+#include "objects/common/object_mapping.h"
 #include "objects/common/object_api.h"
 #include "attribute_types/attribute_base.h"
 #include "attribute_types/float2.h"
@@ -28,7 +29,7 @@ public:
      * @param[in] parent - Pointer to the parent object, nullptr
      *                     if the object has no parent object.
     */
-    ObjectBase(std::string type, std::string id, ObjectBase* parent);
+    ObjectBase(ObjectType type, std::string id, ObjectBase* parent);
     ObjectBase(const ObjectBase&) = delete;
 
     /**
@@ -49,13 +50,13 @@ public:
     inline void SetParent(ObjectBase* parent) { this->parent_ = parent; }
 
     inline std::string GetID()     const { return this->access_id_; }
-    inline std::string GetType()   const { return this->type_;      }
+    inline ObjectType GetType()    const { return this->type_;      }
     inline ObjectBase* GetParent() const { return this->parent_;    }
     inline Float2 GetSize()        const { return this->size_;      }
     inline Float2 GetPosition()    const { return this->position_;  }
 
 protected:
-    std::string type_;
+    ObjectType type_;
     ObjectBase* parent_;
     std::vector<std::shared_ptr<ObjectBase>> child_objects_ = { };
 

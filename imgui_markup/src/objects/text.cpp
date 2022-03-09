@@ -6,7 +6,7 @@
 namespace imgui_markup::internal{
 
 Text::Text(std::string id, ObjectBase* parent)
-    : ObjectBase("Text", id, parent)
+    : ObjectBase(ObjectType::kText, id, parent)
 {
     this->AddAttribute("text", &this->text_);
     this->AddAttribute("color", &this->color_);
@@ -32,7 +32,7 @@ bool Text::OnProcessStart(std::string& error_message)
     ObjectBase* parent = this->parent_;
     while (parent)
     {
-        if (parent->GetType() == "Panel")
+        if (parent->GetType() == ObjectType::kPanel)
             return true;
 
         parent = parent->GetParent();

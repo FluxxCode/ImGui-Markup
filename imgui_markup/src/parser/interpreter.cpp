@@ -22,7 +22,7 @@ void Interpreter::ConvertNodeTree(
         if (child->type != ParserNodeType::kObjectNode)
             throw ExpectedObjectDeclaration(*child.get());
 
-        ObjectBase temp("<interpreter_temp>", "<interpreter_temp>", nullptr);
+        ObjectBase temp(ObjectType::kUndefined, "<interpreter_temp>", nullptr);
 
         this->ProcessObjectNode(*child.get(), temp, true);
 
@@ -145,7 +145,8 @@ void Interpreter::ProcessAttributeAssignNode(
     if (!attribute)
     {
         throw AttributeDoesNotExists(
-            parent_object.GetType(), node.attribute_name, node);
+            ObjectTypeToString(parent_object.GetType()),
+            node.attribute_name, node);
     }
 
     if (!attribute->LoadValue(*value))
@@ -324,13 +325,11 @@ AttributeBase& Interpreter::GetAttribtueFromObjectReference(
 
     ObjectBase& object = this->object_references_.at(object_id);
 
-    const std::string type = object.GetType();
-    const std::string id   = object.GetID().empty() ?
-                                "null" : object.GetID();
+    const std::string type = ObjectTypeToString(object.GetType());
 
     AttributeBase* att = object.GetAttribute(attribute);
     if (!att)
-        throw AttributeDoesNotExists(object.GetType(), attribute, node);
+        throw AttributeDoesNotExists(type, attribute, node);
 
     return *att;
 }

@@ -7,7 +7,7 @@
 namespace imgui_markup::internal{
 
 Button::Button(std::string id, ObjectBase* parent)
-    : ObjectBase("Button", id, parent)
+    : ObjectBase(ObjectType::kButton, id, parent)
 {
     this->AddAttribute("size", &this->size_);
     this->AddAttribute("text", &this->text_);
@@ -36,7 +36,7 @@ bool Button::OnProcessStart(std::string& error_message)
     ObjectBase* parent = this->parent_;
     while (parent)
     {
-        if (parent->GetType() == "Panel")
+        if (parent->GetType() == ObjectType::kPanel)
             return true;
 
         parent = parent->GetParent();

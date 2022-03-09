@@ -5,7 +5,7 @@ namespace imgui_markup::internal
 {
 
 ObjectInt::ObjectInt(std::string id, ObjectBase* parent)
-    : ObjectBase("Int", id, parent)
+    : ObjectBase(ObjectType::kObjectInt, id, parent)
 {
     this->AddAttribute("value", &this->value);
 }

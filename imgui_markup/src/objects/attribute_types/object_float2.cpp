@@ -5,7 +5,7 @@ namespace imgui_markup::internal
 {
 
 ObjectFloat2::ObjectFloat2(std::string id, ObjectBase* parent)
-    : ObjectBase("Float2", id, parent)
+    : ObjectBase(ObjectType::kObjectFloat2, id, parent)
 {
     this->AddAttribute("value", &this->value);
 }

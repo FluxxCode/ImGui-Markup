@@ -2,6 +2,7 @@
 #define IMGUI_MARKUP_SRC_OBJECTS_OBJECT_LIST_H_
 
 #include "objects/common/object_base.h"
+#include "objects/common/object_mapping.h"
 
 #include "objects/panel.h"
 #include "objects/panel_style.h"
@@ -59,10 +60,14 @@ public:
     /**
      * Checks if the given type is defined in the object_list_.
      *
+     * @param[out] converted_type - Buffer receiving the converted object type.
+     *
      * @return true if the type exists and an object with the type can be
      *         be created, false if there is no object of the given type.
     */
-    static bool IsDefined(std::string type);
+    static bool IsDefined(
+        std::string type,
+        ObjectType* converted_type = nullptr);
 
 private:
     // Constructor
@@ -73,25 +78,25 @@ private:
      * This is the main object_list_, containing the types and function
      * pointers to create an instance of an object.
     */
-    const std::map<std::string, std::function<std::shared_ptr<ObjectBase>(
+    const std::map<ObjectType, std::function<std::shared_ptr<ObjectBase>(
         std::string, ObjectBase*)>> object_list_ = {
-            { "Panel",       CreateObjectInstance<Panel>        },
-            { "PanelStyle",  CreateObjectInstance<PanelStyle>   },
-            { "ChildPanel",  CreateObjectInstance<ChildPanel>   },
-            { "Button",      CreateObjectInstance<Button>       },
-            { "ButtonStyle", CreateObjectInstance<ButtonStyle>  },
-            { "Text",        CreateObjectInstance<Text>         },
-            { "Checkbox",    CreateObjectInstance<Checkbox>     },
-            { "Container",   CreateObjectInstance<Container>    },
+            { ObjectType::kPanel,       CreateObjectInstance<Panel>        },
+            { ObjectType::kPanelStyle,  CreateObjectInstance<PanelStyle>   },
+            { ObjectType::kChildPanel,  CreateObjectInstance<ChildPanel>   },
+            { ObjectType::kButton,      CreateObjectInstance<Button>       },
+            { ObjectType::kButtonStyle, CreateObjectInstance<ButtonStyle>  },
+            { ObjectType::kText,        CreateObjectInstance<Text>         },
+            { ObjectType::kCheckbox,    CreateObjectInstance<Checkbox>     },
+            { ObjectType::kContainer,   CreateObjectInstance<Container>    },
 
             // Atribute types
-            { "Bool",        CreateObjectInstance<ObjectBool>   },
-            { "Float",       CreateObjectInstance<ObjectFloat>  },
-            { "Float2",      CreateObjectInstance<ObjectFloat2> },
-            { "Float3",      CreateObjectInstance<ObjectFloat3> },
-            { "Float4",      CreateObjectInstance<ObjectFloat4> },
-            { "Int",         CreateObjectInstance<ObjectInt>    },
-            { "String",      CreateObjectInstance<ObjectString> }
+            { ObjectType::kObjectBool,   CreateObjectInstance<ObjectBool>   },
+            { ObjectType::kObjectFloat,  CreateObjectInstance<ObjectFloat>  },
+            { ObjectType::kObjectFloat2, CreateObjectInstance<ObjectFloat2> },
+            { ObjectType::kObjectFloat3, CreateObjectInstance<ObjectFloat3> },
+            { ObjectType::kObjectFloat4, CreateObjectInstance<ObjectFloat4> },
+            { ObjectType::kObjectInt,    CreateObjectInstance<ObjectInt>    },
+            { ObjectType::kObjectString, CreateObjectInstance<ObjectString> }
     };
 
     // Functions
@@ -102,7 +107,7 @@ private:
         std::string id,
         ObjectBase* parent);
 
-    bool IMPLIsDefined(std::string type);
+    bool IMPLIsDefined(std::string type, ObjectType* converted_type);
 
     template<typename T>
     static std::shared_ptr<T> CreateObjectInstance(

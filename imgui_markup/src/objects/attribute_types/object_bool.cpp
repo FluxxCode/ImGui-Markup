@@ -5,7 +5,7 @@ namespace imgui_markup::internal
 {
 
 ObjectBool::ObjectBool(std::string id, ObjectBase* parent)
-    : ObjectBase("Bool", id, parent)
+    : ObjectBase(ObjectType::kObjectBool, id, parent)
 {
     this->AddAttribute("value", &this->value);
 }

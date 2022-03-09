@@ -7,7 +7,7 @@ namespace imgui_markup::internal
 {
 
 Checkbox::Checkbox(std::string id, ObjectBase* parent)
-    : ObjectBase("Checkbox", id, parent)
+    : ObjectBase(ObjectType::kCheckbox, id, parent)
 {
     this->AddAttribute("text",    &this->text_);
     this->AddAttribute("toggled", &this->is_toggled_);
@@ -38,7 +38,7 @@ bool Checkbox::OnProcessStart(std::string& error_message)
     ObjectBase* parent = this->parent_;
     while (parent)
     {
-        if (parent->GetType() == "Panel")
+        if (parent->GetType() == ObjectType::kPanel)
             return true;
 
         parent = parent->GetParent();

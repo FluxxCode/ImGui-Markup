@@ -4,8 +4,8 @@
 namespace imgui_markup::internal
 {
 
-ObjectBase::ObjectBase(std::string name, std::string id, ObjectBase* parent)
-    : type_(name), access_id_(id), parent_(parent)
+ObjectBase::ObjectBase(ObjectType type, std::string id, ObjectBase* parent)
+    : type_(type), access_id_(id), parent_(parent)
 {
     const void* address = static_cast<const void*>(this);
     std::stringstream ss;
@@ -35,8 +35,10 @@ void ObjectBase::AddAttribute(const std::string name, AttributeBase* attribute)
 {
     if (this->attribute_list_.find(name) != this->attribute_list_.end())
     {
-        internal::utils::Log("WARNING: Object \"" + this->type_ +
-            "\": AttributeBase \"" + name + "\" is already set in attribute list!");
+        internal::utils::Log(
+            "WARNING: Object \"" + ObjectTypeToString(this->type_) +
+            "\": Attribute \"" + name +
+            "\" is already set in attribute list!");
 
         return;
     }
@@ -48,8 +50,9 @@ void ObjectBase::RemoveAttribute(const std::string name)
 {
     if (this->attribute_list_.find(name) == this->attribute_list_.end())
     {
-        internal::utils::Log("WARNING: Object \"" + this->type_ +
-            "\": AttributeBase \"" + name +
+        internal::utils::Log(
+            "WARNING: Object \"" + ObjectTypeToString(this->type_) +
+            "\": Attribute \"" + name +
             "\" does not exists in the attribute list!");
 
         return;

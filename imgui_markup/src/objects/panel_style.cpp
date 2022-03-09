@@ -7,7 +7,7 @@ namespace imgui_markup::internal
 {
 
 PanelStyle::PanelStyle(std::string id, ObjectBase* parent)
-    : ObjectBase("PanelStyle", id, parent)
+    : ObjectBase(ObjectType::kPanelStyle, id, parent)
 {
     this->AddAttribute("background",            &this->background_);
     this->AddAttribute("title_background",      &this->title_background_);
@@ -130,7 +130,7 @@ bool PanelStyle::OnProcessStart(std::string& error_message)
         return false;
     }
 
-    if (this->parent_->GetType() != "Panel")
+    if (this->parent_->GetType() != ObjectType::kPanel)
     {
         error_message = "Object of type \"PanelStyle\" can only be created "
                         "insdie an object of type \"Button\"";

@@ -12,9 +12,9 @@ std::shared_ptr<ObjectBase> ObjectList::CreateObject(
     return ObjectList::Get().IMPLCreateObject(type, id, parent);
 }
 
-bool ObjectList::IsDefined(std::string type)
+bool ObjectList::IsDefined(std::string type, ObjectType* converted_type)
 {
-    return ObjectList::Get().IMPLIsDefined(type);
+    return ObjectList::Get().IMPLIsDefined(type, converted_type);
 }
 
 ObjectList& ObjectList::Get()
@@ -28,16 +28,25 @@ std::shared_ptr<ObjectBase> ObjectList::IMPLCreateObject(
     std::string id,
     ObjectBase* parent)
 {
-    if (this->IsDefined(type))
-        return this->object_list_.at(type)(id, parent);
+    ObjectType converted_type;
+    if (this->IsDefined(type, &converted_type))
+        return this->object_list_.at(converted_type)(id, parent);
 
     return nullptr;
 }
 
-bool ObjectList::IMPLIsDefined(std::string type)
+bool ObjectList::IMPLIsDefined(std::string type, ObjectType* converted_type)
 {
-    if (this->object_list_.find(type) == this->object_list_.end())
+    ObjectType temp;
+
+    if (!StringToObjectType(type, temp))
         return false;
+
+    if (this->object_list_.find(temp) == this->object_list_.end())
+        return false;
+
+    if (converted_type)
+        *converted_type = temp;
 
     return true;
 }

@@ -8,7 +8,7 @@ namespace imgui_markup::internal
 {
 
 Panel::Panel(std::string id, ObjectBase* parent)
-    : ObjectBase("Panel", id, parent)
+    : ObjectBase(ObjectType::kPanel, id, parent)
 {
     this->InitWindowFlagAttributes(this->attribute_list_);
 

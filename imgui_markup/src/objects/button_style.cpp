@@ -5,7 +5,7 @@ namespace imgui_markup::internal
 {
 
 ButtonStyle::ButtonStyle(std::string id, ObjectBase* parent)
-    : ObjectBase("ButtonStyle", id, parent)
+    : ObjectBase(ObjectType::kButtonStyle, id, parent)
 {
     this->AddAttribute("color",           &this->color_);
     this->AddAttribute("color_hovered",   &this->color_hovered_);
@@ -81,7 +81,7 @@ bool ButtonStyle::OnProcessStart(std::string& error_message)
         return false;
     }
 
-    if (this->parent_->GetType() != "Button")
+    if (this->parent_->GetType() != ObjectType::kButton)
     {
         error_message = "Object of type \"ButtonStyle\" can only be created "
                         "insdie an object of type \"Button\"";

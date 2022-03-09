@@ -5,7 +5,7 @@ namespace imgui_markup::internal
 {
 
 Container::Container(std::string id, ObjectBase* parent)
-    : ObjectBase("Container", id, parent)
+    : ObjectBase(ObjectType::kContainer, id, parent)
 { }
 
 void Container::IMPL_Update(Float2 position, Float2 size)

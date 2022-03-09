@@ -7,7 +7,7 @@ namespace imgui_markup::internal
 {
 
 ChildPanel::ChildPanel(std::string id, ObjectBase* parent)
-    : ObjectBase("ChildPanel", id, parent)
+    : ObjectBase(ObjectType::kChildPanel, id, parent)
 {
     this->AddAttribute("size",   &this->size_overwrite_);
     this->AddAttribute("title",  &this->title_);
@@ -44,7 +44,7 @@ bool ChildPanel::OnProcessStart(std::string& error_message)
     ObjectBase* parent = this->parent_;
     while (parent)
     {
-        if (parent->GetType() == "Panel")
+        if (parent->GetType() == ObjectType::kPanel)
             return true;
 
         parent = parent->GetParent();
