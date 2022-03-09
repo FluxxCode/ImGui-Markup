@@ -18,7 +18,8 @@ enum class AttributeType
     kFloat4,
     kInt,
     kString,
-    kReference
+    kReference,
+    kEnum
 };
 
 class Bool;
