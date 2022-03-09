@@ -1,5 +1,5 @@
 #ifndef IMGUI_MARKUP_SRC_OBJECTS_CHILD_PANEL_H_
-#define IMGUI_MARKUP_SRC_OBJECTS_CHILD_PANEL_H
+#define IMGUI_MARKUP_SRC_OBJECTS_CHILD_PANEL_H_
 
 #include "objects/common/object_base.h"
 
@@ -34,4 +34,4 @@ private:
 
 }  // namespace imgui_markup::internal
 
-#endif  // IMGUI_MARKUP_SRC_OBJECTS_CHILD_PANEL_H
+#endif  // IMGUI_MARKUP_SRC_OBJECTS_CHILD_PANEL_H_
