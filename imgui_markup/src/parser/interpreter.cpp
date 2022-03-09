@@ -155,6 +155,8 @@ void Interpreter::ProcessAttributeAssignNode(
         {
             this->ThrowReferenceError(attribute, value.get(), node);
         }
+        else if (attribute->type == AttributeType::kEnum)
+            this->ThrowEnumError(attribute, value.get(), node);
 
         throw AttributeConversionError(this->AttributeTypeToString(*attribute),
             this->AttributeTypeToString(*value), value->ToString(), node);
@@ -264,6 +266,22 @@ std::shared_ptr<AttributeBase> Interpreter::ProcessVectorNode(
     throw AttributeConversionError("Vector", value, node_in);
 }
 
+Reference Interpreter::ProcessAttributeReferenceNode(
+    const ParserNode& node_in, ObjectBase& parent_object) const
+{
+    if (node_in.type != ParserNodeType::kAttributeReferenceNode)
+            throw InternalWrongNodeType(node_in);
+
+    ParserAttributeReferenceNode& node = (ParserAttributeReferenceNode&)node_in;
+
+    std::string attribute = node.attribute_name;
+
+    AttributeBase* ptr =
+        &this->GetAttribtueFromObjectReference(attribute, node);
+
+    return Reference(ptr);
+}
+
 std::shared_ptr<AttributeBase> Interpreter::ProcessValueNode(
     const ParserNode& node, ObjectBase& parent_object) const
 {
@@ -285,22 +303,6 @@ std::shared_ptr<AttributeBase> Interpreter::ProcessValueNode(
     default:
         throw UnknownAttributeValueType(node);
     }
-}
-
-Reference Interpreter::ProcessAttributeReferenceNode(
-    const ParserNode& node_in, ObjectBase& parent_object) const
-{
-    if (node_in.type != ParserNodeType::kAttributeReferenceNode)
-            throw InternalWrongNodeType(node_in);
-
-    ParserAttributeReferenceNode& node = (ParserAttributeReferenceNode&)node_in;
-
-    std::string attribute = node.attribute_name;
-
-    AttributeBase* ptr =
-        &this->GetAttribtueFromObjectReference(attribute, node);
-
-    return Reference(ptr);
 }
 
 AttributeBase& Interpreter::GetAttribtueFromObjectReference(
@@ -406,7 +408,29 @@ void Interpreter::ThrowReferenceError(
         referenced->reference->ToString(), node);
 }
 
-std::string Interpreter::AttributeTypeToString(const AttributeBase& attribute) const
+void Interpreter::ThrowEnumError(
+    AttributeBase* attribute,
+    AttributeBase* value,
+    ParserNode& node) const
+{
+    if (attribute->type != AttributeType::kEnum)
+        throw InternalWrongNodeType(node);
+
+    if (value->type != AttributeType::kString)
+    {
+        throw AttributeConversionError(
+            "Attribute of type \"Enum\" expects a \"String\" as value", node);
+    }
+
+    const std::string name = dynamic_cast<EnumProto*>(attribute)->name_;
+
+    throw AttributeConversionError(
+        "Enum of type \"" + name + "\" has no value of \"" +
+        value->ToString() + "\"", node);
+}
+
+std::string Interpreter::AttributeTypeToString(
+    const AttributeBase& attribute) const
 {
     return this->AttributeTypeToString(attribute.type);
 }

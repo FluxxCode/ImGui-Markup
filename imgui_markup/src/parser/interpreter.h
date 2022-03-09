@@ -13,6 +13,7 @@
 #include "attribute_types/int.h"
 #include "attribute_types/string.h"
 #include "attribute_types/reference.h"
+#include "attribute_types/enum.h"
 
 #include <string>
 #include <vector>
@@ -348,23 +349,6 @@ private:
         const ParserNode& node, ObjectBase& parent_object) const;
 
     /**
-     * Helper function that takes a node of one of the following types:
-     * - StringNode
-     * - NumberNode
-     * - VectorNode
-     * - AttributeAccessNode
-     *
-     * The function will call the corresponding process function of the node
-     * type.
-     *
-     * @throws The function can throw interpreter and std exceptions.
-     *         The parser will only catch the interpreter exceptions.
-     *         Every other exceptions is not catched by the parser!
-     */
-    std::shared_ptr<AttributeBase> ProcessValueNode(
-        const ParserNode& node, ObjectBase& parent_object) const;
-
-    /**
      * Resolves an attribute access node to its value as a string.
      * The attribute name structure is:
      * root_id.child_id.child_id.object_id.attribute_name
@@ -407,6 +391,23 @@ private:
         const ParserNode& node, ObjectBase& parent_object) const;
 
     /**
+     * Helper function that takes a node of one of the following types:
+     * - StringNode
+     * - NumberNode
+     * - VectorNode
+     * - AttributeAccessNode
+     *
+     * The function will call the corresponding process function of the node
+     * type.
+     *
+     * @throws The function can throw interpreter and std exceptions.
+     *         The parser will only catch the interpreter exceptions.
+     *         Every other exceptions is not catched by the parser!
+     */
+    std::shared_ptr<AttributeBase> ProcessValueNode(
+        const ParserNode& node, ObjectBase& parent_object) const;
+
+    /**
      * Gets the attribute value of an object in the object_reference buffer.
      *
      * @param attribute - Full name of the attribute, containing full ID of
@@ -438,8 +439,20 @@ private:
     std::string GetObjectNameFromAttributeReferenceString(
         const std::string attribute, const ParserNode& node) const;
 
+    /**
+     * Helper function to throw a reference error.
+     * Should only be called when either attribute or value is an enum.
+     */
     void ThrowReferenceError(
         AttributeBase* attribute,
+        AttributeBase* value,
+        ParserNode& node) const;
+
+    /**
+     * Helper function to throw an error when the attribute is an enum.
+     */
+    void ThrowEnumError(
+        AttributeBase* awttribute,
         AttributeBase* value,
         ParserNode& node) const;
 
