@@ -13,24 +13,22 @@ Panel::Panel(std::string id, ObjectBase* parent)
     this->InitWindowFlagAttributes(this->attribute_list_);
 
     this->AddAttribute("title",    &this->title_);
-    this->AddAttribute("position", &this->global_position_);
-    this->AddAttribute("size",     &this->size_);
+    this->AddAttribute("position", &this->position_overwrite_);
+    this->AddAttribute("size",     &this->size_overwrite_);
 }
 
-void Panel::IMPL_Update()
+void Panel::IMPL_Update(Float2 position, Float2 size)
 {
-    if (this->init_panel_attributes_)
-        this->InitPanelAttributes();
-
     if (this->style_)
         this->style_->PushStyle();
+
+    if (this->init_attributes_)
+        this->InitAttributes(position, size);
 
     if (!ImGui::Begin(this->title_, 0, this->GenerateWindowFlags()))
     {
         if (this->style_)
             this->style_->PopStyle();
-
-        this->size_ = Float2();
 
         ImGui::End();
         return;
@@ -41,29 +39,33 @@ void Panel::IMPL_Update()
 
     this->is_hovered_ = ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows);
 
-    this->size_ = ImGui::GetWindowSize();
-    this->global_position_ = ImGui::GetWindowPos();
+    if (size == Float2(0, 0))
+        this->size_ = ImGui::GetWindowSize();
 
     for (auto& child : this->child_objects_)
     {
         if (!child)
             continue;
 
-        child->SetPosition(ImGui::GetCursorPos(), this->global_position_);
-        child->Update();
+        child->Update(ImGui::GetCursorPos());
     }
 
     ImGui::End();
 }
 
-void Panel::InitPanelAttributes()
+void Panel::InitAttributes(Float2 position, Float2 size)
 {
-    if (this->global_position_.value_changed_)
-        ImGui::SetNextWindowPos(this->global_position_);
-    if (this->size_.value_changed_)
-        ImGui::SetNextWindowSize(this->size_);
+    if (this->position_overwrite_.value_changed_)
+        ImGui::SetNextWindowPos(this->position_overwrite_);
+    else
+        ImGui::SetNextWindowPos(position);
 
-    this->init_panel_attributes_ = false;
+    if (this->size_overwrite_.value_changed_)
+        ImGui::SetNextWindowSize(this->size_overwrite_);
+    else
+        ImGui::SetNextWindowSize(size);
+
+    this->init_attributes_ = false;
 }
 
 bool Panel::OnProcessStart(std::string& error_message)

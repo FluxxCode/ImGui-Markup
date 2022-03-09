@@ -14,7 +14,7 @@ public:
 
 private:
     // See object.h for documentation
-    void IMPL_Update();
+    void IMPL_Update(Float2 position, Float2 size);
     bool OnProcessStart(std::string& error_message);
 };
 

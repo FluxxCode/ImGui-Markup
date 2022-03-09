@@ -5,6 +5,7 @@
 
 #include "attribute_types/bool.h"
 #include "attribute_types/string.h"
+#include "attribute_types/float2.h"
 
 namespace imgui_markup::internal
 {
@@ -16,6 +17,8 @@ public:
     ChildPanel(std::string id, ObjectBase* parent);
     ChildPanel(const ChildPanel&) = delete;
 
+    Float2 size_overwrite_;
+
     String title_;
     Bool border_;
 
@@ -23,7 +26,7 @@ private:
     bool is_hovered_ = false;
 
     // See object.h for documentation
-    void IMPL_Update();
+    void IMPL_Update(Float2 position, Float2 size);
     bool OnProcessStart(std::string& error_message);
     bool OnProcessEnd(std::string& error_message);
 

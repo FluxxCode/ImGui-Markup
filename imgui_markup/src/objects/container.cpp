@@ -8,18 +8,14 @@ Container::Container(std::string id, ObjectBase* parent)
     : ObjectBase("Container", id, parent)
 { }
 
-void Container::IMPL_Update()
+void Container::IMPL_Update(Float2 position, Float2 size)
 {
     for (auto& child : this->child_objects_)
     {
         if (!child)
             continue;
 
-        child->SetPosition(ImGui::GetCursorPos(), Float2(
-            this->global_position_.x - this->draw_position_.x,
-            this->global_position_.y - this->draw_position_.y));
-
-        child->Update();
+        child->Update(ImGui::GetCursorPos());
     }
 }
 

@@ -5,6 +5,7 @@
 #include "common/file_stack.h"
 #include "common/file_context.h"
 #include "objects/common/object_api.h"
+#include "attribute_types/float2.h"
 
 #include <assert.h>
 
@@ -36,7 +37,7 @@ void Update(const size_t id, bool* result)
         return;
 
     for (auto& child : context->object_tree_)
-        child->Update();
+        child->Update(internal::Float2(0, 0));
 }
 
 bool IsPressed(

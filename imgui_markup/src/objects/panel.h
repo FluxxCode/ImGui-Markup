@@ -20,6 +20,8 @@ public:
     Panel(std::string id, ObjectBase* parent);
     Panel(const Panel&) = delete;
 
+    Float2 position_overwrite_;
+    Float2 size_overwrite_;
     String title_;
 
     // Flags
@@ -30,14 +32,13 @@ private:
     friend class PanelStyle;
     PanelStyle* style_ = nullptr;
 
-    bool init_panel_attributes_ = true;
-
     bool is_hovered_ = false;
 
-    void InitPanelAttributes();
+    bool init_attributes_ = true;
+    void InitAttributes(Float2 position, Float2 size);
 
     // See object.h for documentation
-    void IMPL_Update();
+    void IMPL_Update(Float2 position, Float2 size);
     bool OnProcessStart(std::string& error_message);
     bool OnProcessEnd(std::string& error_message);
 

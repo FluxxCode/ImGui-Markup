@@ -34,7 +34,7 @@ public:
     /**
      * Main update function that should be called every frame.
      */
-    void Update();
+    void Update(Float2 position, Float2 size = Float2(0, 0));
 
     /**
      * Get a pointer to an attribute from this object by its name.
@@ -46,31 +46,13 @@ public:
     */
     AttributeBase* GetAttribute(const std::string name) const;
 
-    /**
-     * Sets the position attributes of the object.
-     * NOTE: This function should only be used by other objects!
-     *
-     * @param draw_position - Main position that ImGui uses.
-     * @param global_offset - Offset that is used to calculate the global
-     *                        position.
-     */
-    void SetPosition(Float2 draw_position, Float2 global_offset);
+    inline void SetParent(ObjectBase* parent) { this->parent_ = parent; }
 
-    inline void SetParent(ObjectBase* parent)
-        { this->parent_ = parent; }
-
-    inline std::string GetID() const
-        { return this->access_id_; };
-    inline std::string GetType() const
-        { return this->type_; }
-    inline ObjectBase* GetParent() const
-        { return this->parent_; }
-    inline Float2 GetSize() const
-        { return this->size_; }
-    inline Float2 GetDrawPosition() const
-        { return this->draw_position_; }
-    inline Float2 GetRelativePosition() const
-        { return this->relative_position_; }
+    inline std::string GetID()     const { return this->access_id_; }
+    inline std::string GetType()   const { return this->type_;      }
+    inline ObjectBase* GetParent() const { return this->parent_;    }
+    inline Float2 GetSize()        const { return this->size_;      }
+    inline Float2 GetPosition()    const { return this->position_;  }
 
 protected:
     std::string type_;
@@ -95,21 +77,9 @@ protected:
     std::map<std::string, AttributeBase*> attribute_list_ = { };
 
     /**
-     * Main position that is relative to the parent object.
+     * Main ImGui draw position.
      */
-    Float2 relative_position_;
-
-    /**
-     * Position relative to the main application window.
-     */
-    Float2 global_position_;
-
-    /**
-     * The actual ImGui position where the object is drawn.
-     * This does not equal to the position and global postion.
-     * It depents on the panels and child panels where the object is drawn.
-     */
-    Float2 draw_position_;
+    Float2 position_;
 
     /**
      * Size of the object which is normally set by the object itself.
@@ -117,7 +87,7 @@ protected:
     Float2 size_;
 
     // Functions
-    virtual void IMPL_Update() { };
+    virtual void IMPL_Update(Float2 position, Float2 size) { };
 
     /**
      * Add an attribute to the attribute list.

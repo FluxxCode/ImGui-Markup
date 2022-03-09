@@ -13,10 +13,13 @@ ObjectBase::ObjectBase(std::string name, std::string id, ObjectBase* parent)
     this->draw_id_ = ss.str();
 }
 
-void ObjectBase::Update()
+void ObjectBase::Update(Float2 position, Float2 size)
 {
+    this->position_ = position;
+    this->size_ = size;
+
     ImGui::PushID(this);
-    this->IMPL_Update();
+    this->IMPL_Update(position, size);
     ImGui::PopID();
 }
 
@@ -26,21 +29,6 @@ AttributeBase* ObjectBase::GetAttribute(const std::string name) const
         return nullptr;
 
     return this->attribute_list_.at(name);
-}
-
-void ObjectBase::SetPosition(Float2 draw_position, Float2 global_offset)
-{
-    this->draw_position_ = draw_position;
-    this->global_position_ = Float2(draw_position.x + global_offset.x,
-                                    draw_position.y + global_offset.y);
-
-    if (!this->parent_)
-        return;
-
-    const Float2 parent_position = this->parent_->GetDrawPosition();
-
-    this->relative_position_ = Float2(draw_position.x - parent_position.x,
-                                      draw_position.y - parent_position.y);
 }
 
 void ObjectBase::AddAttribute(const std::string name, AttributeBase* attribute)

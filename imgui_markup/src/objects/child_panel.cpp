@@ -9,19 +9,19 @@ namespace imgui_markup::internal
 ChildPanel::ChildPanel(std::string id, ObjectBase* parent)
     : ObjectBase("ChildPanel", id, parent)
 {
-    this->AddAttribute("size",   &this->size_);
+    this->AddAttribute("size",   &this->size_overwrite_);
     this->AddAttribute("title",  &this->title_);
     this->AddAttribute("border", &this->border_);
 }
 
-void ChildPanel::IMPL_Update()
+void ChildPanel::IMPL_Update(Float2 position, Float2 size)
 {
-    if (this->size_.value_changed_)
-        ImGui::SetNextWindowSize(this->size_);
+    ImGui::SetCursorPos(position);
 
-    ImGui::SetCursorPos(this->draw_position_);
-
-    ImGui::BeginChild(this->title_, this->size_, this->border_.value);
+    ImGui::BeginChild(
+        this->title_,
+        this->size_overwrite_.value_changed_ ? this->size_overwrite_ : size,
+        this->border_.value);
 
     this->is_hovered_ = ImGui::IsWindowHovered();
 
@@ -30,12 +30,11 @@ void ChildPanel::IMPL_Update()
         if (!child)
             continue;
 
-        child->SetPosition(ImGui::GetCursorPos(), this->global_position_);
-
-        child->Update();
+        child->Update(ImGui::GetCursorPos());
     }
 
-    this->size_  = ImGui::GetWindowSize();
+    if (size == Float2(0, 0))
+        this->size_ = ImGui::GetWindowSize();
 
     ImGui::EndChild();
 }

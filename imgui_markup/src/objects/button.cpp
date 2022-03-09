@@ -13,18 +13,19 @@ Button::Button(std::string id, ObjectBase* parent)
     this->AddAttribute("text", &this->text_);
 }
 
-void Button::IMPL_Update()
+void Button::IMPL_Update(Float2 position, Float2 size)
 {
     if (this->style_)
         this->style_->PushStyle();
 
-    ImGui::SetCursorPos(this->draw_position_);
+    ImGui::SetCursorPos(position);
 
     ImGui::Button(this->text_, this->size_);
 
     this->is_hovered_ = ImGui::IsItemHovered();
 
-    this->size_ = ImGui::GetItemRectSize();
+    if (size == Float2(0, 0))
+        this->size_ = ImGui::GetItemRectSize();
 
     if (this->style_)
         this->style_->PopStyle();
