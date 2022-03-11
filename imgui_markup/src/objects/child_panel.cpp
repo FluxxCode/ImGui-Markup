@@ -16,6 +16,9 @@ ChildPanel::ChildPanel(std::string id, ObjectBase* parent)
 
 void ChildPanel::IMPL_Update(Float2 position, Float2 size)
 {
+    this->position_ = position;
+    this->size_ = size;
+
     ImGui::SetCursorPos(position);
 
     ImGui::BeginChild(

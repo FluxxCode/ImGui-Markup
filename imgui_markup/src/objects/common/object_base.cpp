@@ -15,9 +15,6 @@ ObjectBase::ObjectBase(ObjectType type, std::string id, ObjectBase* parent)
 
 void ObjectBase::Update(Float2 position, Float2 size)
 {
-    this->position_ = position;
-    this->size_ = size;
-
     ImGui::PushID(this);
     this->IMPL_Update(position, size);
     ImGui::PopID();

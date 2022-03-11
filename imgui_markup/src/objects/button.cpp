@@ -15,6 +15,9 @@ Button::Button(std::string id, ObjectBase* parent)
 
 void Button::IMPL_Update(Float2 position, Float2 size)
 {
+    this->size_ = size;
+    this->position_ = position;
+
     if (this->style_)
         this->style_->PushStyle();
 

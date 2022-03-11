@@ -23,6 +23,9 @@ Checkbox& Checkbox::operator=(const Checkbox& other)
 
 void Checkbox::IMPL_Update(Float2 position, Float2 size)
 {
+    this->position_ = position;
+    this->size_ = size;
+
     ImGui::SetCursorPos(position);
 
     ImGui::Checkbox(this->text_, &this->is_toggled_.value);

@@ -19,6 +19,9 @@ Panel::Panel(std::string id, ObjectBase* parent)
 
 void Panel::IMPL_Update(Float2 position, Float2 size)
 {
+    this->position_ = position;
+    this->size_ = size;
+
     if (this->style_)
         this->style_->PushStyle();
 

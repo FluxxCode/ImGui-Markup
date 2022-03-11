@@ -14,6 +14,9 @@ Text::Text(std::string id, ObjectBase* parent)
 
 void Text::IMPL_Update(Float2 position, Float2 size)
 {
+    this->position_ = position;
+    this->size_ = size;
+
     ImGui::SetCursorPos(position);
 
     if (this->color_.value_changed_)
