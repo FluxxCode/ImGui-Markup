@@ -8,12 +8,12 @@ ParserNode::ParserNode(ParserNodeType type, ParserPosition position)
     : type(type), position(position)
 { }
 
-ParserObjectNode::ParserObjectNode(
-    std::string object_type,
-    std::string object_id,
+ParserItemNode::ParserItemNode(
+    std::string item_type,
+    std::string item_id,
     ParserPosition position)
-    : ParserNode(ParserNodeType::kObjectNode, position),
-      object_type(object_type), object_id(object_id)
+    : ParserNode(ParserNodeType::kItemNode, position),
+      item_type(item_type), item_id(item_id)
 { }
 
 ParserStringNode::ParserStringNode(

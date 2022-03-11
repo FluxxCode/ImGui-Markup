@@ -1,7 +1,7 @@
 #include "impch.h"
 #include "parser/interpreter.h"
 
-#include "objects/common/object_list.h"
+#include "items/common/item_list.h"
 
 namespace imgui_markup::internal::parser
 {
@@ -15,43 +15,43 @@ void Interpreter::ConvertNodeTree(
 
     this->Reset();
 
-    std::vector<std::shared_ptr<ObjectBase>> object_tree;
+    std::vector<std::shared_ptr<ItemBase>> item_tree;
 
     for (auto& child : root_node->child_nodes)
     {
-        if (child->type != ParserNodeType::kObjectNode)
-            throw ExpectedObjectDeclaration(*child.get());
+        if (child->type != ParserNodeType::kItemNode)
+            throw ExpectedItemDeclaration(*child.get());
 
-        ObjectBase temp(ObjectType::kUndefined, "<interpreter_temp>", nullptr);
+        ItemBase temp(ItemType::kUndefined, "<interpreter_temp>", nullptr);
 
-        this->ProcessObjectNode(*child.get(), temp, true);
+        this->ProcessItemNode(*child.get(), temp, true);
 
-        if (temp.child_objects_.size() == 0)
+        if (temp.child_items_.size() == 0)
             continue;
 
-        std::shared_ptr<ObjectBase> created_object = temp.child_objects_[0];
-        created_object->parent_ = nullptr;
-        object_tree.push_back(created_object);
+        std::shared_ptr<ItemBase> created_item = temp.child_items_[0];
+        created_item->parent_ = nullptr;
+        item_tree.push_back(created_item);
     }
 
-    dest.object_tree_= object_tree;
-    dest.object_references_ = this->object_references_;
+    dest.item_tree_= item_tree;
+    dest.item_references_ = this->item_references_;
 }
 
 void Interpreter::Reset()
 {
-    this->object_references_.clear();
+    this->item_references_.clear();
 }
 
-void Interpreter::InitObjectReference(
-    ObjectBase& object, const ParserNode& node)
+void Interpreter::InitItemReference(
+    ItemBase& item, const ParserNode& node)
 {
-    if (object.GetID().empty())
+    if (item.GetID().empty())
         return;
 
-    std::string full_id = object.GetID();
+    std::string full_id = item.GetID();
 
-    ObjectBase* parent = &object;
+    ItemBase* parent = &item;
     while (true)
     {
         parent = parent->GetParent();
@@ -66,28 +66,28 @@ void Interpreter::InitObjectReference(
         full_id.insert(0, parent->GetID() + '.');
     }
 
-    if (this->object_references_.find(full_id) !=
-        this->object_references_.end())
+    if (this->item_references_.find(full_id) !=
+        this->item_references_.end())
     {
-        throw ObjectIDAlreadyDefined(full_id, node);
+        throw ItemIDAlreadyDefined(full_id, node);
     }
 
-    this->object_references_.insert(
-        std::pair<std::string, ObjectBase&>(full_id, object));
+    this->item_references_.insert(
+        std::pair<std::string, ItemBase&>(full_id, item));
 }
 
 void Interpreter::ProcessNodes(
-    const ParserNode& node, ObjectBase& parent_object)
+    const ParserNode& node, ItemBase& parent_item)
 {
     for (const auto& child : node.child_nodes)
     {
         switch (child->type)
         {
-        case ParserNodeType::kObjectNode:
-            this->ProcessObjectNode(*child.get(), parent_object);
+        case ParserNodeType::kItemNode:
+            this->ProcessItemNode(*child.get(), parent_item);
             break;
         case ParserNodeType::kAttributeAssignNode:
-            this->ProcessAttributeAssignNode(*child.get(), parent_object);
+            this->ProcessAttributeAssignNode(*child.get(), parent_item);
             break;
         default:
             throw WrongBaseNode(*child.get());
@@ -95,37 +95,37 @@ void Interpreter::ProcessNodes(
     }
 }
 
-void Interpreter::ProcessObjectNode(
-    const ParserNode& node_in, ObjectBase& parent_object, bool no_parent)
+void Interpreter::ProcessItemNode(
+    const ParserNode& node_in, ItemBase& parent_item, bool no_parent)
 {
-    if (node_in.type != ParserNodeType::kObjectNode)
+    if (node_in.type != ParserNodeType::kItemNode)
         throw InternalWrongNodeType(node_in);
 
-    ParserObjectNode& node = (ParserObjectNode&)node_in;
+    ParserItemNode& node = (ParserItemNode&)node_in;
 
-    std::shared_ptr<ObjectBase> object = ObjectList::CreateObject(
-        node.object_type, node.object_id, no_parent ? nullptr : &parent_object);
+    std::shared_ptr<ItemBase> item = ItemList::CreateItem(
+        node.item_type, node.item_id, no_parent ? nullptr : &parent_item);
 
-    if (!object)
-        throw UndefinedObjectType(node);
+    if (!item)
+        throw UndefinedItemType(node);
 
     std::string error_message;
 
-    parent_object.AddChild(object);
+    parent_item.AddChild(item);
 
-    this->InitObjectReference(*object.get(), node);
+    this->InitItemReference(*item.get(), node);
 
-    if (!object->OnProcessStart(error_message))
-        throw ObjectIsNotValid(error_message, node);
+    if (!item->OnProcessStart(error_message))
+        throw ItemIsNotValid(error_message, node);
 
-    this->ProcessNodes(node_in, *object.get());
+    this->ProcessNodes(node_in, *item.get());
 
-    if (!object->OnProcessEnd(error_message))
-        throw ObjectIsNotValid(error_message, node);
+    if (!item->OnProcessEnd(error_message))
+        throw ItemIsNotValid(error_message, node);
 }
 
 void Interpreter::ProcessAttributeAssignNode(
-    const ParserNode& node_in, ObjectBase& parent_object)
+    const ParserNode& node_in, ItemBase& parent_item)
 {
     if (node_in.type != ParserNodeType::kAttributeAssignNode)
         throw InternalWrongNodeType(node_in);
@@ -136,16 +136,16 @@ void Interpreter::ProcessAttributeAssignNode(
         throw MissingAttributeValue(node);
 
     std::shared_ptr<AttributeBase> value =
-        this->ProcessValueNode(*node.value_node.get(), parent_object);
+        this->ProcessValueNode(*node.value_node.get(), parent_item);
 
     if (!value)
         throw AttributeConversionError("Undefined", "Undefined", node);
 
-    AttributeBase* attribute = parent_object.GetAttribute(node.attribute_name);
+    AttributeBase* attribute = parent_item.GetAttribute(node.attribute_name);
     if (!attribute)
     {
         throw AttributeDoesNotExists(
-            ObjectTypeToString(parent_object.GetType()),
+            ItemTypeToString(parent_item.GetType()),
             node.attribute_name, node);
     }
 
@@ -221,7 +221,7 @@ Bool Interpreter::ProcessBoolNode(
 }
 
 std::shared_ptr<AttributeBase> Interpreter::ProcessVectorNode(
-    const ParserNode& node_in, ObjectBase& parent_object) const
+    const ParserNode& node_in, ItemBase& parent_item) const
 {
     if (node_in.type != ParserNodeType::kVectorNode)
             throw InternalWrongNodeType(node_in);
@@ -237,7 +237,7 @@ std::shared_ptr<AttributeBase> Interpreter::ProcessVectorNode(
             value += ',';
 
         value +=
-            this->ProcessValueNode(*child.get(), parent_object)->ToString();
+            this->ProcessValueNode(*child.get(), parent_item)->ToString();
 
         value_count++;
     }
@@ -268,7 +268,7 @@ std::shared_ptr<AttributeBase> Interpreter::ProcessVectorNode(
 }
 
 Reference Interpreter::ProcessAttributeReferenceNode(
-    const ParserNode& node_in, ObjectBase& parent_object) const
+    const ParserNode& node_in, ItemBase& parent_item) const
 {
     if (node_in.type != ParserNodeType::kAttributeReferenceNode)
             throw InternalWrongNodeType(node_in);
@@ -278,13 +278,13 @@ Reference Interpreter::ProcessAttributeReferenceNode(
     std::string attribute = node.attribute_name;
 
     AttributeBase* ptr =
-        &this->GetAttribtueFromObjectReference(attribute, node);
+        &this->GetAttribtueFromItemReference(attribute, node);
 
     return Reference(ptr);
 }
 
 std::shared_ptr<AttributeBase> Interpreter::ProcessValueNode(
-    const ParserNode& node, ObjectBase& parent_object) const
+    const ParserNode& node, ItemBase& parent_item) const
 {
     switch (node.type)
     {
@@ -297,80 +297,80 @@ std::shared_ptr<AttributeBase> Interpreter::ProcessValueNode(
     case ParserNodeType::kBoolNode:
         return std::make_shared<Bool>(this->ProcessBoolNode(node));
     case ParserNodeType::kVectorNode:
-        return this->ProcessVectorNode(node, parent_object);
+        return this->ProcessVectorNode(node, parent_item);
     case ParserNodeType::kAttributeReferenceNode:
         return std::make_shared<Reference>(
-            this->ProcessAttributeReferenceNode(node, parent_object));
+            this->ProcessAttributeReferenceNode(node, parent_item));
     default:
         throw UnknownAttributeValueType(node);
     }
 }
 
-AttributeBase& Interpreter::GetAttribtueFromObjectReference(
+AttributeBase& Interpreter::GetAttribtueFromItemReference(
     std::string attribute, const ParserNode& node) const
 {
-    std::string object_id =
-        this->GetObjectNameFromAttributeReferenceString(attribute, node);
+    std::string item_id =
+        this->GetItemNameFromAttributeReferenceString(attribute, node);
 
-    if (object_id.size() >= attribute.size())
+    if (item_id.size() >= attribute.size())
         throw NoAttributeSpecified(node);
 
-    attribute = attribute.substr(object_id.size() + 1);
+    attribute = attribute.substr(item_id.size() + 1);
 
-    if (this->object_references_.find(object_id) ==
-        this->object_references_.end())
+    if (this->item_references_.find(item_id) ==
+        this->item_references_.end())
     {
-        throw ObjectIsNotDefined(object_id, node);
+        throw ItemIsNotDefined(item_id, node);
     }
 
-    ObjectBase& object = this->object_references_.at(object_id);
+    ItemBase& item = this->item_references_.at(item_id);
 
-    const std::string type = ObjectTypeToString(object.GetType());
+    const std::string type = ItemTypeToString(item.GetType());
 
-    AttributeBase* att = object.GetAttribute(attribute);
+    AttributeBase* att = item.GetAttribute(attribute);
     if (!att)
         throw AttributeDoesNotExists(type, attribute, node);
 
     return *att;
 }
 
-std::string Interpreter::GetObjectNameFromAttributeReferenceString(
+std::string Interpreter::GetItemNameFromAttributeReferenceString(
     const std::string attribute, const ParserNode& node) const
 {
     if (attribute.size() <= 3)
-            throw InvalidObjectID(attribute, node);
+            throw InvalidItemID(attribute, node);
 
     const std::vector<std::string> segments =
         utils::SplitString(attribute, '.');
 
     if (segments.empty())
-        throw InvalidObjectID(attribute, node);
+        throw InvalidItemID(attribute, node);
 
-    std::string object_id;
+    std::string item_id;
     for (const auto& segment : segments)
     {
-        std::string id = object_id;
+        std::string id = item_id;
         if (!id.empty())
             id += '.';
 
         id += segment;
-        if (this->object_references_.find(id) == this->object_references_.end())
+        if (this->item_references_.find(id) == this->item_references_.end())
         {
-            if (object_id.empty())
-                object_id = id;
+            if (item_id.empty())
+                item_id = id;
             break;
         }
 
-        object_id = id;
+        item_id = id;
     }
 
-    if (this->object_references_.find(object_id) ==
-        this->object_references_.end())
+    if (this->item_references_.find(item_id) ==
+        this->item_references_.end())
     {
-        throw ObjectIsNotDefined(object_id, node);
+        throw ItemIsNotDefined(item_id, node);
     }
 
-    return object_id;
+    return item_id;
 }
 
 void Interpreter::ThrowReferenceError(

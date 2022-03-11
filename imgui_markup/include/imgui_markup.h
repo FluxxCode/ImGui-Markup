@@ -41,12 +41,12 @@ Result GetLastResult(const size_t context, bool* result = nullptr);
 void Update(const size_t id, bool* result = nullptr);
 
 bool IsPressed(
-    size_t context, std::string object_id,
+    size_t context, std::string item_id,
     MouseButton button = MouseButton::kLeft, bool* result = nullptr);
 
-bool IsHovered(size_t context, std::string object_id, bool* resutl = nullptr);
+bool IsHovered(size_t context, std::string item_id, bool* resutl = nullptr);
 
-bool IsToggled(size_t context, std::string object_id, bool* resutl = nullptr);
+bool IsToggled(size_t context, std::string item_id, bool* resutl = nullptr);
 
 }  // namespace imgui_markup::internal
 

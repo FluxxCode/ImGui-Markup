@@ -26,8 +26,8 @@ Reference::~Reference()
     if (!this->reference)
         return;
 
-    // Ensure that the reference to this object is deleted from
-    // the object to be referenced.
+    // Ensure that the reference to this item is deleted from
+    // the item to be referenced.
     this->reference->RemoveReference(this);
 }
 

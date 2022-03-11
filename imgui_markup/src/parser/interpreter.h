@@ -34,27 +34,27 @@ struct InterpreterException
     const ParserResultType type;
 };
 
-struct ExpectedObjectDeclaration : public InterpreterException
+struct ExpectedItemDeclaration : public InterpreterException
 {
-    ExpectedObjectDeclaration(ParserNode node)
-        : InterpreterException("Expected object declaration", node,
-                               ParserResultType::kExpectedObjectDeclaration)
+    ExpectedItemDeclaration(ParserNode node)
+        : InterpreterException("Expected item declaration", node,
+                               ParserResultType::kExpectedItemDeclaration)
     { }
 };
 
 struct WrongBaseNode : public InterpreterException
 {
     WrongBaseNode(ParserNode node)
-        : InterpreterException("Expected object or attribute definition", node,
+        : InterpreterException("Expected item or attribute definition", node,
                               ParserResultType::kWrongBaseNode)
     { }
 };
 
-struct UndefinedObjectType : public InterpreterException
+struct UndefinedItemType : public InterpreterException
 {
-    UndefinedObjectType(ParserNode node)
-        : InterpreterException("Undefined object type", node,
-                              ParserResultType::kUndefinedObjectType)
+    UndefinedItemType(ParserNode node)
+        : InterpreterException("Undefined item type", node,
+                              ParserResultType::kUndefinedItemType)
     { }
 };
 
@@ -101,65 +101,65 @@ struct AttributeConversionError : public InterpreterException
 
 struct AttributeDoesNotExists : public InterpreterException
 {
-    AttributeDoesNotExists(std::string object_type,
+    AttributeDoesNotExists(std::string item_type,
                            std::string attribute_name, ParserNode node)
-        : InterpreterException("Object of type \"" + object_type +
+        : InterpreterException("Item of type \"" + item_type +
                                "\" has no attribute called \"" +
                                attribute_name + "\"",
                               node, ParserResultType::kAttributeDoesNotExists)
     { }
 };
 
-struct ObjectIDAlreadyDefined : public InterpreterException
+struct ItemIDAlreadyDefined : public InterpreterException
 {
-    ObjectIDAlreadyDefined(std::string id, ParserNode node)
-        : InterpreterException("Object with ID \"" + id +
+    ItemIDAlreadyDefined(std::string id, ParserNode node)
+        : InterpreterException("Item with ID \"" + id +
                                "\" is already defined", node,
-                              ParserResultType::kObjectIDAlreadyDefined)
+                              ParserResultType::kItemIDAlreadyDefined)
     { }
 };
 
-struct ObjectIDGlobalIsReserved : public InterpreterException
+struct ItemIDGlobalIsReserved : public InterpreterException
 {
-    ObjectIDGlobalIsReserved(ParserNode node)
-        : InterpreterException("Object ID \"global\" is reserved and cant "
+    ItemIDGlobalIsReserved(ParserNode node)
+        : InterpreterException("Item ID \"global\" is reserved and cant "
                                "be used", node,
-                              ParserResultType::kObjectIDGlobalIsReserved)
+                              ParserResultType::kItemIDGlobalIsReserved)
     { }
 };
 
-struct InvalidObjectID : public InterpreterException
+struct InvalidItemID : public InterpreterException
 {
-    InvalidObjectID(std::string object_id, ParserNode node)
-        : InterpreterException("Object ID \"" + object_id + "\" is invalid",
-                              node, ParserResultType::kObjectIsNotDefined)
+    InvalidItemID(std::string item_id, ParserNode node)
+        : InterpreterException("Item ID \"" + item_id + "\" is invalid",
+                              node, ParserResultType::kItemIsNotDefined)
     { }
 };
 
 
-struct ObjectIsNotDefined : public InterpreterException
+struct ItemIsNotDefined : public InterpreterException
 {
-    ObjectIsNotDefined(std::string object_id, ParserNode node)
-        : InterpreterException("Object with ID \"" + object_id + "\" "
+    ItemIsNotDefined(std::string item_id, ParserNode node)
+        : InterpreterException("Item with ID \"" + item_id + "\" "
                                "is not defined. Make sure to specify the "
                                "full ID", node,
-                              ParserResultType::kObjectIsNotDefined)
+                              ParserResultType::kItemIsNotDefined)
     { }
 };
 
 struct NoAttributeSpecified : public InterpreterException
 {
     NoAttributeSpecified(ParserNode node)
-        : InterpreterException("Reference to objects is not supported", node,
+        : InterpreterException("Reference to items is not supported", node,
                               ParserResultType::kNoAttributeSpecified)
     { }
 };
 
-struct ObjectIsNotValid : public InterpreterException
+struct ItemIsNotValid : public InterpreterException
 {
-    ObjectIsNotValid(std::string error_message, ParserNode node)
+    ItemIsNotValid(std::string error_message, ParserNode node)
         : InterpreterException(error_message, node,
-                              ParserResultType::kObjectIsNotValid)
+                              ParserResultType::kItemIsNotValid)
     { }
 };
 
@@ -173,7 +173,7 @@ struct InternalWrongNodeType : public InterpreterException
 
 /**
  * Class to convert a node tree generated by the parser to the final
- * object tree that can be used in the application.
+ * item tree that can be used in the application.
  * The interpreter is build to work together with the parser
  * and not as a standalone class.
  */
@@ -182,11 +182,11 @@ class Interpreter
 public:
     /**
      * Converts a node tree that was generated by the parser to a tree of
-     * object that can be used in the application.
+     * item that can be used in the application.
      *
      * @param root_node - Root of the node tree.
      * @param dest - Reference to a FileContext receiving the generated
-     *               object tree.
+     *               item tree.
      * @throws The function can throw interpreter and std exceptions.
      *         The parser will only catch the interpreter exceptions.
      *         Every other exceptions is not catched by the parser!
@@ -201,17 +201,17 @@ public:
 
 private:
     /**
-     * Stores a reference to every object with an ID.
+     * Stores a reference to every item with an ID.
      * This is used to check if IDs are defined multiple times or to get
-     * an attribute value from a different object by its ID.
+     * an attribute value from a different item by its ID.
      *
      * The structure of the buffer is:
-     * root_id.child_id.child_id.child_id.object_id
+     * root_id.child_id.child_id.child_id.item_id
      * Where:
-     * root_id   = highest parent object with an ID
-     * child_id  = objects with an ID between the root object and the
-     *             referenced object
-     * object_id = ID of the referenced object
+     * root_id   = highest parent item with an ID
+     * child_id  = items with an ID between the root item and the
+     *             referenced item
+     * item_id = ID of the referenced item
      *
      * Example:
      * Panel : panel_0
@@ -227,72 +227,72 @@ private:
      * Will be stored as:
      * "panel_0.child_panel.button_0" -> Button
      */
-    std::map<std::string, ObjectBase&> object_references_;
+    std::map<std::string, ItemBase&> item_references_;
 
     /**
-     * Adds the object to the object references.
+     * Adds the item to the item references.
      * The function also checks that there is no ID defined multiple times.
-     * Objects without an ID will be skipped.
+     * Items without an ID will be skipped.
      *
-     * @param object - Object that will be added to the object references.
-     * @param node - Parser node of the object, used for error handling.
+     * @param item - Item that will be added to the item references.
+     * @param node - Parser node of the item, used for error handling.
      * @throws The function can throw interpreter and std exceptions.
      *         The parser will only catch the interpreter exceptions.
      *         Every other exceptions is not catched by the parser!
      */
-    void InitObjectReference(ObjectBase& object, const ParserNode& node);
+    void InitItemReference(ItemBase& item, const ParserNode& node);
 
     /**
-     * Processes a node and executes its child nodes on the parent_object.
-     * If the function encounters an object node, it will create a new
-     * child object in the parent object.
+     * Processes a node and executes its child nodes on the parent_item.
+     * If the function encounters an item node, it will create a new
+     * child item in the parent item.
      * If the function encounters an attribute assign node, it will
-     * change the corresponding attribute of the parent_object
+     * change the corresponding attribute of the parent_item
      *
      * @param node - Node that will be processed
-     * @param parent_object - The object on where the child nodes
+     * @param parent_item - The item on where the child nodes
      *                        of the node will be executed.
      * @throws The function can throw interpreter and std exceptions.
      *         The parser will only catch the interpreter exceptions.
      *         Every other exceptions is not catched by the parser!
      */
-    void ProcessNodes(const ParserNode& node, ObjectBase& parent_object);
+    void ProcessNodes(const ParserNode& node, ItemBase& parent_item);
 
     /**
-     * Creates a new child object in the parent object and
-     * executes the child nodes of the object node on the newly created
-     * object.
+     * Creates a new child item in the parent item and
+     * executes the child nodes of the item node on the newly created
+     * item.
      *
-     * @param node - The object node that will be executed
-     * @param parent_object - The object on where the object node
+     * @param node - The item node that will be executed
+     * @param parent_item - The item on where the item node
      *                        will be executed.
      * @param no_parent     - Specifies if the parent of the newly created
-     *                        object should be nullptr.
+     *                        item should be nullptr.
      *                        This is currently only used for the root
-     *                        objects.
+     *                        items.
      * @throws The function can throw interpreter and std exceptions.
      *         The parser will only catch the interpreter exceptions.
      *         Every other exceptions is not catched by the parser!
      */
-    void ProcessObjectNode(
+    void ProcessItemNode(
         const ParserNode& node,
-        ObjectBase& parent_object,
+        ItemBase& parent_item,
         bool no_parent = false);
 
     /**
-     * Changes the defined attribute of the parent_object to the
+     * Changes the defined attribute of the parent_item to the
      * defined value.
      * The attribtue name and value is defined by the node.
      *
      * @param node - AttributeBase assign node containing attribute name and value.
-     * @param parent_object - The object on where the attribute assign node
+     * @param parent_item - The item on where the attribute assign node
      *                        will be executed.
      * @throws The function can throw interpreter and std exceptions.
      *         The parser will only catch the interpreter exceptions.
      *         Every other exceptions is not catched by the parser!
      */
     void ProcessAttributeAssignNode(
-        const ParserNode& node, ObjectBase& parent_object);
+        const ParserNode& node, ItemBase& parent_item);
 
     /**
      * Converts a string node to its value as a string.
@@ -339,19 +339,19 @@ private:
      * The child nodes of the vector are the values ​​that make up the vector.
      *
      * @param node - Vector node containing the child values.
-     * @param parent_object - Object that is used to resolve attribute
+     * @param parent_item - Item that is used to resolve attribute
      *                        access nodes.
      * @throws The function can throw interpreter and std exceptions.
      *         The parser will only catch the interpreter exceptions.
      *         Every other exceptions is not catched by the parser!
      */
     std::shared_ptr<AttributeBase> ProcessVectorNode(
-        const ParserNode& node, ObjectBase& parent_object) const;
+        const ParserNode& node, ItemBase& parent_item) const;
 
     /**
      * Resolves an attribute access node to its value as a string.
      * The attribute name structure is:
-     * root_id.child_id.child_id.object_id.attribute_name
+     * root_id.child_id.child_id.item_id.attribute_name
      * Example:
      * Panel : panel_0
      * {
@@ -370,7 +370,7 @@ private:
      * "text_0.text" will not work!
      *
      * AttributeBase names without a '.'corresponds to an attribute of the
-     * parent object.
+     * parent item.
      * Example:
      * Panel : panel_0
      * {
@@ -380,7 +380,7 @@ private:
      * }
      *
      * @param node - AttributeBase access node that will be executed
-     * @param parent_object - Parent object that is used for local attribute
+     * @param parent_item - Parent item that is used for local attribute
      *                        names.
      * @return The value of the references attribute
      * @throws The function can throw interpreter and std exceptions.
@@ -388,7 +388,7 @@ private:
      *         Every other exceptions is not catched by the parser!
      */
     Reference ProcessAttributeReferenceNode(
-        const ParserNode& node, ObjectBase& parent_object) const;
+        const ParserNode& node, ItemBase& parent_item) const;
 
     /**
      * Helper function that takes a node of one of the following types:
@@ -405,38 +405,38 @@ private:
      *         Every other exceptions is not catched by the parser!
      */
     std::shared_ptr<AttributeBase> ProcessValueNode(
-        const ParserNode& node, ObjectBase& parent_object) const;
+        const ParserNode& node, ItemBase& parent_item) const;
 
     /**
-     * Gets the attribute value of an object in the object_reference buffer.
+     * Gets the attribute value of an item in the item_reference buffer.
      *
      * @param attribute - Full name of the attribute, containing full ID of
-     *                    the object. E.g. panel_0.text_0.position
+     *                    the item. E.g. panel_0.text_0.position
      * @param node - Used for error handling
      * @throws The function can throw interpreter and std exceptions.
      *         The parser will only catch the interpreter exceptions.
      *         Every other exceptions is not catched by the parser!
      */
-    AttributeBase& GetAttribtueFromObjectReference(
+    AttributeBase& GetAttribtueFromItemReference(
         const std::string attribute, const ParserNode& node) const;
 
     /**
-     * Gets the full object ID of an attribtue reference string.
-     * Uses the object references.
+     * Gets the full item ID of an attribtue reference string.
+     * Uses the item references.
      * Example:
-     * object_0.child_0.child_1.attribute -> object_0.chidl_0.child_1
+     * item_0.child_0.child_1.attribute -> item_0.chidl_0.child_1
      *
-     * The function will also check if the object exists in the
-     * object references. An exception is thrown if it does not exists.
+     * The function will also check if the item exists in the
+     * item references. An exception is thrown if it does not exists.
      *
      * @param attribute - Full name of the attribute, containing full ID of
-     *                    the object. E.g. panel_0.text_0.position
+     *                    the item. E.g. panel_0.text_0.position
      * @param node - Used for error handling
      * @throws The function can throw interpreter and std exceptions.
      *         The parser will only catch the interpreter exceptions.
      *         Every other exceptions is not catched by the parser!
      */
-    std::string GetObjectNameFromAttributeReferenceString(
+    std::string GetItemNameFromAttributeReferenceString(
         const std::string attribute, const ParserNode& node) const;
 
     /**

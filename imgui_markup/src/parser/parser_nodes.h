@@ -17,7 +17,7 @@ namespace imgui_markup::internal::parser
 enum class ParserNodeType
 {
     kRootNode,
-    kObjectNode,
+    kItemNode,
     kAttributeAssignNode,
     kStringNode,
     kIntNode,
@@ -36,13 +36,13 @@ struct ParserNode
     std::vector<std::shared_ptr<ParserNode>> child_nodes;
 };
 
-struct ParserObjectNode : public ParserNode
+struct ParserItemNode : public ParserNode
 {
-    ParserObjectNode(std::string object_type, std::string object_id,
+    ParserItemNode(std::string item_type, std::string item_id,
                      ParserPosition position);
 
-    const std::string object_type;
-    const std::string object_id;
+    const std::string item_type;
+    const std::string item_id;
 };
 
 struct ParserStringNode : public ParserNode

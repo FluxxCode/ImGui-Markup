@@ -38,7 +38,7 @@ struct UndefinedTokenSequence : public ParserException
 {
     UndefinedTokenSequence(LexerToken token)
         : ParserException("Undefined sequence of tokens, expected "
-                          "object or attribute declaration", token,
+                          "item or attribute declaration", token,
                          ParserResultType::kUndefinedTokenSequence)
     { }
 };
@@ -51,11 +51,11 @@ struct UnexpectedEndOfFile : public ParserException
     { }
 };
 
-struct ObjectIDWrongValueType : public ParserException
+struct ItemIDWrongValueType : public ParserException
 {
-    ObjectIDWrongValueType(LexerToken token)
+    ItemIDWrongValueType(LexerToken token)
         : ParserException("Expected attribute ID", token,
-                         ParserResultType::kObjectIDWrongValueType)
+                         ParserResultType::kItemIDWrongValueType)
     { }
 };
 
@@ -75,11 +75,11 @@ struct ExpectedEqualSymbol : public ParserException
     { }
 };
 
-struct UnableToCreateObjectNode : public ParserException
+struct UnableToCreateItemNode : public ParserException
 {
-    UnableToCreateObjectNode(LexerToken token)
-        : ParserException("Unable to create object node", token,
-                         ParserResultType::kUnableToCreateObjectNode)
+    UnableToCreateItemNode(LexerToken token)
+        : ParserException("Unable to create item node", token,
+                         ParserResultType::kUnableToCreateItemNode)
     { }
 };
 
@@ -167,14 +167,14 @@ public:
      * @param file - Path to the file from where the data will be loaded.
      *               Absolute and relative paths are allowed.
      * @param dest - Reference to a FileContext receiving the generated
-     *               object tree.
+     *               item tree.
      * @return Result of the operation as a ParserResult, containing error type,
      *         message and line positions. If there was no error,
      *         the ParesrResultType will be set to ParserErrorType::kSuccess and
      *         the line positions are 0. Everything else is an error that
      *         occured while loading the file. This can contain an error from
      *         the Lexer, Parser and Interpreter. The parser will stop the
-     *         process and the global_object will be empty when an error occured
+     *         process and the global_item will be empty when an error occured
      *         while parsing the file.
      */
     ParserResult ParseFile(const std::string file,
@@ -185,14 +185,14 @@ public:
      *
      * @param data - String containg the layer's markup language.
      * @param dest - Reference to a FileContext receiving the generated
-     *               object tree.
+     *               item tree.
      * @return Result of the operation as a ParserResult, containing error type,
      *         message and line positions. If there was no error,
      *         the ParesrResultType will be set to ParserErrorType::kSuccess and
      *         the line positions are 0. Everything else is an error that
      *         occured while loading the file. This can contain an error from
      *         the Lexer, Parser and Interpreter. The parser will stop the
-     *         process and the global_object will be empty when an error occured
+     *         process and the global_item will be empty when an error occured
      *         while parsing the file.
      */
     // NOTE: This function will be implemented later.
@@ -206,7 +206,7 @@ private:
     Lexer lexer_;
 
     /**
-     * Main interpreter to convet the node tree to the final object tree.
+     * Main interpreter to convet the node tree to the final item tree.
      */
     Interpreter interpreter_;
 
@@ -236,13 +236,13 @@ private:
     inline bool TokenIsBlockEnd(const ParserNode& current_node);
 
     /**
-     * Checks if the current token is the start of an object.
-     * The start of an object is defined by one of the following token sequence:
+     * Checks if the current token is the start of an item.
+     * The start of an item is defined by one of the following token sequence:
      *   - Data, Colon
      *   - Data, CBracketOpen
      */
-    bool TokenIsObjectNode();
-    void CreateObjectNode(ParserNode& parent_node);
+    bool TokenIsItemNode();
+    void CreateItemNode(ParserNode& parent_node);
 
     /**
      * Checks if the current token is the start of an attribute assign node.

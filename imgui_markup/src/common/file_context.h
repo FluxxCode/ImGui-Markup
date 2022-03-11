@@ -1,7 +1,7 @@
-#ifndef IMGUI_MARKUP_SRC_OBJECTS_GLOBAL_OBJECT_H_
-#define IMGUI_MARKUP_SRC_OBJECTS_GLOBAL_OBJECT_H_
+#ifndef IMGUI_MARKUP_SRC_ITEMS_GLOBAL_ITEM_H_
+#define IMGUI_MARKUP_SRC_ITEMS_GLOBAL_ITEM_H_
 
-#include "objects/common/object_base.h"
+#include "items/common/item_base.h"
 #include "attribute_types/string.h"
 
 namespace imgui_markup::internal
@@ -10,17 +10,17 @@ namespace imgui_markup::internal
 struct FileContext
 {
     /**
-     * Stores a reference to every child object with an ID.
-     * Those are the main IDs that are used to identify objects.
+     * Stores a reference to every child item with an ID.
+     * Those are the main IDs that are used to identify items.
      * The IDs are loaded and set by the interpreter.
      *
      * The structure of the buffer is:
-     * root_id.child_id.child_id.child_id.object_id
+     * root_id.child_id.child_id.child_id.item_id
      * Where:
-     * root_id   = highest parent object with an ID
-     * child_id  = objects with an ID between the root object and the
-     *             referenced object
-     * object_id = ID of the referenced object
+     * root_id   = highest parent item with an ID
+     * child_id  = items with an ID between the root item and the
+     *             referenced item
+     * item_id = ID of the referenced item
      *
      * Example:
      * Panel : panel_0
@@ -36,14 +36,14 @@ struct FileContext
      * Will be stored as:
      * "panel_0.child_panel.button_0" -> Button
      */
-    std::map<std::string, ObjectBase&> object_references_;
+    std::map<std::string, ItemBase&> item_references_;
 
     /**
-     * Stores the main object tree.
+     * Stores the main item tree.
      */
-    std::vector<std::shared_ptr<ObjectBase>> object_tree_;
+    std::vector<std::shared_ptr<ItemBase>> item_tree_;
 };
 
 }  // namespace imgui_markup::internal
 
-#endif  // IMGUI_MARKUP_SRC_OBJECTS_GLOBAL_OBJECT_H_
+#endif  // IMGUI_MARKUP_SRC_ITEMS_GLOBAL_ITEM_H_

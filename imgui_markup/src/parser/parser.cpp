@@ -57,8 +57,8 @@ void Parser::ProcessTokens(std::shared_ptr<ParserNode> parent_node)
         if (this->TokenIsBlockEnd(*parent_node))
             return;
 
-        if (this->TokenIsObjectNode())
-            this->CreateObjectNode(*parent_node);
+        if (this->TokenIsItemNode())
+            this->CreateItemNode(*parent_node);
         else if (TokenIsAttributeAssignNode())
             this->CreateAttributeAssignNode(*parent_node);
         else
@@ -80,8 +80,8 @@ bool Parser::TokenIsBlockEnd(const ParserNode& current_node)
     return false;
 }
 
-/* Object node */
-bool Parser::TokenIsObjectNode()
+/* Item node */
+bool Parser::TokenIsItemNode()
 {
     const LexerToken current_token = this->lexer_.LookAhead(0);
     const LexerToken next_token    = this->lexer_.LookAhead(1);
@@ -98,10 +98,10 @@ bool Parser::TokenIsObjectNode()
     return false;
 }
 
-void Parser::CreateObjectNode(ParserNode& parent_node)
+void Parser::CreateItemNode(ParserNode& parent_node)
 {
     LexerToken token = this->lexer_.LookAhead(0);
-    ParserPosition object_position = token.position;
+    ParserPosition item_position = token.position;
 
     const std::string type = token.data;
     std::string id = "";
@@ -119,14 +119,14 @@ void Parser::CreateObjectNode(ParserNode& parent_node)
             throw UnexpectedEndOfFile(this->lexer_.LookAhead(0));
 
         if (token.type != LexerTokenType::kID)
-            throw ObjectIDWrongValueType(token);
+            throw ItemIDWrongValueType(token);
 
         id = token.data;
         end_position = token.position.end;
 
         end_position = this->lexer_.LookAhead(0).position.end;
 
-        // Move one token, where we expect the start of the object block
+        // Move one token, where we expect the start of the item block
         if (!this->lexer_.GetNextToken(token))
             throw UnexpectedEndOfFile(this->lexer_.LookAhead(0));
     }
@@ -134,13 +134,13 @@ void Parser::CreateObjectNode(ParserNode& parent_node)
     if (token.type != LexerTokenType::kCBracketOpen)
         throw ExpectedStartOfBlock(token);
 
-    object_position.end = end_position;
+    item_position.end = end_position;
 
     std::shared_ptr<ParserNode> node =
-        std::make_shared<ParserObjectNode>(type, id, object_position);
+        std::make_shared<ParserItemNode>(type, id, item_position);
 
     if (!node)
-        throw UnableToCreateObjectNode(token);
+        throw UnableToCreateItemNode(token);
 
     this->ProcessTokens(node);
 

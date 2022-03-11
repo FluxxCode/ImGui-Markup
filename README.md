@@ -47,14 +47,14 @@ Panel
 
     Text { text = "Example text" }
 
-    Button : button_0  // Specifying the object ID so it can be accessed from the backend
+    Button : button_0  // Specifying the item ID so it can be accessed from the backend
     {
         text = "Example button"
 
         ButtonStyle
         {
             /**
-             * Accessing the values and attributes from another object
+             * Accessing the values and attributes from another item
              * defined in this file.
             */
             color         = @colors.red.value

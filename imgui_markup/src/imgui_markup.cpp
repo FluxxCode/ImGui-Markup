@@ -4,7 +4,7 @@
 #include "input.h"
 #include "common/file_stack.h"
 #include "common/file_context.h"
-#include "objects/common/object_api.h"
+#include "items/common/item_api.h"
 #include "attribute_types/float2.h"
 
 #include <assert.h>
@@ -36,15 +36,15 @@ void Update(const size_t id, bool* result)
     if (!context)
         return;
 
-    for (auto& child : context->object_tree_)
+    for (auto& child : context->item_tree_)
         child->Update(internal::Float2(0, 0));
 }
 
 bool IsPressed(
-    size_t context_id, std::string object_id, MouseButton button, bool* result)
+    size_t context_id, std::string item_id, MouseButton button, bool* result)
 {
-    internal::ObjectAPI* api =
-        internal::FileStack::GetObjectAPI(context_id, object_id);
+    internal::ItemAPI* api =
+        internal::FileStack::GetItemAPI(context_id, item_id);
 
     if (!api)
         return false;
@@ -52,10 +52,10 @@ bool IsPressed(
     return api->API_IsPressed(button);
 }
 
-bool IsHovered(size_t context_id, std::string object_id, bool* result)
+bool IsHovered(size_t context_id, std::string item_id, bool* result)
 {
-    internal::ObjectAPI* api =
-        internal::FileStack::GetObjectAPI(context_id, object_id);
+    internal::ItemAPI* api =
+        internal::FileStack::GetItemAPI(context_id, item_id);
 
     if (!api)
         return false;
@@ -63,10 +63,10 @@ bool IsHovered(size_t context_id, std::string object_id, bool* result)
     return api->API_IsHovered();
 }
 
-bool IsToggled(size_t context_id, std::string object_id, bool* result)
+bool IsToggled(size_t context_id, std::string item_id, bool* result)
 {
-    internal::ObjectAPI* api =
-        internal::FileStack::GetObjectAPI(context_id, object_id);
+    internal::ItemAPI* api =
+        internal::FileStack::GetItemAPI(context_id, item_id);
 
     if (!api)
         return false;

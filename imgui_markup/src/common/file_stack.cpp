@@ -26,9 +26,9 @@ FileContext* FileStack::GetFileContext(const size_t id, bool* result)
     return FileStack::Get().IMPL_GetFileContext(id, result);
 }
 
-ObjectAPI* FileStack::GetObjectAPI(const size_t id, const std::string object_id)
+ItemAPI* FileStack::GetItemAPI(const size_t id, const std::string item_id)
 {
-    return FileStack::Get().IMPL_GetObjectAPI(id, object_id);
+    return FileStack::Get().IMPL_GetItemAPI(id, item_id);
 }
 
 FileStack::FileStack()
@@ -116,8 +116,8 @@ FileContext* FileStack::IMPL_GetFileContext(const size_t id, bool* result)
     return &this->file_contexts_.at(id);
 }
 
-ObjectAPI* FileStack::IMPL_GetObjectAPI(
-    const size_t id, const std::string object_id)
+ItemAPI* FileStack::IMPL_GetItemAPI(
+    const size_t id, const std::string item_id)
 {
     bool result;
     FileContext* context = this->IMPL_GetFileContext(id, &result);
@@ -125,16 +125,16 @@ ObjectAPI* FileStack::IMPL_GetObjectAPI(
     if (!result)
         return nullptr;
 
-    if (context->object_references_.find(object_id) ==
-        context->object_references_.end())
+    if (context->item_references_.find(item_id) ==
+        context->item_references_.end())
     {
         this->last_results_[id] =
-            Result(ResultType::kInvalidObjectID, "InvalidObjectID");
+            Result(ResultType::kInvalidItemID, "InvalidItemID");
 
         return nullptr;
     }
 
-    return dynamic_cast<ObjectAPI*>(&context->object_references_.at(object_id));
+    return dynamic_cast<ItemAPI*>(&context->item_references_.at(item_id));
 }
 
 }  // namespace imgui_markup::internal

@@ -11,7 +11,7 @@ enum class ResultType
     kSucess,
     kParserError,
     kInvalidContextID,
-    kInvalidObjectID
+    kInvalidItemID
 };
 
 struct Result

@@ -45,10 +45,10 @@ enum class ParserResultType
     kUnexpectedBlockEnd,
     kUndefinedTokenSequence,
     kUnexpectedEndOfFile,
-    kObjectIDWrongValueType,
+    kItemIDWrongValueType,
     kExpectedStartOfBlock,
     kExpectedEqualSymbol,
-    kUnableToCreateObjectNode,
+    kUnableToCreateItemNode,
     kUnableToCreateAttributeAssignNode,
     kUnableToCreateStringNode,
     kUnableToCreateNumberNode,
@@ -60,18 +60,18 @@ enum class ParserResultType
     kMissingVectorValue,
 
     // Interpreter errors:
-    kExpectedObjectDeclaration,
+    kExpectedItemDeclaration,
     kWrongBaseNode,
-    kUndefinedObjectType,
+    kUndefinedItemType,
     kAttributeDoesNotExists,
     kMissingAttributeValue,
     kUnknownAttributeValueType,
     kAttributeConversionError,
-    kObjectIDAlreadyDefined,
-    kObjectIDGlobalIsReserved,
-    kObjectIsNotDefined,
+    kItemIDAlreadyDefined,
+    kItemIDGlobalIsReserved,
+    kItemIsNotDefined,
     kNoAttributeSpecified,
-    kObjectIsNotValid,
+    kItemIsNotValid,
     kInternalWrongNodeType
 };
 
