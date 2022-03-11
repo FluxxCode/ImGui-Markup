@@ -4,7 +4,7 @@
 #include "input.h"
 #include "common/file_stack.h"
 #include "common/file_context.h"
-#include "items/common/item_api.h"
+#include "items/item_api.h"
 #include "attribute_types/float2.h"
 
 #include <assert.h>

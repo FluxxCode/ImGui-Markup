@@ -1,5 +1,5 @@
-#ifndef IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_ENUM_H_
-#define IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_ENUM_H_
+#ifndef IMGUI_MARKUP_SRC_OTHER_ENUM_H_
+#define IMGUI_MARKUP_SRC_OTHER_ENUM_H_
 
 #include "attribute_types/attribute_base.h"
 #include "attribute_types/string.h"
@@ -52,4 +52,4 @@ private:
 
 }  // namespace imgui_markup::internal
 
-#endif  // IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_ENUM_H_
+#endif  // IMGUI_MARKUP_SRC_OTHER_ENUM_H_

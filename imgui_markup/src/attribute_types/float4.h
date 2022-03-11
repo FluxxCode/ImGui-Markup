@@ -1,5 +1,5 @@
-#ifndef IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_FLOAT4_H_
-#define IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_FLOAT4_H_
+#ifndef IMGUI_MARKUP_SRC_OTHER_FLOAT4_H_
+#define IMGUI_MARKUP_SRC_OTHER_FLOAT4_H_
 
 #include "attribute_types/attribute_base.h"
 #include "attribute_types/float.h"
@@ -44,4 +44,4 @@ private:
 
 }  // namespace imgui_markup::internal
 
-#endif  // IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_FLOAT4_H_
+#endif  // IMGUI_MARKUP_SRC_OTHER_FLOAT4_H_

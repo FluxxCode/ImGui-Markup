@@ -1,5 +1,5 @@
-#ifndef IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_REFERENCE_H_
-#define IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_REFERENCE_H_
+#ifndef IMGUI_MARKUP_SRC_OTHER_REFERENCE_H_
+#define IMGUI_MARKUP_SRC_OTHER_REFERENCE_H_
 
 #include "attribute_types/attribute_base.h"
 
@@ -39,4 +39,4 @@ private:
 
 }  // namespace imgui_markup::internal
 
-#endif  // IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_REFERENCE_H_
+#endif  // IMGUI_MARKUP_SRC_OTHER_REFERENCE_H_

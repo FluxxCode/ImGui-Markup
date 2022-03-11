@@ -1,7 +1,7 @@
 #include "impch.h"
 #include "parser/interpreter.h"
 
-#include "items/common/item_list.h"
+#include "items/item_list.h"
 
 namespace imgui_markup::internal::parser
 {
@@ -22,7 +22,11 @@ void Interpreter::ConvertNodeTree(
         if (child->type != ParserNodeType::kItemNode)
             throw ExpectedItemDeclaration(*child.get());
 
-        ItemBase temp(ItemType::kUndefined, "<interpreter_temp>", nullptr);
+        ItemBase temp(
+            ItemType::kUndefined,
+            ItemCategory::kOther,
+            "<interpreter_temp>",
+            nullptr);
 
         this->ProcessItemNode(*child.get(), temp, true);
 

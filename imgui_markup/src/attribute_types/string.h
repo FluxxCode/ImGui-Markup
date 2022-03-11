@@ -1,5 +1,5 @@
-#ifndef IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_STRING_H_
-#define IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_STRING_H_
+#ifndef IMGUI_MARKUP_SRC_OTHER_STRING_H_
+#define IMGUI_MARKUP_SRC_OTHER_STRING_H_
 
 // Also includes forward declarions for other attribute types
 #include "attribute_types/attribute_base.h"
@@ -35,4 +35,4 @@ private:
 
 }  // namespace imgui_markup::internal
 
-#endif  // IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES_STRING_H_
+#endif  // IMGUI_MARKUP_SRC_OTHER_STRING_H_

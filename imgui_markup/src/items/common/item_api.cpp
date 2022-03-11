@@ -1,5 +1,0 @@
-#include "impch.h"
-#include "items/common/item_api.h"
-
-namespace imgui_markup::internal
-{ }  // namespace imgui_markup::internal

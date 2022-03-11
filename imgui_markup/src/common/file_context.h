@@ -1,7 +1,7 @@
 #ifndef IMGUI_MARKUP_SRC_ITEMS_GLOBAL_ITEM_H_
 #define IMGUI_MARKUP_SRC_ITEMS_GLOBAL_ITEM_H_
 
-#include "items/common/item_base.h"
+#include "items/item_base.h"
 #include "attribute_types/string.h"
 
 namespace imgui_markup::internal
