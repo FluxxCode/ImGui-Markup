@@ -22,6 +22,14 @@ public:
 
     inline operator float() const { return value; }
 
+    inline Float& operator+=(const Float& rhs)
+        { this->value += rhs.value; return *this; }
+    inline Float& operator-=(const Float& rhs)
+        { this->value -= rhs.value; return *this; }
+
+    inline Float operator+(const Float& rhs) { return this->value + rhs.value; }
+    inline Float operator-(const Float& rhs) { return this->value - rhs.value; }
+
 private:
     bool IMPL_LoadValue(const Float& value);
     bool IMPL_LoadValue(const String& value);
