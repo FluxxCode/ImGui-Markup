@@ -10,12 +10,15 @@ Container::Container(std::string id, ItemBase* parent)
 
 void Container::IMPL_Update(Float2 position, Float2 size)
 {
+    this->position_ = position;
+    this->size_ = size;
+
     for (auto& child : this->child_items_)
     {
         if (!child)
             continue;
 
-        child->Update(ImGui::GetCursorPos());
+        child->Update(position, size);
     }
 }
 

@@ -14,10 +14,7 @@ Text::Text(std::string id, ItemBase* parent)
 
 void Text::IMPL_Update(Float2 position, Float2 size)
 {
-    this->position_ = position;
-    this->size_ = size;
-
-    ImGui::SetCursorPos(position);
+    this->BeginItemArea(position, size);
 
     if (this->color_.value_changed_)
         ImGui::TextColored(this->color_, "%s", this->text_.value.c_str());
@@ -26,8 +23,7 @@ void Text::IMPL_Update(Float2 position, Float2 size)
 
     this->is_hovered_ = ImGui::IsItemHovered();
 
-    if (size == Float2(0, 0))
-        this->size_ = ImGui::GetItemRectSize();
+    this->EndItemArea(size, ImGui::GetItemRectSize());
 }
 
 bool Text::OnProcessStart(std::string& error_message)

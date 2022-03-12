@@ -23,10 +23,7 @@ public:
     Float2 position_overwrite_;
     Float2 size_overwrite_;
     String title_;
-
-    // Flags
-    Bool no_title_bar_ = false;
-    Bool no_resize_    = false;
+    Float2 padding_ = Float2(0.0f, 0.0f);
 
 private:
     friend class PanelStyle;
@@ -34,8 +31,14 @@ private:
 
     bool is_hovered_ = false;
 
-    bool init_attributes_ = true;
-    void InitAttributes(Float2 position, Float2 size);
+    float title_bar_height_ = 17;
+
+    bool in_view_ = false;  // If the panel is placed inside a view
+
+    bool init_position_and_size_ = true;
+    void InitPositionAndSize(Float2 position, Float2 size);
+
+    float CalcTitleBarHeight() const;
 
     // See item.h for documentation
     void IMPL_Update(Float2 position, Float2 size);

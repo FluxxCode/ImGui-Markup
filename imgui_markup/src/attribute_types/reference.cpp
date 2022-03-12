@@ -44,7 +44,7 @@ bool Reference::IMPL_LoadValue(const Reference& value_in)
     if (!value_in.reference)
         return false;
 
-    if (value_in.reference->type != this->expected_type)
+    if (value_in.reference->type_ != this->expected_type)
         return false;
 
     this->reference = value_in.reference;

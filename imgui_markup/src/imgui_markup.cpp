@@ -28,7 +28,7 @@ Result GetLastResult(const size_t id, bool* result)
     return internal::FileStack::GetLastResult(id, result);
 }
 
-void Update(const size_t id, bool* result)
+void Update(size_t id, size_t d_width, size_t d_height, bool* result)
 {
     internal::FileContext* context =
         internal::FileStack::GetFileContext(id, result);
@@ -36,8 +36,18 @@ void Update(const size_t id, bool* result)
     if (!context)
         return;
 
+    ImGuiIO& io = ImGui::GetIO();
+
+    if (d_width == 0)
+        d_width = io.DisplaySize.x;
+    if (d_height == 0)
+        d_height = io.DisplaySize.y;
+
     for (auto& child : context->item_tree_)
-        child->Update(internal::Float2(0, 0));
+    {
+        child->Update(internal::Float2(0, 0),
+                      internal::Float2(d_width, d_height));
+    }
 }
 
 bool IsPressed(

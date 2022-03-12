@@ -40,7 +40,7 @@ public:
     /**
      * Main update function that should be called every frame.
      */
-    void Update(Float2 position, Float2 size = Float2(0, 0));
+    void Update(Float2 position, Float2 size);
 
     /**
      * Get a pointer to an attribute from this item by its name.
@@ -54,11 +54,12 @@ public:
 
     inline void SetParent(ItemBase* parent) { this->parent_ = parent; }
 
-    inline std::string GetID()   const { return this->access_id_; }
-    inline ItemType GetType()    const { return this->type_;      }
-    inline ItemBase* GetParent() const { return this->parent_;    }
-    inline Float2 GetSize()      const { return this->size_;      }
-    inline Float2 GetPosition()  const { return this->position_;  }
+    inline std::string GetID()        const { return this->access_id_; }
+    inline ItemType GetType()         const { return this->type_;      }
+    inline ItemCategory GetCategory() const { return this->category_;  }
+    inline ItemBase* GetParent()      const { return this->parent_;    }
+    inline Float2 GetSize()           const { return this->size_;      }
+    inline Float2 GetPosition()       const { return this->position_;  }
 
 protected:
     ItemType type_;

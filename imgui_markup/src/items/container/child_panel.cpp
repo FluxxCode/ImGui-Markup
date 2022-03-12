@@ -9,9 +9,9 @@ namespace imgui_markup::internal
 ChildPanel::ChildPanel(std::string id, ItemBase* parent)
     : ContainerBase(ItemType::kChildPanel, id, parent)
 {
-    this->AddAttribute("size",   &this->size_overwrite_);
-    this->AddAttribute("title",  &this->title_);
-    this->AddAttribute("border", &this->border_);
+    this->AddAttribute("title",   &this->title_);
+    this->AddAttribute("border",  &this->border_);
+    this->AddAttribute("padding", &this->padding_);
 }
 
 void ChildPanel::IMPL_Update(Float2 position, Float2 size)
@@ -21,23 +21,24 @@ void ChildPanel::IMPL_Update(Float2 position, Float2 size)
 
     ImGui::SetCursorPos(position);
 
-    ImGui::BeginChild(
-        this->title_,
-        this->size_overwrite_.value_changed_ ? this->size_overwrite_ : size,
-        this->border_.value);
+    ImGui::BeginChild(this->title_, size, this->border_.value,
+        ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
 
     this->is_hovered_ = ImGui::IsWindowHovered();
+
+    const Float2 child_size = Float2(
+        this->size_.x.value - this->padding_.x.value * 2,
+        this->size_.y.value - this->padding_.y.value * 2);
+
+    const Float2 child_position = Float2(this->padding_.x, this->padding_.y);
 
     for (auto& child : this->child_items_)
     {
         if (!child)
             continue;
 
-        child->Update(ImGui::GetCursorPos());
+        child->Update(child_position, child_size);
     }
-
-    if (size == Float2(0, 0))
-        this->size_ = ImGui::GetWindowSize();
 
     ImGui::EndChild();
 }
@@ -60,8 +61,27 @@ bool ChildPanel::OnProcessStart(std::string& error_message)
 
 bool ChildPanel::OnProcessEnd(std::string& error_message)
 {
-    if (this->title_.value.empty())
-        this->title_ = "##" + this->draw_id_;
+    size_t child_count = 0;
+    for (const auto& child : this->child_items_)
+    {
+        const ItemCategory category = child->GetCategory();
+
+        if (category != ItemCategory::kStyle &&
+            category != ItemCategory::kOther)
+        {
+            child_count++;
+        }
+    }
+
+    if (child_count > 1)
+    {
+        error_message = "Object of type \"ChildPanel\" can only contain one "
+                        "drawable object\".";
+
+        return false;
+    }
+
+    this->title_.value += "##" + this->draw_id_;
 
     return true;
 }

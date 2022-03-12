@@ -23,17 +23,13 @@ Checkbox& Checkbox::operator=(const Checkbox& other)
 
 void Checkbox::IMPL_Update(Float2 position, Float2 size)
 {
-    this->position_ = position;
-    this->size_ = size;
-
-    ImGui::SetCursorPos(position);
+    this->BeginItemArea(position, size);
 
     ImGui::Checkbox(this->text_, &this->is_toggled_.value);
 
     this->is_hovered_ = ImGui::IsItemHovered();
 
-    if (size == Float2(0, 0))
-        this->size_ = ImGui::GetItemRectSize();
+    this->EndItemArea(size, ImGui::GetItemRectSize());
 }
 
 bool Checkbox::OnProcessStart(std::string& error_message)

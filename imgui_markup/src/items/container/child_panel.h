@@ -17,7 +17,7 @@ public:
     ChildPanel(std::string id, ItemBase* parent);
     ChildPanel(const ChildPanel&) = delete;
 
-    Float2 size_overwrite_;
+    Float2 padding_;
 
     String title_;
     Bool border_;

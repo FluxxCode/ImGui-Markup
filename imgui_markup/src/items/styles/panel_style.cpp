@@ -21,7 +21,6 @@ PanelStyle::PanelStyle(std::string id, ItemBase* parent)
     this->AddAttribute("scrollbar_grab_hovered",
         &this->scrollbar_grab_hovered_);
     this->AddAttribute("scrollbar_grab_active", &this->scrollbar_grab_active_);
-    this->AddAttribute("padding",               &this->padding_);
     this->AddAttribute("rounding",              &this->rounding_);
     this->AddAttribute("border_size",           &this->border_size_);
     this->AddAttribute("border_color",          &this->border_color_);
@@ -86,12 +85,6 @@ void PanelStyle::PushStyle()
         ImGui::PushStyleColor(ImGuiCol_ScrollbarGrabActive,
             this->scrollbar_grab_active_);
         this->style_color_count_++;
-    }
-
-    if (this->padding_.value_changed_)
-    {
-        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, this->padding_);
-        this->style_var_count_++;
     }
 
     if (this->rounding_.value_changed_)

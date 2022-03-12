@@ -19,19 +19,17 @@ The panel is equal to ```ImGui::BeginWindow()``` and ```ImGui::EndWindow()```. I
 ### Attributes:
 | Name | Type | Description | Default Value |
 | --- | --- | --- | --- |
-| position | Float2 | The start position of the panel relative to the window | (0, 0) |
-| size | Float2 | The start size of the panel | Dynamic size based on the size of the child items. |
+| position | Float2 | The start position of the panel, relative to the window. The attribute must be set if the panel is placed outside a view. The attribute won't take effect if the panel is placed inside a view. | - |
+| size | Float2 | The start size of the panel. The attribute must be set if the panel is placed outside a view. The attribute won't take effect if the panel is placed inside a view. | - |
 | title | String | The title of the panel | "##<item_address>", which is displayed as an empty string. |
+| padding | Float2 | Padding to the panel's child items. | (0, 0) |
 | no_title_bar | Bool | Disable title-bar | False |
 | no_resize | Bool | Disable user resizing with the lower-right grip | False |
 | no_move | Bool | Disable user moving the panel | False |
-| no_scrollbar | Bool | Disable scrollbars. Panel can still scroll with mouse or programmatically. | False |
-| no_scroll_with_mouse | Bool | Disable user vertically scrolling with mouse wheel. On child panel, mouse wheel will be forwarded to the parent unless NoScrollbar is also set. | False |
 | no_collapse | Bool | Disable user collapsing panel by double-clicking on it. | False |
 | always_auto_resize | Bool | Resize every panel to its content every frame. | False |
 | no_background | Bool | Disable drawing background color and outside border. | False |
 | no_mouse_inputs | Bool | Disable catching mouse, hovering test with pass through. | False |
-| horizontal_scrollbar | Bool | Allow horizontal scrollbar to appear. | False |
 | no_focus_on_appearing | Bool | Disable taking focus when transitioning from hidden to visible state. | False |
 | no_bring_to_front_focus | Bool | Disable bringing panel to front when taking focus. | False |
 | always_vertical_scrollbar | Bool | Always show vertical scrollbar. | False |
@@ -78,7 +76,6 @@ The panel style is used to change the apperance of a panel. Keep in mind that th
 | scrollbar_grap | Float4 | Scrollbar grab color | Global color is used |
 | scrollbar_grap_hovered | Float4 | Scrollbar grab color when hovered | Global color is used |
 | scrollbar_grap_active | Float4 | Scrollbar grab color when pressed | Global color is used |
-| padding | Float2 | Padding of the panel to its contents | Global padding is used |
 | rounding | Float2 | Rounding of the panel edges | Global rounding is used |
 | border_size | Float2 | Size of the panel border. Value of 0 means no color. | Global border size is used |
 | border_color | Float2 | Color of the border | Global border color is used |
@@ -286,11 +283,11 @@ if (gui::IsToggled(file, "checkbox_1"))
 ### Description:
 The ChildPanel is equal to ```ImGui::BeginChild()``` and ```ImGui::EndChild()```.
 ### Attributes:
-| Name          | Type   | Description                                                         | Default Value                  |
-| ------------- | ------ | ------------------------------------------------------------------- | ------------------------------ |
-| size          | Float2 | The size of the child panel                                         | Size of the parent panel       |
-| title         | String | The title of the child panel. |  "##<item_address>", which is displayed as an empty string. |
-| border        | Bool   | Sets if a border should be drawn around the child panel             | False                          |
+| Name | Type | Description | Default Value |
+| --- | --- | --- | --- |
+| title | String | The title of the child panel. |  "##<item_address>", which is displayed as an empty string. |
+| border | Bool | Sets if a border should be drawn around the child panel | False |
+| padding | Float2 | Padding to the panel's child items. | (0, 0) |
 ### Implemented API functions:
 | Function | Description |
 | --- | --- |

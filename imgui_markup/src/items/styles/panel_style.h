@@ -26,7 +26,6 @@ public:
     Float4 scrollbar_grab_;              // ImGuiCol_ScrollbarGrab
     Float4 scrollbar_grab_hovered_;      // ImGuiCol_ScrollbarGrabHovered
     Float4 scrollbar_grab_active_;       // ImGuiCol_ScrollbarGrabActive
-    Float2 padding_;                     // ImGuiStyle::WindowPadding
     Float rounding_;                     // ImGuiStyle::FrameRounding
     Float border_size_;                  // ImGuiStyle::FrameBorderSize
     Float4 border_color_;                // ImGuiStyle::FrameBorderSize

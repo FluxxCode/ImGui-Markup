@@ -155,12 +155,12 @@ void Interpreter::ProcessAttributeAssignNode(
 
     if (!attribute->LoadValue(*value))
     {
-        if (attribute->type == AttributeType::kReference ||
-            value->type == AttributeType::kReference)
+        if (attribute->type_ == AttributeType::kReference ||
+            value->type_ == AttributeType::kReference)
         {
             this->ThrowReferenceError(attribute, value.get(), node);
         }
-        else if (attribute->type == AttributeType::kEnum)
+        else if (attribute->type_ == AttributeType::kEnum)
             this->ThrowEnumError(attribute, value.get(), node);
 
         throw AttributeConversionError(this->AttributeTypeToString(*attribute),
@@ -240,8 +240,7 @@ std::shared_ptr<AttributeBase> Interpreter::ProcessVectorNode(
         if (!value.empty())
             value += ',';
 
-        value +=
-            this->ProcessValueNode(*child.get(), parent_item)->ToString();
+        value += this->ProcessValueNode(*child.get(), parent_item)->ToString();
 
         value_count++;
     }
@@ -382,8 +381,8 @@ void Interpreter::ThrowReferenceError(
     AttributeBase* value,
     ParserNode& node) const
 {
-    AttributeType type_left = attribute->type;
-    AttributeType type_right = value->type;
+    AttributeType type_left = attribute->type_;
+    AttributeType type_right = value->type_;
 
     if (type_left == AttributeType::kReference)
     {
@@ -407,7 +406,7 @@ void Interpreter::ThrowReferenceError(
 
     throw AttributeConversionError(
         this->AttributeTypeToString(type_left),
-        this->AttributeTypeToString(referenced->reference->type),
+        this->AttributeTypeToString(referenced->reference->type_),
         referenced->reference->ToString(), node);
 }
 
@@ -416,10 +415,10 @@ void Interpreter::ThrowEnumError(
     AttributeBase* value,
     ParserNode& node) const
 {
-    if (attribute->type != AttributeType::kEnum)
+    if (attribute->type_ != AttributeType::kEnum)
         throw InternalWrongNodeType(node);
 
-    if (value->type != AttributeType::kString)
+    if (value->type_ != AttributeType::kString)
     {
         throw AttributeConversionError(
             "Attribute of type \"Enum\" expects a \"String\" as value", node);
@@ -435,7 +434,7 @@ void Interpreter::ThrowEnumError(
 std::string Interpreter::AttributeTypeToString(
     const AttributeBase& attribute) const
 {
-    return this->AttributeTypeToString(attribute.type);
+    return this->AttributeTypeToString(attribute.type_);
 }
 
 std::string Interpreter::AttributeTypeToString(const AttributeType type) const

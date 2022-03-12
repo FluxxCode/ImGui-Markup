@@ -37,7 +37,7 @@ public:
     AttributeBase(AttributeType type);
     virtual ~AttributeBase();
 
-    AttributeType type;
+    AttributeType type_;
 
     /**
      * Will be set when the LoadValue function was sucessfully called.

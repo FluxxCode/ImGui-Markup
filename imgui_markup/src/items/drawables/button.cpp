@@ -15,23 +15,19 @@ Button::Button(std::string id, ItemBase* parent)
 
 void Button::IMPL_Update(Float2 position, Float2 size)
 {
-    this->size_ = size;
-    this->position_ = position;
+    this->BeginItemArea(position, size);
 
     if (this->style_)
         this->style_->PushStyle();
-
-    ImGui::SetCursorPos(position);
 
     ImGui::Button(this->text_, this->size_);
 
     this->is_hovered_ = ImGui::IsItemHovered();
 
-    if (size == Float2(0, 0))
-        this->size_ = ImGui::GetItemRectSize();
-
     if (this->style_)
         this->style_->PopStyle();
+
+    this->EndItemArea(size, ImGui::GetItemRectSize());
 }
 
 bool Button::OnProcessStart(std::string& error_message)

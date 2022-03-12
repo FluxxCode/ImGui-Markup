@@ -7,7 +7,7 @@ namespace imgui_markup::internal
 {
 
 AttributeBase::AttributeBase(AttributeType type)
-    : type(type)
+    : type_(type)
 { }
 
 AttributeBase::~AttributeBase()
@@ -19,7 +19,7 @@ AttributeBase::~AttributeBase()
 
 bool AttributeBase::LoadValue(const AttributeBase& value)
 {
-    switch (value.type)
+    switch (value.type_)
     {
     case AttributeType::kBool:   return this->LoadValue<Bool>((Bool&)value);
     case AttributeType::kFloat:  return this->LoadValue<Float>((Float&)value);

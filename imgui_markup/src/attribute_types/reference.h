@@ -27,7 +27,7 @@ public:
 
         // Ensure that the expected attribute type matches the attribute type
         // of this reference
-        if (this->reference->type != value.type)
+        if (this->reference->type_ != value.type)
             return;
 
         this->reference->LoadValue(value);

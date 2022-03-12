@@ -10,13 +10,10 @@ void WindowFlags::InitWindowFlagAttributes(
     attribute_list["no_title_bar"]            = &this->no_title_bar_;
     attribute_list["no_resize"]               = &this->no_resize_;
     attribute_list["no_move"]                 = &this->no_move_;
-    attribute_list["no_scrollbar"]            = &this->no_scrollbar_;
-    attribute_list["no_scroll_with_mouse"]    = &this->no_scroll_with_mouse_;
     attribute_list["no_collapse"]             = &this->no_collapse_;
     attribute_list["always_auto_resize"]      = &this->always_auto_resize_;
     attribute_list["no_background"]           = &this->no_background_;
     attribute_list["no_mouse_inputs"]         = &this->no_mouse_inputs_;
-    attribute_list["horizontal_scrollbar"]    = &this->horizontal_scrollbar_;
     attribute_list["no_focus_on_appearing"]   = &this->no_focus_on_appearing_;
     attribute_list["no_bring_to_front_focus"] = &this->no_bring_to_front_focus_;
     attribute_list["always_vertical_scrollbar"] =

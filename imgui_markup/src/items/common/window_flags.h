@@ -18,26 +18,30 @@ protected:
     Bool no_title_bar_                = false;
     Bool no_resize_                   = false;
     Bool no_move_                     = false;
-    Bool no_scrollbar_                = false;
-    Bool no_scroll_with_mouse_        = false;
     Bool no_collapse_                 = false;
     Bool always_auto_resize_          = false;
     Bool no_background_               = false;
-    // Bool no_saved_settings_          = false;
     Bool no_mouse_inputs_             = false;
-    // Bool menu_bar_                    = false;
-    Bool horizontal_scrollbar_        = false;
     Bool no_focus_on_appearing_       = false;
     Bool no_bring_to_front_focus_     = false;
     Bool always_vertical_scrollbar_   = false;
     Bool always_horizontal_scrollbar_ = false;
-    // Bool always_use_window_padding_   = false;
     Bool no_nav_inputs_               = false;
     Bool no_nav_focus_                = false;
     Bool unsaved_document_            = false;
     Bool no_nav_                      = false;
     Bool no_decoration_               = false;
     Bool no_inputs_                   = false;
+
+    // Flags that can't be set through the markup language
+    Bool no_scroll_with_mouse_ = true;
+    Bool no_scrollbar_         = true;
+    Bool horizontal_scrollbar_ = false;
+
+    // Flags we don't need but ImGui supports
+    // Bool always_use_window_padding_ = false;
+    // Bool menu_bar_ = false;
+    // Bool no_saved_settings_ = false;
 
     /**
      * Adds the window flags attributes to the given attribute list.
