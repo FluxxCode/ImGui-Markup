@@ -16,10 +16,6 @@ void WindowFlags::InitWindowFlagAttributes(
     attribute_list["no_mouse_inputs"]         = &this->no_mouse_inputs_;
     attribute_list["no_focus_on_appearing"]   = &this->no_focus_on_appearing_;
     attribute_list["no_bring_to_front_focus"] = &this->no_bring_to_front_focus_;
-    attribute_list["always_vertical_scrollbar"] =
-        &this->always_vertical_scrollbar_;
-    attribute_list["always_horizontal_scrollbar"] =
-        &this->always_horizontal_scrollbar_;
     attribute_list["no_nav_inputs"]    = &this->no_nav_inputs_;
     attribute_list["no_nav_focus"]     = &this->no_nav_focus_;
     attribute_list["unsaved_document"] = &this->unsaved_document_;

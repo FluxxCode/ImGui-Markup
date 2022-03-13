@@ -24,8 +24,6 @@ protected:
     Bool no_mouse_inputs_             = false;
     Bool no_focus_on_appearing_       = false;
     Bool no_bring_to_front_focus_     = false;
-    Bool always_vertical_scrollbar_   = false;
-    Bool always_horizontal_scrollbar_ = false;
     Bool no_nav_inputs_               = false;
     Bool no_nav_focus_                = false;
     Bool unsaved_document_            = false;
@@ -37,6 +35,8 @@ protected:
     Bool no_scroll_with_mouse_ = true;
     Bool no_scrollbar_         = true;
     Bool horizontal_scrollbar_ = false;
+    Bool always_vertical_scrollbar_   = false;
+    Bool always_horizontal_scrollbar_ = false;
 
     // Flags we don't need but ImGui supports
     // Bool always_use_window_padding_ = false;
