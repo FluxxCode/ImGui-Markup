@@ -6,6 +6,7 @@
 
 #include "attribute_types/float2.h"
 #include "attribute_types/enum.h"
+#include "attribute_types/enum.h"
 
 
 namespace imgui_markup::internal
@@ -26,7 +27,7 @@ private:
     bool is_hovered_ = false;
 
     bool in_panel_ = false;
-    const bool border_ = true;
+    bool finished_first_update_ = false;
 
     Float2 child_position_ = Float2(0.0f, 0.0f);
     Float2 child_size_ = Float2(0.0f, 0.0f);

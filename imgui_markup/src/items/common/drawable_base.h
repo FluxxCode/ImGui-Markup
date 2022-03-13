@@ -24,11 +24,12 @@ protected:
     void EndItemArea(Float2 size, Float2 actual_item_size);
 
 private:
+    bool is_visible_ = true;
+
+    // Only used for debugging
     const Float2 window_padding_  = Float2(0.0f, 0.0f);
     const Float  window_rounding_ = 0;
-    const Float4 window_bg_color_ = Float4(0.0f, 0.0f, 0.0f, 0.0f);
-
-    bool is_visible_ = true;
+    const Float4 window_bg_color_ = Float4(0.0f, 1.0f, 0.2f, 0.0f);
 };
 
 }  // namespace imgui_markup::internal

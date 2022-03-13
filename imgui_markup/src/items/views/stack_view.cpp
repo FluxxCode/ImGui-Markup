@@ -17,19 +17,15 @@ StackView::StackView(std::string id, ItemBase* parent)
 
 void StackView::IMPL_Update(Float2 position, Float2 size)
 {
-    Float2 actual_size = Float2(0.0f, 0.0f);
-
-    if (this->orientation_ == enums::Orientation::kVertical)
-        actual_size.x = size.x;
-    else
-        actual_size.y = size.x;
+    Float2 actual_size = size;
 
     if (this->init_attributes_)
         this->InitAttributes();
 
     this->BeginChild(position, size);
 
-    if (this->child_size_.x <= 0 && this->child_size_.y <= 0)
+    if (this->finished_first_update_ &&
+        this->child_size_.x <= 0 && this->child_size_.y <= 0)
     {
         this->EndChild(size, actual_size);
         return;
@@ -39,22 +35,34 @@ void StackView::IMPL_Update(Float2 position, Float2 size)
     {
         child->Update(this->child_position_, this->child_size_);
 
-        float offset = this->item_spacing_;
         if (this->orientation_ == enums::Orientation::kVertical)
         {
-            offset += child->GetSize().y;
-            this->child_position_.y += offset;
-            actual_size.y += offset;
+            actual_size.y += child->GetSize().y + this->item_spacing_;
+
+            if (child->GetSize().x.value + this->padding_.y * 2 > actual_size.x)
+                actual_size.x = child->GetSize().x.value + this->padding_.y * 2;
+
+            this->child_position_.y += child->GetSize().y + item_spacing_;
         }
-        else
+        else if (this->orientation_ == enums::Orientation::kHorizontal)
         {
-            offset += child->GetSize().x;
-            this->child_position_.x += offset;
-            actual_size.x += offset;
+            actual_size.x += child->GetSize().x + this->item_spacing_;
+
+            if (child->GetSize().y.value + this->padding_.y * 2 > actual_size.y)
+                actual_size.y = child->GetSize().y.value + this->padding_.y * 2;
+
+            this->child_position_.x += child->GetSize().x + item_spacing_;
         }
     }
 
+    if (this->orientation_ == enums::Orientation::kVertical)
+        actual_size.y += this->padding_.y * 2 - this->item_spacing_;
+    else if (this->orientation_ == enums::Orientation::kHorizontal)
+        actual_size.x += this->padding_.x * 2 - this->item_spacing_;
+
     this->EndChild(size, actual_size);
+
+    this->finished_first_update_ = true;
 }
 
 void StackView::InitAttributes()
@@ -68,28 +76,28 @@ void StackView::InitAttributes()
         this->item_spacing_ = ImGui::GetStyle().ItemSpacing.y;
     else
         this->item_spacing_ = ImGui::GetStyle().ItemSpacing.x;
-
-    this->init_attributes_ = false;
 }
 
 void StackView::BeginChild(Float2 position, Float2 size)
 {
     this->position_ = position;
 
+    if (!this->finished_first_update_)
+        this->size_ = size;
+
     this->child_position_ = Float2(position.x + this->padding_.x,
                                    position.y + this->padding_.y);
 
     this->child_size_ = Float2(0.0f, 0.0f);
-
     if (this->orientation_ == enums::Orientation::kVertical)
         this->child_size_.x = this->size_.x.value - this->padding_.x.value * 2;
-    else
+    else if (this->orientation_ == enums::Orientation::kHorizontal)
         this->child_size_.y = this->size_.y.value - this->padding_.y.value * 2;
 
-    if (size.x != 0)
-        this->size_.x = size.x;
-    if (size.y !=  0)
-        this->size_.y = size.y;
+    if (this->child_size_.x < 0)
+        this->child_size_.x = 0;
+    if (this->child_size_.y < 0)
+        this->child_size_.y = 0;
 
     if (!this->in_panel_)
         return;
@@ -99,14 +107,17 @@ void StackView::BeginChild(Float2 position, Float2 size)
     ImGui::SetCursorPos(position);
 
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0);
 
-    ImGui::BeginChild(this->draw_id_.c_str(), this->size_, this->border_);
+    ImGui::BeginChild(this->draw_id_.c_str(), this->size_, false);
 
-    ImGui::PopStyleVar(1);
+    ImGui::PopStyleVar(2);
 }
 
 void StackView::EndChild(Float2 size, Float2 actual_item_size)
 {
+    this->size_ = size;
+
     if (size.x == 0)
         this->size_.x = actual_item_size.x;
     if (size.y == 0)
