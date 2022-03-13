@@ -19,8 +19,8 @@ The panel is equal to ```ImGui::BeginWindow()``` and ```ImGui::EndWindow()```. I
 ### Attributes:
 | Name | Type | Description | Default Value |
 | --- | --- | --- | --- |
-| position | Float2 | The start position of the panel, relative to the window. The attribute must be set if the panel is placed outside a view. The attribute won't take effect if the panel is placed inside a view. | - |
-| size | Float2 | The start size of the panel. The attribute must be set if the panel is placed outside a view. The attribute won't take effect if the panel is placed inside a view. | - |
+| position | Float2 | The start position of the panel, relative to the window. The attribute won't take effect if the panel is placed inside a view. | (0, 0) |
+| size | Float2 | The start size of the panel. The attribute won't take effect if the panel is placed inside a view. | (0, 0) - Dynamic size based on the panel's child items. |
 | title | String | The title of the panel | "##<item_address>", which is displayed as an empty string. |
 | padding | Float2 | Padding to the panel's child items. | (0, 0) |
 | no_title_bar | Bool | Disable title-bar | False |

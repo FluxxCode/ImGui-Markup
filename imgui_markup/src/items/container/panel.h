@@ -59,13 +59,21 @@ private:
 
     bool is_hovered_ = false;
 
-    float title_bar_height_ = 17;
+    Float2 child_position_;
+    Float2 child_size_;
 
+    float title_bar_height_ = 17;
     bool in_view_ = false;  // If the panel is placed inside a view
 
+    bool finished_first_update_ = false;
     bool init_position_and_size_ = true;
+
+    bool BeginPanel();
+    void EndPanel(Float2 actual_size);
+
     void InitPositionAndSize(Float2 position, Float2 size);
 
+    void UpdateChildPositionAndSize();
     float CalcTitleBarHeight() const;
     int GenerateWindowFlags() const;
 

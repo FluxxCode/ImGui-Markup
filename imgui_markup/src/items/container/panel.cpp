@@ -42,15 +42,11 @@ void Panel::IMPL_Update(Float2 position, Float2 size)
     if (this->style_)
         this->style_->PushStyle();
 
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
-
-    if (!ImGui::Begin(this->title_, 0, this->GenerateWindowFlags()))
+    if (!this->BeginPanel())
     {
         if (this->style_)
             this->style_->PopStyle();
 
-        ImGui::PopStyleVar(1);
-        ImGui::End();
         return;
     }
 
@@ -59,26 +55,43 @@ void Panel::IMPL_Update(Float2 position, Float2 size)
 
     this->is_hovered_ = ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows);
 
-    Float2 child_size = Float2(
-        this->size_.x.value - this->padding_.x.value * 2,
-        this->size_.y.value - this->padding_.y.value * 2);
+    this->UpdateChildPositionAndSize();
 
-    Float2 child_position = Float2(this->padding_.x, this->padding_.y);
-
-    if (!this->no_title_bar_)
+    Float2 actual_size_ = Float2(0.0f, 0.0f);
+    for (const auto& child : this->child_items_)
     {
-        child_position.y += title_bar_height_;
-        child_size.y -= title_bar_height_;
+        child->Update(this->child_position_, this->child_size_);
+
+        if (child->GetCategory() != ItemCategory::kStyle &&
+            child->GetCategory() != ItemCategory::kOther)
+        {
+            actual_size_ = child->GetSize();
+        }
     }
 
-    for (auto& child : this->child_items_)
-    {
-        if (!child)
-            continue;
+    this->EndPanel(actual_size_);
 
-        child->Update(child_position, child_size);
+    this->finished_first_update_ = true;
+}
+
+bool Panel::BeginPanel()
+{
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
+
+    if (!ImGui::Begin(this->title_, 0, this->GenerateWindowFlags()))
+    {
+        ImGui::PopStyleVar(1);
+        ImGui::End();
+        return false;
     }
 
+    ImGui::PopStyleVar(1);
+
+    return true;
+}
+
+void Panel::EndPanel(Float2 actual_size)
+{
     if (!this->in_view_)
     {
         this->position_ = ImGui::GetWindowPos();
@@ -87,14 +100,17 @@ void Panel::IMPL_Update(Float2 position, Float2 size)
 
     ImGui::End();
 
-    ImGui::PopStyleVar(1);
+    if (this->size_.x == 0)
+        this->size_.x = actual_size.x;
+    if (this->size_.y == 0)
+        this->size_.y = actual_size.y;
+
+    if (!this->no_title_bar_)
+        this->size_.y += this->title_bar_height_;
 }
 
 void Panel::InitPositionAndSize(Float2 position, Float2 size)
 {
-    this->position_ = this->position_overwrite_;
-    this->size_ = this->size_overwrite_;
-
     this->title_bar_height_ = this->CalcTitleBarHeight();
 
     if (this->in_view_)
@@ -102,16 +118,37 @@ void Panel::InitPositionAndSize(Float2 position, Float2 size)
         this->position_ = position;
         this->size_ = size;
 
-        ImGui::SetNextWindowPos(position);
-        ImGui::SetNextWindowSize(size);
+        ImGui::SetNextWindowPos(this->position_);
+        ImGui::SetNextWindowSize(this->size_);
 
         return;
     }
 
+    this->position_ = this->position_overwrite_;
+    this->size_ = this->size_overwrite_;
+
     ImGui::SetNextWindowPos(this->position_);
     ImGui::SetNextWindowSize(this->size_);
 
-    this->init_position_and_size_ = false;
+    this->init_position_and_size_ = !finished_first_update_;
+}
+
+void Panel::UpdateChildPositionAndSize()
+{
+    this->child_position_ = this->padding_;
+    this->child_size_ = Float2(this->size_.x.value - this->padding_.x * 2,
+                               this->size_.y.value - this->padding_.y * 2);
+
+    if (!this->no_title_bar_)
+        this->child_position_.y += this->title_bar_height_;
+
+    if (!this->no_title_bar_ && this->in_view_)
+        this->child_size_.y -= this->title_bar_height_;
+
+    if (this->child_size_.x < 0)
+        this->child_size_.x = 0;
+    if (this->child_size_.y < 0)
+        this->child_size_.y = 0;
 }
 
 float Panel::CalcTitleBarHeight() const
@@ -186,20 +223,6 @@ bool Panel::OnProcessStart(std::string& error_message)
 
 bool Panel::OnProcessEnd(std::string& error_message)
 {
-    if (!this->in_view_)
-    {
-        // Make sure that the position and size is set if the panel isn't placed
-        // inside a view.
-        if (!this->size_overwrite_.value_changed_ ||
-            !this->position_overwrite_.value_changed_)
-        {
-            error_message = "Attribute \"position\" and \"size\" must be "
-                            "set when the panel is placed outside of a view.";
-
-            return false;
-        }
-    }
-
     size_t child_count = 0;
     for (const auto& child : this->child_items_)
     {
