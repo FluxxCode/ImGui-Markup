@@ -17,8 +17,8 @@ public:
     Float2(float x, float y);
     Float2(ImVec2 vec);
 
-    Float x = 0;
-    Float y = 0;
+    Float x = 0.0f;
+    Float y = 0.0f;
 
     std::string ToString() const;
 

@@ -22,6 +22,15 @@ std::string GetEnumName(Alignment);
 bool ConvertEnum(std::string value, Alignment& out);
 bool ConvertEnum(Alignment value, std::string& out);
 
+enum class Orientation : unsigned char
+{
+    kVertical,
+    kHorizontal
+};
+std::string GetEnumName(Orientation);
+bool ConvertEnum(std::string value, Orientation& out);
+bool ConvertEnum(Orientation value, std::string& out);
+
 }  // namespace imgui_markup::internal::enums
 
 #endif  // IMGUI_MARKUP_SRC_COMMON_ENUM_CONVERSION_H_

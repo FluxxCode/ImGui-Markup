@@ -8,9 +8,9 @@ namespace imgui_markup::internal
 
 enum class ItemCategory : unsigned char
 {
-    kDrawable,   // Button, Text, Checkbox...
     kContainer,  // Panel, ChildPanel, Container...
     kView,       // StackView...
+    kDrawable,   // Button, Text, Checkbox...
     kStyle,      // ButtonStyle, PanelStyle...
     kOther       // Attribute types...
 };
@@ -18,15 +18,25 @@ enum class ItemCategory : unsigned char
 enum class ItemType : unsigned char
 {
     kUndefined,
+
+    // Container
     kPanel,
-    kPanelStyle,
-    kText,
-    kButton,
-    kButtonStyle,
-    kCheckbox,
     kChildPanel,
     kContainer,
 
+    // Views
+    kStackView,
+
+    // Drawables
+    kText,
+    kButton,
+    kCheckbox,
+
+    // Styles
+    kButtonStyle,
+    kPanelStyle,
+
+    // Other
     kItemBool,
     kItemFloat,
     kItemFloat2,
@@ -41,21 +51,30 @@ namespace item_types
 
 const std::map<std::string, ItemType> item_mapping =
 {
-    { "Panel",          ItemType::kPanel          },
-    { "PanelStyle",     ItemType::kPanelStyle     },
-    { "Text",           ItemType::kText           },
-    { "Button",         ItemType::kButton         },
-    { "ButtonStyle",    ItemType::kButtonStyle    },
-    { "Checkbox",       ItemType::kCheckbox       },
-    { "ChildPanel",     ItemType::kChildPanel     },
-    { "Container",      ItemType::kContainer      },
-    { "Bool",           ItemType::kItemBool     },
-    { "Float",          ItemType::kItemFloat    },
-    { "Float2",         ItemType::kItemFloat2   },
-    { "Float3",         ItemType::kItemFloat3   },
-    { "Float4",         ItemType::kItemFloat4   },
-    { "Int",            ItemType::kItemInt      },
-    { "String",         ItemType::kItemString   }
+    // Container
+    { "Panel",          ItemType::kPanel      },
+    { "ChildPanel",     ItemType::kChildPanel },
+    { "Container",      ItemType::kContainer  },
+
+    // Views
+    { "StackView",      ItemType::kStackView },
+
+    // Drawables
+    { "Text",           ItemType::kText     },
+    { "Button",         ItemType::kButton   },
+    { "Checkbox",       ItemType::kCheckbox },
+
+    // Styles
+    { "PanelStyle",     ItemType::kPanelStyle  },
+    { "ButtonStyle",    ItemType::kButtonStyle },
+
+    { "Bool",           ItemType::kItemBool   },
+    { "Float",          ItemType::kItemFloat  },
+    { "Float2",         ItemType::kItemFloat2 },
+    { "Float3",         ItemType::kItemFloat3 },
+    { "Float4",         ItemType::kItemFloat4 },
+    { "Int",            ItemType::kItemInt    },
+    { "String",         ItemType::kItemString }
 };
 
 }  // namespace imgui_markup::internal::item_types

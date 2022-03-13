@@ -4,14 +4,24 @@
 #include "items/item_base.h"
 #include "items/item_mapping.h"
 
+// Container
 #include "items/container/panel.h"
 #include "items/container/child_panel.h"
 #include "items/container/container.h"
+
+// Views
+#include "items/views/stack_view.h"
+
+// Drawables
 #include "items/drawables/button.h"
 #include "items/drawables/text.h"
 #include "items/drawables/checkbox.h"
+
+// Styles
 #include "items/styles/panel_style.h"
 #include "items/styles/button_style.h"
+
+// Other
 #include "items/other/item_bool.h"
 #include "items/other/item_float.h"
 #include "items/other/item_float2.h"
@@ -80,16 +90,24 @@ private:
     */
     const std::map<ItemType, std::function<std::shared_ptr<ItemBase>(
         std::string, ItemBase*)>> item_list_ = {
+            // Container
             { ItemType::kPanel,       CreateItemInstance<Panel>        },
-            { ItemType::kPanelStyle,  CreateItemInstance<PanelStyle>   },
             { ItemType::kChildPanel,  CreateItemInstance<ChildPanel>   },
-            { ItemType::kButton,      CreateItemInstance<Button>       },
-            { ItemType::kButtonStyle, CreateItemInstance<ButtonStyle>  },
-            { ItemType::kText,        CreateItemInstance<Text>         },
-            { ItemType::kCheckbox,    CreateItemInstance<Checkbox>     },
             { ItemType::kContainer,   CreateItemInstance<Container>    },
 
-            // Atribute types
+            // Views
+            { ItemType::kStackView,   CreateItemInstance<StackView>    },
+
+            // Drawables
+            { ItemType::kButton,      CreateItemInstance<Button>       },
+            { ItemType::kText,        CreateItemInstance<Text>         },
+            { ItemType::kCheckbox,    CreateItemInstance<Checkbox>     },
+
+            // Styles
+            { ItemType::kButtonStyle, CreateItemInstance<ButtonStyle>  },
+            { ItemType::kPanelStyle,  CreateItemInstance<PanelStyle>   },
+
+            // Other
             { ItemType::kItemBool,   CreateItemInstance<ItemBool>   },
             { ItemType::kItemFloat,  CreateItemInstance<ItemFloat>  },
             { ItemType::kItemFloat2, CreateItemInstance<ItemFloat2> },
