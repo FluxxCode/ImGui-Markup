@@ -104,9 +104,6 @@ void Panel::EndPanel(Float2 actual_size)
         this->size_.x = actual_size.x;
     if (this->size_.y == 0)
         this->size_.y = actual_size.y;
-
-    if (!this->no_title_bar_)
-        this->size_.y += this->title_bar_height_;
 }
 
 void Panel::InitPositionAndSize(Float2 position, Float2 size)
@@ -140,10 +137,10 @@ void Panel::UpdateChildPositionAndSize()
                                this->size_.y.value - this->padding_.y * 2);
 
     if (!this->no_title_bar_)
+    {
         this->child_position_.y += this->title_bar_height_;
-
-    if (!this->no_title_bar_ && this->in_view_)
         this->child_size_.y -= this->title_bar_height_;
+    }
 
     if (this->child_size_.x < 0)
         this->child_size_.x = 0;
