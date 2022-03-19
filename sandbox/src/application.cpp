@@ -37,8 +37,6 @@ void Application::InitWindow()
     if (glfwInit() != GLFW_TRUE)
         std::cerr << "Unable to init glfw" << std::endl;
 
-    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-
     this->window_ = glfwCreateWindow(this->kWindowSizeX_, this->kWindowSizeY_,
                                      this->kWindowTitle_, NULL, NULL);
 
