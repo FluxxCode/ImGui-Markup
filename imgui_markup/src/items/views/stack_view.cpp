@@ -147,15 +147,4 @@ bool StackView::OnProcessStart(std::string& error_message)
     return true;
 }
 
-Bool StackView::API_IsPressed(MouseButton button) const
-{
-    return this->is_hovered_&&
-        ImGui::IsMouseClicked(MouseButtonToImGui(button));
-}
-
-Bool StackView::API_IsHovered() const
-{
-    return this->is_hovered_;
-}
-
 }  // namespace imgui_markup::internal

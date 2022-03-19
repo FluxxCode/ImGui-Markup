@@ -43,10 +43,6 @@ private:
     // See item.h for documentation
     void IMPL_Update(Float2 position, Float2 size);
     bool OnProcessStart(std::string& error_message);
-
-    // See item_api.h for documentation
-    Bool API_IsPressed(MouseButton button) const;
-    Bool API_IsHovered() const;
 };
 
 }  // namespace imgui_markup::internal
