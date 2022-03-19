@@ -2,6 +2,7 @@
 **Items:**
 1. [Panel](#Panel)
     1. [PanelStyle](#PanelStyle)
+1. [StackView](#StackView)
 1. [Text](#Text)
 1. [Button](#Button)
     1. [ButtonStyle](#ButtonStyle)
@@ -15,7 +16,8 @@
 ---
 ## Panel
 ### Description:
-The panel is equal to ```ImGui::BeginWindow()``` and ```ImGui::EndWindow()```. It is used as the root of every drawable item and can only be created in the global file scope.
+The panel is equal to ```ImGui::BeginWindow()``` and ```ImGui::EndWindow()```.
+Each drawable item must be created inside a panel.
 ### Attributes:
 | Name | Type | Description | Default Value |
 | --- | --- | --- | --- |
@@ -63,7 +65,7 @@ Panel
 ---
 ## PanelStyle
 ### Description:
-The panel style is used to change the apperance of a panel. Keep in mind that the PanelStyle can only be created inside a panel. The last defined PanelStyle is used if several are defined within a single panel.
+The panel style is used to change the appearance of a panel. Keep in mind that the PanelStyle can only be created inside a panel. The last defined PanelStyle is used if several are defined within a single panel.
 ### Attributes:
 | Name | Type | Description | Default Value |
 | --- | --- | --- | --- |
@@ -73,9 +75,9 @@ The panel style is used to change the apperance of a panel. Keep in mind that th
 | title_background_collapsed | Float4 | Title background color when panel is collapsed | Global color is used |
 | title_align | Float2 | Alignment of the panel title | Global alignment is used |
 | scrollbar_background | Float4 | Scrollbar background color | Global color is used |
-| scrollbar_grap | Float4 | Scrollbar grab color | Global color is used |
-| scrollbar_grap_hovered | Float4 | Scrollbar grab color when hovered | Global color is used |
-| scrollbar_grap_active | Float4 | Scrollbar grab color when pressed | Global color is used |
+| scrollbar_grab | Float4 | Scrollbar grab color | Global color is used |
+| scrollbar_grab_hovered | Float4 | Scrollbar grab color when hovered | Global color is used |
+| scrollbar_grab_active | Float4 | Scrollbar grab color when pressed | Global color is used |
 | rounding | Float2 | Rounding of the panel edges | Global rounding is used |
 | border_size | Float2 | Size of the panel border. Value of 0 means no color. | Global border size is used |
 | border_color | Float2 | Color of the border | Global border color is used |
@@ -99,14 +101,61 @@ Panel
 ![ExampleImage](img/items/panel_style.png)
 
 ---
+## StackView
+### Description:
+Stack views allow you to create automatic layouts by stacking its children's items on the desired axes.
+While the items on the stacked axes only take up as much space as they need, they are stretched on the opposite axes to fill the entire area of the stack view.
+The stack view can be placed within the global scope and any other item. Keep in mind that most of the drawable items won't update their child items, so placing the stack view inside most drawable item won't have any effect.
+### Attributes:
+| Name | Type | Description | Default Value |
+| --- | --- | --- | --- |
+| orientation | Enum\<Orientation> | Specifies the axes on which the items will be stacked | "Vertical" |
+| padding | Float2 | Padding to the stack view's child items | Global item padding is used |
+| item_spacing | Float | Spacing between the stack view's child items | Global item spacing is used |
+```
+// example.ill:
+
+Panel
+{
+    title = "Example panel"
+
+    StackView
+    {
+        padding = (10, 10)
+
+        Text { text = "Hello world" }
+        Text { text = "Hello world" }
+        Text { text = "Hello world" }
+
+        StackView
+        {
+            orientation = "Horizontal"
+            padding = (10, 10)
+            item_spacing = 5
+
+            Button { text = "Hello world" }
+            Button { text = "Hello world" }
+            Button { text = "Hello world" }
+        }
+
+        Text { text = "Hello world" }
+        Text { text = "Hello world" }
+        Button { text = "Hello world" }
+        Text { text = "Hello world" }
+    }
+}
+```
+![ExampleImage](img/items/stack_view.png)
+
+---
 ## Text
 ### Description:
 The text is equal to ```ImGui::Text()``` and is used to display information.
 ### Attributes:
-| Name     | Type   | Description                                                  | Default Value           |
-| ---------| ------ | ------------------------------------------------------------ | ----------------------- |
-| text     | String | The Text that will be displayed                              |  "##<item_address>", which is displayed as an empty string. |
-| color    | Float4 | The display color of the text                                | The global text color will be used |
+| Name | Type | Description | Default Value |
+| ---| --- | --- | --- |
+| text | String | The Text that will be displayed | "##<item_address>", which is displayed as an empty string. |
+| color | Float4 | The display color of the text | The global text color will be used |
 ### Implemented API functions:
 | Function | Description |
 | --- | --- |
@@ -122,21 +171,32 @@ Panel
     position = (300, 300)
     size     = (250, 200)
 
-    Text { text = "Some information" }
-    Text
+    StackView
     {
-        text = "Colored text"
-        color = (0.7, 0.2, 0.5, 1.0)
-    }
-    Text
-    {
-        text = "Colored text"
-        color = (0.2, 0.8, 0.2, 1.0)
-    }
-    Text
-    {
-        text = "Colored text"
-        color = (0.3, 0.5, 0.8, 1.0)
+        padding = (5, 5)
+
+        Text
+        {
+            text = "Some information"
+        }
+
+        Text
+        {
+            text = "Colored text"
+            color = (0.7, 0.2, 0.5, 1.0)
+        }
+
+        Text
+        {
+            text = "Colored text"
+            color = (0.2, 0.8, 0.2, 1.0)
+        }
+
+        Text
+        {
+            text = "Colored text"
+            color = (0.3, 0.5, 0.8, 1.0)
+        }
     }
 }
 ```
@@ -147,10 +207,10 @@ Panel
 ### Description:
 The button is equal to ```ImGui::Button()```.
 ### Attributes:
-| Name          | Type   | Description                                                    | Default Value                          |
-| ------------- | ------ | -------------------------------------------------------------- | -------------------------------------- |
-| text          | String | The text that is displayed inside the button                   |  "##<item_address>", which is displayed as an empty string. |
-| size          | Float2 | Size of the button                                             | Size of the button contents            |
+| Name | Type | Description | Default Value |
+| --- | --- | --- | --- |
+| text | String | The text that is displayed inside the button | "##<item_address>", which is displayed as an empty string. |
+| size | Float2 | Size of the button | Size of the button contents |
 ### Implemented API functions:
 | Function | Description |
 | --- | --- |
@@ -166,15 +226,19 @@ Panel
     position = (300, 300)
     size     = (220, 110)
 
-    Button : button_0
+    StackView
     {
-        text = "Press me"
-    }
+        padding = (10, 10)
 
-    Button : button_1
-    {
-        text = "Press me"
-        size = (200, 50)
+        Button : button_0
+        {
+            text = "Press me"
+        }
+
+        Button : button_1
+        {
+            text = "Press me"
+        }
     }
 }
 ```
@@ -191,7 +255,7 @@ if (gui::IsHovered(file, "button_1"))
 ---
 ## ButtonStyle
 ### Description:
-The button style is used to change the apperance of a button. Keep in mind that the ButtonStyle can only be created inside a button. The last defined ButtonStyle is used if several are defined within a single button.
+The button style is used to change the appearance of a button. Keep in mind that the ButtonStyle can only be created inside a button. The last defined ButtonStyle is used if several are defined within a single button.
 ### Attributes:
 | Name | Type | Description | Default Value|
 | --- | --- | --- | --- |
@@ -211,19 +275,22 @@ Panel
     title = "Example panel"
     size  = (130, 0)
 
-    Button
+    StackView
     {
-        text = "Green button"
-
-        ButtonStyle
+        Button
         {
-            color         = (0.0, 1.0, 0.0, 1.0)
-            color_hovered = (1.0, 0.0, 0.0, 1.0)
-            color_active  = (0.0, 0.0, 1.0, 1.0)
-            rounding      = 10
-            border_size   = 1
-            border_color  = (0.8, 0.3, 0.4, 1.0)
-            border_shadow = (0.2, 0.2, 0.9, 0.5)
+            text = "Green button"
+
+            ButtonStyle
+            {
+                color         = (0.0, 1.0, 0.0, 1.0)
+                color_hovered = (1.0, 0.0, 0.0, 1.0)
+                color_active  = (0.0, 0.0, 1.0, 1.0)
+                rounding      = 10
+                border_size   = 1
+                border_color  = (0.8, 0.3, 0.4, 1.0)
+                border_shadow = (0.2, 0.2, 0.9, 0.5)
+            }
         }
     }
 }
@@ -255,16 +322,19 @@ Panel
     position = (300, 300)
     size     = (220, 110)
 
-    Checkbox : checkbox_0
+    StackView
     {
-        text = "Test checkbox 1"
-        toggled = false
-    }
+        Checkbox : checkbox_0
+        {
+            text = "Test checkbox 1"
+            toggled = false
+        }
 
-    Checkbox : checkbox_1
-    {
-        text = "Test checkbox 2"
-        toggled = true
+        Checkbox : checkbox_1
+        {
+            text = "Test checkbox 2"
+            toggled = true
+        }
     }
 }
 ```
@@ -338,9 +408,12 @@ Panel
 {
     title = "Container example"
 
-    Text { text = "Red text"   color = @colors.red.value   }
-    Text { text = "Green text" color = @colors.green.value }
-    Text { text = "Blue text"  color = @colors.blue.value  }
+    StackView
+    {
+        Text { text = "Red text"   color = @colors.red.value   }
+        Text { text = "Green text" color = @colors.green.value }
+        Text { text = "Blue text"  color = @colors.blue.value  }
+    }
 }
 ```
 ![ExampleImage](img/items/container.png)
@@ -348,34 +421,37 @@ Panel
 ---
 ## Attribute type items <a name="AttributeTypeItems"></a>
 ### Description:
-The attribute type items are used to dynamically create values from the markup language. They represent every attribute type that exists in the markup language. This is useful to for exampel define colors and their values.
+The attribute type items are used to dynamically create values from the markup language. They represent every attribute type that exists in the markup language. This is useful to for example define colors and their values.
 ### Attributes:
-| Name   | Description |
-| ------ | ----------- |
+| Name | Description |
+| --- | --- |
 | value  | Attribute that stores the custom value |
 ### Example:
 ```
 // example.ill
 
+Bool   : bool    { value = true         }
+Float  : float   { value = 1.234        }
+Float2 : float_2 { value = (1, 2)       }
+Float3 : float_3 { value = (1, 2, 3)    }
+Float4 : float_4 { value = (1, 2, 3, 4) }
+Int    : int     { value = 1234         }
+String : string  { value = "String"     }
+
 Panel
 {
     title = "Example"
 
-    Bool   : bool    { value = true         }
-    Float  : float   { value = 1.234        }
-    Float2 : float_2 { value = (1, 2)       }
-    Float3 : float_3 { value = (1, 2, 3)    }
-    Float4 : float_4 { value = (1, 2, 3, 4) }
-    Int    : int     { value = 1234         }
-    String : string  { value = "String"     }
-
-    Text { text = @bool.value    }
-    Text { text = @float.value   }
-    Text { text = @float_2.value }
-    Text { text = @float_3.value }
-    Text { text = @float_4.value }
-    Text { text = @int.value     }
-    Text { text = @string.value  }
+    StackView
+    {
+        Text { text = @bool.value    }
+        Text { text = @float.value   }
+        Text { text = @float_2.value }
+        Text { text = @float_3.value }
+        Text { text = @float_4.value }
+        Text { text = @int.value     }
+        Text { text = @string.value  }
+    }
 }
 
 Container : colors
@@ -390,9 +466,12 @@ Panel
     title = "Color example"
     size = (100, 100)
 
-    Text { text = "Red"   color = @colors.red.value   }
-    Text { text = "Green" color = @colors.green.value }
-    Text { text = "Blue"  color = @colors.blue.value  }
+    StackView
+    {
+        Text { text = "Red"   color = @colors.red.value   }
+        Text { text = "Green" color = @colors.green.value }
+        Text { text = "Blue"  color = @colors.blue.value  }
+    }
 }
 ```
 ![ExampleImage](img/items/attribute_types.png)
