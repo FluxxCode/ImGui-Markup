@@ -9,7 +9,6 @@ namespace imgui_markup::internal{
 Button::Button(std::string id, ItemBase* parent)
     : DrawableBase(ItemType::kButton, id, parent)
 {
-    this->AddAttribute("size", &this->size_);
     this->AddAttribute("text", &this->text_);
 }
 
