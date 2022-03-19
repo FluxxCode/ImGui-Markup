@@ -20,8 +20,12 @@ void ChildPanel::IMPL_Update(Float2 position, Float2 size)
 
     ImGui::SetCursorPos(position);
 
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
+
     ImGui::BeginChild(this->title_, this->size_, this->border_.value,
         ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+
+    ImGui::PopStyleVar(1);
 
     this->is_hovered_ = ImGui::IsWindowHovered();
 
