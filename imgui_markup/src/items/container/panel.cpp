@@ -113,7 +113,11 @@ void Panel::InitPositionAndSize(Float2 position, Float2 size)
     if (this->in_view_)
     {
         this->position_ = position;
-        this->size_ = size;
+
+        if (size.x != 0)
+            this->size_.x = size.x;
+        if (size.y != 0)
+            this->size_.y = size.y;
 
         ImGui::SetNextWindowPos(this->position_);
         ImGui::SetNextWindowSize(this->size_);
