@@ -16,31 +16,69 @@ ChildPanel::ChildPanel(std::string id, ItemBase* parent)
 
 void ChildPanel::IMPL_Update(Float2 position, Float2 size)
 {
-    this->position_ = position;
-    this->size_ = size;
+    this->InitPositionAndSize(position, size);
 
     ImGui::SetCursorPos(position);
 
-    ImGui::BeginChild(this->title_, size, this->border_.value,
+    ImGui::BeginChild(this->title_, this->size_, this->border_.value,
         ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
 
     this->is_hovered_ = ImGui::IsWindowHovered();
 
-    const Float2 child_size = Float2(
-        this->size_.x.value - this->padding_.x.value * 2,
-        this->size_.y.value - this->padding_.y.value * 2);
-
-    const Float2 child_position = Float2(this->padding_.x, this->padding_.y);
+    Float2 actual_size = Float2(1.0f, 1.0f);
 
     for (auto& child : this->child_items_)
     {
         if (!child)
             continue;
 
-        child->Update(child_position, child_size);
+        child->Update(this->CalculateChildPosition(),
+                      this->CalculateChildSize(size));
+
+        if (child->GetCategory() != ItemCategory::kStyle &&
+            child->GetCategory() != ItemCategory::kOther)
+        {
+            actual_size = child->GetSize();
+        }
     }
 
     ImGui::EndChild();
+
+    actual_size.x += this->padding_.x * 2;
+    actual_size.y += this->padding_.y * 2;
+
+    if (size.x == 0)
+        this->size_.x = actual_size.x;
+    if (size.y == 0)
+        this->size_.y = actual_size.y;
+}
+
+void ChildPanel::InitPositionAndSize(Float2 position, Float2 size)
+{
+    this->position_ = position;
+
+    if (size.x != 0)
+        this->size_.x = size.x;
+    if (size.y != 0)
+        this->size_.y = size.y;
+}
+
+Float2 ChildPanel::CalculateChildPosition() const
+{
+    return this->padding_;
+}
+
+Float2 ChildPanel::CalculateChildSize(Float2 size) const
+{
+    Float2 child_size = Float2(this->size_.x.value - this->padding_.x * 2,
+                               this->size_.y.value - this->padding_.y * 2);
+
+    if (child_size.x < 0)
+        child_size.x = 0;
+    if (child_size.y < 0)
+        child_size.y = 0;
+
+    return child_size;
 }
 
 bool ChildPanel::OnProcessStart(std::string& error_message)

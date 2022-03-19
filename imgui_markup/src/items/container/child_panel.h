@@ -25,6 +25,11 @@ public:
 private:
     bool is_hovered_ = false;
 
+    void InitPositionAndSize(Float2 position, Float2 size);
+
+    Float2 CalculateChildPosition() const;
+    Float2 CalculateChildSize(Float2 size) const;
+
     // See item.h for documentation
     void IMPL_Update(Float2 position, Float2 size);
     bool OnProcessStart(std::string& error_message);
