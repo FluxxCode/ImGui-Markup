@@ -5,7 +5,7 @@
 #include "common/enum_conversion.h"
 
 #include "attribute_types/float2.h"
-#include "attribute_types/enum.h"
+#include "attribute_types/bool.h"
 #include "attribute_types/enum.h"
 
 
@@ -22,6 +22,8 @@ public:
     Enum<enums::Orientation> orientation_ = enums::Orientation::kVertical;
     Float2 padding_ = Float2(0.0f, 0.0f);
     Float item_spacing_ = Float(0.0f);
+
+    Bool border_ = false;  // Only used for debugging, will be changed later
 
 private:
     bool is_hovered_ = false;

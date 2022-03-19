@@ -13,6 +13,8 @@ StackView::StackView(std::string id, ItemBase* parent)
     this->AddAttribute("orientation",  &this->orientation_);
     this->AddAttribute("padding",      &this->padding_);
     this->AddAttribute("item_spacing", &this->item_spacing_);
+
+    this->AddAttribute("border", &this->border_);
 }
 
 void StackView::IMPL_Update(Float2 position, Float2 size)
@@ -107,7 +109,7 @@ void StackView::BeginChild(Float2 position, Float2 size)
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
     ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0);
 
-    ImGui::BeginChild(this->draw_id_.c_str(), this->size_, false);
+    ImGui::BeginChild(this->draw_id_.c_str(), this->size_, this->border_);
 
     ImGui::PopStyleVar(2);
 }
