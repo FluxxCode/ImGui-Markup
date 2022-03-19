@@ -19,10 +19,10 @@ StackView::StackView(std::string id, ItemBase* parent)
 
 void StackView::IMPL_Update(Float2 position, Float2 size)
 {
-    Float2 actual_size = size;
-
     if (this->init_attributes_)
         this->InitAttributes();
+
+    Float2 actual_size = this->UpdateSizes(size);
 
     this->BeginChild(position, size);
 
@@ -57,9 +57,6 @@ void StackView::IMPL_Update(Float2 position, Float2 size)
         }
     }
 
-    actual_size.y += this->padding_.y * 2 - this->item_spacing_;
-    actual_size.x += this->padding_.x * 2 - this->item_spacing_;
-
     this->EndChild(size, actual_size);
 
     this->finished_first_update_ = true;
@@ -76,6 +73,28 @@ void StackView::InitAttributes()
         this->item_spacing_ = ImGui::GetStyle().ItemSpacing.y;
     else
         this->item_spacing_ = ImGui::GetStyle().ItemSpacing.x;
+}
+
+Float2 StackView::UpdateSizes(Float2 size)
+{
+    if (size.x != 0)
+        this->size_.x = size.x;
+    if (size.y != 0)
+        this->size_.y = size.y;
+
+    Float2 actual_size = size;
+
+    if (size.x == 0)
+        actual_size.x += this->padding_.x * 2;
+    if (size.y == 0)
+        actual_size.y += this->padding_.y * 2;
+
+    if (this->orientation_ == enums::Orientation::kVertical)
+        actual_size.y -= this->item_spacing_;
+    if (this->orientation_ == enums::Orientation::kHorizontal)
+        actual_size.x -= this->item_spacing_;
+
+    return actual_size;
 }
 
 void StackView::BeginChild(Float2 position, Float2 size)
@@ -116,8 +135,6 @@ void StackView::BeginChild(Float2 position, Float2 size)
 
 void StackView::EndChild(Float2 size, Float2 actual_item_size)
 {
-    this->size_ = size;
-
     if (size.x == 0)
         this->size_.x = actual_item_size.x;
     if (size.y == 0)

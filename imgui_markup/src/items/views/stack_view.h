@@ -37,6 +37,12 @@ private:
     bool init_attributes_ = true;
     void InitAttributes();
 
+    /**
+     * Updates the stack view sizes and returns the
+     * the start values of the child item's actual size.
+     */
+    Float2 UpdateSizes(Float2 size);
+
     void BeginChild(Float2 position, Float2 size);
     void EndChild(Float2 size, Float2 actual_item_size);
 
