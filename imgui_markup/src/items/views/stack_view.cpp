@@ -55,10 +55,8 @@ void StackView::IMPL_Update(Float2 position, Float2 size)
         }
     }
 
-    if (this->orientation_ == enums::Orientation::kVertical)
-        actual_size.y += this->padding_.y * 2 - this->item_spacing_;
-    else if (this->orientation_ == enums::Orientation::kHorizontal)
-        actual_size.x += this->padding_.x * 2 - this->item_spacing_;
+    actual_size.y += this->padding_.y * 2 - this->item_spacing_;
+    actual_size.x += this->padding_.x * 2 - this->item_spacing_;
 
     this->EndChild(size, actual_size);
 
