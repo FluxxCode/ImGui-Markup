@@ -57,7 +57,10 @@
 
         this->UpdateChildPositionAndSize();
 
-        Float2 actual_size = Float2(1.0f, 1.0f);
+        Float2 actual_size = this->size_;
+
+        if (this->in_view_)
+            actual_size = size;
 
         for (const auto& child : this->child_items_)
         {
