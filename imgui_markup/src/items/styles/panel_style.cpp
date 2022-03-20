@@ -119,14 +119,14 @@ bool PanelStyle::OnProcessStart(std::string& error_message)
     if (!this->parent_)
     {
         error_message = "Item of type \"PanelStyle\" can only be created "
-                        "insdie an item of type \"Button\"";
+                        "insdie an item of type \"Panel\"";
         return false;
     }
 
     if (this->parent_->GetType() != ItemType::kPanel)
     {
         error_message = "Item of type \"PanelStyle\" can only be created "
-                        "insdie an item of type \"Button\"";
+                        "insdie an item of type \"Panel\"";
         return false;
     }
 
