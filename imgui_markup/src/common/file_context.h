@@ -4,7 +4,7 @@
 #include "items/item_base.h"
 #include "attribute_types/string.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 struct FileContext
@@ -44,6 +44,6 @@ struct FileContext
     std::vector<std::shared_ptr<ItemBase>> item_tree_;
 };
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 #endif  // IMGUI_MARKUP_SRC_ITEMS_GLOBAL_ITEM_H_

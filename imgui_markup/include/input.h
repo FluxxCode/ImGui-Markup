@@ -1,7 +1,7 @@
 #ifndef IMGUI_MARKUP_INCLUDE_INPUT_H_
 #define IMGUI_MARKUP_INCLUDE_INPUT_H_
 
-namespace imgui_markup
+namespace igm
 {
 
 enum class MouseButton
@@ -11,6 +11,6 @@ enum class MouseButton
     kMiddle = 2
 };
 
-}  // namespace imgui_markup
+}  // namespace igm
 
 #endif // IMGUI_MARKUP_INCLUDE_INPUT_H_

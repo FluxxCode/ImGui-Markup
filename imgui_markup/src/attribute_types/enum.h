@@ -8,7 +8,7 @@
 
 #include <string>
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 struct EnumProto
@@ -50,6 +50,6 @@ private:
     }
 };
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 #endif  // IMGUI_MARKUP_SRC_OTHER_ENUM_H_

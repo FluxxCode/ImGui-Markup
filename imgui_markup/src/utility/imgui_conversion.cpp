@@ -3,7 +3,7 @@
 
 #include <assert.h>
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 ImGuiMouseButton MouseButtonToImGui(MouseButton mouse_button)
@@ -20,4 +20,4 @@ ImGuiMouseButton MouseButtonToImGui(MouseButton mouse_button)
     return ImGuiMouseButton_Left;
 }
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal

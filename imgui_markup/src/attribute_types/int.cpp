@@ -1,7 +1,7 @@
 #include "impch.h"
 #include "attribute_types/int.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 Int::Int()
@@ -28,4 +28,4 @@ bool Int::IMPL_LoadValue(const String& value_in)
     return internal::utils::StringToInt(value_in, &this->value);
 }
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal

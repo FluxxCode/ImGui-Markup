@@ -1,7 +1,7 @@
 #include "impch.h"
 #include "items/item_base.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 ItemBase::ItemBase(
@@ -67,4 +67,4 @@ void ItemBase::AddChild(std::shared_ptr<ItemBase> child)
     this->child_items_.push_back(child);
 }
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal

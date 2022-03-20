@@ -7,7 +7,7 @@
 #include "attribute_types/string.h"
 #include "attribute_types/float2.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 class PanelStyle;
@@ -87,6 +87,6 @@ private:
     Bool API_IsHovered() const;
 };
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 #endif  // IMGUI_MARKUP_SRC_ITEMS_CONTAINER_PANEL_H_

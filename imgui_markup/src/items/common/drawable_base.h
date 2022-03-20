@@ -7,7 +7,7 @@
 #include "attribute_types/float2.h"
 #include "attribute_types/float4.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 class DrawableBase : public ItemBase
@@ -32,6 +32,6 @@ private:
     const Float4 window_bg_color_ = Float4(0.0f, 1.0f, 0.2f, 0.0f);
 };
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 #endif  // IMGUI_MARKUP_SRC_ITEMS_COMMON_DRAWABLE_BASE_H_

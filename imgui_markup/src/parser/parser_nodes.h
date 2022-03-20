@@ -11,7 +11,7 @@
 #include <vector>
 #include <memory>
 
-namespace imgui_markup::internal::parser
+namespace igm::internal::parser
 {
 
 enum class ParserNodeType
@@ -98,6 +98,6 @@ struct ParserAttributeReferenceNode : public ParserNode
     const std::string attribute_name;
 };
 
-}  // namespace imgui_markup::internal::parser
+}  // namespace igm::internal::parser
 
 #endif  // IMGUI_MARKUP_SRC_IMGUI_MARKUP_PARSER_PARSER_NODES_H_

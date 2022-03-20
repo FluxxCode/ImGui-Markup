@@ -3,7 +3,7 @@
 
 #include "utility/utility.h"
 
-namespace imgui_markup::internal::parser
+namespace igm::internal::parser
 {
 
 /* Lexer Token */
@@ -604,4 +604,4 @@ std::string Lexer::GetCurrentDirectory() const
         this->file_stack_.back().path).parent_path().string();
 }
 
-}  // namespace imgui_markup::internal::parser
+}  // namespace igm::internal::parser

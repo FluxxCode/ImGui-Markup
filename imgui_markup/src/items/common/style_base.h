@@ -3,7 +3,7 @@
 
 #include "items/item_base.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 struct StyleBase : public ItemBase
@@ -15,6 +15,6 @@ struct StyleBase : public ItemBase
     StyleBase(const StyleBase&) = delete;
 };
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 #endif  // IMGUI_MARKUP_SRC_ITEMS_STYLES_STYLE_BASE_H_

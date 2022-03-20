@@ -4,7 +4,7 @@
 #include "items/common/other_base.h"
 #include "attribute_types/int.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 struct ItemInt : public OtherBase
@@ -15,6 +15,6 @@ struct ItemInt : public OtherBase
     Int value;
 };
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 #endif  // IMGUI_MARKUP_SRC_IMGUI_MARKUP_ITEMS_OTHER_ITEM_INT_H_

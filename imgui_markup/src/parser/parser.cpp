@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-namespace imgui_markup::internal::parser
+namespace igm::internal::parser
 {
 
 /* Parser */
@@ -383,4 +383,4 @@ std::shared_ptr<ParserAttributeReferenceNode>
     return node;
 }
 
-}  // namespace imgui_markup::internal::parser
+}  // namespace igm::internal::parser

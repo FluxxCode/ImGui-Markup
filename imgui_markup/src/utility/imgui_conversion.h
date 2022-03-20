@@ -6,12 +6,12 @@
 #include "imgui.h"
 
 // Conversion functions between custom and imgui types
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 ImGuiMouseButton MouseButtonToImGui(MouseButton mouse_button);
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 
 #endif  // IMGUI_MARKUP_SRC_UTILITY_H_

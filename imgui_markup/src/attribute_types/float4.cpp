@@ -1,7 +1,7 @@
 #include "impch.h"
 #include "attribute_types/float4.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 Float4::Float4()
@@ -60,4 +60,4 @@ bool Float4::IMPL_LoadValue(const String& value_in)
     return true;
 }
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal

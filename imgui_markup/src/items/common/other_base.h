@@ -3,7 +3,7 @@
 
 #include "items/item_base.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 struct OtherBase : public ItemBase
@@ -15,6 +15,6 @@ struct OtherBase : public ItemBase
     OtherBase(const OtherBase&) = delete;
 };
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 #endif  // IMGUI_MARKUP_SRC_ITEMS_OTHER_OTHER_BASE_H_

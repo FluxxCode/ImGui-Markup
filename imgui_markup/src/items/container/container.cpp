@@ -1,7 +1,7 @@
 #include "impch.h"
 #include "items/container/container.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 Container::Container(std::string id, ItemBase* parent)
@@ -33,4 +33,4 @@ bool Container::OnProcessStart(std::string& error_message)
     return false;
 }
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal

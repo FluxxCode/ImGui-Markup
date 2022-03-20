@@ -3,7 +3,7 @@
 
 #include "imgui_fork.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 void DrawableBase::BeginItemArea(Float2 position, Float2 size)
@@ -53,4 +53,4 @@ void DrawableBase::EndItemArea(Float2 size, Float2 actual_item_size)
         ImGui::EndChild();
 }
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal

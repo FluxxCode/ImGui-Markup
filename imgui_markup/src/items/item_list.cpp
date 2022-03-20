@@ -1,7 +1,7 @@
 #include "impch.h"
 #include "items/item_list.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 std::shared_ptr<ItemBase> ItemList::CreateItem(
@@ -51,4 +51,4 @@ bool ItemList::IMPLIsDefined(std::string type, ItemType* converted_type)
     return true;
 }
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal

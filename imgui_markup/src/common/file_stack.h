@@ -6,7 +6,7 @@
 
 #include <string>
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 /**
@@ -72,6 +72,6 @@ private:
     ItemAPI* IMPL_GetItemAPI(const size_t id, const std::string item_id);
 };
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 #endif  // IMGUI_MARKUP_SRC_COMMON_FILE_STACK_H_

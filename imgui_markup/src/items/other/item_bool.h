@@ -4,7 +4,7 @@
 #include "items/common/other_base.h"
 #include "attribute_types/bool.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 struct ItemBool : public OtherBase
@@ -15,6 +15,6 @@ struct ItemBool : public OtherBase
     Bool value;
 };
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 #endif  // IMGUI_MARKUP_SRC_IMGUI_MARKUP_ITEMS_OTHER_ITEM_BOOL_H_

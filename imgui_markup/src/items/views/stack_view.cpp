@@ -4,7 +4,7 @@
 #include "utility/imgui_conversion.h"
 #include "items/styles/panel_style.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 StackView::StackView(std::string id, ItemBase* parent)
@@ -164,4 +164,4 @@ bool StackView::OnProcessStart(std::string& error_message)
     return true;
 }
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal

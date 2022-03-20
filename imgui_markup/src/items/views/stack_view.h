@@ -9,7 +9,7 @@
 #include "attribute_types/enum.h"
 
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 class StackView : public ViewBase
@@ -51,6 +51,6 @@ private:
     bool OnProcessStart(std::string& error_message);
 };
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 #endif  // IMGUI_MARKUP_SRC_ITEMS_VIEWS_STACK_VIEW_H_

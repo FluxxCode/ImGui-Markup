@@ -7,7 +7,7 @@
 
 #include <string>
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 class Float : public AttributeBase
@@ -36,6 +36,6 @@ private:
     bool IMPL_LoadValue(const Int& value);
 };
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 #endif  // IMGUI_MARKUP_SRC_ATTRIBUTE_TYPES

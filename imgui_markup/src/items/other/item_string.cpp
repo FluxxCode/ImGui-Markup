@@ -1,7 +1,7 @@
 #include "impch.h"
 #include "items/other/item_string.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 ItemString:: ItemString(std::string id, ItemBase* parent)
@@ -10,4 +10,4 @@ ItemString:: ItemString(std::string id, ItemBase* parent)
     this->AddAttribute("value", &this->value);
 }
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal

@@ -3,7 +3,7 @@
 
 #include "utility/imgui_conversion.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 ChildPanel::ChildPanel(std::string id, ItemBase* parent)
@@ -139,4 +139,4 @@ Bool ChildPanel::API_IsHovered() const
     return this->is_hovered_;
 }
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal

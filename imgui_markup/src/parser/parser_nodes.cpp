@@ -1,7 +1,7 @@
 #include "impch.h"
 #include "parser/parser_nodes.h"
 
-namespace imgui_markup::internal::parser
+namespace igm::internal::parser
 {
 
 ParserNode::ParserNode(ParserNodeType type, ParserPosition position)
@@ -64,4 +64,4 @@ ParserAttributeReferenceNode::ParserAttributeReferenceNode(
       attribute_name(attribute_name)
 { }
 
-}  // namespace imgui_markup::internal::parser
+}  // namespace igm::internal::parser

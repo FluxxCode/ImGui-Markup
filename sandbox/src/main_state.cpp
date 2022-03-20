@@ -11,7 +11,7 @@ void MainState::Update()
     this->UpdateControlWindow();
 
     for (unsigned int i = 0; i < this->tests_.size(); i++)
-        gui::Update(this->tests_[i]);
+        igm::Update(this->tests_[i]);
 }
 
 void MainState::Render()
@@ -25,26 +25,26 @@ void MainState::Init()
 
     bool result = false;
 
-    this->control_window_ = gui::ParseFile(this->control_window_path_, &result);
+    this->control_window_ = igm::ParseFile(this->control_window_path_, &result);
     if (!result)
     {
        std::cerr << "Unable to load control window: " << std::endl <<
-           gui::GetLastResult(this->control_window_).message << std::endl;
+           igm::GetLastResult(this->control_window_).message << std::endl;
     }
 
     for (auto const& entry : fs::directory_iterator(
        this->test_folder_))
     {
-       if (entry.path().extension() != ".ill")
+       if (entry.path().extension() != ".igm")
            continue;
 
        this->tests_.emplace_back(
-           gui::ParseFile(entry.path().string().c_str(), &result));
+           igm::ParseFile(entry.path().string().c_str(), &result));
 
        if (!result)
        {
             std::cerr << "Unable to load test " << entry.path() << ":\n" <<
-                gui::GetLastResult(this->tests_.back()).message << std::endl;
+                igm::GetLastResult(this->tests_.back()).message << std::endl;
 
            continue;
        }
@@ -53,8 +53,8 @@ void MainState::Init()
 
 void MainState::UpdateControlWindow()
 {
-    if (gui::IsPressed(this->control_window_, "btn_reload"))
+    if (igm::IsPressed(this->control_window_, "btn_reload"))
         this->Init();
 
-    gui::Update(this->control_window_);
+    igm::Update(this->control_window_);
 }

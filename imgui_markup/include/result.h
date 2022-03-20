@@ -3,12 +3,12 @@
 
 #include <string>
 
-namespace imgui_markup
+namespace igm
 {
 
 enum class ResultType
 {
-    kSucess,
+    kSuccess,
     kParserError,
     kInvalidContextID,
     kInvalidItemID
@@ -17,7 +17,7 @@ enum class ResultType
 struct Result
 {
     Result()
-        : type(ResultType::kSucess), message("Success")
+        : type(ResultType::kSuccess), message("Success")
     { }
 
     Result(ResultType type, std::string message)
@@ -28,6 +28,6 @@ struct Result
     std::string message;
 };
 
-}  // namespace imgui_markup
+}  // namespace igm
 
 #endif  // IMGUI_LAYER_INCLUDE_RESULT_H_

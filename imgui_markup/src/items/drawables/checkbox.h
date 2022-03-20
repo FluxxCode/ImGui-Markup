@@ -6,7 +6,7 @@
 #include "attribute_types/string.h"
 #include "attribute_types/bool.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 class Checkbox : public DrawableBase
@@ -33,6 +33,6 @@ private:
     Bool API_IsToggled() const;
 };
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 #endif  // IMGUI_MARKUP_SRC_ITEMS_DRAWABLES_CHECKBOX_H_

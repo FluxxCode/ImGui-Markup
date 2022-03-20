@@ -3,7 +3,7 @@
 
 #include "items/item_list.h"
 
-namespace imgui_markup::internal::parser
+namespace igm::internal::parser
 {
 
 /* Interpreter */
@@ -453,4 +453,4 @@ std::string Interpreter::AttributeTypeToString(const AttributeType type) const
     }
 }
 
-}  // namespace imgui_markup::internal::parser
+}  // namespace igm::internal::parser

@@ -34,7 +34,7 @@
 #include <map>         // map
 #include <functional>  // function
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 class ItemList
@@ -136,6 +136,6 @@ private:
     }
 };
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 #endif  // IMGUI_MARKUP_SRC_ITEMS_ITEM_LIST_H_

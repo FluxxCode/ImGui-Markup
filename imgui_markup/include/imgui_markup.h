@@ -11,7 +11,7 @@
 #include "result.h"
 #include "input.h"
 
-namespace imgui_markup
+namespace igm
 {
 
 /**
@@ -59,6 +59,6 @@ bool IsHovered(size_t context, std::string item_id, bool* resutl = nullptr);
 
 bool IsToggled(size_t context, std::string item_id, bool* resutl = nullptr);
 
-}  // namespace imgui_markup::internal
+}  // namespace igm
 
 #endif  // IMGUI_MARKUP_INCLUDE_IMGUI_MARKUP_H_

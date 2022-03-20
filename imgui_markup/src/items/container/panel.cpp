@@ -4,7 +4,7 @@
     #include "utility/imgui_conversion.h"
     #include "items/styles/panel_style.h"
 
-    namespace imgui_markup::internal
+    namespace igm::internal
     {
 
     Panel::Panel(std::string id, ItemBase* parent)
@@ -273,4 +273,4 @@
         return this->is_hovered_;
     }
 
-    }  // namespace imgui_markup::internal
+    }  // namespace igm::internal

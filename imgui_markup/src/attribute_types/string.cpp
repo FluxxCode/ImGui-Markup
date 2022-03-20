@@ -9,7 +9,7 @@
 #include "attribute_types/int.h"
 #include "attribute_types/string.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 String::String()
@@ -73,4 +73,4 @@ bool String::IMPL_LoadValue(const String& value_in)
     return true;
 }
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal

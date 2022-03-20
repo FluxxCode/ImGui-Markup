@@ -3,7 +3,7 @@
 
 #include "items/item_base.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 struct ViewBase : public ItemBase
@@ -15,6 +15,6 @@ struct ViewBase : public ItemBase
     ViewBase(const ViewBase&) = delete;
 };
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 #endif  // IMGUI_MARKUP_SRC_ITEMS_COMMON_VIEW_BASE_H_

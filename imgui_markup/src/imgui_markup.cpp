@@ -9,7 +9,7 @@
 
 #include <assert.h>
 
-namespace imgui_markup
+namespace igm
 {
 
 size_t ParseFile(const char* path, bool* result)
@@ -84,4 +84,4 @@ bool IsToggled(size_t context_id, std::string item_id, bool* result)
     return api->API_IsToggled();
 }
 
-}  // namespace imgui_markup
+}  // namespace igm

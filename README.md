@@ -75,26 +75,24 @@ Panel
 ```
 ```cpp
 // main.cpp
-namespace gui = imgui_markup;
-
 size_t example_file;
 
 void Init()
 {
     bool result;
 
-    example_file = gui::ParseFile("example.ill", &result);
+    example_file = igm::ParseFile("example.ill", &result);
 
     if (!result)
-        std::cerr << gui::GetLastError(example_file).message << std::endl;
+        std::cerr << igm::GetLastError(example_file).message << std::endl;
 }
 
 // Main update function of the program, called every frame
 void Update()
 {
-    gui::Update(example_file);
+    igm::Update(example_file);
 
-    if (gui::IsPressed(example_file, "button_0"))
+    if (igm::IsPressed(example_file, "button_0"))
         std::cout << "Button is pressed" << std::endl;
 }
 ```

@@ -7,7 +7,7 @@
 #include "attribute_types/float2.h"
 #include "attribute_types/string.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 class Text : public DrawableBase
@@ -33,6 +33,6 @@ private:
     Bool API_IsHovered() const;
 };
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 #endif  // IMGUI_MARKUP_SRC_ITEMS_DRAWABLES_TEXT_H_

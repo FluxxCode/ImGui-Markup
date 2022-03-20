@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 
-namespace imgui_markup::internal::parser
+namespace igm::internal::parser
 {
 
 /* Exceptions */
@@ -309,6 +309,6 @@ private:
         CreateAttributeReferenceNode();
 };
 
-}  // namespace imgui_markup::internal::parser
+}  // namespace igm::internal::parser
 
 #endif  // IMGUI_MARKUP_SRC_IMGUI_MARKUP_PARSER_PARSER_H_

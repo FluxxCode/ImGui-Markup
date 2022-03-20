@@ -1,7 +1,7 @@
 #include "impch.h"
 #include "attribute_types/float.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 Float::Float()
@@ -34,4 +34,4 @@ bool Float::IMPL_LoadValue(const Int& value_in)
     return true;
 }
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal

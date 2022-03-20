@@ -4,7 +4,7 @@
 #include "items/styles/button_style.h"
 #include "utility/imgui_conversion.h"
 
-namespace imgui_markup::internal{
+namespace igm::internal{
 
 Button::Button(std::string id, ItemBase* parent)
     : DrawableBase(ItemType::kButton, id, parent)
@@ -64,4 +64,4 @@ Bool Button::API_IsHovered() const
     return this->is_hovered_;
 }
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal

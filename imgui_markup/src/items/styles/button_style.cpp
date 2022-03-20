@@ -1,7 +1,7 @@
 #include "impch.h"
 #include "items/styles/button_style.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 ButtonStyle::ButtonStyle(std::string id, ItemBase* parent)
@@ -94,4 +94,4 @@ bool ButtonStyle::OnProcessStart(std::string& error_message)
     return true;
 }
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal

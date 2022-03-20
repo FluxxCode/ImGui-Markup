@@ -1,7 +1,7 @@
 #include "impch.h"
 #include "items/other/item_float2.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 ItemFloat2::ItemFloat2(std::string id, ItemBase* parent)
@@ -10,4 +10,4 @@ ItemFloat2::ItemFloat2(std::string id, ItemBase* parent)
     this->AddAttribute("value", &this->value);
 }
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal

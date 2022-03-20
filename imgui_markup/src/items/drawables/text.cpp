@@ -3,7 +3,7 @@
 
 #include "utility/imgui_conversion.h"
 
-namespace imgui_markup::internal{
+namespace igm::internal{
 
 Text::Text(std::string id, ItemBase* parent)
     : DrawableBase(ItemType::kText, id, parent)
@@ -61,4 +61,4 @@ Bool Text::API_IsHovered() const
     return this->is_hovered_;
 }
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal

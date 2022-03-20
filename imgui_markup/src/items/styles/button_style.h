@@ -9,7 +9,7 @@
 #include "attribute_types/float2.h"
 #include "attribute_types/float4.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 class ButtonStyle : public StyleBase
@@ -37,6 +37,6 @@ private:
     bool OnProcessStart(std::string& error_message);
 };
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 #endif  // IMGUI_MARKUP_SRC_ITEMS_STYLES_BUTTON_STYLE_H_

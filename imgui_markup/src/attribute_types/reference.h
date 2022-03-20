@@ -3,7 +3,7 @@
 
 #include "attribute_types/attribute_base.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 class Reference : public AttributeBase
@@ -37,6 +37,6 @@ private:
     bool IMPL_LoadValue(const Reference& value);
 };
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 #endif  // IMGUI_MARKUP_SRC_OTHER_REFERENCE_H_

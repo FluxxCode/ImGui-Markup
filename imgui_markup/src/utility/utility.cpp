@@ -1,7 +1,7 @@
 #include "impch.h"
 #include "utility/utility.h"
 
-namespace imgui_markup::internal::utils
+namespace igm::internal::utils
 {
 
 bool StringToInt(std::string str, int* dest)
@@ -99,4 +99,4 @@ void Log(const std::string message)
 #endif
 }
 
-}  // namespace imgui_markup::internal::utils
+}  // namespace igm::internal::utils

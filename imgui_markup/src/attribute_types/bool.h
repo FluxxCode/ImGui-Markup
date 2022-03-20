@@ -6,7 +6,7 @@
 
 #include <string>
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 class Bool : public AttributeBase
@@ -26,6 +26,6 @@ private:
     bool IMPL_LoadValue(const String& value);
 };
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 #endif  // IMGUI_MARKUP_SRC_OTHER_BOOL_H_

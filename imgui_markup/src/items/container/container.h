@@ -3,7 +3,7 @@
 
 #include "items/common/container_base.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 class Container : public ContainerBase
@@ -18,6 +18,6 @@ private:
     bool OnProcessStart(std::string& error_message);
 };
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 #endif  // IMGUI_MARKUP_SRC_ITEMS_CONTAINER_CONTAINER_H_

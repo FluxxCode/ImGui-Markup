@@ -5,7 +5,7 @@
 
 #include "input.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 struct ItemAPI
@@ -17,6 +17,6 @@ virtual Bool API_IsToggled() const { return false; }
 
 };
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 #endif  // IMGUI_MARKUP_SRC_ITEMS_ITEM_API_H_

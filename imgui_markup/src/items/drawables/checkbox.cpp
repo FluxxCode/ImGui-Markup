@@ -3,7 +3,7 @@
 
 #include "utility/imgui_conversion.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 Checkbox::Checkbox(std::string id, ItemBase* parent)
@@ -71,4 +71,4 @@ Bool Checkbox::API_IsToggled() const
     return this->is_toggled_;
 }
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal

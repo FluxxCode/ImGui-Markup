@@ -3,7 +3,7 @@
 
 #include <map>  // std::map
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 enum class ItemCategory : unsigned char
@@ -77,11 +77,11 @@ const std::map<std::string, ItemType> item_mapping =
     { "String",         ItemType::kItemString }
 };
 
-}  // namespace imgui_markup::internal::item_types
+}  // namespace igm::internal::item_types
 
 bool StringToItemType(std::string str, ItemType& out);
 std::string ItemTypeToString(ItemType obj);
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 #endif  // IMGUI_MARKUP_SRC_ITEMS_ITEM_MAPPING_H_

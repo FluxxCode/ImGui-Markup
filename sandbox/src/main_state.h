@@ -3,8 +3,6 @@
 
 #include "imgui_markup.h"
 
-namespace gui = imgui_markup;
-
 class MainState
 {
 public:
@@ -18,7 +16,7 @@ public:
 private:
     // Variables
     const char* test_folder_ = "tests";
-    const char* control_window_path_ = "tests/control_window.ills";
+    const char* control_window_path_ = "tests/control_window.igms";
 
     size_t control_window_;
     std::vector<size_t> tests_;

@@ -6,7 +6,7 @@
 #include <fstream>
 #include <string>
 
-namespace imgui_markup::internal::parser
+namespace igm::internal::parser
 {
 
 enum class LexerTokenType
@@ -446,6 +446,6 @@ private:
     std::string GetCurrentDirectory() const;
 };
 
-}  // namespace imgui_markup::internal::parser
+}  // namespace igm::internal::parser
 
 #endif  // IMGUI_MARKUP_SRC_IMGUI_MARKUP_PARSER_LEXER_H_

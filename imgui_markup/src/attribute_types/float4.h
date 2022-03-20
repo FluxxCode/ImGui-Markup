@@ -7,7 +7,7 @@
 
 #include <string>
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 class Float4 : public AttributeBase
@@ -42,6 +42,6 @@ private:
     bool IMPL_LoadValue(const String& value);
 };
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 #endif  // IMGUI_MARKUP_SRC_OTHER_FLOAT4_H_

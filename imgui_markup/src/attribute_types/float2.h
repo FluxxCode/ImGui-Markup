@@ -7,7 +7,7 @@
 
 #include <string>
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 class Float2 : public AttributeBase
@@ -41,6 +41,6 @@ private:
     void Reset();
 };
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 #endif  // IMGUI_MARKUP_SRC_OTHER_FLOAT2_H_

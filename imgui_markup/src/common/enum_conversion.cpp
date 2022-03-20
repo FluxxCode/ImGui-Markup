@@ -1,7 +1,7 @@
 #include "impch.h"
 #include "common/enum_conversion.h"
 
-namespace imgui_markup::internal::enums
+namespace igm::internal::enums
 {
 
 // LineAlignment
@@ -67,4 +67,4 @@ bool ConvertEnum(Orientation value, std::string& out)
     return true;
 }
 
-}  // namespace imgui_markup::internal::enums
+}  // namespace igm::internal::enums

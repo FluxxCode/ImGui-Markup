@@ -4,7 +4,7 @@
 #include "items/common/other_base.h"
 #include "attribute_types/float4.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 struct ItemFloat4 : public OtherBase
@@ -15,6 +15,6 @@ struct ItemFloat4 : public OtherBase
     Float4 value;
 };
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 #endif  // IMGUI_MARKUP_SRC_IMGUI_MARKUP_ITEMS_OTHER_ITEM_FLOAT4_H_

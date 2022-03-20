@@ -5,7 +5,7 @@
 #include <vector>
 #include <iostream>
 
-namespace imgui_markup::internal::utils
+namespace igm::internal::utils
 {
 
 /**
@@ -75,6 +75,6 @@ bool PathExists(const std::string path);
  */
 void Log(const std::string message);
 
-}  // namespace imgui_markup::internal::utils
+}  // namespace igm::internal::utils
 
 #endif  // IMGUI_MARKUP_SRC_UTILITY_UTILITY_H_

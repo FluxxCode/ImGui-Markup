@@ -3,7 +3,7 @@
 
 #include "parser/parser.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 size_t FileStack::ParseFile(const std::string file, bool* result)
@@ -137,4 +137,4 @@ ItemAPI* FileStack::IMPL_GetItemAPI(
     return dynamic_cast<ItemAPI*>(&context->item_references_.at(item_id));
 }
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal

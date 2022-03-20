@@ -3,7 +3,7 @@
 
 #include "attribute_types/reference.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 AttributeBase::AttributeBase(AttributeType type)
@@ -96,4 +96,4 @@ bool AttributeBase::IMPL_LoadValue(const Reference& value)
     return this->LoadValue(*value.reference);
 }
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal

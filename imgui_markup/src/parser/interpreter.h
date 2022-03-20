@@ -19,7 +19,7 @@
 #include <vector>
 #include <memory>
 
-namespace imgui_markup::internal::parser
+namespace igm::internal::parser
 {
 
 struct InterpreterException
@@ -471,6 +471,6 @@ private:
     std::string AttributeTypeToString(const AttributeType type) const;
 };
 
-}  // namespace imgui_markup::internal::parser
+}  // namespace igm::internal::parser
 
 #endif  // IMGUI_MARKUP_SRC_IMGUI_MARKUP_PARSER_INTERPRETER_H_

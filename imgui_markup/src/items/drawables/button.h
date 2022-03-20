@@ -7,7 +7,7 @@
 #include "attribute_types/float4.h"
 #include "attribute_types/string.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 class ButtonStyle;
@@ -36,6 +36,6 @@ private:
     Bool API_IsHovered() const;
 };
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 #endif  // IMGUI_MARKUP_SRC_ITEMS_DRAWABLES_BUTTON_H_

@@ -1,7 +1,7 @@
 #include "impch.h"
 #include "items/item_mapping.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 bool StringToItemType(std::string str, ItemType& out)
@@ -27,4 +27,4 @@ std::string ItemTypeToString(ItemType obj)
     return std::string();
 }
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal

@@ -1,7 +1,7 @@
 #include "impch.h"
 #include "attribute_types/reference.h"
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 Reference::Reference(AttributeType expected_type)
@@ -51,4 +51,4 @@ bool Reference::IMPL_LoadValue(const Reference& value_in)
     return true;
 }
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal

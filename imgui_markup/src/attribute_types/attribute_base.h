@@ -5,7 +5,7 @@
 
 #include <string>
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 enum class AttributeType
@@ -109,6 +109,6 @@ private:
     virtual bool IMPL_LoadValue(const Reference& value);
 };
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 #endif  // IMGUI_MARKUP_SRC_OTHER_ATTRIBUTE_BASE_H_

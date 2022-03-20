@@ -12,7 +12,7 @@
 #include <vector>
 #include <memory>
 
-namespace imgui_markup::internal
+namespace igm::internal
 {
 
 namespace parser
@@ -160,6 +160,6 @@ private:
     virtual bool OnProcessEnd(std::string& error_message) { return true; }
 };
 
-}  // namespace imgui_markup::internal
+}  // namespace igm::internal
 
 #endif  // IMGUI_MARKUP_SRC_ITEMS_ITEM_BASE_H_
