@@ -17,7 +17,7 @@ public:
     Checkbox& operator=(const Checkbox& other);
 
     String text_;
-    Bool is_toggled_ = false;
+    Bool is_checked_ = false;
 
 private:
     bool is_hovered_ = false;
@@ -30,7 +30,7 @@ private:
     // See item_api.h for documentation
     Bool API_IsPressed(MouseButton button) const;
     Bool API_IsHovered() const;
-    Bool API_IsToggled() const;
+    Bool API_IsChecked() const;
 };
 
 }  // namespace igm::internal

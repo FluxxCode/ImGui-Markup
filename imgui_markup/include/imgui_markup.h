@@ -57,7 +57,7 @@ bool IsPressed(size_t context, std::string item_id,
 
 bool IsHovered(size_t context, std::string item_id, bool* resutl = nullptr);
 
-bool IsToggled(size_t context, std::string item_id, bool* resutl = nullptr);
+bool IsChecked(size_t context, std::string item_id, bool* resutl = nullptr);
 
 }  // namespace igm
 

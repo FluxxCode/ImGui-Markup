@@ -10,7 +10,7 @@ Checkbox::Checkbox(std::string id, ItemBase* parent)
     : DrawableBase(ItemType::kCheckbox, id, parent)
 {
     this->AddAttribute("text",    &this->text_);
-    this->AddAttribute("toggled", &this->is_toggled_);
+    this->AddAttribute("toggled", &this->is_checked_);
 }
 
 Checkbox& Checkbox::operator=(const Checkbox& other)
@@ -25,7 +25,7 @@ void Checkbox::IMPL_Update(Float2 position, Float2 size)
 {
     this->BeginItemArea(position, size);
 
-    ImGui::Checkbox(this->text_, &this->is_toggled_.value);
+    ImGui::Checkbox(this->text_, &this->is_checked_.value);
 
     this->is_hovered_ = ImGui::IsItemHovered();
 
@@ -66,9 +66,9 @@ Bool Checkbox::API_IsHovered() const
     return this->is_hovered_;
 }
 
-Bool Checkbox::API_IsToggled() const
+Bool Checkbox::API_IsChecked() const
 {
-    return this->is_toggled_;
+    return this->is_checked_;
 }
 
 }  // namespace igm::internal

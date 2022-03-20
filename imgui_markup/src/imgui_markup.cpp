@@ -73,7 +73,7 @@ bool IsHovered(size_t context_id, std::string item_id, bool* result)
     return api->API_IsHovered();
 }
 
-bool IsToggled(size_t context_id, std::string item_id, bool* result)
+bool IsChecked(size_t context_id, std::string item_id, bool* result)
 {
     internal::ItemAPI* api =
         internal::FileStack::GetItemAPI(context_id, item_id);
@@ -81,7 +81,7 @@ bool IsToggled(size_t context_id, std::string item_id, bool* result)
     if (!api)
         return false;
 
-    return api->API_IsToggled();
+    return api->API_IsChecked();
 }
 
 }  // namespace igm
