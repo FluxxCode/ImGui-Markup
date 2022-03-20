@@ -49,7 +49,7 @@ Each drawable item must be created inside a panel.
 | ```bool IsHovered()``` | Returns true if the Panel is hovered by the user |
 ### Example:
 ```
-// example.ill:
+// example.igm:
 
 Panel
 {
@@ -82,7 +82,7 @@ The panel style is used to change the appearance of a panel. Keep in mind that t
 | border_size | Float2 | Size of the panel border. Value of 0 means no color. | Global border size is used |
 | border_color | Float2 | Color of the border | Global border color is used |
 ```
-// example.ill:
+// example.igm:
 
 Panel
 {
@@ -113,7 +113,7 @@ The stack view can be placed within the global scope and any other item. Keep in
 | padding | Float2 | Padding to the stack view's child items | Global item padding is used |
 | item_spacing | Float | Spacing between the stack view's child items | Global item spacing is used |
 ```
-// example.ill:
+// example.igm:
 
 Panel
 {
@@ -163,7 +163,7 @@ The text is equal to ```ImGui::Text()``` and is used to display information.
 | ```bool IsHovered()``` | Returns true if the Text is hovered by the user |
 ### Example:
 ```
-// example.ill:
+// example.igm:
 
 Panel
 {
@@ -218,7 +218,7 @@ The button is equal to ```ImGui::Button()```.
 | ```bool IsHovered()``` | Returns true if the button is hovered by the user |
 ### Example:
 ```
-// example.ill:
+// example.igm:
 
 Panel
 {
@@ -268,7 +268,7 @@ The button style is used to change the appearance of a button. Keep in mind that
 | border_shadow | Float4 | Border shadow color. Use an alpha value of 0 for no shadow. | Global border shadow color is used |
 ### Example:
 ```
-// example.ill:
+// example.igm:
 
 Panel
 {
@@ -314,7 +314,7 @@ The checkbox is equal to ```ImGui::Checkbox()```.
 | ```bool IsToggled()``` | Returns the state of the checkbox. |
 ### Example:
 ```
-// example.ill:
+// example.igm:
 
 Panel
 {
@@ -365,7 +365,7 @@ The ChildPanel is equal to ```ImGui::BeginChild()``` and ```ImGui::EndChild()```
 | ```bool IsHovered()``` | Returns true if the ChildPanel is hovered by the user |
 ### Example:
 ```
-// example.ill:
+// example.igm:
 
 Panel
 {
@@ -395,7 +395,7 @@ The container is used to store custom data and can only be created in the global
 *The container currently does not have any attributes*
 ### Example:
 ```
-// example.ill:
+// example.igm:
 
 Container : colors
 {
@@ -428,7 +428,7 @@ The attribute type items are used to dynamically create values from the markup l
 | value  | Attribute that stores the custom value |
 ### Example:
 ```
-// example.ill
+// example.igm
 
 Bool   : bool    { value = true         }
 Float  : float   { value = 1.234        }

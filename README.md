@@ -31,7 +31,7 @@ You can use following helper scripts to compile the project, including sandbox a
 ```
 # Examples
 ```cpp
-// panel.ill
+// example.igm
 Container : colors
 {
     Float4 : red   { value = (1.0, 0.0, 0.0, 1.0) }
