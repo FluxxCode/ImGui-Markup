@@ -69,7 +69,7 @@ private:
     bool init_position_and_size_ = true;
 
     bool BeginPanel();
-    void EndPanel(Float2 actual_size);
+    void EndPanel(Float2 size, Float2 actual_size);
 
     void InitPositionAndSize(Float2 position, Float2 size);
 
