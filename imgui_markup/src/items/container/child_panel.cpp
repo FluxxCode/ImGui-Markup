@@ -128,13 +128,13 @@ bool ChildPanel::OnProcessEnd(std::string& error_message)
     return true;
 }
 
-Bool ChildPanel::API_IsPressed(MouseButton button) const
+Bool ChildPanel::API_IsItemPressed(MouseButton button) const
 {
     return this->is_hovered_&&
         ImGui::IsMouseClicked(MouseButtonToImGui(button));
 }
 
-Bool ChildPanel::API_IsHovered() const
+Bool ChildPanel::API_IsItemHovered() const
 {
     return this->is_hovered_;
 }

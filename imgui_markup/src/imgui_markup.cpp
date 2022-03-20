@@ -50,7 +50,7 @@ void Update(size_t id, size_t d_width, size_t d_height, bool* result)
     }
 }
 
-bool IsPressed(
+bool IsItemPressed(
     size_t context_id, std::string item_id, MouseButton button, bool* result)
 {
     internal::ItemAPI* api =
@@ -59,10 +59,10 @@ bool IsPressed(
     if (!api)
         return false;
 
-    return api->API_IsPressed(button);
+    return api->API_IsItemPressed(button);
 }
 
-bool IsHovered(size_t context_id, std::string item_id, bool* result)
+bool IsItemHovered(size_t context_id, std::string item_id, bool* result)
 {
     internal::ItemAPI* api =
         internal::FileStack::GetItemAPI(context_id, item_id);
@@ -70,10 +70,10 @@ bool IsHovered(size_t context_id, std::string item_id, bool* result)
     if (!api)
         return false;
 
-    return api->API_IsHovered();
+    return api->API_IsItemHovered();
 }
 
-bool IsChecked(size_t context_id, std::string item_id, bool* result)
+bool IsCheckboxChecked(size_t context_id, std::string item_id, bool* result)
 {
     internal::ItemAPI* api =
         internal::FileStack::GetItemAPI(context_id, item_id);
@@ -81,7 +81,7 @@ bool IsChecked(size_t context_id, std::string item_id, bool* result)
     if (!api)
         return false;
 
-    return api->API_IsChecked();
+    return api->API_IsCheckboxChecked();
 }
 
 }  // namespace igm

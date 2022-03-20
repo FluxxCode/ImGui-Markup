@@ -50,13 +50,13 @@ bool Text::OnProcessEnd(std::string& error_message)
     return true;
 }
 
-Bool Text::API_IsPressed(MouseButton button) const
+Bool Text::API_IsItemPressed(MouseButton button) const
 {
     return this->is_hovered_&&
         ImGui::IsMouseClicked(MouseButtonToImGui(button));
 }
 
-Bool Text::API_IsHovered() const
+Bool Text::API_IsItemHovered() const
 {
     return this->is_hovered_;
 }

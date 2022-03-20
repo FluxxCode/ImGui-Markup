@@ -28,9 +28,10 @@ private:
     bool OnProcessEnd(std::string& error_message);
 
     // See item_api.h for documentation
-    Bool API_IsPressed(MouseButton button) const;
-    Bool API_IsHovered() const;
-    Bool API_IsChecked() const;
+    Bool API_IsItemPressed(MouseButton button) const;
+    Bool API_IsItemHovered() const;
+
+    Bool API_IsCheckboxChecked() const;
 };
 
 }  // namespace igm::internal

@@ -55,18 +55,18 @@ bool Checkbox::OnProcessEnd(std::string& error_message)
     return true;
 }
 
-Bool Checkbox::API_IsPressed(MouseButton button) const
+Bool Checkbox::API_IsItemPressed(MouseButton button) const
 {
     return this->is_hovered_&&
         ImGui::IsMouseClicked(MouseButtonToImGui(button));
 }
 
-Bool Checkbox::API_IsHovered() const
+Bool Checkbox::API_IsItemHovered() const
 {
     return this->is_hovered_;
 }
 
-Bool Checkbox::API_IsChecked() const
+Bool Checkbox::API_IsCheckboxChecked() const
 {
     return this->is_checked_;
 }

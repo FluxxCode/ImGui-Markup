@@ -92,7 +92,7 @@ void Update()
 {
     igm::Update(example_file);
 
-    if (igm::IsPressed(example_file, "button_0"))
+    if (igm::IsItemPressed(example_file, "button_0"))
         std::cout << "Button is pressed" << std::endl;
 }
 ```

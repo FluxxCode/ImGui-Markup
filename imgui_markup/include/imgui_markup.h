@@ -52,12 +52,14 @@ Result GetLastResult(size_t context, bool* result = nullptr);
 void Update(size_t id, size_t display_width = 0,  size_t display_height = 0,
             bool* result = nullptr);
 
-bool IsPressed(size_t context, std::string item_id,
-               MouseButton button = MouseButton::kLeft, bool* result = nullptr);
+bool IsItemPressed(size_t context, std::string item_id,
+                   MouseButton button = MouseButton::kLeft,
+                   bool* result = nullptr);
 
-bool IsHovered(size_t context, std::string item_id, bool* resutl = nullptr);
+bool IsItemHovered(size_t context, std::string item_id, bool* resutl = nullptr);
 
-bool IsChecked(size_t context, std::string item_id, bool* resutl = nullptr);
+bool IsCheckboxChecked(size_t context, std::string item_id,
+                       bool* resutl = nullptr);
 
 }  // namespace igm
 

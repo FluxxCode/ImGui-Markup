@@ -262,13 +262,13 @@
         return true;
     }
 
-    Bool Panel::API_IsPressed(MouseButton button) const
+    Bool Panel::API_IsItemPressed(MouseButton button) const
     {
         return this->is_hovered_&&
             ImGui::IsMouseClicked(MouseButtonToImGui(button));
     }
 
-    Bool Panel::API_IsHovered() const
+    Bool Panel::API_IsItemHovered() const
     {
         return this->is_hovered_;
     }

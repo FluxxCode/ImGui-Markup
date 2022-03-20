@@ -11,9 +11,10 @@ namespace igm::internal
 struct ItemAPI
 {
 
-virtual Bool API_IsPressed(MouseButton button) const { return false; }
-virtual Bool API_IsHovered() const { return false; }
-virtual Bool API_IsChecked() const { return false; }
+virtual Bool API_IsItemPressed(MouseButton button) const { return false; }
+virtual Bool API_IsItemHovered() const { return false; }
+
+virtual Bool API_IsCheckboxChecked() const { return false; }
 
 };
 

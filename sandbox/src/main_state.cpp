@@ -53,7 +53,7 @@ void MainState::Init()
 
 void MainState::UpdateControlWindow()
 {
-    if (igm::IsPressed(this->control_window_, "btn_reload"))
+    if (igm::IsItemPressed(this->control_window_, "btn_reload"))
         this->Init();
 
     igm::Update(this->control_window_);

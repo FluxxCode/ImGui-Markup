@@ -45,8 +45,8 @@ Each drawable item must be created inside a panel.
 ### Implemented API functions:
 | Function | Description |
 | --- | --- |
-| ```bool IsPressed()``` | Returns true if the Panel is pressed by the user |
-| ```bool IsHovered()``` | Returns true if the Panel is hovered by the user |
+| ```bool IsItemPressed()``` | Returns true if the Panel is pressed by the user |
+| ```bool IsItemHovered()``` | Returns true if the Panel is hovered by the user |
 ### Example:
 ```
 // example.igm:
@@ -159,8 +159,8 @@ The text is equal to ```ImGui::Text()``` and is used to display information.
 ### Implemented API functions:
 | Function | Description |
 | --- | --- |
-| ```bool IsPressed()``` | Returns true if the Text is pressed by the user |
-| ```bool IsHovered()``` | Returns true if the Text is hovered by the user |
+| ```bool IsItemPressed()``` | Returns true if the Text is pressed by the user |
+| ```bool IsItemHovered()``` | Returns true if the Text is hovered by the user |
 ### Example:
 ```
 // example.igm:
@@ -214,8 +214,8 @@ The button is equal to ```ImGui::Button()```.
 ### Implemented API functions:
 | Function | Description |
 | --- | --- |
-| ```bool IsPressed()``` | Returns true if the button is pressed by the user |
-| ```bool IsHovered()``` | Returns true if the button is hovered by the user |
+| ```bool IsItemPressed()``` | Returns true if the button is pressed by the user |
+| ```bool IsItemHovered()``` | Returns true if the button is hovered by the user |
 ### Example:
 ```
 // example.igm:
@@ -244,10 +244,10 @@ Panel
 ```
 ```cpp
 // example.cpp
-if (gui::IsPressed(file, "button_0"))
+if (gui::IsItemPressed(file, "button_0"))
     std::cout << "button_0 is pressed" << std::endl;
 
-if (gui::IsHovered(file, "button_1"))
+if (gui::IsItemHovered(file, "button_1"))
     std::cout << "button_1 is pressed" << std::endl;
 ```
 ![ExampleImage](img/items/button.png)
@@ -309,9 +309,9 @@ The checkbox is equal to ```ImGui::Checkbox()```.
 ### Implemented API functions:
 | Function | Description |
 | --- | --- |
-| ```bool IsPressed()``` | Returns true if the checkbox or its text is pressed by the user. |
-| ```bool IsHovered()``` | Returns true if the checkbox or its text is hovered by the user. |
-| ```bool IsToggled()``` | Returns the state of the checkbox. |
+| ```bool IsItemPressed()``` | Returns true if the checkbox or its text is pressed by the user. |
+| ```bool IsItemHovered()``` | Returns true if the checkbox or its text is hovered by the user. |
+| ```bool IsCheckboxToggled()``` | Returns the state of the checkbox. |
 ### Example:
 ```
 // example.igm:
@@ -361,8 +361,8 @@ The ChildPanel is equal to ```ImGui::BeginChild()``` and ```ImGui::EndChild()```
 ### Implemented API functions:
 | Function | Description |
 | --- | --- |
-| ```bool IsPressed()``` | Returns true if the ChildPanel is pressed by the user |
-| ```bool IsHovered()``` | Returns true if the ChildPanel is hovered by the user |
+| ```bool IsItemPressed()``` | Returns true if the ChildPanel is pressed by the user |
+| ```bool IsItemHovered()``` | Returns true if the ChildPanel is hovered by the user |
 ### Example:
 ```
 // example.igm:
